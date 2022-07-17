@@ -1,0 +1,23 @@
+{
+  "groups": [
+    {
+      "name": "neiko.web.api",
+      "type": "com.schilings.neiko.autoconfigure.web.api.properties.ApiProperties",
+      "sourceType": "com.schilings.neiko.autoconfigure.web.api.properties.ApiProperties"
+    },
+    {
+      "name": "neiko.web.api.version",
+      "type": "com.schilings.neiko.autoconfigure.web.api.properties.ApiProperties$Version",
+      "sourceType": "com.schilings.neiko.autoconfigure.web.api.properties.ApiProperties",
+      "sourceMethod": "getVersion()"
+    }
+  ],
+  "properties": [
+    {
+      "name": "neiko.web.api.version.enable",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.schilings.neiko.autoconfigure.web.api.properties.ApiProperties$Version"
+    }
+  ],
+  "hints": []
+}

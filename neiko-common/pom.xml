@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    
+    <parent>
+        <artifactId>neiko</artifactId>
+        <groupId>com.schilings</groupId>
+        <version>${revision}</version>
+    </parent>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>neiko-common-model</module>
+        <module>neiko-common-util</module>
+        <module>neiko-common-web</module>
+        <module>neiko-common-core</module>
+        <module>neiko-common-validate</module>
+        <module>neiko-common-netty</module>
+        <module>neiko-common-websocket</module>
+        <module>neiko-common-discovery</module>
+        <module>neiko-common-loadbalance</module>
+        <module>neiko-common-mq</module>
+        <module>neiko-common-gateway</module>
+        <module>neiko-common-redis</module>
+        <module>neiko-common-event</module>
+    </modules>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>neiko-common</artifactId>
+    
+
+</project>

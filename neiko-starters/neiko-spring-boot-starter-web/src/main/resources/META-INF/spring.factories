@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.schilings.neiko.autoconfigure.web.api.configuration.ApiAutoConfiguration,\
+  com.schilings.neiko.autoconfigure.web.validation.NeikoValidationAutoConfiguration
