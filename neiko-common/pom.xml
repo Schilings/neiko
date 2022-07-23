@@ -24,6 +24,7 @@
         <module>neiko-common-gateway</module>
         <module>neiko-common-redis</module>
         <module>neiko-common-event</module>
+        <module>neiko-common-cache</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>neiko-common</artifactId>

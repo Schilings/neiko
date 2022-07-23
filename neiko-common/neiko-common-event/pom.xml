@@ -13,8 +13,12 @@
     <dependencies>
         <dependency>
             <groupId>com.schilings</groupId>
-            <artifactId>neiko-common-core</artifactId>
+            <artifactId>neiko-common-model</artifactId>
             <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
         </dependency>
     </dependencies>
 </project>

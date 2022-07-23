@@ -27,6 +27,10 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-extra</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
+        </dependency>
         <!--Spring容器-->
         <dependency>
             <groupId>org.springframework</groupId>

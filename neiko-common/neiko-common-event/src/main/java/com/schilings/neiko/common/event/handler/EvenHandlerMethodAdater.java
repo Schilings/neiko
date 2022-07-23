@@ -1,7 +1,7 @@
 package com.schilings.neiko.common.event.handler;
 
 
-import org.springframework.web.method.HandlerMethod;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * <pre>{@code
@@ -11,6 +11,7 @@ import org.springframework.web.method.HandlerMethod;
  * </pre>
  * @author Schilings
 */
+@Slf4j
 public class EvenHandlerMethodAdater implements EventHandler {
 
     private final HandlerMethod handlerMethod;
@@ -27,21 +28,19 @@ public class EvenHandlerMethodAdater implements EventHandler {
 
     protected void handleInternal(Object event, HandlerMethod handlerMethod){
         invokeHandlerMethod(event, handlerMethod);
-        
     }
 
     private void invokeHandlerMethod(Object event, HandlerMethod handlerMethod) {
         EventHandlerMethod method = new EventHandlerMethod(handlerMethod);
         try {
-            method.doInvoke(event);
+            method.invokeForEvent(event);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("EventHandlerMethod executing throw ex:{}", e.getMessage());
+            log.error("{}", e);
+            
         }
 
     }
 
-
-
-  
     
 }

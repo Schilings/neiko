@@ -1,7 +1,6 @@
 package com.schilings.neiko.autoconfigure.web.api.properties;
 
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

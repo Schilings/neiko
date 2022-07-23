@@ -7,6 +7,7 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/Neiko-dependencies/pom.xml" />
         <option value="$PROJECT_DIR$/Neiko-common/Neiko-common-model/pom.xml" />
+        <option value="$PROJECT_DIR$/neiko-samples/neiko-samples-common-event/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

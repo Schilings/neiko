@@ -11,8 +11,9 @@
     <artifactId>neiko-samples</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>neiko-samples-common-core</module>
+        <module>neiko-samples-common-event</module>
         <module>neiko-samples-starter-web</module>
+        <module>neiko-samples-common-redis</module>
     </modules>
 
 

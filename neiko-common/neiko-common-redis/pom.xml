@@ -10,5 +10,33 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>neiko-common-redis</artifactId>
     
+    <dependencies>
+        <!--neiko-->
+        <dependency>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-common-model</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-common-util</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-common-cache</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        
+        <!--spring-->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

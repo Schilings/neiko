@@ -4,6 +4,7 @@ package com.schilings.neiko.common.event.handlermapping;
 import cn.hutool.core.collection.ConcurrentHashSet;
 import com.schilings.neiko.common.event.handler.EvenHandlerMethodAdater;
 import com.schilings.neiko.common.event.handler.EventHandler;
+import com.schilings.neiko.common.event.handler.HandlerMethod;
 import com.schilings.neiko.common.event.strategy.EvenMappingInfoGettingStrategy;
 import com.schilings.neiko.common.event.strategy.EventHandlerSupportStrategy;
 import com.schilings.neiko.common.event.strategy.HandlerMethodMappingNamingStrategy;
@@ -12,12 +13,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.event.EventListenerMethodProcessor;
 import org.springframework.core.MethodIntrospector;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.method.HandlerMethod;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
  *      
  * }
  * <p>抽象的 事件-方法类型处理器处理器 映射类</p>
+ * <p>{@link EventListenerMethodProcessor}</p>
  * </pre>
  * @author Schilings
 */

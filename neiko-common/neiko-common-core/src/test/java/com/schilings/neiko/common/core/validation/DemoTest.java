@@ -5,6 +5,7 @@ import org.hibernate.validator.HibernateValidator;
 import org.hibernate.validator.HibernateValidatorConfiguration;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.cache.annotation.Cacheable;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -42,11 +43,19 @@ public class DemoTest {
     void demoIsValid() {
 
         System.out.println(StatusEnum.valueOf("SUCCESS"));
+        System.out.println("==========================");
         for (StatusEnum value : StatusEnum.values()) {
             System.out.println(value);
         }
-        Demo demo = new Demo(1,"SUCCESS");
+        System.out.println("==========================");
+        
+        
+        
+        Demo demo = new Demo(1, "SUCCESS", 10, 10, null);
         Set<ConstraintViolation<Demo>> constraintViolations = validator.validate(demo);
+        for (ConstraintViolation<Demo> violation : constraintViolations) {
+            System.out.println(violation.getMessage());
+        }
         assertEquals(0, constraintViolations.size());
     }
 

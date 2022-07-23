@@ -18,6 +18,7 @@ import java.util.List;
  * </pre>
  * @author Schilings
  */
+
 @Slf4j
 public abstract class AbstractEventHandlerMapping extends ApplicationObjectSupport implements EventHandleMapping {
     
