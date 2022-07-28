@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -76,18 +77,18 @@ public abstract class AbstractCacheManager implements CacheManager {
 
 
     @Override
-    public void put(String repository, String key, Object value) {
+    public void put(String repository, String key, Object value) throws IOException {
         getCacheRepository(repository).put(key, value);
         cacheKeys.add(key);
     }
     
-    public void put(String repository,String key, Object value, long ttl, TimeUnit unit) {
+    public void put(String repository,String key, Object value, long ttl, TimeUnit unit) throws IOException {
         getCacheRepository(repository).put(key, value, ttl, unit);;
         cacheKeys.add(key);
     }
 
     @Override
-    public void syncPut(String repository, String key, Object value) {
+    public void syncPut(String repository, String key, Object value) throws IOException {
         acquiceWriteLock();
         try {
             getCacheRepository(repository).syncPut(key, value);
@@ -99,7 +100,7 @@ public abstract class AbstractCacheManager implements CacheManager {
     
 
     @Override
-    public void syncPut(String repository,String key, Object value, long ttl, TimeUnit unit){
+    public void syncPut(String repository,String key, Object value, long ttl, TimeUnit unit) throws IOException {
         acquiceWriteLock();
         try {
             getCacheRepository(repository).syncPut(key, value, ttl, unit);
@@ -112,7 +113,7 @@ public abstract class AbstractCacheManager implements CacheManager {
 
 
     @Override
-    public boolean putIfAbsent(String repository, String key, Object value) {
+    public boolean putIfAbsent(String repository, String key, Object value) throws IOException {
         Object oldValue = getCacheRepository(repository).get(key);
         if (oldValue == null) {
             getCacheRepository(repository).syncPut(key, value);
@@ -123,7 +124,7 @@ public abstract class AbstractCacheManager implements CacheManager {
     }
 
     @Override
-    public boolean putIfAbsent(String repository,String key, Object value, long ttl, TimeUnit unit) {
+    public boolean putIfAbsent(String repository,String key, Object value, long ttl, TimeUnit unit) throws IOException {
         Object oldValue = getCacheRepository(repository).get(key);
         if (oldValue == null) {
             getCacheRepository(repository).syncPut(key, value, ttl, unit);
@@ -133,13 +134,13 @@ public abstract class AbstractCacheManager implements CacheManager {
         return false;
     }
 
-    public Object get(String repository, String key) {
+    public Object get(String repository, String key) throws IOException {
         return getCacheRepository(repository).get(key);
     }
     
 
     @Override
-    public Object syncGet(String repository,String key) {
+    public Object syncGet(String repository,String key) throws IOException {
         acquiceReadLock();
         try {
             return getCacheRepository(repository).syncGet(key);
@@ -155,15 +156,15 @@ public abstract class AbstractCacheManager implements CacheManager {
     }
     
     @Override
-    public void clear(String repository,String key) {
-        for (Object cachesKey : cacheKeys) {
-            getCacheRepository(repository).evict(key);
-            cacheKeys.remove(key);
+    public void clear(String repository) {
+        for (String cachesKey : cacheKeys) {
+            getCacheRepository(repository).evict(cachesKey);
+            cacheKeys.remove(cachesKey);
         }
     }
 
     @Override
-    public boolean evictIfPresent(String repository,String key) {
+    public boolean evictIfPresent(String repository,String key) throws IOException {
         Object oldValue = getCacheRepository(repository).get(key);
         if (oldValue != null) {
             getCacheRepository(repository).evict(key);

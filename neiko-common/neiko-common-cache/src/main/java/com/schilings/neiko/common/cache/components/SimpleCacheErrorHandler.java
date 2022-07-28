@@ -13,26 +13,37 @@ import lombok.extern.slf4j.Slf4j;
 public class SimpleCacheErrorHandler implements CacheErrorHandler{
 
     @Override
-    public void handleCacheGetError(RuntimeException exception, String key) {
-        log.trace("handleCacheGetError key:{},error:{}", key, exception);
-        throw exception;
+    public void handleCacheGetError(Exception exception, String key) {
+        log.warn("handleCacheGetError key:{},error:{}", key, exception);
     }
 
     @Override
-    public void handleCachePutError(RuntimeException exception, String key, Object value) {
-        log.trace("handleCachePutError key:{},value:{},error:{}", key, value,exception);
-        throw exception;
+    public void handleCachePutError(Exception exception, String key, Object value) {
+        log.warn("handleCachePutError key:{},value:{},error:{}", key, value,exception);
+        throw new RuntimeException(exception);
     }
 
     @Override
-    public void handleCacheEvictError(RuntimeException exception, String key) {
-        log.trace("handleCacheEvictError key:{},error:{}", key, exception);
-        throw exception;
+    public void handleCacheEvictError(Exception exception, String key) {
+        log.warn("handleCacheEvictError key:{},error:{}", key, exception);
+        throw new RuntimeException(exception);
     }
 
     @Override
-    public void handleCacheClearError(RuntimeException exception, CacheManager cacheManager) {
-        log.trace("handleCacheClearError cacheManager:{},error:{}", cacheManager, exception);
-        throw exception;
+    public void handleCacheClearError(Exception exception, String  repository) {
+        log.warn("handleCacheClearError repository:{},error:{}", repository, exception);
+        throw new RuntimeException(exception);
+    }
+
+    @Override
+    public void handleCacheSyncGetError(Exception exception, String key) {
+        log.warn("handleCacheGetError key:{},error:{}", key, exception);
+        throw new RuntimeException(exception);
+    }
+
+    @Override
+    public void handleCacheSyncPutError(Exception exception, String key, Object value) {
+        log.warn("handleCachePutError key:{},value:{},error:{}", key, value,exception);
+        throw new RuntimeException(exception);
     }
 }

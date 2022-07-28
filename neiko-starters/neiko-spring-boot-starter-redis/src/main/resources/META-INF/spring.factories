@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.schilings.neiko.autoconfigure.redis.NeikoRedisAutoConfiguration,\
+  com.schilings.neiko.autoconfigure.redis.MessageEventListenerAutoConfiguration

@@ -16,13 +16,13 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class LocalCacheRepository extends AbstractCacheRepository{
 
-    public static final String SIMPLE = "local";
+    public static final String LOACL = "local";
     
     private final ConcurrentMap<String, Object> cacheMap = new ConcurrentHashMap<>(16);
     
     @Override
     public String getName() {
-        return SIMPLE;
+        return LOACL;
     }
 
     @Override

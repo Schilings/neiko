@@ -21,20 +21,21 @@ public class EventPublisherBeanAutoConfigure implements ApplicationListener<Cont
         if (autoConfigured.compareAndSet(false, true)) {
             ApplicationContext context = event.getApplicationContext();
             EventPublisher publisher = context.getBean(EventPublisher.class);
-            String[] namesForType = context.getBeanNamesForType(EventPublisherAware.class);
-            if (namesForType.length > 0) {
-                for (String s : namesForType) {
-                    EventPublisherAware bean = context.getBean(s, EventPublisherAware.class);
-                    bean.setEventPublisher(publisher);
+            if (publisher != null) {
+                String[] namesForType = context.getBeanNamesForType(EventPublisherAware.class);
+                if (namesForType.length > 0) {
+                    for (String s : namesForType) {
+                        EventPublisherAware bean = context.getBean(s, EventPublisherAware.class);
+                        bean.setEventPublisher(publisher);
+                    }
+                    if (log.isTraceEnabled()) {
+                        log.trace("EventPusherAware configured");
+                    }
                 }
                 if (log.isTraceEnabled()) {
-                    log.trace("EventPusherAware configured");
+                    log.trace("EventPusherAware not found");
                 }
             }
-            if (log.isTraceEnabled()) {
-                log.trace("EventPusherAware not found");
-            }
-            
         }
     }
 }

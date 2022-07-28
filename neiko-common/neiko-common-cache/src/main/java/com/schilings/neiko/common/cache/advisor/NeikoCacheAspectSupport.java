@@ -21,10 +21,9 @@ import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import static com.schilings.neiko.common.cache.components.ExpressionCacheEvaluator.NO_RESULT;
+import static com.schilings.neiko.common.cache.components.CacheExpressionEvaluator.NO_RESULT;
 
 /**
  * <pre>
@@ -48,7 +47,7 @@ public abstract class NeikoCacheAspectSupport implements BeanFactoryAware, Initi
      */
     @Getter
     @Setter
-    private final ExpressionCacheEvaluator evaluator = new ExpressionCacheEvaluator();
+    private final CacheExpressionEvaluator evaluator = new CacheExpressionEvaluator();
     
     
     /**
@@ -152,24 +151,36 @@ public abstract class NeikoCacheAspectSupport implements BeanFactoryAware, Initi
         if (this.initialized) {
             //确定给定 bean 实例的最终目标类，不仅遍历顶级代理，还遍历任意数量的嵌套代理 — 尽可能长且没有副作用，即仅针对单例目标。
             Class<?> targetClass = AopProxyUtils.ultimateTargetClass(target);
+
+
+            
             //拿出缓存操作（如果map缓存有就去拿，没有就解析后拿）
             if (annotationParser != null) {
                 Collection<CacheOperation> operations = annotationParser.getCacheOperations(method, targetClass);
                 //如果缓存操作不为空，那么进行缓存处理
                 if (!CollectionUtils.isEmpty(operations)) {
+
+                    /**
+                     * 这里考虑多个注解一起生效，应该把result移到外面，然后循环
+                     */
+
                     //只取一个
                     CacheOperation operation = operations.iterator().next();
-
-                    //=============这里注意，方法已经运行！，不要重复执行运行操作；=====================
-                    Object result = invoker.invoke();
-                    //=================这里注意，方法已经运行！，不要重复执行运行操作；=====================
                     
-                    CacheOperationContext operationContext = new CacheOperationContext(operation, method, args, target, targetClass, result, beanFactory);
+                    //这里逻辑不对，如果已经提前运行了再去判断缓存，那缓存还有什么意义
+                    //=============这里注意，方法已经运行！，不要重复执行运行操作；=====================
+                    //Object result = invoker.invoke();
+                    //=================这里注意，方法已经运行！，不要重复执行运行操作；=====================
+
+                    CacheOperationContext operationContext = new CacheOperationContext(operation, method, args, target, targetClass, NO_RESULT, beanFactory);
                     
                     //满足的是否condition条件
                     if (isConditionPassing(operation.getCondition(), operationContext)) {
                         return excuteCached(invoker, operationContext);
-                    }
+                    } else {
+                        //条件不通过,直接返回结果，不在这里返回的话会走到最下面的return，使方法执行两次
+                        return invoker.invoke();
+                    } 
                 }
             }
         }
@@ -298,57 +309,83 @@ public abstract class NeikoCacheAspectSupport implements BeanFactoryAware, Initi
      */
     protected Object excuteCacheable(CacheOperationInvoker invoker, CacheableOperation operation, CacheOperationContext operationContext) {
         
-        //满足拒绝缓存的条件时
+        //满足拒绝缓存的条件时,直接返回运行结果
         if (isUnlessPassing(operation.getUnless(),operationContext)) {
-            return operationContext.getResult();
+            return invoker.invoke();
         }
-        
-        //缓存执行
         String key = generateKey(operationContext);
         String repository = operation.getCacheRepository();
         long ttl = operation.getTtl();
         TimeUnit unit = operation.getUnit();
-        //尝试取出缓存
-        Object cacheResult = get(repository, key, operation.isSync());
-        if (cacheResult == null) {
-            Object result = operationContext.getResult();
-            //如果运行结果不为null，则放入缓存中
-            if (result != null) {
-                put(repository, key, result, ttl, unit, ttl >= 0, operation.isSync());
 
-            }
-            return result;
-        } else {
+        // 1.==================尝试从缓存获取数据==========================
+        Object cacheResult = get(repository, key, operation.isSync());
+        if (cacheResult == NO_RESULT) {
+            return null;
+        } else if (cacheResult != null) {
             return cacheResult;
         }
-    }
-
-
-    /**
-     * NeikoCacheEvict方式的执行缓存
-     * @param invoker
-     * @param cacheEvict
-     * @param operationContext
-     * @return
-     */
-    private Object excuteCacheEvict(CacheOperationInvoker invoker, CacheEvictOperation cacheEvict, CacheOperationContext operationContext) {
-        return operationContext.getResult();
+        // 2.==========如果缓存为空 则执行方法，将返回值放置入缓存中===============
+        Object result = invoker.invoke();
+        Object toCache = null;
+        if (cacheResult == null) {
+            //如果运行结果为空，则填充一个控制，防止缓存击穿
+            toCache = (result == null) ? NO_RESULT : result;
+            put(repository, key, toCache, ttl, unit, ttl >= 0, operation.isSync());
+        }
+        //3.===========记得加入缓存后返回的应该是原方法的执行结果================
+        return result;
     }
 
     /**
      * NeikoCachePut方式的执行缓存
      * @param invoker
-     * @param cachePut
      * @param operationContext
      * @return
      */
-    private Object excuteCachePut(CacheOperationInvoker invoker, CachePutOperation cachePut, CacheOperationContext operationContext) {
-        return operationContext.getResult();
+    private Object excuteCachePut(CacheOperationInvoker invoker, CachePutOperation operation, CacheOperationContext operationContext) {
+        //满足拒绝缓存的条件时
+        if (isUnlessPassing(operation.getUnless(),operationContext)) {
+            return operationContext.getResult();
+        }
+        String key = generateKey(operationContext);
+        String repository = operation.getCacheRepository();
+        long ttl = operation.getTtl();
+        TimeUnit unit = operation.getUnit();
+
+        // 将返回值放置入缓存中
+        Object toCache = null;
+        //如果运行结果为空，则填充一个控制，防止缓存击穿
+        Object result = invoker.invoke();
+        toCache = result == null ? NO_RESULT : result;
+        put(repository, key, toCache, ttl, unit, ttl >= 0, operation.isSync());
+        
+        return result;
     }
+    
+    /**
+     * NeikoCacheEvict方式的执行缓存
+     * @param invoker
+     * @param operationContext
+     * @return
+     */
+    private Object excuteCacheEvict(CacheOperationInvoker invoker, CacheEvictOperation operation, CacheOperationContext operationContext) {
+        //是否删除所有
+        String repository = operation.getCacheRepository();
+        if (operation.isAllEntries()) {
+            clear(repository);
+        }
+        //删除单个
+        String key = generateKey(operationContext);
+        evict(repository, key);
+
+        return invoker.invoke();
+    }
+
+
     
     
     //缓存仓库相关的操作=========================
-
 
     private Object get(String repository, String key, boolean sync) {
         return sync ? doSyncGet(repository, key) : doGet(repository, key);
@@ -357,7 +394,7 @@ public abstract class NeikoCacheAspectSupport implements BeanFactoryAware, Initi
     protected Object doGet(String repository,String key) {
         try {
             return cacheManager.get(repository,key);
-        } catch (RuntimeException exception) {
+        } catch (Exception exception) {
             getErrorHandler().handleCacheGetError(exception, key);
             //如果处理了异常，则返回缓存未找到
             return null; 
@@ -367,14 +404,13 @@ public abstract class NeikoCacheAspectSupport implements BeanFactoryAware, Initi
     protected Object doSyncGet(String repository,String key) {
         try {
             return cacheManager.syncGet(repository,key);
-        } catch (RuntimeException exception) {
-            getErrorHandler().handleCacheGetError(exception, key);
+        } catch (Exception exception) {
+            getErrorHandler().handleCacheSyncGetError(exception, key);
             //如果处理了异常，则返回缓存未找到
             return null;
         }
     }
-
-
+    
     private void put(String repository, String key, Object result, long ttl, TimeUnit unit, boolean flag, boolean sync) {
         if (sync) {
             if (flag) {
@@ -394,7 +430,7 @@ public abstract class NeikoCacheAspectSupport implements BeanFactoryAware, Initi
     protected void doPut(String repository,String key, Object value) {
         try {
             cacheManager.put(repository,key, value);
-        }catch (RuntimeException exception) {
+        }catch (Exception exception) {
             getErrorHandler().handleCachePutError(exception, key, value);
         }
     }
@@ -402,7 +438,7 @@ public abstract class NeikoCacheAspectSupport implements BeanFactoryAware, Initi
     protected void doPut(String repository,String key, Object value, long ttl, TimeUnit unit) {
         try {
             cacheManager.put(repository,key, value, ttl, unit);
-        }catch (RuntimeException exception) {
+        }catch (Exception exception) {
             getErrorHandler().handleCachePutError(exception, key, value);
         }
     }
@@ -410,19 +446,23 @@ public abstract class NeikoCacheAspectSupport implements BeanFactoryAware, Initi
     protected void doSyncPut(String repository,String key, Object value) {
         try {
             cacheManager.syncPut(repository,key, value);
-        }catch (RuntimeException exception) {
-            getErrorHandler().handleCachePutError(exception, key, value);
+        }catch (Exception exception) {
+            getErrorHandler().handleCacheSyncPutError(exception, key, value);
         }
     }
     
     protected void doSyncPut(String repository,String key, Object value, long ttl, TimeUnit unit) {
         try {
             cacheManager.syncPut(repository,key, value, ttl, unit);
-        }catch (RuntimeException exception) {
+        }catch (Exception exception) {
             getErrorHandler().handleCachePutError(exception, key, value);
         }
     }
 
+    protected void evict(String repository, String key) {
+        doEvict(repository, key, true);
+    }
+    
     protected void doEvict(String repository,String  key, boolean immediate) {
         try {
             if (immediate) {
@@ -431,9 +471,22 @@ public abstract class NeikoCacheAspectSupport implements BeanFactoryAware, Initi
                 cacheManager.evict(repository,key);
                 
             } 
-        }catch (RuntimeException exception) {
+        }catch (Exception exception) {
             getErrorHandler().handleCacheEvictError(exception, key);
             
+        }
+    }
+    
+    protected void clear(String repository) {
+        doClear(repository);
+    }
+
+    protected void doClear(String repository) {
+        try {
+            cacheManager.clear(repository);
+        }catch (RuntimeException exception) {
+            getErrorHandler().handleCacheClearError(exception, repository);
+
         }
     }
 

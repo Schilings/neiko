@@ -32,7 +32,7 @@ public class SimpleKeyGenerator implements KeyGenerator{
 
     @Override
     public String generate(Object target, Method method, Object... params) {
-        return target.getClass().getName() + method.getName();
+        return target.getClass().getName() + "." + method.getName();
     }
     
 }

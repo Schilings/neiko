@@ -32,4 +32,5 @@ public class PageResult<T> {
      * 数据总数
      */
     private Long total = 0L;
+    
 }

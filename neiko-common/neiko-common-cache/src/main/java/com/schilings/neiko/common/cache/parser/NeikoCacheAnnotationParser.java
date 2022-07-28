@@ -3,8 +3,12 @@ package com.schilings.neiko.common.cache.parser;
 
 import com.schilings.neiko.common.cache.advisor.NeikoCacheAspectSupport;
 import com.schilings.neiko.common.cache.annotation.NeikoCacheConfig;
+import com.schilings.neiko.common.cache.annotation.NeikoCacheEvict;
+import com.schilings.neiko.common.cache.annotation.NeikoCachePut;
 import com.schilings.neiko.common.cache.annotation.NeikoCacheable;
+import com.schilings.neiko.common.cache.operation.CacheEvictOperation;
 import com.schilings.neiko.common.cache.operation.CacheOperation;
+import com.schilings.neiko.common.cache.operation.CachePutOperation;
 import com.schilings.neiko.common.cache.operation.CacheableOperation;
 import lombok.Data;
 import lombok.Setter;
@@ -68,6 +72,8 @@ public class NeikoCacheAnnotationParser implements CacheAnnotationParser, Serial
      */
     static {
         CACHE_OPERATION_ANNOTATIONS.add(NeikoCacheable.class);
+        CACHE_OPERATION_ANNOTATIONS.add(NeikoCachePut.class);
+        CACHE_OPERATION_ANNOTATIONS.add(NeikoCacheEvict.class);
     }
     
 
@@ -290,10 +296,15 @@ public class NeikoCacheAnnotationParser implements CacheAnnotationParser, Serial
                 ann -> ops.add(parseCacheableAnnotation(ae, cachingConfig,(NeikoCacheable) ann))
         );
         //如果是@NeikoCachePut
-        
+        anns.stream().filter(ann -> ann instanceof NeikoCachePut).forEach(
+                //解析@NeikoCacheable返回CacheableOperation
+                ann -> ops.add(parseCachePutAnnotation(ae, cachingConfig,(NeikoCachePut) ann))
+        );
         //如果是@NeikoCacheEvict
-        
-        
+        anns.stream().filter(ann -> ann instanceof NeikoCacheEvict).forEach(
+                //解析@NeikoCacheable返回CacheableOperation
+                ann -> ops.add(parseCacheEvictAnnotation(ae, cachingConfig,(NeikoCacheEvict) ann))
+        );
         return ops;
         
     }
@@ -323,12 +334,67 @@ public class NeikoCacheAnnotationParser implements CacheAnnotationParser, Serial
         
         defaultConfig.applyDefault(builder);
         CacheableOperation op = builder.build();
-        //简单校验参数：不能同时有key和keyGenerator，不能同时设置cacheManager和cacheResolver
+        //简单校验参数：不能同时有key和keyGenerator
         validateCacheOperation(ae, op);
 
         return op;
     }
+    
+    /**
+     * 解析@NeikoCachePut返回CachePutOperation
+     * @param ae
+     * @param defaultConfig
+     * @param cachePut
+     * @return
+     */
+    private CachePutOperation parseCachePutAnnotation(
+            AnnotatedElement ae, DefaultCacheConfig defaultConfig, NeikoCachePut cachePut) {
+        
+        CachePutOperation.Builder builder = new CachePutOperation.Builder();
+        builder.setName(ae.toString());
+        builder.setCacheRepository(cachePut.cacheRepository());
+        builder.setCondition(cachePut.condition());
+        builder.setUnless(cachePut.unless());
+        builder.setKey(cachePut.key());
+        builder.setKeyGenerator(cachePut.keyGenerator());
+        builder.setTtl(cachePut.ttl());
+        builder.setUnit(cachePut.unit());
+        builder.setSync(cachePut.sync());
+        defaultConfig.applyDefault(builder);
+        CachePutOperation op = builder.build();
+        //简单校验参数：不能同时有key和keyGenerator
+        validateCacheOperation(ae, op);
+        return op;
+    }
 
+
+    /**
+     * 解析@NeikoCacheEvict返回CacheEvictOperation
+     * @param ae
+     * @param defaultConfig
+     * @param cacheEvict
+     * @return
+     */
+    private CacheEvictOperation parseCacheEvictAnnotation(
+            AnnotatedElement ae, DefaultCacheConfig defaultConfig, NeikoCacheEvict cacheEvict) {
+        
+        CacheEvictOperation.Builder builder = new CacheEvictOperation.Builder();
+        builder.setName(ae.toString());
+        builder.setCacheRepository(cacheEvict.cacheRepository());
+        builder.setCondition(cacheEvict.condition());
+        builder.setKey(cacheEvict.key());
+        builder.setKeyGenerator(cacheEvict.keyGenerator());
+        builder.setSync(cacheEvict.sync());
+        builder.setTtl(cacheEvict.ttl());
+        builder.setUnit(cacheEvict.unit());
+        defaultConfig.applyDefault(builder);
+        CacheEvictOperation op = builder.build();
+        //简单校验参数：不能同时有key和keyGenerator
+        validateCacheOperation(ae, op);
+
+        return op;
+    }
+    
     /**
      * 校验一下属性值
      * @param ae

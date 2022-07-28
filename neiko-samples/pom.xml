@@ -13,7 +13,8 @@
     <modules>
         <module>neiko-samples-common-event</module>
         <module>neiko-samples-starter-web</module>
-        <module>neiko-samples-common-redis</module>
+        <module>neiko-samples-starter-redis</module>
+
     </modules>
 
 

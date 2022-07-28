@@ -1,0 +1,12 @@
+spring:
+  redis:
+    host: 120.25.221.239
+    password: Schilings11538...
+    port: 6379
+    database: 0
+    lettuce:
+      pool:
+        max-active: 8
+    client-type: lettuce
+server:
+  port: 9090

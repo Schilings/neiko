@@ -27,7 +27,12 @@ public class ValidationController {
      * @param addDTO
      */
     @PostMapping("/add")
-    public void add(@Valid UserAddDTO addDTO) {
+    public void add(@Valid @RequestBody UserAddDTO addDTO) {
+        log.info("[add][addDTO: {}]", addDTO);
+    }
+
+    @GetMapping("/test")
+    public void test(@Validated UserAddDTO addDTO) {
         log.info("[add][addDTO: {}]", addDTO);
     }
     

@@ -11,11 +11,16 @@ import org.springframework.lang.Nullable;
 */
 public interface CacheErrorHandler {
 
-    void handleCacheGetError(RuntimeException exception, String key);
+    void handleCacheGetError(Exception exception, String key);
 
-    void handleCachePutError(RuntimeException exception, String key, @Nullable Object value);
+    void handleCachePutError(Exception exception, String key, @Nullable Object value);
 
-    void handleCacheEvictError(RuntimeException exception,String key);
+    void handleCacheEvictError(Exception exception,String key);
 
-    void handleCacheClearError(RuntimeException exception,CacheManager cacheManager);
+    void handleCacheClearError(Exception exception,String repository);
+
+    void handleCacheSyncGetError(Exception exception, String key);
+
+    void handleCacheSyncPutError(Exception exception, String key, @Nullable Object value);
+    
 }

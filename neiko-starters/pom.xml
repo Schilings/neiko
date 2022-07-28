@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>neiko-spring-boot-starter-web</module>
+        <module>neiko-spring-boot-starter-redis</module>
     </modules>
 
     <properties>

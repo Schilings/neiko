@@ -35,42 +35,42 @@ public class R<T> implements Serializable {
     private T data;
 
     public static <T> R<T> ok() {
-        return result(null, BaseResultCode.SUCCESS);
+        return result( BaseResultCode.SUCCESS,null);
     }
 
     public static <T> R<T> ok(String message) {
-        return result(null, BaseResultCode.SUCCESS.getCode(), message);
+        return result(BaseResultCode.SUCCESS.getCode(), message, null);
     }
 
     public static <T> R<T> ok(T data) {
-        return result(data, BaseResultCode.SUCCESS);
+        return result(BaseResultCode.SUCCESS,data);
     }
 
-    public static <T> R<T> ok(T data,String message) {
-        return result(data, BaseResultCode.SUCCESS.getCode(), message);
+    public static <T> R<T> ok(String message,T data) {
+        return result( BaseResultCode.SUCCESS.getCode(), message,data);
     }
 
     public static <T> R<T> fail() {
-        return result(null, BaseResultCode.FAIL);
+        return result( BaseResultCode.FAIL,null);
     }
 
     public static <T> R<T> fail(String message) {
-        return result(null, BaseResultCode.FAIL.getCode(), message);
+        return result( BaseResultCode.FAIL.getCode(), message,null);
     }
 
     public static <T> R<T> fail(T data) {
-        return result(data, BaseResultCode.FAIL);
+        return result(BaseResultCode.FAIL, data);
     }
 
-    public static <T> R<T> fail(T data,String message) {
-        return result(data, BaseResultCode.FAIL.getCode(), message);
+    public static <T> R<T> fail(String message,T data) {
+        return result(BaseResultCode.FAIL.getCode(), message, data);
     }
 
-    private static <T> R<T> result(T data, int code,String message) {
+    public static <T> R<T> result( int code,String message,T data) {
         return new R<T>().setData(data).setCode(code).setMessage(message);
     }
-    
-    private static <T> R<T> result(T data, BaseResultCode resultCode) {
+
+    public static <T> R<T> result( BaseResultCode resultCode,T data) {
         return new R<T>().setData(data).setCode(resultCode.getCode()).setMessage(resultCode.getMessage());
     }
 

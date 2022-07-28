@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
+import static com.schilings.neiko.common.model.result.BaseResultCode.LOGIC_CHECK_ERROR;
+
 /**
  * <pre>{@code
  *      
@@ -41,20 +43,26 @@ public class GlobalValidationExceptionHandler {
     public R missingServletRequestParameterExceptionHandler(HttpServletRequest req, MissingServletRequestParameterException ex) {
         log.debug("[missingServletRequestParameterExceptionHandler]", ex);
         // 包装结果
-        return R.fail(ServiceResultCode.MISSING_REQUEST_PARAM_ERROR);
+        return R.result(LOGIC_CHECK_ERROR, null);
     }
-
+    
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
     @ResponseBody
     public R handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         BindingResult bindingResult = ex.getBindingResult();
-        StringBuilder sb = new StringBuilder("校验失败:");
+        StringBuilder detailMessage = new StringBuilder();
         for (FieldError fieldError : bindingResult.getFieldErrors()) {
-            sb.append(fieldError.getField()).append("：").append(fieldError.getDefaultMessage()).append(", ");
+            // 使用 ; 分隔多个错误
+            if (detailMessage.length() > 0) {
+                detailMessage.append(";");
+            }
+            // 拼接内容到其中
+            detailMessage.append(fieldError.getDefaultMessage());
+            //detailMessage.append(fieldError.getField()).append("：").append(fieldError.getDefaultMessage()).append(", ");
         }
-        String msg = sb.toString();
-        return R.fail(msg);
+        // 包装 CommonResult 结果
+        return R.result(LOGIC_CHECK_ERROR, detailMessage.toString());
     }
     
 
@@ -73,8 +81,7 @@ public class GlobalValidationExceptionHandler {
             detailMessage.append(constraintViolation.getMessage());
         }
         // 包装 CommonResult 结果
-        return R.fail(ServiceResultCode.INVALID_REQUEST_PARAM_ERROR.getCode(),
-                ServiceResultCode.INVALID_REQUEST_PARAM_ERROR.getMessage() + ":" + detailMessage.toString());
+        return R.result(LOGIC_CHECK_ERROR, detailMessage.toString());
     }
 
     @ResponseBody
@@ -91,7 +98,7 @@ public class GlobalValidationExceptionHandler {
             // 拼接内容到其中
             detailMessage.append(objectError.getDefaultMessage());
         }
-        return R.fail(ServiceResultCode.INVALID_REQUEST_PARAM_ERROR.getCode(),
-                ServiceResultCode.INVALID_REQUEST_PARAM_ERROR.getMessage() + ":" + detailMessage.toString());
+        return R.result(LOGIC_CHECK_ERROR, detailMessage.toString());
     }
+    
 }

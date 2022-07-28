@@ -1,8 +1,13 @@
 package com.schilings.neiko.common.model.domain;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <pre>{@code
@@ -27,9 +32,33 @@ public class PageParam {
     @Min(value = 1, message = "每页显示条数不能小于1")
     private long size = 10;
 
+
+    /**
+     * 排序字段载体
+     */
+    @Valid
+    private List<Sort> sorts = new ArrayList<>();
+
     /**
      * 排序规则
      */
+    @Getter
+    @Setter
+    public static class Sort {
+
+        public static final String DESC = "DESC";
+        public static final String ASC = "ASC";
+
+        /**
+         * 排序字段
+         */
+        private String field;
+
+        /**
+         * 排序规则
+         */
+        private String rule;
+    }
     
 
 

@@ -8,6 +8,7 @@ import org.springframework.util.Assert;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 
 @Getter
@@ -36,6 +37,21 @@ public abstract class CacheOperation {
      * 缓存条件
      */
     private final String condition;
+
+    /**
+     * 有效时间
+     */
+    private final long ttl;
+
+    /**
+     * 时间单位
+     */
+    private final TimeUnit unit;
+
+    /**
+     * 是否同步加锁
+     */
+    private final boolean isSync;
     
 
     protected CacheOperation(Builder b) {
@@ -44,8 +60,13 @@ public abstract class CacheOperation {
         this.key = b.key;
         this.keyGenerator = b.keyGenerator;
         this.condition = b.condition;
+        this.ttl = b.ttl;
+        this.unit = b.unit;
+        this.isSync = b.isSync;
     }
 
+    @Setter
+    @Getter
     public abstract static class Builder {
 
         private String name = "";
@@ -57,6 +78,12 @@ public abstract class CacheOperation {
         private String keyGenerator = "";
 
         private String condition = "";
+        
+        private long ttl;
+        
+        private TimeUnit unit;
+
+        private boolean isSync;
 
         public void setName(String name) {
             Assert.hasText(name, "Name must not be empty");
