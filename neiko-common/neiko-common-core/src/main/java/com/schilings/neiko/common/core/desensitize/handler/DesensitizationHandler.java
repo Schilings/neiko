@@ -1,5 +1,7 @@
 package com.schilings.neiko.common.core.desensitize.handler;
 
+import java.lang.annotation.Annotation;
+
 /**
  * <pre>
  * <p>脱敏处理器</p>
@@ -7,12 +9,10 @@ package com.schilings.neiko.common.core.desensitize.handler;
  * @author Schilings
 */
 public interface DesensitizationHandler {
-
-
+    
     /**
      * 脱敏函数
-     * @param value
      * @return
      */
-    String desensitize(String value);
+    String handle(Annotation annotation, String value);
 }

@@ -1,12 +1,20 @@
 package com.schilings.neiko.common.core.desensitize.handler.simple;
 
 
-public interface SimpleDesensitizationHandler {
+import com.schilings.neiko.common.core.desensitize.handler.DesensitizationHandler;
 
-    /**
-     * 简单脱敏处理
-     * @param orgin 脱敏前
-     * @return 脱敏后
-     */
+import java.lang.annotation.Annotation;
+
+public interface SimpleDesensitizationHandler extends DesensitizationHandler {
+
+
+
     String handle(String orgin);
+
+    @Override
+    default String handle(Annotation annotation, String orgin){
+        return handle(orgin);
+    }
+
+
 }

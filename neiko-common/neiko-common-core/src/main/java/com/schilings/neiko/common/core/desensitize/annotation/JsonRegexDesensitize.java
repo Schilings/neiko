@@ -4,6 +4,8 @@ package com.schilings.neiko.common.core.desensitize.annotation;
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.schilings.neiko.common.core.desensitize.enums.DesensitizationType;
 import com.schilings.neiko.common.core.desensitize.enums.RegexDesensitizationTypeEnum;
+import com.schilings.neiko.common.core.desensitize.handler.DesensitizationHandler;
+import com.schilings.neiko.common.core.desensitize.handler.regex.DefaultRegexDesensitizationHandler;
 import com.schilings.neiko.common.core.desensitize.handler.regex.RegexDesensitizationHandler;
 import org.springframework.core.annotation.AliasFor;
 
@@ -19,7 +21,6 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@JacksonAnnotationsInside//Jackson识别
 @JsonDesensitize(type = DesensitizationType.REGEX)
 public @interface JsonRegexDesensitize {
 
@@ -47,9 +48,9 @@ public @interface JsonRegexDesensitize {
      */
     String replacement() default "******";
 
-
-    
-    
-    
+    /**
+     * 处理器类型
+     */
+    Class<? extends RegexDesensitizationHandler> handlerClass() default DefaultRegexDesensitizationHandler.class;
     
 }

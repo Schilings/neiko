@@ -3,6 +3,7 @@ package com.schilings.neiko.common.core.desensitize.annotation;
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.schilings.neiko.common.core.desensitize.enums.DesensitizationType;
+import com.schilings.neiko.common.core.desensitize.handler.DesensitizationHandler;
 
 import java.lang.annotation.*;
 
@@ -17,8 +18,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @JacksonAnnotationsInside//Jackson识别
-@JsonSerialize
-public @interface JsonDesensitize {
+public @interface JsonDesensitize{
 
 
     /**
@@ -31,8 +31,5 @@ public @interface JsonDesensitize {
      */
     DesensitizationType type() default DesensitizationType.NONE;
 
-
-
-
-
+    
 }

@@ -1,6 +1,11 @@
 package com.schilings.neiko.common.core.desensitize.handler.simple;
 
-
+/**
+ * <pre>
+ * <p></p>
+ * </pre>
+ * @author Schilings
+*/
 public class SixAsteriskDesensitizationHandler implements SimpleDesensitizationHandler{
 
     /**

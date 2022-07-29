@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 
 import com.schilings.neiko.common.core.desensitize.enums.DesensitizationType;
 import com.schilings.neiko.common.core.desensitize.enums.SlideDesensitizationTypeEnum;
+import com.schilings.neiko.common.core.desensitize.handler.DesensitizationHandler;
+import com.schilings.neiko.common.core.desensitize.handler.slide.DefaultSlideDesensitizationHandler;
 import com.schilings.neiko.common.core.desensitize.handler.slide.SlideDesensitizationHandler;
 import org.springframework.core.annotation.AliasFor;
 
@@ -13,7 +15,6 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@JacksonAnnotationsInside//Jackson识别
 @JsonDesensitize(type = DesensitizationType.SLIDE)
 public @interface JsonSlideDesensitize {
 
@@ -45,5 +46,9 @@ public @interface JsonSlideDesensitize {
      * 剩余部分字符逐个替换的字符串，只有当type值为 CUSTOM 时，才生效
      */
     String maskString() default "*";
-    
+
+    /**
+     * 处理器类型
+     */
+    Class<? extends SlideDesensitizationHandler> handlerClass() default DefaultSlideDesensitizationHandler.class;
 }

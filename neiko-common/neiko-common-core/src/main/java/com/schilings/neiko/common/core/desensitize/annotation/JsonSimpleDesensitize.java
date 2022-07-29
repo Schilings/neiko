@@ -12,7 +12,6 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@JacksonAnnotationsInside//Jackson识别
 @JsonDesensitize(type = DesensitizationType.SIMPLE)
 public @interface JsonSimpleDesensitize {
 
@@ -27,6 +26,6 @@ public @interface JsonSimpleDesensitize {
      * 简单脱敏处理器类型，默认{@link SixAsteriskDesensitizationHandler}
      * @return
      */
-    Class<? extends SimpleDesensitizationHandler> handler() default SixAsteriskDesensitizationHandler.class;
+    Class<? extends SimpleDesensitizationHandler> handlerClass() default SixAsteriskDesensitizationHandler.class;
     
 }

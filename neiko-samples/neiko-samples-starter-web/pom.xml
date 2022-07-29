@@ -13,12 +13,6 @@
     <dependencies>
         <dependency>
             <groupId>com.schilings</groupId>
-            <artifactId>neiko-spring-boot-starter-mail</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>com.schilings</groupId>
             <artifactId>neiko-spring-boot-starter-web</artifactId>
             <version>${revision}</version>
         </dependency>
