@@ -52,6 +52,8 @@
     <file url="file://$PROJECT_DIR$/neiko-dependencies/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-common-event/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-common-event/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-starter-mail/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-starter-mail/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-starter-redis/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-starter-redis/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-starter-web/src/main/java" charset="UTF-8" />
@@ -60,6 +62,8 @@
     <file url="file://$PROJECT_DIR$/neiko-samples/neiko-test-redis/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-samples/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-samples/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-starters/neiko-spring-boot-starter-mail/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-starters/neiko-spring-boot-starter-mail/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-starters/neiko-spring-boot-starter-redis/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-starters/neiko-spring-boot-starter-redis/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-starters/neiko-spring-boot-starter-web/src/main/java" charset="UTF-8" />

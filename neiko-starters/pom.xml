@@ -14,6 +14,7 @@
     <modules>
         <module>neiko-spring-boot-starter-web</module>
         <module>neiko-spring-boot-starter-redis</module>
+        <module>neiko-spring-boot-starter-mail</module>
     </modules>
 
     <properties>

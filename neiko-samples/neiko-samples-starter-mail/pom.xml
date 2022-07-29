@@ -3,24 +3,23 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>neiko-common</artifactId>
+        <artifactId>neiko-samples</artifactId>
         <groupId>com.schilings</groupId>
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>neiko-common-web</artifactId>
+    <artifactId>neiko-samples-starter-mail</artifactId>
     
     <dependencies>
         <dependency>
-            <groupId>com.schilings</groupId>
-            <artifactId>neiko-common-core</artifactId>
-            <version>${revision}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
         </dependency>
-        
-        <!--web-->
+
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-spring-boot-starter-mail</artifactId>
+            <version>${revision}</version>
         </dependency>
     </dependencies>
 

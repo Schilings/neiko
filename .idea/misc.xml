@@ -14,6 +14,7 @@
       <set>
         <option value="$PROJECT_DIR$/Neiko-common-util/pom.xml" />
         <option value="$PROJECT_DIR$/neiko-common-excel/pom.xml" />
+        <option value="$PROJECT_DIR$/neiko-common/neiko-common-web/pom.xml" />
         <option value="$PROJECT_DIR$/neiko-samples/neiko-test-redis/pom.xml" />
       </set>
     </option>

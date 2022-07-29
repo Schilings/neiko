@@ -13,7 +13,6 @@
     <modules>
         <module>neiko-common-model</module>
         <module>neiko-common-util</module>
-        <module>neiko-common-web</module>
         <module>neiko-common-core</module>
         <module>neiko-common-validate</module>
         <module>neiko-common-netty</module>

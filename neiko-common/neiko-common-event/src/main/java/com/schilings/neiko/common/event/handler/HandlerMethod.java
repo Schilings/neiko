@@ -28,6 +28,9 @@ import java.util.stream.IntStream;
  *      
  * }
  * <p>Spring Web中HandlerMethod的变体</p>
+ * <p>{@link HandlerMethod}</p>
+ * <p>{@link InvocableHandlerMethod}</p>
+ * <p>{@link ServletInvocableHandlerMethod}</p>
  * </pre>
  * @author Schilings
 */

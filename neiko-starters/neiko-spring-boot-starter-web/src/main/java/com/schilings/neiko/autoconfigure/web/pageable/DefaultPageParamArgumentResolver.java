@@ -1,4 +1,4 @@
-package com.schilings.neiko.common.web.pageable;
+package com.schilings.neiko.autoconfigure.web.pageable;
 
 
 import com.schilings.neiko.common.model.domain.PageParam;

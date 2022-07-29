@@ -14,6 +14,7 @@
         <module>neiko-samples-common-event</module>
         <module>neiko-samples-starter-web</module>
         <module>neiko-samples-starter-redis</module>
+        <module>neiko-samples-starter-mail</module>
 
     </modules>
 

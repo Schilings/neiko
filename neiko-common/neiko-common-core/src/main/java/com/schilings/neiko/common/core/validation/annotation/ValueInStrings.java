@@ -35,7 +35,7 @@ public @interface ValueInStrings {
     /**
      * 允许值为 null, 默认不允许
      */
-    boolean allowNull() default false;
+    boolean allowBlank() default false;
 
     Class<?>[] groups() default {};
 
