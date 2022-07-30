@@ -41,8 +41,8 @@ public class RedisCacheProperties {
 	 * 锁的超时时间(ms)
 	 */
 	private long lockedTimeOut = 1000L;
-	
-	//消息模块
+
+	// 消息模块
 
 	/**
 	 * 可重试获取锁最大次数

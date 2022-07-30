@@ -1,9 +1,7 @@
 package com.schilings.neiko.common.core.desensitize;
 
-
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.schilings.neiko.common.core.desensitize.serializer.JsonDesensitizeSerializerModifier;
-
 
 /**
  * Json 脱敏模块
@@ -12,9 +10,9 @@ import com.schilings.neiko.common.core.desensitize.serializer.JsonDesensitizeSer
  */
 public class JsonDesensitizeModule extends SimpleModule {
 
-    public JsonDesensitizeModule(JsonDesensitizeSerializerModifier jsonDesensitizeSerializerModifier) {
-        super();
-        this.setSerializerModifier(jsonDesensitizeSerializerModifier);
-    }
+	public JsonDesensitizeModule(JsonDesensitizeSerializerModifier jsonDesensitizeSerializerModifier) {
+		super();
+		this.setSerializerModifier(jsonDesensitizeSerializerModifier);
+	}
 
 }

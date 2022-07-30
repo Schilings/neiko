@@ -1,0 +1,26 @@
+spring: 
+  application:
+    name: Demo Name
+  # JavaMailSender 邮件发送的配置
+  mail:
+    #以qq邮箱发送
+    host: smtp.qq.com
+    username: 1146830743@qq.com
+    #QQ邮箱的授权码
+    password: dsejzvaoazwnhjbb
+    properties:
+      from: 1146830743@qq.com
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+    default-encoding: UTF-8
+
+neiko:
+  web:
+    exception:
+      type: MAIL
+      receive-emails: 
+        - 1146830743@qq.com

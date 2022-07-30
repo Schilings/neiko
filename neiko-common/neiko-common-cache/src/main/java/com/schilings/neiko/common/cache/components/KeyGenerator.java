@@ -4,12 +4,11 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 
 public interface KeyGenerator {
-    
 
-//    String generate(String keyPrefix, String keyJoint);
-//
-//    String generate(AnnotatedElement annotatedElement);
+	// String generate(String keyPrefix, String keyJoint);
+	//
+	// String generate(AnnotatedElement annotatedElement);
 
-    String generate(Object target, Method method, Object... params);
-    
+	String generate(Object target, Method method, Object... params);
+
 }

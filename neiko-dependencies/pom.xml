@@ -11,8 +11,7 @@
     <packaging>pom</packaging>
     
     <properties>
-        <revision>0.0.1</revision>
-
+        <revision>0.0.1-SNAPSHOT</revision>
         <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
         <maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>

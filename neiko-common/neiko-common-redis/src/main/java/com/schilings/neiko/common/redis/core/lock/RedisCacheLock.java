@@ -32,9 +32,9 @@ public class RedisCacheLock {
 	 */
 	public static Boolean lock(String lockKey, String requestId) {
 		log.trace("lock: {key:{}, clientId:{}}", lockKey, requestId);
-		//spring 在这个 api 上就添加了 nullable 注解,如果你不判 null，idea 就会爆黄
-		Boolean success = redisTemplate.opsForValue().setIfAbsent(lockKey, requestId, RedisCachePropertiesHolder.lockedTimeOut(),
-				TimeUnit.SECONDS);
+		// spring 在这个 api 上就添加了 nullable 注解,如果你不判 null，idea 就会爆黄
+		Boolean success = redisTemplate.opsForValue().setIfAbsent(lockKey, requestId,
+				RedisCachePropertiesHolder.lockedTimeOut(), TimeUnit.SECONDS);
 		return success;
 	}
 
@@ -44,8 +44,6 @@ public class RedisCacheLock {
 	 * UUID
 	 */
 	private static final String RELEASE_LOCK_LUA_SCRIPT = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
-
-	
 
 	/**
 	 * 释放锁成功返回值
@@ -66,25 +64,28 @@ public class RedisCacheLock {
 		return Objects.equals(result, RELEASE_LOCK_SUCCESS_RESULT);
 	}
 
-
 	/**
-	 * <p>(尝试获取锁)重试限制lua脚本 </p>
-	 * <p>KEYS[1] :key</p>
-	 * <p>ARGV[1]: 重试时间</p>
-	 * <p>ARGV[2]: 重试时间内可重试次数</p>
+	 * <p>
+	 * (尝试获取锁)重试限制lua脚本
+	 * </p>
+	 * <p>
+	 * KEYS[1] :key
+	 * </p>
+	 * <p>
+	 * ARGV[1]: 重试时间
+	 * </p>
+	 * <p>
+	 * ARGV[2]: 重试时间内可重试次数
+	 * </p>
 	 */
-	private static final String RETRY_LIMIT_LUA_SCRIPT = 
-			"local retryNum = redis.call('incr', KEYS[1]);" +
-			"if retryNum == 1 then return redis.call('expire',KEYS[1],ARGV[1]) end;" +
-			"if retryNUM > tonumber(ARGV[2]) then return 0 end;" +
-			"return 1;";
-
+	private static final String RETRY_LIMIT_LUA_SCRIPT = "local retryNum = redis.call('incr', KEYS[1]);"
+			+ "if retryNum == 1 then return redis.call('expire',KEYS[1],ARGV[1]) end;"
+			+ "if retryNUM > tonumber(ARGV[2]) then return 0 end;" + "return 1;";
 
 	/**
 	 * (尝试获取锁)重试未到限制返回值
 	 */
 	private static final Long RETRY_SUCCESS_RESULT = 1L;
-
 
 	/**
 	 * 重试计数
@@ -93,34 +94,34 @@ public class RedisCacheLock {
 	 * @param count
 	 * @return true：重试未达到限制 false:重试次数达到设置限制次数值
 	 */
-	public static boolean retryLimit(String key, String time,String count) {
-		log.trace("retry acquire lock: {key:{}, time:{}, count:{}}", key, time,count);
+	public static boolean retryLimit(String key, String time, String count) {
+		log.trace("retry acquire lock: {key:{}, time:{}, count:{}}", key, time, count);
 		// 指定ReturnType为Long.class
 		DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>(RETRY_LIMIT_LUA_SCRIPT, Long.class);
-		Long result = redisTemplate.execute(redisScript, Collections.singletonList(key), time,count);
+		Long result = redisTemplate.execute(redisScript, Collections.singletonList(key), time, count);
 		return Objects.equals(result, RETRY_SUCCESS_RESULT);
 	}
 
-	//        //进行操作，上锁同步
-//        DistributedLock.<String>instance().action(lockKey, () -> {
-//            doInvoke(args);
-//            return null;
-//        }).onLockFail(()->{
-//            //如果获取失败，重试
-//            try {
-//                //先写死0.1秒后重试,先不考虑限制总重试次数
-//                Thread.sleep(100);
-//                //尝试重试
-//                if (Boolean.TRUE.equals(RedisCacheLock.retryLimit(lockKey + "暂时写死后缀--limitNum", "10", "5"))) {
-//                    invokeWithLock(args);
-//                }
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            return null;
-//        }).lock();
-//        
-//  
-	
-	
+	// //进行操作，上锁同步
+	// DistributedLock.<String>instance().action(lockKey, () -> {
+	// doInvoke(args);
+	// return null;
+	// }).onLockFail(()->{
+	// //如果获取失败，重试
+	// try {
+	// //先写死0.1秒后重试,先不考虑限制总重试次数
+	// Thread.sleep(100);
+	// //尝试重试
+	// if (Boolean.TRUE.equals(RedisCacheLock.retryLimit(lockKey + "暂时写死后缀--limitNum",
+	// "10", "5"))) {
+	// invokeWithLock(args);
+	// }
+	// } catch (InterruptedException e) {
+	// e.printStackTrace();
+	// }
+	// return null;
+	// }).lock();
+	//
+	//
+
 }

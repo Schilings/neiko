@@ -1,6 +1,5 @@
 package com.schilings.neiko.autoconfigure.redis;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.schilings.neiko.common.cache.EnableNeikoCaching;
 import com.schilings.neiko.common.cache.components.CacheRepository;
@@ -31,98 +30,98 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
-@AutoConfiguration(before = {RedisAutoConfiguration.class, NeikoCachingConfiguration.class})
+@AutoConfiguration(before = { RedisAutoConfiguration.class, NeikoCachingConfiguration.class })
 @EnableNeikoCaching
 @RequiredArgsConstructor
 @EnableConfigurationProperties(RedisCacheProperties.class)
 public class NeikoRedisAutoConfiguration {
 
-    private final RedisConnectionFactory redisConnectionFactory;
-    
-    /**
-     * 初始化配置类
-     * @return GlobalCacheProperties
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    public RedisCachePropertiesHolder cachePropertiesHolder(RedisCacheProperties cacheProperties) {
-        RedisCachePropertiesHolder cachePropertiesHolder = new RedisCachePropertiesHolder();
-        cachePropertiesHolder.setCacheProperties(cacheProperties);
-        return cachePropertiesHolder;
-    }
+	private final RedisConnectionFactory redisConnectionFactory;
 
-    /**
-     * redis key 前缀处理器
-     * @return IRedisPrefixConverter
-     */
-    @Bean
-    @DependsOn("cachePropertiesHolder")
-    @ConditionalOnProperty(prefix = "neiko.redis", name = "key-prefix",matchIfMissing = true)
-    @ConditionalOnMissingBean(IRedisPrefixConverter.class)
-    public IRedisPrefixConverter redisPrefixConverter() {
-        return new DefaultRedisPrefixConverter(RedisCachePropertiesHolder.keyPrefix());
-    }
-    
-    /**
-     * 默认使用 Jackson 序列化
-     * @param objectMapper objectMapper
-     * @return JacksonSerializer
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    public CacheSerializer cacheSerializer(ObjectMapper objectMapper) {
-        return new JacksonSerializer(objectMapper);
-    }
+	/**
+	 * 初始化配置类
+	 * @return GlobalCacheProperties
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	public RedisCachePropertiesHolder cachePropertiesHolder(RedisCacheProperties cacheProperties) {
+		RedisCachePropertiesHolder cachePropertiesHolder = new RedisCachePropertiesHolder();
+		cachePropertiesHolder.setCacheProperties(cacheProperties);
+		return cachePropertiesHolder;
+	}
 
-    @Bean
-    @ConditionalOnBean(IRedisPrefixConverter.class)
-    @ConditionalOnMissingBean//before = RedisAutoConfiguration.class
-    public StringRedisTemplate stringRedisTemplate(IRedisPrefixConverter redisPrefixConverter) {
-        StringRedisTemplate template = new StringRedisTemplate();
-        template.setConnectionFactory(redisConnectionFactory);
-        template.setKeySerializer(new PrefixStringRedisSerializer(redisPrefixConverter));
-        return template;
-    }
+	/**
+	 * redis key 前缀处理器
+	 * @return IRedisPrefixConverter
+	 */
+	@Bean
+	@DependsOn("cachePropertiesHolder")
+	@ConditionalOnProperty(prefix = "neiko.redis", name = "key-prefix", matchIfMissing = true)
+	@ConditionalOnMissingBean(IRedisPrefixConverter.class)
+	public IRedisPrefixConverter redisPrefixConverter() {
+		return new DefaultRedisPrefixConverter(RedisCachePropertiesHolder.keyPrefix());
+	}
 
-        
-    @Bean
-    @ConditionalOnBean(IRedisPrefixConverter.class)
-    @ConditionalOnMissingBean(name = "redisTemplate")//before = RedisAutoConfiguration.class
-    public RedisTemplate<Object, Object> redisTemplate(IRedisPrefixConverter redisPrefixConverter) {
-        RedisTemplate<Object, Object> template = new RedisTemplate<>();
-        template.setConnectionFactory(redisConnectionFactory);
-        template.setKeySerializer(new PrefixJdkRedisSerializer(redisPrefixConverter));
-        //使用Redis提供的Json序列化作为值序列化器
-        template.setValueSerializer(RedisSerializer.json());
-        return template;
-    }
+	/**
+	 * 默认使用 Jackson 序列化
+	 * @param objectMapper objectMapper
+	 * @return JacksonSerializer
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	public CacheSerializer cacheSerializer(ObjectMapper objectMapper) {
+		return new JacksonSerializer(objectMapper);
+	}
 
-    @Bean
-    @ConditionalOnMissingBean(RedisHelper.class)
-    public RedisHelper redisHelper(StringRedisTemplate template) {
-        RedisHelper.setTemplate(template);
-        return new RedisHelper();
-    }
-    
-    
-    /**
-     * 初始化RedisCacheLock
-     * @param stringRedisTemplate 默认使用字符串类型操作，后续扩展
-     * @return RedisCacheLock
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    public RedisCacheLock cacheLock(StringRedisTemplate stringRedisTemplate) {
-        RedisCacheLock cacheLock = new RedisCacheLock();
-        cacheLock.setStringRedisTemplate(stringRedisTemplate);
-        return cacheLock;
-    }
+	@Bean
+	@ConditionalOnBean(IRedisPrefixConverter.class)
+	@ConditionalOnMissingBean // before = RedisAutoConfiguration.class
+	public StringRedisTemplate stringRedisTemplate(IRedisPrefixConverter redisPrefixConverter) {
+		StringRedisTemplate template = new StringRedisTemplate();
+		template.setConnectionFactory(redisConnectionFactory);
+		template.setKeySerializer(new PrefixStringRedisSerializer(redisPrefixConverter));
+		return template;
+	}
 
-    @Bean
-    @ConditionalOnMissingBean//before = NeikoCachingConfiguration.class
-    @ConditionalOnBean(value = {CacheSerializer.class, StringRedisTemplate.class})
-    public CacheRepository redisCacheRepository(CacheSerializer cacheSerializer, StringRedisTemplate stringRedisTemplate) {
-        return new RedisCacheRepository(cacheSerializer, stringRedisTemplate);
-    }
-    
+	@Bean
+	@ConditionalOnBean(IRedisPrefixConverter.class)
+	@ConditionalOnMissingBean(name = "redisTemplate") // before =
+														// RedisAutoConfiguration.class
+	public RedisTemplate<Object, Object> redisTemplate(IRedisPrefixConverter redisPrefixConverter) {
+		RedisTemplate<Object, Object> template = new RedisTemplate<>();
+		template.setConnectionFactory(redisConnectionFactory);
+		template.setKeySerializer(new PrefixJdkRedisSerializer(redisPrefixConverter));
+		// 使用Redis提供的Json序列化作为值序列化器
+		template.setValueSerializer(RedisSerializer.json());
+		return template;
+	}
+
+	@Bean
+	@ConditionalOnMissingBean(RedisHelper.class)
+	public RedisHelper redisHelper(StringRedisTemplate template) {
+		RedisHelper.setTemplate(template);
+		return new RedisHelper();
+	}
+
+	/**
+	 * 初始化RedisCacheLock
+	 * @param stringRedisTemplate 默认使用字符串类型操作，后续扩展
+	 * @return RedisCacheLock
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	public RedisCacheLock cacheLock(StringRedisTemplate stringRedisTemplate) {
+		RedisCacheLock cacheLock = new RedisCacheLock();
+		cacheLock.setStringRedisTemplate(stringRedisTemplate);
+		return cacheLock;
+	}
+
+	@Bean
+	@ConditionalOnMissingBean // before = NeikoCachingConfiguration.class
+	@ConditionalOnBean(value = { CacheSerializer.class, StringRedisTemplate.class })
+	public CacheRepository redisCacheRepository(CacheSerializer cacheSerializer,
+			StringRedisTemplate stringRedisTemplate) {
+		return new RedisCacheRepository(cacheSerializer, stringRedisTemplate);
+	}
+
 }

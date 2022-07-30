@@ -1,6 +1,5 @@
 package com.schilings.neiko.common.redis.core.lock;
 
-
 import com.schilings.neiko.common.redis.core.lock.function.ThrowingExecutor;
 
 /**

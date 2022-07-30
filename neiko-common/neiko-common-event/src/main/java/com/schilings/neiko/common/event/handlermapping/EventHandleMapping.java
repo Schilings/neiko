@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface EventHandleMapping {
 
-    List<EventHandler> getHandler(Object event);
+	List<EventHandler> getHandler(Object event);
+
 }

@@ -1,6 +1,5 @@
 package com.schilings.neiko.autoconfigure.redis;
 
-
 import com.schilings.neiko.common.redis.config.RedisCachePropertiesHolder;
 import com.schilings.neiko.common.redis.message.factory.DefaultMessageEventListenerFactory;
 import com.schilings.neiko.common.redis.message.factory.MessageEventListenerFactory;
@@ -31,21 +30,22 @@ import java.util.concurrent.Executors;
 @Import(MessageEventListenerMethodProcessor.class)
 public class MessageEventListenerAutoConfiguration {
 
-    @Bean
-    @ConditionalOnMissingBean(RedisMessageListenerContainer.class)
-    public RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory redisConnectionFactory) {
-        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
-        container.setConnectionFactory(redisConnectionFactory);
-        //设置线程池，控制通过调节线程池来控制队列监听的速率
-        if (RedisCachePropertiesHolder.threadCount() > 0) {
-            container.setTaskExecutor(Executors.newFixedThreadPool(RedisCachePropertiesHolder.threadCount()));
-        }
-        return container;
-    }
-    
-    @Bean
-    @ConditionalOnMissingBean
-    public MessageEventListenerFactory messageEventListenerFactory() {
-        return new DefaultMessageEventListenerFactory();
-    }
+	@Bean
+	@ConditionalOnMissingBean(RedisMessageListenerContainer.class)
+	public RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory redisConnectionFactory) {
+		RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+		container.setConnectionFactory(redisConnectionFactory);
+		// 设置线程池，控制通过调节线程池来控制队列监听的速率
+		if (RedisCachePropertiesHolder.threadCount() > 0) {
+			container.setTaskExecutor(Executors.newFixedThreadPool(RedisCachePropertiesHolder.threadCount()));
+		}
+		return container;
+	}
+
+	@Bean
+	@ConditionalOnMissingBean
+	public MessageEventListenerFactory messageEventListenerFactory() {
+		return new DefaultMessageEventListenerFactory();
+	}
+
 }

@@ -1,18 +1,13 @@
 package com.schilings.neiko.common.event.handlermapping;
 
-
-
-
 import java.lang.reflect.Method;
-
 
 public interface EventMappingInfo {
 
-    Class<?> getUserClass();
+	Class<?> getUserClass();
 
-    Method getMethod();
+	Method getMethod();
 
-    String getUniqueName();
-    
-    
+	String getUniqueName();
+
 }

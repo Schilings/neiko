@@ -9,7 +9,8 @@
         <version>${revision}</version>
     </parent>
     <packaging>pom</packaging>
-
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>neiko-common</artifactId>
     <modules>
         <module>neiko-common-model</module>
         <module>neiko-common-util</module>
@@ -17,16 +18,14 @@
         <module>neiko-common-validate</module>
         <module>neiko-common-netty</module>
         <module>neiko-common-websocket</module>
-        <module>neiko-common-discovery</module>
-        <module>neiko-common-loadbalance</module>
         <module>neiko-common-mq</module>
-        <module>neiko-common-gateway</module>
         <module>neiko-common-redis</module>
         <module>neiko-common-event</module>
         <module>neiko-common-cache</module>
+        <module>neiko-common-easyexcel</module>
+        <module>neiko-common-log</module>
     </modules>
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>neiko-common</artifactId>
+
     
 
 </project>

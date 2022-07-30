@@ -1,6 +1,5 @@
 package com.schilings.neiko.autoconfigure.web.validation;
 
-
 import com.schilings.neiko.autoconfigure.web.validation.exception.handler.GlobalValidationExceptionHandler;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -15,9 +14,9 @@ import javax.validation.executable.ExecutableValidator;
 @ConditionalOnResource(resources = "classpath:META-INF/services/javax.validation.spi.ValidationProvider")
 public class NeikoValidationAutoConfiguration {
 
-    @Bean
-    public GlobalValidationExceptionHandler globalValidationExceptionHandler() {
-        return new GlobalValidationExceptionHandler();
-    }
-    
+	@Bean
+	public GlobalValidationExceptionHandler globalValidationExceptionHandler() {
+		return new GlobalValidationExceptionHandler();
+	}
+
 }

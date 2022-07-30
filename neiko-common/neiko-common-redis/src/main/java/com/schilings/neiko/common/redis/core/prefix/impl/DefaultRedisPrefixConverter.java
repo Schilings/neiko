@@ -1,6 +1,5 @@
 package com.schilings.neiko.common.redis.core.prefix.impl;
 
-
 import com.schilings.neiko.common.redis.core.prefix.IRedisPrefixConverter;
 
 /**

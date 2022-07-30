@@ -32,7 +32,7 @@
             <artifactId>hutool-http</artifactId>
         </dependency>
 
-        <!-- web相关 -->
+        <!-- java web相关 -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>

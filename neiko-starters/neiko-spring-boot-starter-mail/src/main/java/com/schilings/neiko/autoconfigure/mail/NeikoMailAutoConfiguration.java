@@ -1,6 +1,5 @@
 package com.schilings.neiko.autoconfigure.mail;
 
-
 import com.schilings.neiko.autoconfigure.mail.sender.MailSender;
 import com.schilings.neiko.autoconfigure.mail.sender.NeikoMailSender;
 import lombok.RequiredArgsConstructor;
@@ -16,14 +15,12 @@ import org.springframework.mail.javamail.JavaMailSender;
 @RequiredArgsConstructor
 public class NeikoMailAutoConfiguration {
 
-    @Bean
-    @ConditionalOnMissingBean(MailSender.class)
-    @ConditionalOnProperty(prefix = "spring.mail", name = "host")
-    public MailSender mailSenderImpl(JavaMailSender javaMailSender,
-                                     ApplicationEventPublisher applicationEventPublisher) {
-        return new NeikoMailSender(javaMailSender, applicationEventPublisher);
-    }
-
-
+	@Bean
+	@ConditionalOnMissingBean(MailSender.class)
+	@ConditionalOnProperty(prefix = "spring.mail", name = "host")
+	public MailSender mailSenderImpl(JavaMailSender javaMailSender,
+			ApplicationEventPublisher applicationEventPublisher) {
+		return new NeikoMailSender(javaMailSender, applicationEventPublisher);
+	}
 
 }

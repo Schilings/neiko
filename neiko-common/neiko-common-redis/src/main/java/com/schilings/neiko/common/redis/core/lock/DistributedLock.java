@@ -66,31 +66,31 @@ public final class DistributedLock<T> implements Action<T>, StateHandler<T> {
 
 	@Override
 	public T lock() {
-		//随机生成该次请求ID
+		// 随机生成该次请求ID
 		String requestId = UUID.randomUUID().toString();
-		//尝试获取锁,因为 pipline 或者 事务模式下执行会返回 null会为null.防止空指针.返回的是包装类，所以Boolean.TRUE.equals验证
+		// 尝试获取锁,因为 pipline 或者 事务模式下执行会返回 null会为null.防止空指针.返回的是包装类，所以Boolean.TRUE.equals验证
 		if (Boolean.TRUE.equals(RedisCacheLock.lock(this.key, requestId))) {
 			T value = null;
 			boolean exResolved = false;
 			try {
-				//执行业务
+				// 执行业务
 				value = executeAction.execute();
 				this.result = value;
 			}
 			catch (Throwable e) {
-				//抛出异常回调
+				// 抛出异常回调
 				this.exceptionHandler.handle(e);
 				exResolved = true;
 			}
-			finally {//释放锁
+			finally {// 释放锁
 				RedisCacheLock.releaseLock(this.key, requestId);
 			}
-			//执行成功回调
+			// 执行成功回调
 			if (!exResolved && this.successAction != null) {
 				this.result = this.successAction.apply(value);
 			}
 		}
-		//获取锁失败，失败回调
+		// 获取锁失败，失败回调
 		else if (lockFailAction != null) {
 			this.result = lockFailAction.get();
 		}

@@ -9,65 +9,66 @@ import org.springframework.context.support.ApplicationObjectSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * <pre>{@code
  *
  * }
  * <p>抽象的 事件-方法类型处理器处理器 映射类</p>
  * </pre>
+ *
  * @author Schilings
  */
 
 @Slf4j
 public abstract class AbstractEventHandlerMapping extends ApplicationObjectSupport implements EventHandleMapping {
-    
-    protected boolean isHandler(Class<?> beanType) {
-        return true;
-    }
 
-    @Override
-    public List<EventHandler> getHandler(Object event) {
-        List<EventHandler> handler = getHandlerInternal(event);
-        //使用默认处理器
-        if (handler == null) {
-            handler = getDefaultHandler();
-        }
-        //
-        if (handler == null) {
-            return null;
-        }
+	protected boolean isHandler(Class<?> beanType) {
+		return true;
+	}
 
-        List<EventHandler> chains = getEventHandlerChainChain(handler, event);
-        if (logger.isTraceEnabled()) {
-            logger.trace("Mapped to " + handler);
-        }
-        return chains;
-    }
+	@Override
+	public List<EventHandler> getHandler(Object event) {
+		List<EventHandler> handler = getHandlerInternal(event);
+		// 使用默认处理器
+		if (handler == null) {
+			handler = getDefaultHandler();
+		}
+		//
+		if (handler == null) {
+			return null;
+		}
 
-    protected List<EventHandler> getEventHandlerChainChain(List<EventHandler> handlers, Object event) {
-        ArrayList<EventHandler> chains = new ArrayList<>(handlers.size());
-        for (EventHandler handler : handlers) {
-            EventHandlerChain chain = (handler instanceof EventHandlerChain ?
-                    (EventHandlerChain) handler : new EventHandlerChain(handler));
-            chains.add(chain);
-        }
-        return chains;
-    }
+		List<EventHandler> chains = getEventHandlerChainChain(handler, event);
+		if (logger.isTraceEnabled()) {
+			logger.trace("Mapped to " + handler);
+		}
+		return chains;
+	}
 
-    protected List<EventHandler> getDefaultHandler() {
-        return null;
-    }
+	protected List<EventHandler> getEventHandlerChainChain(List<EventHandler> handlers, Object event) {
+		ArrayList<EventHandler> chains = new ArrayList<>(handlers.size());
+		for (EventHandler handler : handlers) {
+			EventHandlerChain chain = (handler instanceof EventHandlerChain ? (EventHandlerChain) handler
+					: new EventHandlerChain(handler));
+			chains.add(chain);
+		}
+		return chains;
+	}
 
-    protected abstract List<EventHandler> getHandlerInternal(Object event); 
+	protected List<EventHandler> getDefaultHandler() {
+		return null;
+	}
 
-    @Override
-    protected void initApplicationContext() throws BeansException {
-        super.initApplicationContext();
-        initInterceptors();
-        
-    }
-    protected void initInterceptors() {
-    }
+	protected abstract List<EventHandler> getHandlerInternal(Object event);
+
+	@Override
+	protected void initApplicationContext() throws BeansException {
+		super.initApplicationContext();
+		initInterceptors();
+
+	}
+
+	protected void initInterceptors() {
+	}
 
 }

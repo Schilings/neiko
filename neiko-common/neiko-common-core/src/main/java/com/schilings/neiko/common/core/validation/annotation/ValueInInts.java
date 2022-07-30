@@ -1,6 +1,5 @@
 package com.schilings.neiko.common.core.validation.annotation;
 
-
 import com.schilings.neiko.common.core.validation.validator.ValueInIntsValidator;
 
 import javax.validation.Constraint;
@@ -15,39 +14,39 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * <pre>{@code
- *      
+ *
  * }
  * <p></p>
  * </pre>
  * @author Schilings
-*/
+ */
 @Target({ METHOD, FIELD, CONSTRUCTOR, PARAMETER, TYPE_USE })
 @Retention(RUNTIME)
 @Repeatable(ValueInInts.List.class)
-@Constraint(validatedBy = {ValueInIntsValidator.class})
+@Constraint(validatedBy = { ValueInIntsValidator.class })
 @Documented
 public @interface ValueInInts {
 
+	String message() default "value must match one of the values in the list: {value}";
 
-    String message() default "value must match one of the values in the list: {value}";
+	int[] value();
 
-    int[] value();
+	/**
+	 * 允许值为 null, 默认不允许
+	 */
+	boolean allowNull() default false;
 
-    /**
-     * 允许值为 null, 默认不允许
-     */
-    boolean allowNull() default false;
-    
-    Class<?>[] groups() default {};
+	Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default {};
+	Class<? extends Payload>[] payload() default {};
 
-    @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE })
-    @Retention(RUNTIME)
-    @Documented
-    @interface List {
+	@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE })
+	@Retention(RUNTIME)
+	@Documented
+	@interface List {
 
-        ValueInInts[] value();
+		ValueInInts[] value();
 
-    }
+	}
+
 }

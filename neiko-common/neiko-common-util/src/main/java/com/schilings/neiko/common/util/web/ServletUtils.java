@@ -14,16 +14,15 @@ import java.util.Objects;
 
 /**
  * <pre>{@code
- *      
+ *
  * }
  * <p>Servlet客户端工具类</p>
  * </pre>
+ *
  * @author Schilings
-*/
+ */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ServletUtils extends ServletUtil {
-    
-    
-    
+
 }

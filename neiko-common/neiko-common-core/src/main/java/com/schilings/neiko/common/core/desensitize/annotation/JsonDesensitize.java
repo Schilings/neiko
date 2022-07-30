@@ -14,22 +14,20 @@ import java.lang.annotation.*;
  *
  * @author Schilings
  */
-@Target({ElementType.FIELD, ElementType.ANNOTATION_TYPE})
+@Target({ ElementType.FIELD, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@JacksonAnnotationsInside//Jackson识别
-public @interface JsonDesensitize{
+@JacksonAnnotationsInside // Jackson识别
+public @interface JsonDesensitize {
 
+	/**
+	 * 条件匹配下才进行脱敏
+	 */
+	String condition() default "";
 
-    /**
-     * 条件匹配下才进行脱敏
-     */
-    String condition() default "";
+	/**
+	 * 脱敏类型
+	 */
+	DesensitizationType type() default DesensitizationType.NONE;
 
-    /**
-     * 脱敏类型
-     */
-    DesensitizationType type() default DesensitizationType.NONE;
-
-    
 }

@@ -17,12 +17,14 @@
             <artifactId>neiko-common-core</artifactId>
             <version>${revision}</version>
         </dependency>
+        <!--neiko mail-->
         <dependency>
             <groupId>com.schilings</groupId>
             <artifactId>neiko-spring-boot-starter-mail</artifactId>
             <version>${revision}</version>
         </dependency>
         
+        <!--springboot web-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

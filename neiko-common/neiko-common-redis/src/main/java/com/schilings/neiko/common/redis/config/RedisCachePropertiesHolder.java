@@ -44,7 +44,7 @@ public class RedisCachePropertiesHolder {
 	public static long retryIntervalTime() {
 		return cacheProperties.getRetryIntervalTime();
 	}
-	
+
 	public static int threadCount() {
 		return cacheProperties.getThreadCount();
 	}

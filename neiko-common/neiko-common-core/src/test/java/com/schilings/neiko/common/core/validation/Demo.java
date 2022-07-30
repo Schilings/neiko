@@ -12,30 +12,29 @@ import java.util.List;
 
 /**
  * <pre>{@code
- *      
+ *
  * }
  * <p>测试自定义校验注释</p>
  * </pre>
+ *
  * @author Schilings
-*/
+ */
 @Data
 @AllArgsConstructor
 public class Demo {
 
-    @ValueInEnum(enumClass = StatusEnum.class, method = "fromValue")
-    private int status;
+	@ValueInEnum(enumClass = StatusEnum.class, method = "fromValue")
+	private int status;
 
-    @ValueInEnum(enumClass = StatusEnum.class)
-    private String statusName;
+	@ValueInEnum(enumClass = StatusEnum.class)
+	private String statusName;
 
-    @Greater(value = 10,equal = true)
-    private Integer value1;
+	@Greater(value = 10, equal = true)
+	private Integer value1;
 
+	@Less(value = 10, equal = false)
+	private Integer value2;
 
-    @Less(value = 10,equal = false)
-    private Integer value2;
-    
-    private List<Object> list;
-    
-    
+	private List<Object> list;
+
 }
