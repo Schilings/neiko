@@ -79,9 +79,8 @@ public class JsonUtils {
 		String toJson(Object obj);
 
 		<T> T toObj(String jsonStr, Class<T> c);
-		
-		<T> T toObj(String jsonStr, Type c);
 
+		<T> T toObj(String jsonStr, Type c);
 
 	}
 

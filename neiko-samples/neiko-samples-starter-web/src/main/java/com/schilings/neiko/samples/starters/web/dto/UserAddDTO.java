@@ -4,6 +4,7 @@ import com.schilings.neiko.common.core.validation.annotation.Greater;
 import com.schilings.neiko.common.core.validation.annotation.Less;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
@@ -12,6 +13,7 @@ import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class UserAddDTO {
 

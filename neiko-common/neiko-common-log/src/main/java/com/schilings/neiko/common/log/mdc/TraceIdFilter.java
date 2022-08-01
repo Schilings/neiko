@@ -1,6 +1,5 @@
 package com.schilings.neiko.common.log.mdc;
 
-
 import cn.hutool.core.util.IdUtil;
 import com.schilings.neiko.common.log.constants.LogConstant;
 import org.slf4j.MDC;
@@ -19,19 +18,19 @@ import java.io.IOException;
  */
 public class TraceIdFilter extends OncePerRequestFilter {
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
-        String traceId = IdUtil.objectId();
-        MDC.put(LogConstant.TRACE_ID, traceId);
-        try {
-            // 响应头中添加 traceId 参数，方便排查问题
-            response.setHeader(LogConstant.TRACE_ID, traceId);
-            filterChain.doFilter(request, response);
-        }
-        finally {
-            MDC.remove(LogConstant.TRACE_ID);
-        }
-    }
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
+		String traceId = IdUtil.objectId();
+		MDC.put(LogConstant.TRACE_ID, traceId);
+		try {
+			// 响应头中添加 traceId 参数，方便排查问题
+			response.setHeader(LogConstant.TRACE_ID, traceId);
+			filterChain.doFilter(request, response);
+		}
+		finally {
+			MDC.remove(LogConstant.TRACE_ID);
+		}
+	}
 
 }

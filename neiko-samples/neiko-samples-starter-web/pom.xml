@@ -21,6 +21,11 @@
             <artifactId>neiko-spring-boot-starter-log</artifactId>
             <version>${revision}</version>
         </dependency>
+        <dependency>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-spring-boot-starter-easyexcel</artifactId>
+            <version>${revision}</version>
+        </dependency>
     </dependencies>
 
 </project>

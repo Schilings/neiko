@@ -1,6 +1,5 @@
 package com.schilings.neiko.autoconfigure.log;
 
-
 import com.schilings.neiko.autoconfigure.log.properties.AccessLogProperties;
 import com.schilings.neiko.common.log.access.filter.AccessLogFilter;
 import com.schilings.neiko.common.log.access.handler.AccessLogHandler;
@@ -19,17 +18,18 @@ import org.springframework.context.annotation.Bean;
 @EnableConfigurationProperties(AccessLogProperties.class)
 public class AccessLogAutoConfiguration {
 
-    private final AccessLogHandler<?> accessLogService;
+	private final AccessLogHandler<?> accessLogService;
 
-    private final AccessLogProperties accessLogProperties;
+	private final AccessLogProperties accessLogProperties;
 
-    @Bean
-    @ConditionalOnBean(AccessLogHandler.class)
-    public FilterRegistrationBean<AccessLogFilter> accessLogFilterRegistrationBean() {
-        log.debug("access log 记录拦截器已开启====");
-        FilterRegistrationBean<AccessLogFilter> registrationBean = new FilterRegistrationBean<>(
-                new AccessLogFilter(accessLogService, accessLogProperties.getIgnoreUrlPatterns()));
-        registrationBean.setOrder(-10);
-        return registrationBean;
-    }
+	@Bean
+	@ConditionalOnBean(AccessLogHandler.class)
+	public FilterRegistrationBean<AccessLogFilter> accessLogFilterRegistrationBean() {
+		log.debug("access log 记录拦截器已开启====");
+		FilterRegistrationBean<AccessLogFilter> registrationBean = new FilterRegistrationBean<>(
+				new AccessLogFilter(accessLogService, accessLogProperties.getIgnoreUrlPatterns()));
+		registrationBean.setOrder(-10);
+		return registrationBean;
+	}
+
 }

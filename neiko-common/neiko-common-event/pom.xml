@@ -10,6 +10,9 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>neiko-common-event</artifactId>
 
+    <properties>
+        <revision>0.0.1-SNAPSHOT</revision>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>com.schilings</groupId>

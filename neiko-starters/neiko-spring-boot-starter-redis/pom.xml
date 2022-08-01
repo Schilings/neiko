@@ -9,6 +9,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>neiko-spring-boot-starter-redis</artifactId>
+
+
+    <properties>
+        <revision>0.0.1-SNAPSHOT</revision>
+    </properties>
     
     <dependencies>
         <!--neiko-->
@@ -17,7 +22,6 @@
             <artifactId>neiko-common-redis</artifactId>
             <version>${revision}</version>
         </dependency>
-        
         <!--spring data redis-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -41,5 +45,6 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
         </dependency>
     </dependencies>
+    
 
 </project>

@@ -11,9 +11,9 @@
 
     <artifactId>neiko-common-netty</artifactId>
 
+
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <revision>0.0.1-SNAPSHOT</revision>
     </properties>
 
 </project>

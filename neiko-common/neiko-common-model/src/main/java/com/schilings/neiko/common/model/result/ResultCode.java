@@ -1,6 +1,5 @@
 package com.schilings.neiko.common.model.result;
 
-
 public interface ResultCode {
 
 	/**

@@ -10,4 +10,5 @@ import java.lang.annotation.*;
 @Documented
 @Import(OperationLogAutoConfiguration.class)
 public @interface EnableOperationLog {
+
 }

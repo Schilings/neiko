@@ -18,7 +18,7 @@ public class JacksonAdapter implements JsonUtils.Adapter {
 	static ObjectMapper mapper = new ObjectMapper();
 
 	static {
-		//确定遇到未知属性（不映射到属性的属性，并且没有“任何设置器”或可以处理它的处理程序）是否应导致失败（通过抛出JsonMappingException ）的功能
+		// 确定遇到未知属性（不映射到属性的属性，并且没有“任何设置器”或可以处理它的处理程序）是否应导致失败（通过抛出JsonMappingException ）的功能
 		mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 	}
 
@@ -35,7 +35,7 @@ public class JacksonAdapter implements JsonUtils.Adapter {
 	@SneakyThrows({ JsonMappingException.class, JsonProcessingException.class })
 	@Override
 	public <T> T toObj(String jsonStr, Class<T> c) {
-		return mapper.readValue(jsonStr,c);
+		return mapper.readValue(jsonStr, c);
 	}
 
 	@SneakyThrows({ JsonMappingException.class, JsonProcessingException.class })

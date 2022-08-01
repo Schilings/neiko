@@ -1,6 +1,5 @@
 package com.schilings.neiko.common.core.request.wrapper;
 
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StreamUtils;
@@ -20,88 +19,88 @@ import java.util.Map;
  * <p>Request包装类：允许 body 重复读取</p>
  * <p>{@link HttpServletRequestWrapper}该父类有足够多的可用API</p>
  * </pre>
+ *
  * @author Schilings
-*/
+ */
 @Slf4j
 public class RepeatBodyRequestWrapper extends HttpServletRequestWrapper {
 
-    /**
-     * 请求体
-     */
-    private final byte[] body;
+	/**
+	 * 请求体
+	 */
+	private final byte[] body;
 
-    /**
-     * 返回此请求参数的 java.util.Map。
-     * 请求参数是随请求发送的额外信息。对于 HTTP servlet，参数包含在查询字符串或发布的表单数据中。
-     */
-    private final Map<String, String[]> parameterMap;
-    
-    /**
-     * Constructs a request object wrapping the given request.
-     *
-     * @param request the {@link HttpServletRequest} to be wrapped.
-     * @throws IllegalArgumentException if the request is null
-     */
-    public RepeatBodyRequestWrapper(HttpServletRequest request) {
-        super(request);
-        this.parameterMap = super.getParameterMap();
-        this.body = getByteBody(request);
-    }
+	/**
+	 * 返回此请求参数的 java.util.Map。 请求参数是随请求发送的额外信息。对于 HTTP servlet，参数包含在查询字符串或发布的表单数据中。
+	 */
+	private final Map<String, String[]> parameterMap;
 
-    /**
-     * 解析请求体
-     * @param request
-     * @return
-     */
-    private static byte[] getByteBody(HttpServletRequest request) {
-        byte[] body = new byte[0];
-        try {
-            body = StreamUtils.copyToByteArray(request.getInputStream());
-        }
-        catch (IOException e) {
-            log.error("解析流中数据异常", e);
-        }
-        return body;
-    }
+	/**
+	 * Constructs a request object wrapping the given request.
+	 * @param request the {@link HttpServletRequest} to be wrapped.
+	 * @throws IllegalArgumentException if the request is null
+	 */
+	public RepeatBodyRequestWrapper(HttpServletRequest request) {
+		super(request);
+		this.parameterMap = super.getParameterMap();
+		this.body = getByteBody(request);
+	}
 
-    @Override
-    public BufferedReader getReader() {
-        return ObjectUtils.isEmpty(body) ? null : new BufferedReader(new InputStreamReader(getInputStream()));
-    }
+	/**
+	 * 解析请求体
+	 * @param request
+	 * @return
+	 */
+	private static byte[] getByteBody(HttpServletRequest request) {
+		byte[] body = new byte[0];
+		try {
+			body = StreamUtils.copyToByteArray(request.getInputStream());
+		}
+		catch (IOException e) {
+			log.error("解析流中数据异常", e);
+		}
+		return body;
+	}
 
-    @Override
-    public ServletInputStream getInputStream() {
-        final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(body);
-        return new ServletInputStream() {
-            @Override
-            public boolean isFinished() {
-                return false;
-            }
+	@Override
+	public BufferedReader getReader() {
+		return ObjectUtils.isEmpty(body) ? null : new BufferedReader(new InputStreamReader(getInputStream()));
+	}
 
-            @Override
-            public boolean isReady() {
-                return false;
-            }
+	@Override
+	public ServletInputStream getInputStream() {
+		final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(body);
+		return new ServletInputStream() {
+			@Override
+			public boolean isFinished() {
+				return false;
+			}
 
-            @Override
-            public void setReadListener(ReadListener readListener) {
-                // doNoting
-            }
+			@Override
+			public boolean isReady() {
+				return false;
+			}
 
-            @Override
-            public int read() {
-                return byteArrayInputStream.read();
-            }
-        };
-    }
-    
-    /**
-     * 重写 getParameterMap() 方法 解决 undertow 中流被读取后，会进行标记，从而导致无法正确获取 body 中的表单数据的问题
-     * @see io.undertow.servlet.spec.HttpServletRequestImpl#readStarted
-     * @return Map<String, String[]> parameterMap
-     */
-    @Override
-    public Map<String, String[]> getParameterMap() {
-        return parameterMap;
-    }
+			@Override
+			public void setReadListener(ReadListener readListener) {
+				// doNoting
+			}
+
+			@Override
+			public int read() {
+				return byteArrayInputStream.read();
+			}
+		};
+	}
+
+	/**
+	 * 重写 getParameterMap() 方法 解决 undertow 中流被读取后，会进行标记，从而导致无法正确获取 body 中的表单数据的问题
+	 * @see io.undertow.servlet.spec.HttpServletRequestImpl#readStarted
+	 * @return Map<String, String[]> parameterMap
+	 */
+	@Override
+	public Map<String, String[]> getParameterMap() {
+		return parameterMap;
+	}
+
 }

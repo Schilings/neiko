@@ -52,6 +52,4 @@ public class FastjsonAdapter implements JsonUtils.Adapter {
 		return JSON.parseObject(json, t, features);
 	}
 
-
-
 }

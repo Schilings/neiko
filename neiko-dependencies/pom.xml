@@ -2,7 +2,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
     
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.schilings</groupId>
@@ -12,11 +11,13 @@
     
     <properties>
         <revision>0.0.1-SNAPSHOT</revision>
+        
         <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
         <maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <flatten-maven-plugin.version>1.2.7</flatten-maven-plugin.version>
         <spring-javaformat-checkstyle.version>0.0.31</spring-javaformat-checkstyle.version>
+        
         <spring-cloud.version>2021.0.3</spring-cloud.version>
         <spring-boot.version>2.7.1</spring-boot.version>
         <spring-security-oauth2.version>2.3.8.RELEASE</spring-security-oauth2.version>
@@ -43,14 +44,6 @@
         <javax.servlet.version>4.0.1</javax.servlet.version>
     </properties>
     
-    <dependencies>
-        <!--配置文件加密-->
-        <dependency>
-            <groupId>com.github.ulisesbocchio</groupId>
-            <artifactId>jasypt-spring-boot-starter</artifactId>
-            <version>${jasypt.version}</version>
-        </dependency>
-    </dependencies>
 
     <dependencyManagement>
         
@@ -319,9 +312,98 @@
                 <artifactId>nimbus-jose-jwt</artifactId>
                 <version>9.15.2</version>
             </dependency>
+            
+            <!--neiko common-->
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-common-util</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-common-model</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-common-core</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-common-log</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-common-easyexcel</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--neiko starter-->
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-spring-boot-starter-log</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-spring-boot-starter-easyexcel</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-spring-boot-starter-redis</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-spring-boot-starter-mail</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-spring-boot-starter-web</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--neiko cloud-->
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-cloud-bootstrap</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-cloud-config</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-cloud-discovery</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-cloud-loadbalance</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-cloud-gateway</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--neiko extend-->
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-extend-mybatis-plus</artifactId>
+                <version>${revision}</version>
+            </dependency>           
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-extend-sa-token</artifactId>
+                <version>${revision}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
-
+    
     <build>
         <plugins>
             <plugin>

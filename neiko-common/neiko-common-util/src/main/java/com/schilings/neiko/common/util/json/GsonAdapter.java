@@ -28,12 +28,12 @@ public class GsonAdapter implements JsonUtils.Adapter {
 		// 更新 gson
 		gson = builder.create();
 	}
-	
+
 	@Override
 	public String toJson(Object obj) {
 		return gson.toJson(obj);
 	}
-	
+
 	@Override
 	public <T> T toObj(String jsonStr, Class<T> c) {
 		return gson.fromJson(jsonStr, c);

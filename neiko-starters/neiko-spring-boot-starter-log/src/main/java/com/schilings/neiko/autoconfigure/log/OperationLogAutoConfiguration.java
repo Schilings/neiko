@@ -5,7 +5,6 @@ import com.schilings.neiko.common.log.operation.handler.OperationLogHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 
-
 public class OperationLogAutoConfiguration {
 
 	/**

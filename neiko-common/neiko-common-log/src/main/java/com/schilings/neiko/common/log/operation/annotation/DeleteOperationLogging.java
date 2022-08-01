@@ -1,6 +1,5 @@
 package com.schilings.neiko.common.log.operation.annotation;
 
-
 import com.schilings.neiko.common.log.operation.enums.OperationTypeEnum;
 import org.springframework.core.annotation.AliasFor;
 
