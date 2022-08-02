@@ -18,7 +18,6 @@
         <dependency>
             <groupId>com.schilings</groupId>
             <artifactId>neiko-common-event</artifactId>
-            <version>${revision}</version>
         </dependency>
     </dependencies>
     

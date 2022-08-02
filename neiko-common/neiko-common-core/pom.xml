@@ -9,20 +9,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>neiko-common-core</artifactId>
-
-    <properties>
-        <revision>0.0.1-SNAPSHOT</revision>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>com.schilings</groupId>
             <artifactId>neiko-common-util</artifactId>
-            <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>com.schilings</groupId>
             <artifactId>neiko-common-model</artifactId>
-            <version>${revision}</version>
         </dependency>
 
         <!--hutool-->

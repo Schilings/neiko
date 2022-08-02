@@ -90,7 +90,7 @@ public class R<T> implements Serializable {
 
 	@JsonIgnore
 	public boolean isOK() {
-		return BaseResultCode.SUCCESS.equals(code);
+		return BaseResultCode.SUCCESS.getCode().equals(code);
 	}
 
 	@JsonIgnore

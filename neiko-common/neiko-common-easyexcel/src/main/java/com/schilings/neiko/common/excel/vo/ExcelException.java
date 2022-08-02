@@ -1,4 +1,4 @@
-package com.schilings.neiko.common.excel.handler.response.exception;
+package com.schilings.neiko.common.excel.vo;
 
 public class ExcelException extends RuntimeException {
 

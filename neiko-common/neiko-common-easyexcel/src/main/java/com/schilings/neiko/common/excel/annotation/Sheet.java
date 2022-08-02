@@ -1,6 +1,6 @@
 package com.schilings.neiko.common.excel.annotation;
 
-import com.schilings.neiko.common.excel.handler.response.head.HeadGenerator;
+import com.schilings.neiko.common.excel.head.HeadGenerator;
 
 import java.lang.annotation.*;
 
@@ -27,7 +27,7 @@ public @interface Sheet {
 	String[] excludes() default {};
 
 	/**
-	 * 头生成器,不同的sheet可能有不同的头部策略
+	 * 头生成器,不同的sheet可能有不同的头部策略,注意，配置的该类型一定要在spring容器中存在实例
 	 */
 	Class<? extends HeadGenerator> headGeneratorClass() default HeadGenerator.class;
 
