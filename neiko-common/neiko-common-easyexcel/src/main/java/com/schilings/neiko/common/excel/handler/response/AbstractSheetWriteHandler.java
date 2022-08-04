@@ -12,9 +12,12 @@ import com.schilings.neiko.common.excel.annotation.Sheet;
 import com.schilings.neiko.common.excel.handler.response.converters.LocalDateStringConverter;
 import com.schilings.neiko.common.excel.handler.response.converters.LocalDateTimeStringConverter;
 import com.schilings.neiko.common.excel.handler.response.enhancer.WriterBuilderEnhancer;
-import com.schilings.neiko.common.excel.handler.response.exception.ExcelException;
-import com.schilings.neiko.common.excel.handler.response.head.HeadGenerator;
-import com.schilings.neiko.common.excel.handler.response.head.HeadMeta;
+import com.schilings.neiko.common.excel.handler.response.parser.ExcelPropertyCachedParser;
+import com.schilings.neiko.common.excel.handler.response.parser.ExcelPropertyMeta;
+import com.schilings.neiko.common.excel.vo.ExcelException;
+import com.schilings.neiko.common.excel.head.HeadGenerator;
+import com.schilings.neiko.common.excel.head.HeadMeta;
+import com.schilings.neiko.common.excel.properties.ExcelConfigProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.BeanUtils;
@@ -28,8 +31,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeFactory;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -38,11 +39,18 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Modifier;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+/**
+ * <pre>
+ * <p>EasyExcel 写教程 https://easyexcel.opensource.alibaba.com/docs/current/quickstart/write</p>
+ * </pre>
+ * @author Schilings
+*/
 @RequiredArgsConstructor
 public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, ApplicationContextAware {
 
@@ -50,7 +58,11 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 
 	private final ObjectProvider<List<WriterBuilderEnhancer>> enhancerProvider;
 
+	private final ExcelConfigProperties excelConfigProperties;
+
 	private ApplicationContext applicationContext;
+
+	private ExcelPropertyCachedParser parser = new ExcelPropertyCachedParser();
 
 	@Override
 	public void check(ResponseExcel responseExcel) {
@@ -67,7 +79,7 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 
 		// 解析文件名
 		String name = responseExcel.name();
-		if (name == null) {
+		if (!StringUtils.hasText(name)) {
 			name = UUID.randomUUID().toString();
 		}
 		String fileName = String.format("%s%s", URLEncoder.encode(name, "UTF-8"), responseExcel.suffix().getValue());
@@ -113,10 +125,11 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		if (responseExcel.include().length > 0) {
 			writerBuilder.includeColumnFieldNames(Arrays.asList(responseExcel.include()));
 		}
-		// 排除字段
+		// 包含字段
 		if (responseExcel.exclude().length > 0) {
 			writerBuilder.excludeColumnFieldNames(Arrays.asList(responseExcel.exclude()));
 		}
+		
 		// 拦截器，自定义样式等处理器
 		if (responseExcel.writeHandler().length > 0) {
 			for (Class<? extends WriteHandler> clazz : responseExcel.writeHandler()) {
@@ -129,14 +142,16 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 				writerBuilder.registerConverter(BeanUtils.instantiateClass(clazz));
 			}
 		}
+		
 		// 模板路径
-		String templatePath = "";
+		String templatePath = excelConfigProperties.getTemplatePath();
 		if (StringUtils.hasText(responseExcel.template())) {
-			ClassPathResource classPathResource = new ClassPathResource(
-					templatePath + File.separator + responseExcel.template());
+			//扫描文件
+			ClassPathResource classPathResource = new ClassPathResource(templatePath + File.separator + responseExcel.template());
 			InputStream inputStream = classPathResource.getInputStream();
 			writerBuilder.withTemplate(inputStream);
 		}
+		
 
 		// 用于spring bean自定义注入的转换器
 		registerCustomConverter(writerBuilder);
@@ -163,7 +178,8 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		// 是否模板写入
 		ExcelWriterSheetBuilder writerSheetBuilder = StringUtils.hasText(template) ? EasyExcel.writerSheet(sheetNo)
 				: EasyExcel.writerSheet(sheetNo, sheetName);
-
+		
+		
 		// 头信息增强优先使用 sheet 指定的头信息增强
 		Class<? extends HeadGenerator> headGeneratorClass = null;
 		if (isNotInterface(sheet.headGeneratorClass())) {
@@ -178,17 +194,16 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		if (headGeneratorClass != null) {
 			fillCustomHeadInfo(targetClass, bookHeadGeneratorClass, writerSheetBuilder);
 		}
-		// 否则使用 dataClass 来自动获取
+		// 否则使用 ExcelProperties解析 来自动获取
 		else if (targetClass != null) {
-			writerSheetBuilder.head(targetClass);
 			if (sheet.excludes().length > 0) {
 				writerSheetBuilder.excludeColumnFieldNames(Arrays.asList(sheet.excludes()));
 			}
 			if (sheet.includes().length > 0) {
 				writerSheetBuilder.includeColumnFieldNames(Arrays.asList(sheet.includes()));
 			}
+			writerSheetBuilder.head(targetClass);
 		}
-
 		// 用于spring bean自定义注入的增强器
 		enhanceExcelWriterSheetBuilder(writerSheetBuilder, sheetNo, sheetName, targetClass, template,
 				headGeneratorClass);

@@ -10,10 +10,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>neiko-common-netty</artifactId>
-
-
-    <properties>
-        <revision>0.0.1-SNAPSHOT</revision>
-    </properties>
+    
 
 </project>

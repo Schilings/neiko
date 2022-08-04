@@ -1,4 +1,4 @@
-package com.schilings.neiko.common.excel.handler.response.head;
+package com.schilings.neiko.common.excel.head;
 
 import lombok.Data;
 

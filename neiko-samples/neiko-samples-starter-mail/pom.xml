@@ -19,7 +19,6 @@
         <dependency>
             <groupId>com.schilings</groupId>
             <artifactId>neiko-spring-boot-starter-mail</artifactId>
-            <version>${revision}</version>
         </dependency>
     </dependencies>
 

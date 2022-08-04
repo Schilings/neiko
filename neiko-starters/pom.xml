@@ -18,9 +18,6 @@
         <module>neiko-spring-boot-starter-log</module>
         <module>neiko-spring-boot-starter-easyexcel</module>
     </modules>
-    <properties>
-         <revision>0.0.1-SNAPSHOT</revision>
-    </properties>
     
 
 </project>
