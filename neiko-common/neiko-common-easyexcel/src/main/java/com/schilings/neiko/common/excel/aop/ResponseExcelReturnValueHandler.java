@@ -58,9 +58,7 @@ public class ResponseExcelReturnValueHandler implements HandlerMethodReturnValue
 		ResponseExcel responseExcel = returnParameter.getMethodAnnotation(ResponseExcel.class);
 		Assert.state(responseExcel != null, "No @ResponseExcel");
 		// 处理结果:response写入
-		sheetWriteHandlerList.stream()
-				.filter(handler -> handler.support(returnValue))
-				.findFirst()
+		sheetWriteHandlerList.stream().filter(handler -> handler.support(returnValue)).findFirst()
 				.ifPresent(handler -> handler.export(returnValue, response, responseExcel));
 	}
 

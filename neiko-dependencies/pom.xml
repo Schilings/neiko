@@ -19,6 +19,9 @@
         <spring-javaformat-checkstyle.version>0.0.31</spring-javaformat-checkstyle.version>
         
         <spring-cloud.version>2021.0.3</spring-cloud.version>
+        <spring-cloud-alibaba.version>2021.0.1.0</spring-cloud-alibaba.version>
+        
+        
         <spring-boot.version>2.7.1</spring-boot.version>
         <spring-security-oauth2.version>2.3.8.RELEASE</spring-security-oauth2.version>
         <springfox.version>3.0.0</springfox.version>
@@ -42,6 +45,8 @@
         <software.amazon.awssdk.version>2.17.154</software.amazon.awssdk.version>
         <apache.lang3.version>3.12.0</apache.lang3.version>
         <javax.servlet.version>4.0.1</javax.servlet.version>
+        
+        <netty.version>4.1.78.Final</netty.version>
     </properties>
     
     <distributionManagement>
@@ -66,6 +71,14 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!--spring cloud alibaba-->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!-- Apache Lang3 -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
@@ -74,6 +87,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!--spring boot-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -322,6 +336,23 @@
                 <artifactId>nimbus-jose-jwt</artifactId>
                 <version>9.15.2</version>
             </dependency>
+
+            <!--netty-->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-codec-http</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-handler</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
             
             <!--neiko common-->
             <dependency>
@@ -439,6 +470,16 @@
             <dependency>
                 <groupId>com.schilings</groupId>
                 <artifactId>neiko-cloud-gateway</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-cloud-commons</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-cloud-openfeign</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!--neiko extend-->

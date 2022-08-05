@@ -49,8 +49,9 @@ import java.util.stream.Collectors;
  * <pre>
  * <p>EasyExcel 写教程 https://easyexcel.opensource.alibaba.com/docs/current/quickstart/write</p>
  * </pre>
+ *
  * @author Schilings
-*/
+ */
 @RequiredArgsConstructor
 public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, ApplicationContextAware {
 
@@ -129,7 +130,7 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		if (responseExcel.exclude().length > 0) {
 			writerBuilder.excludeColumnFieldNames(Arrays.asList(responseExcel.exclude()));
 		}
-		
+
 		// 拦截器，自定义样式等处理器
 		if (responseExcel.writeHandler().length > 0) {
 			for (Class<? extends WriteHandler> clazz : responseExcel.writeHandler()) {
@@ -142,16 +143,16 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 				writerBuilder.registerConverter(BeanUtils.instantiateClass(clazz));
 			}
 		}
-		
+
 		// 模板路径
 		String templatePath = excelConfigProperties.getTemplatePath();
 		if (StringUtils.hasText(responseExcel.template())) {
-			//扫描文件
-			ClassPathResource classPathResource = new ClassPathResource(templatePath + File.separator + responseExcel.template());
+			// 扫描文件
+			ClassPathResource classPathResource = new ClassPathResource(
+					templatePath + File.separator + responseExcel.template());
 			InputStream inputStream = classPathResource.getInputStream();
 			writerBuilder.withTemplate(inputStream);
 		}
-		
 
 		// 用于spring bean自定义注入的转换器
 		registerCustomConverter(writerBuilder);
@@ -178,8 +179,7 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		// 是否模板写入
 		ExcelWriterSheetBuilder writerSheetBuilder = StringUtils.hasText(template) ? EasyExcel.writerSheet(sheetNo)
 				: EasyExcel.writerSheet(sheetNo, sheetName);
-		
-		
+
 		// 头信息增强优先使用 sheet 指定的头信息增强
 		Class<? extends HeadGenerator> headGeneratorClass = null;
 		if (isNotInterface(sheet.headGeneratorClass())) {

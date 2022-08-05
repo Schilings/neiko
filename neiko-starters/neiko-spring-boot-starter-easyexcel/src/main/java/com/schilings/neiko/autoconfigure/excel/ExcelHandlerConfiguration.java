@@ -1,6 +1,5 @@
 package com.schilings.neiko.autoconfigure.excel;
 
-
 import com.alibaba.excel.converters.Converter;
 import com.schilings.neiko.common.excel.handler.response.MultiSheetWriteHandler;
 import com.schilings.neiko.common.excel.handler.response.SingleSheetWriteHandler;
@@ -19,29 +18,28 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ExcelHandlerConfiguration {
 
+	private final ExcelConfigProperties configProperties;
 
-    private final ExcelConfigProperties configProperties;
+	private final ObjectProvider<List<Converter<?>>> converterProvider;
 
-    private final ObjectProvider<List<Converter<?>>> converterProvider;
+	private final ObjectProvider<List<WriterBuilderEnhancer>> enhancesProvider;
 
-    private final ObjectProvider<List<WriterBuilderEnhancer>> enhancesProvider;
-    
-    
-    /**
-     * 单sheet 写入处理器
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    public SingleSheetWriteHandler singleSheetWriteHandler() {
-        return new SingleSheetWriteHandler(converterProvider, enhancesProvider, configProperties);
-    }
+	/**
+	 * 单sheet 写入处理器
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	public SingleSheetWriteHandler singleSheetWriteHandler() {
+		return new SingleSheetWriteHandler(converterProvider, enhancesProvider, configProperties);
+	}
 
-    /**
-     * 多sheet 写入处理器
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    public MultiSheetWriteHandler manySheetWriteHandler() {
-        return new MultiSheetWriteHandler(converterProvider, enhancesProvider, configProperties);
-    }
+	/**
+	 * 多sheet 写入处理器
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	public MultiSheetWriteHandler manySheetWriteHandler() {
+		return new MultiSheetWriteHandler(converterProvider, enhancesProvider, configProperties);
+	}
+
 }

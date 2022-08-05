@@ -29,9 +29,9 @@ public class NeikoExcelAutoConfiguration {
 	private final RequestMappingHandlerAdapter requestMappingHandlerAdapter;
 
 	private final List<SheetWriteHandler> sheetWriteHandlerList;
-	
+
 	/**
-	 * 追加 Excel 请求处理器  到 springmvc 中
+	 * 追加 Excel 请求处理器 到 springmvc 中
 	 */
 	@PostConstruct
 	public void setRequestExcelArgumentResolver() {
@@ -49,10 +49,12 @@ public class NeikoExcelAutoConfiguration {
 	@PostConstruct
 	public void setReturnValueHandlers() {
 
-		List<HandlerMethodReturnValueHandler> returnValueHandlers = requestMappingHandlerAdapter.getReturnValueHandlers();
+		List<HandlerMethodReturnValueHandler> returnValueHandlers = requestMappingHandlerAdapter
+				.getReturnValueHandlers();
 		List<HandlerMethodReturnValueHandler> handlers = new ArrayList<>();
 		handlers.add(new ResponseExcelReturnValueHandler(sheetWriteHandlerList));
 		handlers.addAll(returnValueHandlers);
 		requestMappingHandlerAdapter.setReturnValueHandlers(handlers);
 	}
+
 }

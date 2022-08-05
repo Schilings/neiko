@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: admin
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver  #192.168.1.79
+    url: jdbc:mysql://47.113.200.136:23306/china_logistics?allowMultiQueries=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: yblock-test@123
+mybatis-plus:
+  mapper-locations: 
+    - classpath*:/mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

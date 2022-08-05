@@ -16,6 +16,8 @@
         <module>neiko-cloud-bootstrap</module>
         <module>neiko-cloud-gateway</module>
         <module>neiko-cloud-config</module>
+        <module>neiko-cloud-commons</module>
+        <module>neiko-cloud-openfeign</module>
     </modules>
 
 

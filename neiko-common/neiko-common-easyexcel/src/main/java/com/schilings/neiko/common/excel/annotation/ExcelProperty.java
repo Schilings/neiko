@@ -9,28 +9,27 @@ import java.lang.annotation.*;
  * <p></p>
  * </pre>
  * @author Schilings
-*/
+ */
 @Deprecated
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface ExcelProperty {
-    
-    @AliasFor("head")
-    String[] value() default {};
 
-    /**
-     * 标题
-     * @return
-     */
-    @AliasFor("value")
-    String[] head() default {};
+	@AliasFor("head")
+	String[] value() default {};
 
-    /**
-     * 是否忽略标题
-     * @return
-     */
-    boolean ignoreHead() default false;
-    
-    
+	/**
+	 * 标题
+	 * @return
+	 */
+	@AliasFor("value")
+	String[] head() default {};
+
+	/**
+	 * 是否忽略标题
+	 * @return
+	 */
+	boolean ignoreHead() default false;
+
 }
