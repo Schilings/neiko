@@ -10,9 +10,8 @@ neiko:
   shiro:
     jwt:
       filter:
-        anon-url-list: /shiro/login
-        unauthorized-url: /shiro/login
-        login-url: /shiro/login
+        jwt-url-list: 
+          - /shiro/test
 
 mybatis-plus:
   configuration:

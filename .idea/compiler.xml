@@ -33,10 +33,10 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/2.7.1/spring-boot-configuration-processor-2.7.1.jar" />
         </processorPath>
-        <module name="neiko-samples-starter-shiro" />
         <module name="neiko-common-websocket" />
-        <module name="neiko-common-validate" />
         <module name="neiko-common-core" />
+        <module name="neiko-samples-starter-shiro" />
+        <module name="neiko-common-validate" />
       </profile>
       <profile name="Annotation profile for neiko-common-cache" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />

@@ -40,11 +40,11 @@ public class ShiroJWTProperties {
 
         private String unauthorizedUrl = "/unauthorized.jsp";
 
-        private List<String> anonUrlList = new ArrayList<>();
+        private List<String> anonUrlList = Collections.singletonList("/**");
 
         private List<String> authcUrlList = new ArrayList<>();
 
-        private List<String> jwtList = Collections.singletonList("/**");
+        private List<String> jwtUrlList = new ArrayList<>();
     }
     
 }

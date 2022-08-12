@@ -59,9 +59,10 @@ public class DefaultJWTAutoConfiguration {
         if (ObjectUtil.isNull(jwtFilter)) {
             jwtFilter = new ShiroJWTProperties.JWTFilter();
         }
+
+        jwtFilter.getJwtUrlList().forEach(url -> map.put(url, "jwt"));
         jwtFilter.getAuthcUrlList().forEach(url -> map.put(url, "authc"));
         jwtFilter.getAnonUrlList().forEach(url -> map.put(url, "anon"));
-        jwtFilter.getJwtList().forEach(url -> map.put(url, "jwt"));
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
 
         shiroFilterFactoryBean.setLoginUrl(jwtFilter.getLoginUrl());
