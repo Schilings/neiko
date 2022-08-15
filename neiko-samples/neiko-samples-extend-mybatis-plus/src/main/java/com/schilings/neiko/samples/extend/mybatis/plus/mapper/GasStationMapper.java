@@ -1,9 +1,8 @@
 package com.schilings.neiko.samples.extend.mybatis.plus.mapper;
 
 
-import com.schilings.neiko.extend.mabatis.plus.mapper.ExtendMapper;
+import com.schilings.neiko.extend.mybatis.plus.mapper.ExtendMapper;
 import com.schilings.neiko.samples.extend.mybatis.plus.entity.GasStation;
-import com.schilings.neiko.samples.extend.mybatis.plus.entity.Preorders;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

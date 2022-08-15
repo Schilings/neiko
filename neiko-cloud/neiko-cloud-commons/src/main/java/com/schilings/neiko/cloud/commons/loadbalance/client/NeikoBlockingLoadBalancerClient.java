@@ -25,6 +25,9 @@ import java.net.URI;
  * @author Schilings
 */
 public class NeikoBlockingLoadBalancerClient implements LoadBalancerClient, ServiceInstanceChooser {
+    
+    
+    
     @Override
     public <T> T execute(String serviceId, LoadBalancerRequest<T> request) throws IOException {
         return null;

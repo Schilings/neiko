@@ -1,0 +1,8 @@
+org.springframework.cloud.bootstrap.BootstrapConfiguration=\
+  com.schilings.neiko.cloud.context.bootstrap.config.CustomBootstrapConfiguration,\
+  com.schilings.neiko.cloud.context.bootstrap.config.CustomPropertySourceLocator
+org.springframework.boot.env.EnvironmentPostProcessor=\
+  com.schilings.neiko.cloud.context.bootstrap.config.CustomBootstrapConfiguration
+org.springframework.context.ApplicationListener=\
+  com.schilings.neiko.cloud.commons.serviceregistry.event.InstancePreRegisteredEventListener,\
+  com.schilings.neiko.cloud.commons.serviceregistry.event.InstanceRegisteredEventListener

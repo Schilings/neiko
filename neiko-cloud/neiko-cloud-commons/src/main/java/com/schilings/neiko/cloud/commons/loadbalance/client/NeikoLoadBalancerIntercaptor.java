@@ -13,6 +13,11 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
  * @author Schilings
 */
 public class NeikoLoadBalancerIntercaptor extends LoadBalancerInterceptor implements ClientHttpRequestInterceptor {
+
+    //private LoadBalancerClient loadBalancer;
+
+    //private LoadBalancerRequestFactory requestFactory;
+    
     public NeikoLoadBalancerIntercaptor(LoadBalancerClient loadBalancer, LoadBalancerRequestFactory requestFactory) {
         super(loadBalancer, requestFactory);
     }

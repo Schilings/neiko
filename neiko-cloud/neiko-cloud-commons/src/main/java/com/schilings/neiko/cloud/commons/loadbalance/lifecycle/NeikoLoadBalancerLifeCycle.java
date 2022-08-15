@@ -7,6 +7,7 @@ import org.springframework.cloud.client.loadbalancer.*;
 
 /**
  * <pre>
+ *     <p>直接注入即可</p>
  * <p>{@link LoadBalancerLifecycle}</p>
  * <p>{@link LoadBalancerLifecycleValidator}</p>
  * </pre>
@@ -15,6 +16,7 @@ import org.springframework.cloud.client.loadbalancer.*;
 
 @Slf4j
 public class NeikoLoadBalancerLifeCycle implements LoadBalancerLifecycle<HintRequestContext,Object, ServiceInstance> {
+    
     @Override
     public boolean supports(Class requestContextClass, Class responseClass, Class serverTypeClass) {
         return LoadBalancerLifecycle.super.supports(requestContextClass, responseClass, serverTypeClass);

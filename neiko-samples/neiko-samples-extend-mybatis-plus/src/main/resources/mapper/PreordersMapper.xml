@@ -3,6 +3,46 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.schilings.neiko.samples.extend.mybatis.plus.mapper.PreorderMapper">
-    
 
+
+    <resultMap id="EntirePreorders" type="com.schilings.neiko.samples.extend.mybatis.plus.dto.EntirePreorders">
+        <id property="preorderId" column="preorder_id"/>
+        <result property="channelCode" column="channel_ode"/>
+        <result property="driverId" column="driver_id"/>
+        <result property="gasStationId" column="gas_station_id"/>
+        <result property="waybillId" column="waybill_id"/>
+        <result property="amount" column="amount"/>
+        <result property="status" column="status"/>
+        <result property="driverName" column="driver_name"/>
+        <result property="orderType" column="order_type"/>
+        <result property="contactMobile" column="contact_mobile"/>
+        <result property="licensePlateNumber" column="license_plate_number"/>
+        <result property="cardType" column="card_type"/>
+        <result property="expiryDate" column="expiry_date"/>
+        <result property="deleted" column="deleted"/>
+        <result property="createdById" column="created_by_id"/>
+        <result property="updatedById" column="updated_by_id"/>
+        <result property="createdDatetime" column="created_datetime"/>
+        <result property="updatedDatetime" column="updated_datetime"/>
+        
+        
+        
+        <result property="outOrderType" column="out_order_type"/>
+        <result property="outOrderCode" column="out_crder_code"/>
+        <result property="podRefId_PRO" column="podRefId_PRO"/>
+        <result property="preorderId_PRO" column="preorderId_PRO"/>
+        <result property="status_PRO" column="status_PRO"/>
+        
+        
+        
+        <collection property="props" ofType="com.schilings.neiko.samples.extend.mybatis.plus.entity.PodRefOutordProps">
+            <id property="podOutOrdPropsId" column="pod_out_ord_props_id"/>
+            <result property="podRefId" column="pod_ref_id"/>
+            <result property="propName" column="prop_name"/>
+            <result property="propType" column="prop_type"/>
+            <result property="valVarchar" column="val_varchar"/>
+            <result property="valClob" column="val_clob"/>
+        </collection>
+    </resultMap>
+    
 </mapper>

@@ -1,21 +1,25 @@
 package com.schilings.neiko.cloud.loadbalance.loadbalancer;
 
 
+import com.schilings.neiko.cloud.commons.utils.NetworkUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.loadbalancer.DefaultResponse;
+import org.springframework.cloud.client.loadbalancer.EmptyResponse;
 import org.springframework.cloud.client.loadbalancer.Request;
 import org.springframework.cloud.client.loadbalancer.Response;
 import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClientConfiguration;
 import org.springframework.cloud.loadbalancer.config.LoadBalancerAutoConfiguration;
 
-import org.springframework.cloud.loadbalancer.core.ReactorLoadBalancer;
-import org.springframework.cloud.loadbalancer.core.ReactorServiceInstanceLoadBalancer;
-import org.springframework.cloud.loadbalancer.core.ServiceInstanceListSupplier;
+import org.springframework.cloud.loadbalancer.core.*;
 import org.springframework.cloud.loadbalancer.support.LoadBalancerClientFactory;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * <p>负载均衡器</p>
@@ -48,9 +52,34 @@ public class NeikoLoadBalancer implements ReactorServiceInstanceLoadBalancer,Rea
         this.serviceId = serviceId;
         this.serviceInstanceListSupplierProvider = serviceInstanceListSupplierProvider;
     }
-
+    
     @Override
     public Mono<Response<ServiceInstance>> choose(Request request) {
-        return Mono.empty();
+        ServiceInstanceListSupplier supplier = serviceInstanceListSupplierProvider.getIfAvailable(NoopServiceInstanceListSupplier::new);
+        return supplier.get(request).next().map(serviceInstances -> processInstanceResponse(supplier, serviceInstances));
+    }
+
+    private Response<ServiceInstance> processInstanceResponse(ServiceInstanceListSupplier supplier,
+                                                              List<ServiceInstance> serviceInstances) {
+        Response<ServiceInstance> serviceInstanceResponse = getInstanceResponse(serviceInstances);
+        if (supplier instanceof SelectedInstanceCallback && serviceInstanceResponse.hasServer()) {
+            ((SelectedInstanceCallback) supplier).selectedServiceInstance(serviceInstanceResponse.getServer());
+        }
+        return serviceInstanceResponse;
+    }
+
+    private Response<ServiceInstance> getInstanceResponse(List<ServiceInstance> instances) {
+        if (instances.isEmpty()) {
+            if (log.isWarnEnabled()) {
+                log.warn("No servers available for service: " + serviceId);
+            }
+            return new EmptyResponse();
+        }
+        for (ServiceInstance instance : instances) {
+            if (instance.getHost().equals(NetworkUtils.getLocalHostname())) {
+                return new DefaultResponse(instance);
+            }
+        }
+        return new DefaultResponse(instances.get(ThreadLocalRandom.current().nextInt(instances.size())));
     }
 }

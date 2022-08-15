@@ -12,14 +12,18 @@
     
     <dependencies>
         <!--neiko cloud commons-->
-        <dependency>
-            <groupId>com.schilings</groupId>
-            <artifactId>neiko-cloud-commons</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.schilings</groupId>-->
+<!--            <artifactId>neiko-cloud-commons</artifactId>-->
+<!--        </dependency>-->
         <!--spring cloud openfeign-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-openfeign-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
     </dependencies>
 

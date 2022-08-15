@@ -19,6 +19,7 @@ import org.springframework.cloud.loadbalancer.support.LoadBalancerClientFactory;
 @LoadBalancerClients(defaultConfiguration = {NeikoLoadBalancerClientConfiguration.class})
 public class NeikoLoadBalancerAutoConfiguration {
 
+    //require=false
     private final ReactorServiceInstanceLoadBalancer loadBalancer;
 
     private final LoadBalancerClientFactory loadBalancerClientFactory;

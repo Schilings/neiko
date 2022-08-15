@@ -50,7 +50,7 @@ public class JsonUtils {
 
 	}
 
-	public void switchAdapter(JsonToolSouce souce) {
+	public static void switchAdapter(JsonToolSouce souce) {
 		if (Objects.isNull(adapterMappings)) {
 			adapterMappings = new HashMap<>(5);
 			adapterMappings.put(JsonToolSouce.JACKSON, new JacksonAdapter());
