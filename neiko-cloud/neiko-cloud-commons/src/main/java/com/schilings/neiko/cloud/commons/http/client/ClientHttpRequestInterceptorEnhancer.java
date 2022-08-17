@@ -41,26 +41,28 @@ public abstract class ClientHttpRequestInterceptorEnhancer implements ClientHttp
         //继续执行链，拿到响应结果
         ClientHttpResponse httpResponse = interceptInternal(request, body, execution);
         //处理httpResponse
-        Object response = getClientResponse(httpResponse);
+
+        //Object response = getClientResponse(httpResponse);
         
         return httpResponse;
     }
 
     public abstract ClientHttpResponse interceptInternal(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException;
 
-    
-    private <T> Object getClientResponse(T response) {
-        ClientHttpResponse clientHttpResponse = null;
-        if (response instanceof ClientHttpResponse) {
-            clientHttpResponse = (ClientHttpResponse) response;
-        }
-        if (clientHttpResponse != null) {
-            try {
-                return new ResponseData(clientHttpResponse, null);
-            }
-            catch (IOException ignored) {
-            }
-        }
-        return response;
-    }
+    //ResponseDatay引入import org.springframework.web.reactive.function.client.ClientResponse;
+    //我这里没引入这个包
+//    private <T> Object getClientResponse(T response) {
+//        ClientHttpResponse clientHttpResponse = null;
+//        if (response instanceof ClientHttpResponse) {
+//            clientHttpResponse = (ClientHttpResponse) response;
+//        }
+//        if (clientHttpResponse != null) {
+//            try {
+//                return new ResponseData(clientHttpResponse, null);
+//            }
+//            catch (IOException ignored) {
+//            }
+//        }
+//        return response;
+//    }
 }

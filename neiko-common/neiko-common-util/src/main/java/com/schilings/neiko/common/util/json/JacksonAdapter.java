@@ -34,14 +34,24 @@ public class JacksonAdapter implements JsonUtils.Adapter {
 
 	@SneakyThrows({ JsonMappingException.class, JsonProcessingException.class })
 	@Override
-	public <T> T toObj(String jsonStr, Class<T> c) {
-		return mapper.readValue(jsonStr, c);
+	public <T> T toObj(String json, Class<T> r) {
+		return mapper.readValue(json, r);
 	}
 
 	@SneakyThrows({ JsonMappingException.class, JsonProcessingException.class })
 	@Override
-	public <T> T toObj(String jsonStr, Type c) {
-		return mapper.readValue(jsonStr, mapper.constructType(c));
+	public <T> T toObj(String json, Type t) {
+		return mapper.readValue(json, mapper.constructType(t));
 	}
 
+	@SneakyThrows({ JsonMappingException.class, JsonProcessingException.class })
+	@Override
+	public <T> T toObj(String json, TypeReference<T> t) {
+		return mapper.readValue(json, new com.fasterxml.jackson.core.type.TypeReference<T>() {
+			@Override
+			public Type getType() {
+				return t.getType();
+			}
+		});
+	}
 }

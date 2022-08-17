@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -53,7 +54,6 @@ public class ApplicationTest {
 
     @Test
     public void test2() {
-
         List<Preorders> list1 = preorderMapper.selectJoinList(Preorders.class,"",//EntirePreorders
                 WrappersX.<Preorders>lambdaQueryJoin().selectAll(Preorders.class)
                         .select(PodRefOutord::getOutOrderType, PodRefOutord::getOutOrderCode)
@@ -170,6 +170,16 @@ public class ApplicationTest {
         list.forEach(System.out::println);
     }
 
+
+    @Test
+    public void test7() {
+        ArrayList<Preorders> list = new ArrayList<>();
+        list.add(new Preorders());
+        list.add(new Preorders());
+        list.add(new Preorders());
+        list.add(new Preorders());
+        preorderMapper.insertBatchSomeColumn(list);
+    }
 
 
 }

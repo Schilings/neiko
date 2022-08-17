@@ -449,11 +449,6 @@
             <!--neiko cloud-->
             <dependency>
                 <groupId>com.schilings</groupId>
-                <artifactId>neiko-cloud-bootstrap</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.schilings</groupId>
                 <artifactId>neiko-cloud-config</artifactId>
                 <version>${revision}</version>
             </dependency>

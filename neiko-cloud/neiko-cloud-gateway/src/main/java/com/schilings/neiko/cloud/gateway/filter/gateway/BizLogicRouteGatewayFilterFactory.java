@@ -1,4 +1,4 @@
-package com.schilings.neiko.cloud.gateway.filter;
+package com.schilings.neiko.cloud.gateway.filter.gateway;
 
 
 import lombok.Data;
@@ -30,10 +30,10 @@ import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.G
  * 然后再将这两个对象设置给SpringCloud gateway的处理链中，接下来，处理链上的其他过滤拿到的就是新的ServerHttpRequest和Route对象了
 
  */
-@Component
+
 @Slf4j
 public class BizLogicRouteGatewayFilterFactory extends 
-        AbstractGatewayFilterFactory<BizLogicRouteGatewayFilterFactory.BizLogicRouteConfig> {
+        AbstractGatewayFilterFactory<BizLogicRouteGatewayFilterFactory.Config> {
 
     private static final String TAG_TEST_USER = "tag-test-user";
 
@@ -41,7 +41,7 @@ public class BizLogicRouteGatewayFilterFactory extends
     private static final String DEV_ENV_URI = "devEnvUri";
 
     public BizLogicRouteGatewayFilterFactory() {
-        super(BizLogicRouteConfig.class);
+        super(Config.class);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class BizLogicRouteGatewayFilterFactory extends
     }
 
     @Override
-    public GatewayFilter apply(BizLogicRouteConfig config) {
+    public GatewayFilter apply(Config config) {
 
         return (exchange, chain) -> {
             // 本次的请求对象
@@ -117,7 +117,7 @@ public class BizLogicRouteGatewayFilterFactory extends
      */
     @Data
     @ToString
-    public static class BizLogicRouteConfig {
+    public static class Config {
         // 生产环境的服务地址
         private String prodEnvUri;
 

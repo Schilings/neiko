@@ -43,8 +43,11 @@ public class ExtendMybatisPlusAutoConfiguration {
         return new JoinInterceptor();
     }
 
-    
 
+    /**
+     * 拓展方法注入
+     * @return
+     */
     @Bean
     @ConditionalOnMissingBean({DefaultSqlInjector.class, AbstractSqlInjector.class, ISqlInjector.class})
     public ISqlInjector extendSqlInjector() {

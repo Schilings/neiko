@@ -1,7 +1,6 @@
 package com.schilings.neiko.cloud.context.named;
 
 
-import com.schilings.neiko.cloud.commons.context.config.DefaultNeikoClientsConfiguration;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.cloud.context.named.NamedContextFactory;
@@ -24,7 +23,7 @@ public class NeikoClientsContext extends NamedContextFactory<NeikoSpecification>
     public static final String PROPERTY_NAME = NAMESPACE + ".client.name";
 
     public NeikoClientsContext() {
-        super(DefaultNeikoClientsConfiguration.class, NAMESPACE, PROPERTY_NAME);
+        super(null, NAMESPACE, PROPERTY_NAME);
     }
     
     public NeikoClientsContext(Class<?> defaultConfigType, String propertySourceName, String propertyName) {

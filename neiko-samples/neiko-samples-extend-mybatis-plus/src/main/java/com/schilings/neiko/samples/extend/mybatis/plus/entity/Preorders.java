@@ -34,7 +34,7 @@ public class Preorders extends JoinResultType implements Serializable {
     /**
      * 主键
      */
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_UUID)
     private String preorderId;
 
 

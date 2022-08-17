@@ -1,8 +1,8 @@
-package com.schilings.neiko.cloud.gateway.custom;
+package com.schilings.neiko.cloud.gateway.handler;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.schilings.springcloud.exception.CustomizeInfoException;
+import com.schilings.neiko.common.core.exception.ServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.reactivestreams.Publisher;
 import org.springframework.cloud.gateway.filter.factory.rewrite.RewriteFunction;
@@ -54,13 +54,11 @@ public class RequestBodyRewrite implements RewriteFunction<String, String> {
                 /**
                  * 第三种
                  */
-                CustomizeInfoException customizeInfoException = new CustomizeInfoException();
-                // 这里返回406，您可以按照业务需要自行调整
-                customizeInfoException.setHttpStatus(HttpStatus.NOT_ACCEPTABLE);
-                // 这里按照业务需要自行设置code
-                customizeInfoException.setCode("010020003");
-                // 这里按照业务需要自行设置返回的message
-                customizeInfoException.setMessage("请确保请求参数中的user-id字段是有效的");
+                ServiceException customizeInfoException = new ServiceException(HttpStatus.NOT_ACCEPTABLE.value(), HttpStatus.NOT_ACCEPTABLE.getReasonPhrase());
+//                // 这里按照业务需要自行设置code
+//                customizeInfoException.setCode(010020003);
+//                // 这里按照业务需要自行设置返回的message
+//                customizeInfoException.setMessage("请确保请求参数中的user-id字段是有效的");
                 return Mono.error(customizeInfoException);
 
                 

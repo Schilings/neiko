@@ -13,7 +13,6 @@
     <modules>
         <module>neiko-cloud-discovery</module>
         <module>neiko-cloud-loadbalance</module>
-        <module>neiko-cloud-bootstrap</module>
         <module>neiko-cloud-gateway</module>
         <module>neiko-cloud-config</module>
         <module>neiko-cloud-commons</module>

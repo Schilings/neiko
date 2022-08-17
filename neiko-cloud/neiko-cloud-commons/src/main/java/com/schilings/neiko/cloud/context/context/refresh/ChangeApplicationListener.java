@@ -21,6 +21,7 @@ public class ChangeApplicationListener implements ApplicationListener<Environmen
     @Override
     public void onApplicationEvent(EnvironmentChangeEvent event) {
         
+        //new 
         //就是一个简单是环境改变事件，但是可以自己判断
         //改变的属性字段 第一次刷新的时候会刷新，也就第一次刷新会有spring.cloud.bootstrap.enabled
         //不过考虑一下要怎么拿到改变后的值

@@ -1,6 +1,7 @@
 package com.schilings.neiko.common.core.exception;
 
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * <pre>{@code
@@ -12,9 +13,10 @@ import lombok.Getter;
  * @author Schilings
  */
 @Getter
+@Setter
 public class BaseException extends RuntimeException {
 
-	private final String message;
+	private String message;
 
 	private Throwable throwable;
 

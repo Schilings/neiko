@@ -35,13 +35,18 @@ public class GsonAdapter implements JsonUtils.Adapter {
 	}
 
 	@Override
-	public <T> T toObj(String jsonStr, Class<T> c) {
-		return gson.fromJson(jsonStr, c);
+	public <T> T toObj(String json, Class<T> r) {
+		return gson.fromJson(json, r);
 	}
 
 	@Override
-	public <T> T toObj(String jsonStr, Type c) {
-		return gson.fromJson(jsonStr, c);
+	public <T> T toObj(String json, Type t) {
+		return gson.fromJson(json, t);
+	}
+
+	@Override
+	public <T> T toObj(String json, TypeReference<T> t) {
+		return gson.fromJson(json, t.getType());
 	}
 
 }

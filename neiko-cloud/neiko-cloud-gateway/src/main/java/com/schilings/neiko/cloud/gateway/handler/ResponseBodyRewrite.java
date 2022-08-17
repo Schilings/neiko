@@ -1,4 +1,4 @@
-package com.schilings.neiko.cloud.gateway.custom;
+package com.schilings.neiko.cloud.gateway.handler;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
