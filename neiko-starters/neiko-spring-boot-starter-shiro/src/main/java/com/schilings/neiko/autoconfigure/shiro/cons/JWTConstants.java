@@ -11,7 +11,7 @@ package com.schilings.neiko.autoconfigure.shiro.cons;
 public class JWTConstants {
 
     // 默认HMAC签名有效期：1分钟=60000毫秒(ms)
-    public static final Integer DEFAULT_HMAC_PERIOD = 60000;
+    public static final Integer DEFAULT_INVALID_TIME = 60000;
     // 默认HASH加密算法
     public static final String DEFAULT_HASH_ALGORITHM_NAME = "MD5";
     // 默认HASH加密盐

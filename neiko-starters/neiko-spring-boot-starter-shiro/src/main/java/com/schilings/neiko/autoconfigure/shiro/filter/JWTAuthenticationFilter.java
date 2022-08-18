@@ -4,18 +4,15 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.http.HttpStatus;
 import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.schilings.neiko.autoconfigure.shiro.exception.JWTAuthenticationFilterException;
 import com.schilings.neiko.autoconfigure.shiro.token.JWTRepository;
 import com.schilings.neiko.autoconfigure.shiro.token.JWTToken;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
-import org.springframework.context.NoSuchMessageException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -24,7 +21,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,7 +55,7 @@ public class JWTAuthenticationFilter extends BasicHttpAuthenticationFilter {
             try {
                 Subject subject = getSubject(request, response);
                 if (ObjectUtil.isNull(jwtRepository)) {
-                    log.error("JWTRepository is null, please write a class to extend 'JWTRepository' and implement the functions and then set it for the filter so that it can complete the verification of the token.");
+                    log.error("DefaultJWTRepository is null, please write a class to extend 'DefaultJWTRepository' and implement the functions and then set it for the filter so that it can complete the verification of the token.");
                     return false;
                 }
                 jwtRepository.verify(token.getToken());

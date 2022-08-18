@@ -1,9 +1,7 @@
 package com.schilings.neiko.samples.shiro.controller;
 
-import com.schilings.neiko.autoconfigure.shiro.token.JWTToken;
-import com.schilings.neiko.samples.shiro.jwt.MyJWTRepository;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
+import com.schilings.neiko.autoconfigure.shiro.token.JWTRepository;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,16 +23,13 @@ import java.util.Map;
 public class TestController {
     
     @Autowired
-    private MyJWTRepository myJWTRepository;
+    private JWTRepository jWTRepository;
     
     @GetMapping("/login")
     public String login(String username) {
         Map<String, String> map = new HashMap<>();
         map.put("username", username);
-        String token = myJWTRepository.getToken(map);
-        Subject subject = SecurityUtils.getSubject();
-        subject.login(new JWTToken(token));
-        return token;
+        return jWTRepository.getToken(map);
     }
     
     @GetMapping("test")
@@ -42,4 +37,15 @@ public class TestController {
         return "hh";
     }
     
+    @RequiresRoles("admin")
+    @GetMapping("test2")
+    public String test2() {
+        return "xx";
+    }
+    
+    @RequiresRoles("ll")
+    @GetMapping("test3")
+    public String test3() {
+        return "xx";
+    }
 }

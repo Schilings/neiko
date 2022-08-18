@@ -1,4 +1,4 @@
-package com.schilings.neiko.autoconfigure.shiro.reaml;
+package com.schilings.neiko.autoconfigure.shiro.realm;
 
 import com.schilings.neiko.autoconfigure.shiro.token.JWTToken;
 import org.apache.shiro.authc.AuthenticationToken;

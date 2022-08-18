@@ -12,6 +12,8 @@ neiko:
       filter:
         jwt-url-list: 
           - /shiro/test
+          - /shiro/test2
+          - /shiro/test3
 
 mybatis-plus:
   configuration:

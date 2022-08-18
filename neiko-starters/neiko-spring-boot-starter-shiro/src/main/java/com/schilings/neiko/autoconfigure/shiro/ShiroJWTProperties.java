@@ -25,6 +25,14 @@ public class ShiroJWTProperties {
         
         private boolean enabled = true;
         
+        private boolean authenticationCachingEnabled = true;
+        
+        private boolean authorizationCachingEnabled = true;
+        
+        private String authenticationCacheName = "authenticationCache";
+        
+        private String authorizationCacheName = "authorizationCache";
+
         // expire time in seconds
         private int expired = 1800;
         
