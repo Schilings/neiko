@@ -17,6 +17,7 @@
         <module>neiko-spring-boot-starter-mail</module>
         <module>neiko-spring-boot-starter-log</module>
         <module>neiko-spring-boot-starter-easyexcel</module>
+        <module>neiko-spring-boot-starter-shiro</module>
     </modules>
     
 
