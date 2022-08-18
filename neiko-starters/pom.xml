@@ -19,6 +19,7 @@
         <module>neiko-spring-boot-starter-easyexcel</module>
         <module>neiko-spring-boot-starter-datascope</module>
         <module>neiko-spring-boot-starter-event</module>
+        <module>neiko-spring-boot-starter-shiro</module>
     </modules>
     
 
