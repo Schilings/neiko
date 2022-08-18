@@ -3,7 +3,7 @@ package com.schilings.neiko.common.excel.annotation;
 import com.alibaba.excel.converters.Converter;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.excel.write.handler.WriteHandler;
-import com.schilings.neiko.common.excel.handler.response.head.HeadGenerator;
+import com.schilings.neiko.common.excel.head.HeadGenerator;
 import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.*;

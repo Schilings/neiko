@@ -1,0 +1,73 @@
+server:
+  # 服务端口
+  port: 8888
+  # 异常情况时候的配置
+  error:
+    # 控制返回异常信息
+    include-message: always
+    # 控制返回异常类型
+    include-exception: true
+    # 控制返回精确的错误堆栈
+    include-stacktrace: always
+
+spring:
+  application:
+    name: neiko-samples-cloud-gateway
+  cloud:
+    discovery:
+      client:
+        simple:
+          instances:
+            neiko-samples-cloud-provider:
+              - uri: http://localhost:9999
+    gateway:
+      discovery:
+        locator: #开启了之后会给发现的服务注册路由 路由uri为 lb://service-name
+          enabled: false #开启注入 DiscoveryClientRouteDefinitionLocator
+          route-id-prefix: Neiko #默认为DiscoveryClient注入类的类名_服务名，这里为ReactiveCompositeDiscoveryClient_serviceName
+          # 这块的断言和过滤器的配置一定要 "' '" 包裹着写，是为了spel解析或者正则解析？
+          predicates:
+            #默认初始化的 即例如这个访问就是 http://localhost:8888/neiko-samples-cloud-provider/** 就会访问到neiko-samples-cloud-provider
+            - name: Path
+              args:
+                pattern: "'/'+serviceId+'/**'"
+            - name: Method
+              args:
+                methods: "'GET'"
+            - Host="'**.foo.com'"
+            # 1.等价
+            #- Cookie=mycookie,mycookievalue
+            # 2.等价
+            #- name: Cookie
+            #  args: 
+            #    name: mycookie
+            #    regexp: mycookievalue
+          filters:
+            #默认初始化的，即例如这个访问就是 /neiko-samples-cloud-provider/** 就会变成 /**
+            - name: RewritePath
+              args:
+                regexp: "'/' + serviceId + '/(?<remaining>.*)'"
+                replacement: "'/${remaining}'"
+            - StripPrefix=1
+
+      routes:
+        - id: neiko-samples-cloud-provider
+          # 匹配成功后，会被转发到8888端口，至于端口后面的path，会直接使用原始请求的
+          # 例如http://127.0.0.1:8888/hello/str，会被转发到http://127.0.0.1:8888/hello/str
+          uri: http://127.0.0.1:9999 # lb://neiko-samples-cloud-provider
+          predicates:
+            - Path=/neiko-samples-cloud-provider/**
+          filters: 
+            - StripPrefix=1
+#            - name: BizLogicRoute
+#              args:
+#                prodEnvUri: http://127.0.0.1:8082
+#                testEnvUri: http://127.0.0.1:8087
+#            - name: RequestRateLimiter
+#              args:
+#                # 令牌入桶的速度为每秒100个，相当于QPS
+#                redis-rate-limiter.replenishRate: 100
+#                # 桶内能装200个令牌，相当于峰值，要注意的是：第一秒从桶内能去200个，但是第二秒只能取到100个了，因为入桶速度是每秒100个
+#                redis-rate-limiter.burstCapacity: 200
+#                # 每个请求需要的令牌数
+#                redis-rate-limiter.requestedTokens: 1

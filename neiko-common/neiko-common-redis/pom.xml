@@ -10,17 +10,13 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>neiko-common-redis</artifactId>
 
-
-    <properties>
-        <revision>0.0.1-SNAPSHOT</revision>
-    </properties>
+    
     
     <dependencies>
         <!--neiko-->
         <dependency>
             <groupId>com.schilings</groupId>
             <artifactId>neiko-common-cache</artifactId>
-            <version>${revision}</version>
         </dependency>
         
         <!--spring-->

@@ -3,6 +3,7 @@ package com.schilings.neiko.common.core.exception;
 import cn.hutool.core.util.StrUtil;
 import com.schilings.neiko.common.model.result.BaseResultCode;
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * <pre>{@code
@@ -14,9 +15,10 @@ import lombok.Getter;
  * @author Schilings
  */
 @Getter
+@Setter
 public class ServiceException extends BaseException {
 
-	private final int code;
+	private int code;
 
 	public ServiceException(BaseResultCode baseResultCode) {
 		this(baseResultCode.getCode(), baseResultCode.getMessage());

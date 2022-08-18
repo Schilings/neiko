@@ -11,7 +11,4 @@
     <artifactId>neiko-extend-sa-token</artifactId>
 
 
-    <properties>
-        <revision>0.0.1-SNAPSHOT</revision>
-    </properties>
 </project>

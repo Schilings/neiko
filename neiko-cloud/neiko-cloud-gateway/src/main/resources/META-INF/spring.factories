@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.schilings.neiko.cloud.gateway.config.NeikoGatewayAutoConfiguration,\
+  com.schilings.neiko.cloud.gateway.config.NeikoWebFluxAutoConfiguration

@@ -15,6 +15,9 @@
         <module>neiko-samples-starter-web</module>
         <module>neiko-samples-starter-redis</module>
         <module>neiko-samples-starter-mail</module>
+        <module>neiko-samples-extend-mybatis-plus</module>
+        <module>neiko-samples-cloud-gateway</module>
+        <module>neiko-samples-cloud-demo-provider</module>
 
     </modules>
 

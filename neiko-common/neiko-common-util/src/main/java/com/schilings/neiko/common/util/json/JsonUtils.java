@@ -50,7 +50,7 @@ public class JsonUtils {
 
 	}
 
-	public void switchAdapter(JsonToolSouce souce) {
+	public static void switchAdapter(JsonToolSouce souce) {
 		if (Objects.isNull(adapterMappings)) {
 			adapterMappings = new HashMap<>(5);
 			adapterMappings.put(JsonToolSouce.JACKSON, new JacksonAdapter());
@@ -66,6 +66,33 @@ public class JsonUtils {
 	public static <T> T toObj(String json, Class<T> r) {
 		return jsonAdapter.toObj(json, r);
 	}
+	
+	public static <T> T toObj(String json, TypeReference<T> t) {
+		return jsonAdapter.toObj(json, t);
+	}
+
+
+	public static <T> T toObj(String json, Type t) {
+		// 防止误传入其他类型的 typeReference 走这个方法然后转换出错
+		if (classIsPresent(FAST_JSON_CLASS) && t instanceof com.alibaba.fastjson.TypeReference) {
+			return toObj(json, new TypeReference<T>() {
+				@Override
+				public Type getType() {
+					return ((com.alibaba.fastjson.TypeReference<?>) t).getType();
+				}
+			});
+		}
+		else if (classIsPresent(JACKSON_CLASS) && t instanceof com.fasterxml.jackson.core.type.TypeReference) {
+			return toObj(json, new TypeReference<T>() {
+				@Override
+				public Type getType() {
+					return ((com.fasterxml.jackson.core.type.TypeReference<?>) t).getType();
+				}
+			});
+		}
+
+		return jsonAdapter.toObj(json, t);
+	}
 
 	/**
 	 * @author lingting 2021/2/25 20:38
@@ -76,12 +103,41 @@ public class JsonUtils {
 
 	public interface Adapter {
 
+		/**
+		 * obj -> jsonStr
+		 * @param obj obj
+		 * @return java.lang.String
+		 * @author lingting 2021-02-25 21:00
+		 */
 		String toJson(Object obj);
 
-		<T> T toObj(String jsonStr, Class<T> c);
+		/**
+		 * jsonStr -> obj
+		 * @param json json str
+		 * @param r obj.class
+		 * @return T
+		 * @author lingting 2021-02-25 21:02
+		 */
+		<T> T toObj(String json, Class<T> r);
 
-		<T> T toObj(String jsonStr, Type c);
+		/**
+		 * jsonStr -> obj
+		 * @param json json str
+		 * @param t (obj.class)type
+		 * @return T
+		 * @author lingting 2021-02-25 21:02
+		 */
+		<T> T toObj(String json, Type t);
 
+		/**
+		 *
+		 * jsonStr -> obj
+		 * @param json json str
+		 * @param t TypeReference
+		 * @return T
+		 * @author lingting 2021-02-25 21:49
+		 */
+		<T> T toObj(String json, TypeReference<T> t);
 	}
 
 }

@@ -25,6 +25,7 @@
         <module>neiko-common-easyexcel</module>
         <module>neiko-common-log</module>
         <module>neiko-common-shiro</module>
+        <module>neiko-common-retry</module>
     </modules>
 
     

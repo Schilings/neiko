@@ -3,7 +3,7 @@ package com.schilings.neiko.common.excel.handler.response.enhancer;
 import com.alibaba.excel.write.builder.ExcelWriterBuilder;
 import com.alibaba.excel.write.builder.ExcelWriterSheetBuilder;
 import com.schilings.neiko.common.excel.annotation.ResponseExcel;
-import com.schilings.neiko.common.excel.handler.response.head.HeadGenerator;
+import com.schilings.neiko.common.excel.head.HeadGenerator;
 
 import javax.servlet.http.HttpServletResponse;
 

@@ -1,6 +1,8 @@
 package com.schilings.neiko.common.excel.aop;
 
 import com.schilings.neiko.common.excel.annotation.ResponseExcel;
+import com.schilings.neiko.common.excel.handler.response.SheetWriteHandler;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.util.Assert;
@@ -11,6 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.HttpHeadersReturnVa
 import org.springframework.web.servlet.mvc.method.annotation.ViewMethodReturnValueHandler;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * <pre>
@@ -20,7 +23,10 @@ import javax.servlet.http.HttpServletResponse;
  * @author Schilings
  */
 @Slf4j
+@RequiredArgsConstructor
 public class ResponseExcelReturnValueHandler implements HandlerMethodReturnValueHandler {
+
+	private final List<SheetWriteHandler> sheetWriteHandlerList;
 
 	/**
 	 * 只处理@ResponseExcel 声明的方法
@@ -52,7 +58,8 @@ public class ResponseExcelReturnValueHandler implements HandlerMethodReturnValue
 		ResponseExcel responseExcel = returnParameter.getMethodAnnotation(ResponseExcel.class);
 		Assert.state(responseExcel != null, "No @ResponseExcel");
 		// 处理结果:response写入
-
+		sheetWriteHandlerList.stream().filter(handler -> handler.support(returnValue)).findFirst()
+				.ifPresent(handler -> handler.export(returnValue, response, responseExcel));
 	}
 
 }

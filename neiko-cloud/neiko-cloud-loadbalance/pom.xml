@@ -9,8 +9,27 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>neiko-cloud-loadbalance</artifactId>
-
-    <properties>
-        <revision>0.0.1-SNAPSHOT</revision>
-    </properties>
+    
+    <dependencies>
+        <!--neiko commons context-->
+        <dependency>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-cloud-commons</artifactId>
+        </dependency>
+        <!--spring cloud loadbalancer-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-loadbalancer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+        
+        <!--spring autoconfigure-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+    </dependencies>
 </project>

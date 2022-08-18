@@ -21,6 +21,6 @@ spring:
 neiko:
   web:
     exception:
-      type: MAIL
+      type: None
       receive-emails: 
         - 1146830743@qq.com

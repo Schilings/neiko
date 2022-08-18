@@ -30,7 +30,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
-@AutoConfiguration(before = { RedisAutoConfiguration.class, NeikoCachingConfiguration.class })
+@AutoConfiguration(before = { RedisAutoConfiguration.class })
 @EnableNeikoCaching
 @RequiredArgsConstructor
 @EnableConfigurationProperties(RedisCacheProperties.class)
@@ -116,8 +116,7 @@ public class NeikoRedisAutoConfiguration {
 		return cacheLock;
 	}
 
-	@Bean
-	@ConditionalOnMissingBean // before = NeikoCachingConfiguration.class
+	@Bean  // before = NeikoCachingConfiguration.class
 	@ConditionalOnBean(value = { CacheSerializer.class, StringRedisTemplate.class })
 	public CacheRepository redisCacheRepository(CacheSerializer cacheSerializer,
 			StringRedisTemplate stringRedisTemplate) {
