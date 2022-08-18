@@ -1,6 +1,5 @@
 package com.schilings.neiko.samples.extend.mybatis.plus.config;
 
-
 import cn.hutool.core.util.ReflectUtil;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
@@ -19,45 +18,47 @@ import java.util.Set;
 //@Configuration
 @Slf4j
 public class MybatisPlusConfig {
-    
-    @Autowired
-    private SqlSessionTemplate sqlSessionTemplate;
-    
-    /**
-     * @AutoResultMap注解的实体类自动构建resultMap并注入
-     */
-    @PostConstruct
-    public void initAutoResultMap() {
-        try {
-            log.info("--- start register @AutoResultMap ---");
 
-            String namespace = "auto";
+	@Autowired
+	private SqlSessionTemplate sqlSessionTemplate;
 
-            //String packageName = "com.schilings.neiko.samples.extend.mybatis.plus.dto";
-            //Set<Class<?>> classes = ClassUtil.scanPackageByAnnotation(packageName, AutoResultMap.class);
+	/**
+	 * @AutoResultMap注解的实体类自动构建resultMap并注入
+	 */
+	@PostConstruct
+	public void initAutoResultMap() {
+		try {
+			log.info("--- start register @AutoResultMap ---");
 
-            Set<Class<?>> classes = new HashSet<>();
-            classes.add(EntirePreorders.class);
-            org.apache.ibatis.session.Configuration configuration = sqlSessionTemplate.getConfiguration();
+			String namespace = "auto";
 
-            for (Class clazz : classes) {
-                MapperBuilderAssistant assistant = new MapperBuilderAssistant(configuration, "");
-                assistant.setCurrentNamespace(namespace);
-                TableInfo tableInfo = TableInfoHelper.initTableInfo(assistant, clazz);
-                
+			// String packageName = "com.schilings.neiko.samples.extend.mybatis.plus.dto";
+			// Set<Class<?>> classes = ClassUtil.scanPackageByAnnotation(packageName,
+			// AutoResultMap.class);
 
-                if (!tableInfo.isAutoInitResultMap()) {
-                    // 设置 tableInfo的autoInitResultMap属性 为 true
-                    ReflectUtil.setFieldValue(tableInfo, "autoInitResultMap", true);
-                    // 调用 tableInfo#initResultMapIfNeed() 方法，自动构建 resultMap 并注入
-                    ReflectUtil.invoke(tableInfo, "initResultMapIfNeed");
-                }
-            }
+			Set<Class<?>> classes = new HashSet<>();
+			classes.add(EntirePreorders.class);
+			org.apache.ibatis.session.Configuration configuration = sqlSessionTemplate.getConfiguration();
 
-            log.info("--- finish register @AutoResultMap ---");
-        } catch (Throwable e) {
-            log.error("initAutoResultMap error", e);
-            System.exit(1);
-        }
-    }
+			for (Class clazz : classes) {
+				MapperBuilderAssistant assistant = new MapperBuilderAssistant(configuration, "");
+				assistant.setCurrentNamespace(namespace);
+				TableInfo tableInfo = TableInfoHelper.initTableInfo(assistant, clazz);
+
+				if (!tableInfo.isAutoInitResultMap()) {
+					// 设置 tableInfo的autoInitResultMap属性 为 true
+					ReflectUtil.setFieldValue(tableInfo, "autoInitResultMap", true);
+					// 调用 tableInfo#initResultMapIfNeed() 方法，自动构建 resultMap 并注入
+					ReflectUtil.invoke(tableInfo, "initResultMapIfNeed");
+				}
+			}
+
+			log.info("--- finish register @AutoResultMap ---");
+		}
+		catch (Throwable e) {
+			log.error("initAutoResultMap error", e);
+			System.exit(1);
+		}
+	}
+
 }

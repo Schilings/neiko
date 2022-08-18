@@ -1,13 +1,13 @@
 package com.schilings.neiko.common.event.handlermapping;
 
 import com.schilings.neiko.common.event.handler.EventHandler;
+import com.schilings.neiko.common.event.handler.EventHandlerCachHolder;
 import com.schilings.neiko.common.event.handler.EventHandlerChain;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.support.ApplicationObjectSupport;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * <pre>{@code
@@ -21,14 +21,26 @@ import java.util.List;
 
 @Slf4j
 public abstract class AbstractEventHandlerMapping extends ApplicationObjectSupport implements EventHandleMapping {
+	
 
 	protected boolean isHandler(Class<?> beanType) {
 		return true;
 	}
+	
 
 	@Override
 	public List<EventHandler> getHandler(Object event) {
-		List<EventHandler> handler = getHandlerInternal(event);
+		List<EventHandler> handlers = EventHandlerCachHolder.get(event);
+		List<EventHandler> handler = null;
+		if (handlers == null) {
+			handler = getHandlerInternal(event);
+			if (handler == null) {
+				EventHandlerCachHolder.put(event, Collections.emptyList());
+			} else {
+				EventHandlerCachHolder.put(event, handler);
+			} 
+		}
+	
 		// 使用默认处理器
 		if (handler == null) {
 			handler = getDefaultHandler();
@@ -38,11 +50,11 @@ public abstract class AbstractEventHandlerMapping extends ApplicationObjectSuppo
 			return null;
 		}
 
-		List<EventHandler> chains = getEventHandlerChainChain(handler, event);
+		//List<EventHandler> chains = getEventHandlerChainChain(handler, event);
 		if (logger.isTraceEnabled()) {
 			logger.trace("Mapped to " + handler);
 		}
-		return chains;
+		return handler;
 	}
 
 	protected List<EventHandler> getEventHandlerChainChain(List<EventHandler> handlers, Object event) {
@@ -65,10 +77,10 @@ public abstract class AbstractEventHandlerMapping extends ApplicationObjectSuppo
 	protected void initApplicationContext() throws BeansException {
 		super.initApplicationContext();
 		initInterceptors();
-
 	}
 
 	protected void initInterceptors() {
+		
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.schilings.neiko.common.event.publisher;
 
+import com.schilings.neiko.common.event.handler.EvenHandlerMethodAdater;
 import com.schilings.neiko.common.event.handlermapping.EventHandleMapping;
 import com.schilings.neiko.common.event.handler.EventHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,9 @@ public class SimpleEventPublisher extends AbstractEventPublisher {
 		for (EventHandler handler : getHandlers(o)) {
 			try {
 				handler.handle(o);
+				if (handler instanceof EvenHandlerMethodAdater) {
+					EvenHandlerMethodAdater adater = (EvenHandlerMethodAdater) handler;
+				}
 			}
 			catch (Throwable throwable) {
 				log.error("EventHandler executing throw ex:{}", throwable);

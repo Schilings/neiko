@@ -33,12 +33,9 @@ public class ExcelController {
 	}
 
 	@GetMapping("/test2")
-	@ResponseExcel(name = "test",
-			sheets = {
-				@Sheet(sheetNo = 1,sheetName = "sheetNO1")
-	})
+	@ResponseExcel(name = "test", sheets = { @Sheet(sheetNo = 1, sheetName = "sheetNO1") })
 	public List<UserAddDTO> test2() {
 		return Arrays.asList(new UserAddDTO("admin1", "admin1", BigDecimal.TEN));
 	}
-	
+
 }

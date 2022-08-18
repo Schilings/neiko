@@ -446,6 +446,11 @@
                 <artifactId>neiko-spring-boot-starter-easyexcel</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-spring-boot-starter-event</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <!--neiko cloud-->
             <dependency>
                 <groupId>com.schilings</groupId>

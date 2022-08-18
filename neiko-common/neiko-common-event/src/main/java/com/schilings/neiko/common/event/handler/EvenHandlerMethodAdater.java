@@ -16,6 +16,13 @@ public class EvenHandlerMethodAdater implements EventHandler {
 
 	private final HandlerMethod handlerMethod;
 
+	//方法返回结果
+	private Object result;
+	
+	public Object getResult() {
+		return result;
+	}
+
 	public EvenHandlerMethodAdater(HandlerMethod handlerMethod) {
 		this.handlerMethod = handlerMethod.createWithResolvedBean();
 	}
@@ -34,11 +41,11 @@ public class EvenHandlerMethodAdater implements EventHandler {
 		EventHandlerMethod method = new EventHandlerMethod(handlerMethod);
 		try {
 			method.invokeForEvent(event);
+			result = method.getResult();
 		}
 		catch (Exception e) {
 			log.error("EventHandlerMethod executing throw ex:{}", e.getMessage());
 			log.error("{}", e);
-
 		}
 
 	}

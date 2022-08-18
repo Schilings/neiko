@@ -116,7 +116,7 @@ public class NeikoRedisAutoConfiguration {
 		return cacheLock;
 	}
 
-	@Bean  // before = NeikoCachingConfiguration.class
+	@Bean // before = NeikoCachingConfiguration.class
 	@ConditionalOnBean(value = { CacheSerializer.class, StringRedisTemplate.class })
 	public CacheRepository redisCacheRepository(CacheSerializer cacheSerializer,
 			StringRedisTemplate stringRedisTemplate) {

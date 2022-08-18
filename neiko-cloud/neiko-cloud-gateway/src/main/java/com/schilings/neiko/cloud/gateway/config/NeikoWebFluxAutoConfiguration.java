@@ -21,27 +21,24 @@ import java.util.stream.Collectors;
 @AutoConfigureBefore(WebFluxAutoConfiguration.class)
 public class NeikoWebFluxAutoConfiguration {
 
-    private final ServerProperties serverProperties;
+	private final ServerProperties serverProperties;
 
-    public NeikoWebFluxAutoConfiguration(ServerProperties serverProperties) {
-        this.serverProperties = serverProperties;
-    }
+	public NeikoWebFluxAutoConfiguration(ServerProperties serverProperties) {
+		this.serverProperties = serverProperties;
+	}
 
-    @Bean
-    @Order(-1)
-    public ErrorWebExceptionHandler errorWebExceptionHandler(ErrorAttributes errorAttributes,
-                                                             WebProperties webProperties, 
-                                                             ObjectProvider<ViewResolver> viewResolvers,
-                                                             ServerCodecConfigurer serverCodecConfigurer,
-                                                             ApplicationContext applicationContext) {
+	@Bean
+	@Order(-1)
+	public ErrorWebExceptionHandler errorWebExceptionHandler(ErrorAttributes errorAttributes,
+			WebProperties webProperties, ObjectProvider<ViewResolver> viewResolvers,
+			ServerCodecConfigurer serverCodecConfigurer, ApplicationContext applicationContext) {
 
-        GatewayErrorWebExceptionHandler exceptionHandler = new GatewayErrorWebExceptionHandler(
-                errorAttributes,
-                webProperties.getResources(),
-                this.serverProperties.getError(), applicationContext);
-        exceptionHandler.setViewResolvers(viewResolvers.orderedStream().collect(Collectors.toList()));
-        exceptionHandler.setMessageWriters(serverCodecConfigurer.getWriters());
-        exceptionHandler.setMessageReaders(serverCodecConfigurer.getReaders());
-        return exceptionHandler;
-    }
+		GatewayErrorWebExceptionHandler exceptionHandler = new GatewayErrorWebExceptionHandler(errorAttributes,
+				webProperties.getResources(), this.serverProperties.getError(), applicationContext);
+		exceptionHandler.setViewResolvers(viewResolvers.orderedStream().collect(Collectors.toList()));
+		exceptionHandler.setMessageWriters(serverCodecConfigurer.getWriters());
+		exceptionHandler.setMessageReaders(serverCodecConfigurer.getReaders());
+		return exceptionHandler;
+	}
+
 }

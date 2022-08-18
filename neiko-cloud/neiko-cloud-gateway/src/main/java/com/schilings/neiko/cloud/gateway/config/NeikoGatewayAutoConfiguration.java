@@ -1,6 +1,5 @@
 package com.schilings.neiko.cloud.gateway.config;
 
-
 import com.schilings.neiko.cloud.gateway.filter.gateway.BizLogicRouteGatewayFilterFactory;
 import com.schilings.neiko.cloud.gateway.filter.global.I18nGlobalFilter;
 import com.schilings.neiko.cloud.gateway.filter.global.LogGlobalFilter;
@@ -31,63 +30,59 @@ import org.springframework.web.reactive.DispatcherHandler;
 @ConditionalOnProperty(name = "spring.cloud.gateway.neiko.enabled", matchIfMissing = true)
 @EnableConfigurationProperties(NeikoGatewayProperties.class)
 @AutoConfigureAfter(GatewayAutoConfiguration.class)
-@Import(value = {RouteLocatorGatewayConfiguration.class,LoadBalancerGatewayConfiguration.class})
+@Import(value = { RouteLocatorGatewayConfiguration.class, LoadBalancerGatewayConfiguration.class })
 @RequiredArgsConstructor
 public class NeikoGatewayAutoConfiguration {
 
+	private final RoutePredicateHandlerMapping predicateHandlerMapping;
 
-    private final RoutePredicateHandlerMapping predicateHandlerMapping;
-    
-    private final FilteringWebHandler filteringWebHandler;
+	private final FilteringWebHandler filteringWebHandler;
 
-    @Autowired(required = false)
-    private RouteRefreshListener routeRefreshListener;
-    
+	@Autowired(required = false)
+	private RouteRefreshListener routeRefreshListener;
 
-    //HttpHeadersFilter beans
+	// HttpHeadersFilter beans
 
-    @Bean
-    @ConditionalOnProperty(name = "spring.cloud.gateway.neiko.token.enabled", matchIfMissing = true)
-    public AuthTokenHttpHeadersFilter authTokenHttpHeadersFilter() {
-        return new AuthTokenHttpHeadersFilter();
-    }
-    
-    //GlobalFilter beans
+	@Bean
+	@ConditionalOnProperty(name = "spring.cloud.gateway.neiko.token.enabled", matchIfMissing = true)
+	public AuthTokenHttpHeadersFilter authTokenHttpHeadersFilter() {
+		return new AuthTokenHttpHeadersFilter();
+	}
 
-    @Bean
-    @ConditionalOnEnabledGlobalFilter
-    public LogGlobalFilter logGlobalFilter() {
-        return new LogGlobalFilter();
-    }
+	// GlobalFilter beans
 
-    @Bean
-    @ConditionalOnEnabledGlobalFilter
-    public I18nGlobalFilter i18nGlobalFilter() {
-        return new I18nGlobalFilter();
-    }
+	@Bean
+	@ConditionalOnEnabledGlobalFilter
+	public LogGlobalFilter logGlobalFilter() {
+		return new LogGlobalFilter();
+	}
 
-    @Bean
-    @ConditionalOnEnabledGlobalFilter
-    public RouteRequestGlobalFilter routeRequestUrlGlobalFilter(ObjectProvider<DispatcherHandler> dispatcherHandlers) {
-        return new RouteRequestGlobalFilter(dispatcherHandlers);
-    }
-    
+	@Bean
+	@ConditionalOnEnabledGlobalFilter
+	public I18nGlobalFilter i18nGlobalFilter() {
+		return new I18nGlobalFilter();
+	}
 
-    // GatewayFilter Factory beans
+	@Bean
+	@ConditionalOnEnabledGlobalFilter
+	public RouteRequestGlobalFilter routeRequestUrlGlobalFilter(ObjectProvider<DispatcherHandler> dispatcherHandlers) {
+		return new RouteRequestGlobalFilter(dispatcherHandlers);
+	}
 
-    @Bean
-    @ConditionalOnEnabledFilter
-    public BizLogicRouteGatewayFilterFactory bizLogicRouteGatewayFilterFactory() {
-        return new BizLogicRouteGatewayFilterFactory();
-    }
+	// GatewayFilter Factory beans
 
-    // Predicate Factory beans
-    
-    @Bean
-    @ConditionalOnEnabledPredicate
-    public CustomizeRoutePredicateFactory customizeRoutePredicateFactory() {
-        return new CustomizeRoutePredicateFactory();
-    }
-    
-    
+	@Bean
+	@ConditionalOnEnabledFilter
+	public BizLogicRouteGatewayFilterFactory bizLogicRouteGatewayFilterFactory() {
+		return new BizLogicRouteGatewayFilterFactory();
+	}
+
+	// Predicate Factory beans
+
+	@Bean
+	@ConditionalOnEnabledPredicate
+	public CustomizeRoutePredicateFactory customizeRoutePredicateFactory() {
+		return new CustomizeRoutePredicateFactory();
+	}
+
 }

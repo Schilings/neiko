@@ -1,6 +1,5 @@
 package com.schilings.neiko.samples.extend.mybatis.plus.dto;
 
-
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
@@ -15,62 +14,48 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class PreordersGasStationDto {
 
-    /**
-     * 主键
-     */
-    @TableId(type = IdType.AUTO)
-    private String preorderId;
+	/**
+	 * 主键
+	 */
+	@TableId(type = IdType.AUTO)
+	private String preorderId;
 
+	private String channelCode;
 
-    private String channelCode;
+	private String driverId;
 
+	private String gasStationId;
 
-    private String driverId;
+	private String waybillId;
 
+	private BigDecimal amount;
 
-    private String gasStationId;
+	private String status;
 
+	private String driverName;
 
-    private String waybillId;
+	private String orderType;
 
-    private BigDecimal amount;
+	private String contactMobile;
 
+	private String licensePlateNumber;
 
-    private String status;
+	private String cardType;
 
-    private String driverName;
+	private LocalDateTime expiryDate;
 
+	private Integer deleted;
 
-    private String orderType;
+	private String createdById;
 
+	private String updatedById;
 
-    private String contactMobile;
+	private LocalDateTime createdDatetime;
 
+	private LocalDateTime updatedDatetime;
 
-    private String licensePlateNumber;
+	private String brandCode;
 
-    private String cardType;
-
-
-    private LocalDateTime expiryDate;
-
-
-    private Integer deleted;
-
-
-    private String createdById;
-
-
-    private String updatedById;
-
-    private LocalDateTime createdDatetime;
-
-
-    private LocalDateTime updatedDatetime;
-
-
-    private String brandCode;
-
-    private String gasStationName;
+	private String gasStationName;
 
 }

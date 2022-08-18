@@ -1,6 +1,5 @@
 package com.schilings.neiko.cloud.gateway.predicate;
 
-
 import org.springframework.cloud.gateway.handler.AsyncPredicate;
 import org.springframework.cloud.gateway.handler.predicate.*;
 import org.springframework.util.StringUtils;
@@ -15,7 +14,6 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
- *
  * @see AfterRoutePredicateFactory
  * @see BeforeRoutePredicateFactory
  * @see BetweenRoutePredicateFactory
@@ -30,110 +28,109 @@ import java.util.function.Predicate;
  * @see WeightRoutePredicateFactory
  * @see CloudFoundryRouteServiceRoutePredicateFactory
  * @author Schilings
-*/
-public class CustomizeRoutePredicateFactory extends AbstractRoutePredicateFactory<CustomizeRoutePredicateFactory.Config> {
+ */
+public class CustomizeRoutePredicateFactory
+		extends AbstractRoutePredicateFactory<CustomizeRoutePredicateFactory.Config> {
 
+	/**
+	 * Header key.
+	 */
+	public static final String HEADER_KEY = "header";
 
-    /**
-     * Header key.
-     */
-    public static final String HEADER_KEY = "header";
+	/**
+	 * Regexp key.
+	 */
+	public static final String REGEXP_KEY = "regexp";
 
-    /**
-     * Regexp key.
-     */
-    public static final String REGEXP_KEY = "regexp";
+	public CustomizeRoutePredicateFactory() {
+		super(Config.class);
+	}
 
+	@Override
+	public List<String> shortcutFieldOrder() {
+		return Arrays.asList(HEADER_KEY, REGEXP_KEY);
+	}
 
-    public CustomizeRoutePredicateFactory() {
-        super(Config.class);
-    }
+	@Override
+	public Predicate<ServerWebExchange> apply(Config config) {
+		boolean hasRegex = !StringUtils.isEmpty(config.regexp);
 
-    @Override
-    public List<String> shortcutFieldOrder() {
-        return Arrays.asList(HEADER_KEY, REGEXP_KEY);
-    }
+		return new GatewayPredicate() {
+			@Override
+			public boolean test(ServerWebExchange exchange) {
+				List<String> values = exchange.getRequest().getHeaders().getOrDefault(config.header,
+						Collections.emptyList());
+				if (values.isEmpty()) {
+					return false;
+				}
+				// 保证值不为空
+				if (hasRegex) {
+					// 检查值是否匹配
+					return values.stream().anyMatch(value -> value.matches(config.regexp));
+				}
 
-    @Override
-    public Predicate<ServerWebExchange> apply(Config config) {
-        boolean hasRegex = !StringUtils.isEmpty(config.regexp);
+				// 有一个值，由于正则表达式为空，我们只检查存在。
+				return true;
+			}
 
-        return new GatewayPredicate() {
-            @Override
-            public boolean test(ServerWebExchange exchange) {
-                List<String> values = exchange.getRequest().getHeaders().getOrDefault(config.header,
-                        Collections.emptyList());
-                if (values.isEmpty()) {
-                    return false;
-                }
-                // 保证值不为空
-                if (hasRegex) {
-                    // 检查值是否匹配
-                    return values.stream().anyMatch(value -> value.matches(config.regexp));
-                }
+			@Override
+			public String toString() {
+				return String.format("Header: %s regexp=%s", config.header, config.regexp);
+			}
+		};
+	}
 
-                //有一个值，由于正则表达式为空，我们只检查存在。
-                return true;
-            }
+	@Override
+	public Predicate<ServerWebExchange> apply(Consumer<Config> consumer) {
+		return super.apply(consumer);
+	}
 
-            @Override
-            public String toString() {
-                return String.format("Header: %s regexp=%s", config.header, config.regexp);
-            }
-        };
-    }
+	@Override
+	public AsyncPredicate<ServerWebExchange> applyAsync(Consumer<Config> consumer) {
+		return super.applyAsync(consumer);
+	}
 
+	@Override
+	public AsyncPredicate<ServerWebExchange> applyAsync(Config config) {
+		return super.applyAsync(config);
+	}
 
+	@Override
+	public void beforeApply(Config config) {
+		super.beforeApply(config);
+	}
 
-    @Override
-    public Predicate<ServerWebExchange> apply(Consumer<Config> consumer) {
-        return super.apply(consumer);
-    }
+	@Override
+	public String name() {
+		return super.name();
+	}
 
-    @Override
-    public AsyncPredicate<ServerWebExchange> applyAsync(Consumer<Config> consumer) {
-        return super.applyAsync(consumer);
-    }
-    @Override
-    public AsyncPredicate<ServerWebExchange> applyAsync(Config config) {
-        return super.applyAsync(config);
-    }
+	@Validated
+	public static class Config {
 
-    @Override
-    public void beforeApply(Config config) {
-        super.beforeApply(config);
-    }
-    @Override
-    public String name() {
-        return super.name();
-    }
+		@NotEmpty
+		private String header;
 
-    @Validated
-    public static class Config {
+		private String regexp;
 
-        @NotEmpty
-        private String header;
+		public String getHeader() {
+			return header;
+		}
 
-        private String regexp;
+		public Config setHeader(String header) {
+			this.header = header;
+			return this;
+		}
 
-        public String getHeader() {
-            return header;
-        }
+		public String getRegexp() {
+			return regexp;
+		}
 
-        public Config setHeader(String header) {
-            this.header = header;
-            return this;
-        }
+		public Config setRegexp(String regexp) {
+			this.regexp = regexp;
+			return this;
+		}
 
-        public String getRegexp() {
-            return regexp;
-        }
+	}
 
-        public Config setRegexp(String regexp) {
-            this.regexp = regexp;
-            return this;
-        }
-
-    }
-    
 }

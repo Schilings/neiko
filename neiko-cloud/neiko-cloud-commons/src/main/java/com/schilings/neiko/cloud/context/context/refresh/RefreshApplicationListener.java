@@ -1,6 +1,5 @@
 package com.schilings.neiko.cloud.context.context.refresh;
 
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -16,37 +15,39 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Component
 public class RefreshApplicationListener implements SmartApplicationListener {
 
-    private static Log log = LogFactory.getLog(RefreshApplicationListener.class);
+	private static Log log = LogFactory.getLog(RefreshApplicationListener.class);
 
-    //SpringCloud提供的
-    private ContextRefresher refresh;
+	// SpringCloud提供的
+	private ContextRefresher refresh;
 
-    private AtomicBoolean ready = new AtomicBoolean(false);
-    
-    @Override
-    public boolean supportsEventType(Class<? extends ApplicationEvent> eventType) {
-        return ApplicationReadyEvent.class.isAssignableFrom(eventType)
-                || RefreshEvent.class.isAssignableFrom(eventType);
-    }
+	private AtomicBoolean ready = new AtomicBoolean(false);
 
-    @Override
-    public void onApplicationEvent(ApplicationEvent event) {
-        if (event instanceof ApplicationReadyEvent) {
-            handle((ApplicationReadyEvent) event);
-        }
-        else if (event instanceof RefreshEvent) {
-            handle((RefreshEvent) event);
-        }
-    }
-    public void handle(ApplicationReadyEvent event) {
-        this.ready.compareAndSet(false, true);
-    }
+	@Override
+	public boolean supportsEventType(Class<? extends ApplicationEvent> eventType) {
+		return ApplicationReadyEvent.class.isAssignableFrom(eventType)
+				|| RefreshEvent.class.isAssignableFrom(eventType);
+	}
 
-    public void handle(RefreshEvent event) {
-        if (this.ready.get()) {
-            System.out.println("[RefreshApplicationListener] Event received " + event.getEventDesc());
-            //刷新 暂时不研究
-            //Set<String> keys = this.refresh.refresh();
-        }
-    }
+	@Override
+	public void onApplicationEvent(ApplicationEvent event) {
+		if (event instanceof ApplicationReadyEvent) {
+			handle((ApplicationReadyEvent) event);
+		}
+		else if (event instanceof RefreshEvent) {
+			handle((RefreshEvent) event);
+		}
+	}
+
+	public void handle(ApplicationReadyEvent event) {
+		this.ready.compareAndSet(false, true);
+	}
+
+	public void handle(RefreshEvent event) {
+		if (this.ready.get()) {
+			System.out.println("[RefreshApplicationListener] Event received " + event.getEventDesc());
+			// 刷新 暂时不研究
+			// Set<String> keys = this.refresh.refresh();
+		}
+	}
+
 }

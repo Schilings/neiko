@@ -10,9 +10,10 @@ import org.springframework.stereotype.Component;
 public class TestEventListener {
 
 	@NeikoEventHandler(Application.class)
-	public void demo(Application application) {
+	public String demo(Application application) {
 
 		System.out.println("Application");
+		return "Application";
 
 	}
 

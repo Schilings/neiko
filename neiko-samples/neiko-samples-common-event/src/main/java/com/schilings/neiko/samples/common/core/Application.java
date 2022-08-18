@@ -4,12 +4,13 @@ import com.schilings.neiko.common.event.publisher.AsyncEventPublisher;
 import com.schilings.neiko.common.event.publisher.EventPublisher;
 import com.schilings.neiko.common.event.NeikoEventHandlerMethodMapping;
 import com.schilings.neiko.common.event.publisher.SimpleEventPublisher;
+import com.schilings.neiko.common.eventbus.EventBus;
+import com.schilings.neiko.common.eventbus.EventBusImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Primary;
+
 
 @SpringBootApplication
 public class Application {
@@ -20,20 +21,6 @@ public class Application {
 		bean.publish(new DTO().setMessage("123213213"));
 	}
 
-	@Bean
-	public NeikoEventHandlerMethodMapping neikoEventHandlerMethodMapping() {
-		return new NeikoEventHandlerMethodMapping();
-	}
 
-	@Bean
-	@Primary
-	public EventPublisher neikoEventPublishe1r(NeikoEventHandlerMethodMapping neikoEventHandlerMethodMapping) {
-		return new SimpleEventPublisher(neikoEventHandlerMethodMapping);
-	}
-
-	@Bean
-	public EventPublisher neikoEventPublisher2(NeikoEventHandlerMethodMapping neikoEventHandlerMethodMapping) {
-		return new AsyncEventPublisher(neikoEventHandlerMethodMapping);
-	}
 
 }

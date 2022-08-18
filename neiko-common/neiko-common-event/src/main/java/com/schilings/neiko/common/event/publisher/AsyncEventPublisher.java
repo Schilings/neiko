@@ -2,6 +2,8 @@ package com.schilings.neiko.common.event.publisher;
 
 import com.schilings.neiko.common.event.handler.EventHandler;
 import com.schilings.neiko.common.event.handlermapping.EventHandleMapping;
+import io.netty.channel.DefaultEventLoopGroup;
+import io.netty.util.concurrent.DefaultThreadFactory;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +29,7 @@ public class AsyncEventPublisher extends AbstractEventPublisher {
 
 	private static final Integer DEFAULT_THREAD_SIZE = 10;
 
-	private ExecutorService executor;
+	private DefaultEventLoopGroup executor;
 
 	private final Integer size;
 
@@ -44,7 +46,7 @@ public class AsyncEventPublisher extends AbstractEventPublisher {
 	public void publish(Object o) {
 		for (EventHandler handler : getHandlers(o)) {
 			try {
-				executor.execute(() -> {
+				executor.submit(() -> {
 					handler.handle(o);
 				});
 			}
@@ -55,14 +57,13 @@ public class AsyncEventPublisher extends AbstractEventPublisher {
 	}
 
 	@PostConstruct
-	public void contruct() {
-		executor = Executors.newFixedThreadPool(size);
+	public void construct() {
+		executor = new DefaultEventLoopGroup(new DefaultThreadFactory(getClass()));
 	}
 
 	@PreDestroy
-
 	public void destroy() {
-		executor.shutdown();
+		executor.shutdownGracefully();
 	}
 
 }

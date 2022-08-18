@@ -15,6 +15,10 @@
             <artifactId>neiko-common-model</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-common-netty</artifactId>
+        </dependency>
+        <dependency>
             <groupId>javax.annotation</groupId>
             <artifactId>javax.annotation-api</artifactId>
         </dependency>

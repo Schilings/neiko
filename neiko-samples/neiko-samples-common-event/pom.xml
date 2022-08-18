@@ -17,7 +17,7 @@
         </dependency>
         <dependency>
             <groupId>com.schilings</groupId>
-            <artifactId>neiko-common-event</artifactId>
+            <artifactId>neiko-spring-boot-starter-event</artifactId>
         </dependency>
     </dependencies>
     

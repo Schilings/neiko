@@ -65,7 +65,7 @@ public abstract class AbstractEventHandlerMethodMapping<T extends EventMappingIn
 	 * 默认匹配策略是 映射唯一Name是否与命名策略生成的相同
 	 */
 	private final EventHandlerSupportStrategy<T> DEFAULT_SUPPORT_STRATEGY = (event, mapping) -> {
-		return mapping.getUniqueName() == DEFAULT_NAMING_STRATEGY.getName(event);
+		return mapping.getUniqueName().equals(DEFAULT_NAMING_STRATEGY.getName(event));
 	};
 
 	private final EvenMappingInfoGettingStrategy DEFAULT_GETTING_STRATEGY = (registry, event) -> {
@@ -339,6 +339,7 @@ public abstract class AbstractEventHandlerMethodMapping<T extends EventMappingIn
 	 * @return
 	 */
 	protected List<EventHandler> lookupEventHandler(Object event, EventMappingRegistry registry) {
+		
 		Set<T> mappingSet = new HashSet<T>(gettingStrategy.get(registry, event));
 		Map<T, EventMappingRegistration<T>> registrations = this.mappingRegistry.getRegistrations();
 		// 匹配的事件处理器

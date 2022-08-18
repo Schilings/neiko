@@ -66,11 +66,10 @@ public class JsonUtils {
 	public static <T> T toObj(String json, Class<T> r) {
 		return jsonAdapter.toObj(json, r);
 	}
-	
+
 	public static <T> T toObj(String json, TypeReference<T> t) {
 		return jsonAdapter.toObj(json, t);
 	}
-
 
 	public static <T> T toObj(String json, Type t) {
 		// 防止误传入其他类型的 typeReference 走这个方法然后转换出错
@@ -138,6 +137,7 @@ public class JsonUtils {
 		 * @author lingting 2021-02-25 21:49
 		 */
 		<T> T toObj(String json, TypeReference<T> t);
+
 	}
 
 }

@@ -4,6 +4,7 @@ import com.schilings.neiko.common.event.publisher.EventPublisherSupport;
 import com.schilings.neiko.common.event.annotation.NeikoEventHandler;
 import com.schilings.neiko.common.event.annotation.NeikoEventListener;
 import com.schilings.neiko.common.event.publisher.EventPublisher;
+import com.schilings.neiko.samples.common.core.DTO;
 import com.schilings.neiko.samples.common.core.Event;
 import org.springframework.stereotype.Component;
 
@@ -16,11 +17,15 @@ public class DemoEventListener extends EventPublisherSupport {
 	// private EventPublisher eventPublisher;
 
 	@NeikoEventHandler(Event.class)
-	public void demo(Event event) {
-		System.out.println("DemoEventListener==" + event.getTarget());
-		// 不要贸然发布相同的事件，不然陷入事件递归
-		getPublisher().publish("666666666666");
+	public String demo1(DTO event) {
+		System.out.println(Thread.currentThread());
+		return "DTo";
+	}
 
+	@NeikoEventHandler(Event.class)
+	public String demo2(DTO event) {
+		System.out.println(Thread.currentThread());
+		return "DTo";
 	}
 
 }

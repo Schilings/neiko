@@ -64,4 +64,5 @@ public class FastjsonAdapter implements JsonUtils.Adapter {
 
 		return toObj(json, t.getType());
 	}
+
 }

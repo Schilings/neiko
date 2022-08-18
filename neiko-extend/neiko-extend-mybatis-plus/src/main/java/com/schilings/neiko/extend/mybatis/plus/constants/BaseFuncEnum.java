@@ -7,8 +7,9 @@ package com.schilings.neiko.extend.mybatis.plus.constants;
  */
 public interface BaseFuncEnum {
 
-    /**
-     * 获取sql 片段
-     */
-    String getSql();
+	/**
+	 * 获取sql 片段
+	 */
+	String getSql();
+
 }

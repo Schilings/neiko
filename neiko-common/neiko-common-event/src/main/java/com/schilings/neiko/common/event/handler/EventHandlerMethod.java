@@ -17,8 +17,19 @@ import java.lang.reflect.Method;
  */
 public class EventHandlerMethod extends HandlerMethod {
 
+	//表示Void无返回结果
+	private static final Object NO_RESULT = new Object();
+	//表示无参数
 	private static final Object[] EMPTY_ARGS = new Object[0];
 
+
+	//方法返回结果
+	private Object result;
+
+	public Object getResult() {
+		return result;
+	}
+	
 	public EventHandlerMethod(HandlerMethod handlerMethod) {
 		super(handlerMethod);
 	}
@@ -36,13 +47,21 @@ public class EventHandlerMethod extends HandlerMethod {
 	}
 
 	public void invokeForEvent(Object... providedArgs) throws Exception {
+		//如果是不是Void，则需要返回结果
+		if (!isVoid()) {
+			this.result = doInvoke(providedArgs);
+			return;
+		}
 		doInvoke(providedArgs);
+		this.result = NO_RESULT;
+		
+		
 	}
 
-	protected void doInvoke(Object... args) throws Exception {
+	protected Object doInvoke(Object... args) throws Exception {
 		Method method = getBridgedMethod();
 		try {
-			method.invoke(getBean(), args);
+			return method.invoke(getBean(), args);
 		}
 		catch (IllegalArgumentException ex) {
 			assertTargetBean(method, getBean(), args);

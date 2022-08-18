@@ -1,49 +1,50 @@
 package com.schilings.neiko.extend.mybatis.plus.constants;
 
-
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 
 public interface Constant {
-    /**
-     * 表别名
-     */
-    String TABLE_ALIAS = "t";
 
-    String AS = " AS ";
+	/**
+	 * 表别名
+	 */
+	String TABLE_ALIAS = "t";
 
-    String ON = " ON ";
+	String AS = " AS ";
 
-    String JOIN = "JOIN";
+	String ON = " ON ";
 
-    String LEFT = "LEFT";
+	String JOIN = "JOIN";
 
-    String RIGHT = "RIGHT";
+	String LEFT = "LEFT";
 
-    String INNER = "INNER";
+	String RIGHT = "RIGHT";
 
-    String CLAZZ = "resultTypeClass_Eg1sG";
+	String INNER = "INNER";
 
-    String PARAM_TYPE = "paramType_Gr8re1Ee";
+	String CLAZZ = "resultTypeClass_Eg1sG";
 
-    String RESULT_MAP = "resultMap_ElJk28J";
+	String PARAM_TYPE = "paramType_Gr8re1Ee";
 
-    /**
-     * " LEFT JOIN "
-     */
-    String LEFT_JOIN = StringPool.SPACE + LEFT + StringPool.SPACE + JOIN + StringPool.SPACE;
+	String RESULT_MAP = "resultMap_ElJk28J";
 
-    /**
-     * " RIGHT JOIN "
-     */
-    String RIGHT_JOIN = StringPool.SPACE + RIGHT + StringPool.SPACE + JOIN + StringPool.SPACE;
+	/**
+	 * " LEFT JOIN "
+	 */
+	String LEFT_JOIN = StringPool.SPACE + LEFT + StringPool.SPACE + JOIN + StringPool.SPACE;
 
-    /**
-     * " INNER JOIN "
-     */
-    String INNER_JOIN = StringPool.SPACE + INNER + StringPool.SPACE + JOIN + StringPool.SPACE;
+	/**
+	 * " RIGHT JOIN "
+	 */
+	String RIGHT_JOIN = StringPool.SPACE + RIGHT + StringPool.SPACE + JOIN + StringPool.SPACE;
 
-    /**
-     * " t"
-     */
-    String SPACE_TABLE_ALIAS = StringPool.SPACE + Constant.TABLE_ALIAS;
+	/**
+	 * " INNER JOIN "
+	 */
+	String INNER_JOIN = StringPool.SPACE + INNER + StringPool.SPACE + JOIN + StringPool.SPACE;
+
+	/**
+	 * " t"
+	 */
+	String SPACE_TABLE_ALIAS = StringPool.SPACE + Constant.TABLE_ALIAS;
+
 }

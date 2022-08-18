@@ -26,7 +26,7 @@ public class UserAddDTO {
 	@NotEmpty(message = "登陆账号不能为空")
 	@Length(min = 5, max = 16, message = "账号长度为 5-16 位")
 	@Pattern(regexp = "^[A-Za-z0-9]+$", message = "账号格式为数字以及字母")
-	@ExcelProperty({"1","用户名"})
+	@ExcelProperty({ "1", "用户名" })
 	private String username;
 
 	/**
@@ -34,12 +34,12 @@ public class UserAddDTO {
 	 */
 	@NotEmpty(message = "密码不能为空")
 	@Length(min = 4, max = 16, message = "密码长度为 4-16 位")
-	@ExcelProperty({"1","密码"})
+	@ExcelProperty({ "1", "密码" })
 	private String password;
 
 	@Greater(value = 0, equal = false, message = "数字要大于0")
 	@Less(value = 10, equal = false, message = "数字要小于10")
-	@ExcelProperty({"1","账号"})
+	@ExcelProperty({ "1", "账号" })
 	@NumberFormat("#.##%")
 	private BigDecimal amount;
 

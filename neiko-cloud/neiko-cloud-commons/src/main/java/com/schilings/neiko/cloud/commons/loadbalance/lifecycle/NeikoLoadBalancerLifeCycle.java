@@ -1,6 +1,5 @@
 package com.schilings.neiko.cloud.commons.loadbalance.lifecycle;
 
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.*;
@@ -11,31 +10,31 @@ import org.springframework.cloud.client.loadbalancer.*;
  * <p>{@link LoadBalancerLifecycle}</p>
  * <p>{@link LoadBalancerLifecycleValidator}</p>
  * </pre>
+ *
  * @author Schilings
-*/
+ */
 
 @Slf4j
-public class NeikoLoadBalancerLifeCycle implements LoadBalancerLifecycle<HintRequestContext,Object, ServiceInstance> {
-    
-    @Override
-    public boolean supports(Class requestContextClass, Class responseClass, Class serverTypeClass) {
-        return LoadBalancerLifecycle.super.supports(requestContextClass, responseClass, serverTypeClass);
-    }
+public class NeikoLoadBalancerLifeCycle implements LoadBalancerLifecycle<HintRequestContext, Object, ServiceInstance> {
 
-    @Override
-    public void onStart(Request<HintRequestContext> request) {
-        
-    }
+	@Override
+	public boolean supports(Class requestContextClass, Class responseClass, Class serverTypeClass) {
+		return LoadBalancerLifecycle.super.supports(requestContextClass, responseClass, serverTypeClass);
+	}
 
-    @Override
-    public void onStartRequest(Request<HintRequestContext> request, Response<ServiceInstance> lbResponse) {
+	@Override
+	public void onStart(Request<HintRequestContext> request) {
 
-    }
+	}
 
-    @Override
-    public void onComplete(CompletionContext<Object, ServiceInstance, HintRequestContext> completionContext) {
+	@Override
+	public void onStartRequest(Request<HintRequestContext> request, Response<ServiceInstance> lbResponse) {
 
-    }
+	}
 
-    
+	@Override
+	public void onComplete(CompletionContext<Object, ServiceInstance, HintRequestContext> completionContext) {
+
+	}
+
 }
