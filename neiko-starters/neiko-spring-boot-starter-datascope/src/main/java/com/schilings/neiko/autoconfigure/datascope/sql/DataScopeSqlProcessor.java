@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 /**
  * 数据权限 sql 处理器 参考 mybatis-plus 租户拦截器，解析 sql where 部分，进行查询表达式注入
  *
- * @author Hccake 2020/9/26
  * @version 1.0
  */
 @RequiredArgsConstructor

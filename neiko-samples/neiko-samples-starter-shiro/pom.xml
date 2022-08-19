@@ -10,9 +10,6 @@
     
     <artifactId>neiko-samples-starter-shiro</artifactId>
     
-    <properties>
-        <java.version>17</java.version>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -21,7 +18,6 @@
         <dependency>
             <groupId>com.schilings</groupId>
             <artifactId>neiko-spring-boot-starter-shiro</artifactId>
-            <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>

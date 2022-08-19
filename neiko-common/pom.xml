@@ -26,6 +26,7 @@
         <module>neiko-common-log</module>
         <module>neiko-common-shiro</module>
         <module>neiko-common-retry</module>
+        <module>neiko-common-authorization</module>
     </modules>
 
     

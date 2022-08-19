@@ -14,45 +14,48 @@ import java.util.List;
 @Data
 @ConfigurationProperties(prefix = ShiroJWTProperties.PREFIX)
 public class ShiroJWTProperties {
-    public static final String PREFIX = "neiko.shiro.jwt";
-    
-    private JWTFilter filter;
 
-    private Redis redis;
-    
-    @Data
-    public static class Redis {
-        
-        private boolean enabled = true;
-        
-        private boolean authenticationCachingEnabled = true;
-        
-        private boolean authorizationCachingEnabled = true;
-        
-        private String authenticationCacheName = "authenticationCache";
-        
-        private String authorizationCacheName = "authorizationCache";
+	public static final String PREFIX = "neiko.shiro.jwt";
 
-        // expire time in seconds
-        private int expired = 1800;
-        
-        private String keyPrefix = "neiko:shiro:cache:";
-    }
-    
-    @Data
-    public static class JWTFilter {
-        
-        private String loginUrl = "/login.jsp";
+	private JWTFilter filter;
 
-        private String successUrl = "/success.jsp";
+	private Redis redis;
 
-        private String unauthorizedUrl = "/unauthorized.jsp";
+	@Data
+	public static class Redis {
 
-        private List<String> anonUrlList = Collections.singletonList("/**");
+		private boolean enabled = true;
 
-        private List<String> authcUrlList = new ArrayList<>();
+		private boolean authenticationCachingEnabled = true;
 
-        private List<String> jwtUrlList = new ArrayList<>();
-    }
-    
+		private boolean authorizationCachingEnabled = true;
+
+		private String authenticationCacheName = "authenticationCache";
+
+		private String authorizationCacheName = "authorizationCache";
+
+		// expire time in seconds
+		private int expired = 1800;
+
+		private String keyPrefix = "neiko:shiro:cache:";
+
+	}
+
+	@Data
+	public static class JWTFilter {
+
+		private String loginUrl = "/login.jsp";
+
+		private String successUrl = "/success.jsp";
+
+		private String unauthorizedUrl = "/unauthorized.jsp";
+
+		private List<String> anonUrlList = Collections.singletonList("/**");
+
+		private List<String> authcUrlList = new ArrayList<>();
+
+		private List<String> jwtUrlList = new ArrayList<>();
+
+	}
+
 }

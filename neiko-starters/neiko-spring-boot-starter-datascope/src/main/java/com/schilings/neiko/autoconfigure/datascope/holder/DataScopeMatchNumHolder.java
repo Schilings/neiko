@@ -7,8 +7,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * DataScope 匹配数
- *
- * @author hccake
  */
 public final class DataScopeMatchNumHolder {
 

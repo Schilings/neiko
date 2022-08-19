@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.schilings.neiko.common.util.json.JsonToolSouce;
 import com.schilings.neiko.common.util.json.JsonUtils;
+import com.schilings.neiko.extend.mybatis.plus.mapper.ExtendMapper;
 import com.schilings.neiko.extend.mybatis.plus.wrapper.WrappersX;
 import com.schilings.neiko.extend.mybatis.plus.wrapper.join.NeikoQueryWrapper;
 import com.schilings.neiko.samples.extend.mybatis.plus.Application;
@@ -23,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.schilings.neiko.extend.mybatis.plus.mapper.ExtendMapper.AUTO_RESULT_MAP;
+
 @SpringBootTest(classes = { Application.class })
 public class ApplicationTest {
 
@@ -31,7 +34,7 @@ public class ApplicationTest {
 
 	@Test
 	public void getOrderSimple() {
-		List<Preorders> list = preorderMapper.selectJoinList(Preorders.class, "",
+		List<Preorders> list = preorderMapper.selectJoinList(Preorders.class, AUTO_RESULT_MAP,
 				new NeikoQueryWrapper<Preorders>().setAlias("pre").selectAll(Preorders.class)
 						.leftJoin("gas_station gs ON pre.gas_station_id = gs.id").eq("pre.deleted", "1"));
 		list.forEach(System.out::println);
@@ -39,8 +42,10 @@ public class ApplicationTest {
 
 	@Test
 	public void test() {
-		List<PreordersGasStationDto> list = preorderMapper.selectJoinList(PreordersGasStationDto.class, "",
-				WrappersX.<Preorders>lambdaQueryJoin().selectAll(Preorders.class).select(GasStation::getBrandCode)
+		List<PreordersGasStationDto> list = preorderMapper.selectJoinList(PreordersGasStationDto.class, AUTO_RESULT_MAP,
+				WrappersX.<Preorders>lambdaQueryJoin()
+						.selectAll(Preorders.class)
+						.select(GasStation::getBrandCode)
 						.leftJoin(GasStation.class, GasStation::getId, Preorders::getGasStationId)
 						.eqIfPresent(Preorders::getDeleted, "1"));
 		list.forEach(System.out::println);
@@ -48,7 +53,7 @@ public class ApplicationTest {
 
 	@Test
 	public void test2() {
-		List<Preorders> list1 = preorderMapper.selectJoinList(Preorders.class, "", // EntirePreorders
+		List<Preorders> list1 = preorderMapper.selectJoinList(Preorders.class, AUTO_RESULT_MAP,
 				WrappersX.<Preorders>lambdaQueryJoin().selectAll(Preorders.class)
 						.select(PodRefOutord::getOutOrderType, PodRefOutord::getOutOrderCode)
 						// .selectAs(PodRefOutord::getPodRefId,"podRefId_PRO")

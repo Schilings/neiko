@@ -10,9 +10,9 @@ import org.apache.shiro.realm.AuthorizingRealm;
  */
 public abstract class JWTRealm extends AuthorizingRealm {
 
-    @Override
-    public boolean supports(AuthenticationToken token) {
-        return token instanceof JWTToken;
-    }
-    
+	@Override
+	public boolean supports(AuthenticationToken token) {
+		return token instanceof JWTToken;
+	}
+
 }

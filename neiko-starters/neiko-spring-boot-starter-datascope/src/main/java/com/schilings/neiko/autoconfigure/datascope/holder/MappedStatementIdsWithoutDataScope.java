@@ -1,6 +1,6 @@
 package com.schilings.neiko.autoconfigure.datascope.holder;
 
-import com.hccake.ballcat.common.datascope.DataScope;
+import com.schilings.neiko.autoconfigure.datascope.core.DataScope;
 
 import java.util.HashSet;
 import java.util.List;
@@ -9,8 +9,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 该类用于存储，不需数据权限处理的 mappedStatementId 集合
- *
- * @author hccake
  */
 public final class MappedStatementIdsWithoutDataScope {
 

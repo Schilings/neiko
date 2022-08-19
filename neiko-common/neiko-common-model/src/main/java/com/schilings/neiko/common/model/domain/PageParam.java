@@ -41,6 +41,8 @@ public class PageParam {
 
 	/**
 	 * 排序字段载体
+	 * <p>sort=field1,asc</p>
+	 * <p>sort=field2,desc</p>
 	 */
 	@Schema(title = "排序规则")
 	@Valid

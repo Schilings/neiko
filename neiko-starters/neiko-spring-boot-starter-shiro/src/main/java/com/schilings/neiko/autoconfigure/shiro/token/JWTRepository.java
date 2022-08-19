@@ -17,14 +17,14 @@ import java.util.Map;
  */
 public abstract class JWTRepository {
 
-    public abstract String getToken(Map<String, String> claimMap);
+	public abstract String getToken(Map<String, String> claimMap);
 
-    public abstract String getToken(Map<String, String> claimMap, Date expire);
+	public abstract String getToken(Map<String, String> claimMap, Date expire);
 
-    public abstract String getToken(Map<String, String> claimMap, Algorithm algorithm, Date expire);
+	public abstract String getToken(Map<String, String> claimMap, Algorithm algorithm, Date expire);
 
-    public abstract DecodedJWT verify(String token) throws JWTVerificationException;
+	public abstract DecodedJWT verify(String token) throws JWTVerificationException;
 
-    public abstract DecodedJWT verify(Algorithm algorithm, String token) throws JWTVerificationException;
-    
+	public abstract DecodedJWT verify(Algorithm algorithm, String token) throws JWTVerificationException;
+
 }

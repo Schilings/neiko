@@ -20,27 +20,26 @@ import java.util.Map;
  */
 public class DefaultJWTRepository extends JWTRepository {
 
-    public String getToken(Map<String, String> claimMap) {
-        return getToken(claimMap, new Date(System.currentTimeMillis() + JWTConstants.DEFAULT_INVALID_TIME));
-    }
+	public String getToken(Map<String, String> claimMap) {
+		return getToken(claimMap, new Date(System.currentTimeMillis() + JWTConstants.DEFAULT_INVALID_TIME));
+	}
 
-    public String getToken(Map<String, String> claimMap, Date expire) {
-        return getToken(claimMap, Algorithm.HMAC256(JWTConstants.DEFAULT_HASH_SALT), expire);
-    }
+	public String getToken(Map<String, String> claimMap, Date expire) {
+		return getToken(claimMap, Algorithm.HMAC256(JWTConstants.DEFAULT_HASH_SALT), expire);
+	}
 
-    public String getToken(Map<String, String> claimMap, Algorithm algorithm, Date expire) {
-        JWTCreator.Builder builder = JWT.create();
-        claimMap.keySet().forEach(key -> builder.withClaim(key, claimMap.get(key)));
-        return builder.withExpiresAt(expire)
-                .sign(algorithm);
-    }
+	public String getToken(Map<String, String> claimMap, Algorithm algorithm, Date expire) {
+		JWTCreator.Builder builder = JWT.create();
+		claimMap.keySet().forEach(key -> builder.withClaim(key, claimMap.get(key)));
+		return builder.withExpiresAt(expire).sign(algorithm);
+	}
 
-    public DecodedJWT verify(String token) throws JWTVerificationException {
-        return verify(Algorithm.HMAC256(JWTConstants.DEFAULT_HASH_SALT), token);
-    }
-    
-    public DecodedJWT verify(Algorithm algorithm, String token) throws JWTVerificationException {
-        return JWT.require(algorithm).build().verify(token);
-    }
-    
+	public DecodedJWT verify(String token) throws JWTVerificationException {
+		return verify(Algorithm.HMAC256(JWTConstants.DEFAULT_HASH_SALT), token);
+	}
+
+	public DecodedJWT verify(Algorithm algorithm, String token) throws JWTVerificationException {
+		return JWT.require(algorithm).build().verify(token);
+	}
+
 }

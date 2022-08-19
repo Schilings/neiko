@@ -42,8 +42,7 @@ public class SelectJoinList extends JoinAbstractMethod {
 		// 这里用modelClass
 		SqlSource sqlSource = languageDriver.createSqlSource(this.configuration, sql, modelClass);
 		// 这里结果类型不是modelClass，而是自定义JoinResultType.class
-		return this.addSelectMappedStatementForOther(mapperClass, sqlMethod.getMethod(), sqlSource,
-				JoinResultType.class);
+		return this.addSelectMappedStatementForOther(mapperClass, sqlMethod.getMethod(), sqlSource, JoinResultType.class);
 	}
 
 }

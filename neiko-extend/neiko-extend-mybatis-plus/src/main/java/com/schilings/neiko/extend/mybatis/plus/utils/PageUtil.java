@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.schilings.neiko.common.model.domain.PageParam;
+import com.schilings.neiko.common.model.domain.PageResult;
 
 import java.util.List;
 
@@ -28,4 +29,18 @@ public abstract class PageUtil {
 		return page;
 	}
 
+	
+	/**
+	 * 根据 IPage 生成一个 PageResult 实例
+	 * @param iPage
+	 * @return PageResult
+	 */
+	public static <V> PageResult<V> prodPageResult(IPage<V> iPage) {
+		return new PageResult<V>()
+				.setData(iPage.getRecords())
+				.setPage(iPage.getCurrent())
+				.setPages(iPage.getPages())
+				.setTotal(iPage.getTotal())
+				.setSize(iPage.getSize());
+	}
 }

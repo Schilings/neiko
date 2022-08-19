@@ -12,19 +12,20 @@ import org.apache.shiro.authc.AuthenticationException;
  */
 public class SubjectNotExistException extends AuthenticationException {
 
-    public SubjectNotExistException() {
-        super();
-    }
+	public SubjectNotExistException() {
+		super();
+	}
 
-    public SubjectNotExistException(String message, Throwable cause) {
-        super(message, cause);
-    }
+	public SubjectNotExistException(String message, Throwable cause) {
+		super(message, cause);
+	}
 
-    public SubjectNotExistException(String message) {
-        super(message);
-    }
+	public SubjectNotExistException(String message) {
+		super(message);
+	}
 
-    public SubjectNotExistException(Throwable cause) {
-        super(cause);
-    }
+	public SubjectNotExistException(Throwable cause) {
+		super(cause);
+	}
+
 }

@@ -43,13 +43,8 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author yulichang
  */
-@Intercepts({ 
-		@Signature(
-				type = Executor.class, 
-				method = "query", 
-				args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class }
-		)
-})
+@Intercepts({ @Signature(type = Executor.class, method = "query",
+		args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class }) })
 public class JoinInterceptor implements Interceptor {
 
 	private static final Log logger = LogFactory.getLog(JoinInterceptor.class);

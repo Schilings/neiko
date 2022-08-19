@@ -1,2 +1,5 @@
 com.schilings.neiko.autoconfigure.web.api.ApiAutoConfiguration
 com.schilings.neiko.autoconfigure.web.validation.NeikoValidationAutoConfiguration
+com.schilings.neiko.autoconfigure.web.jackson.NeikoJacksonAutoConfiguration
+com.schilings.neiko.autoconfigure.web.exception.ExceptionAutoConfiguration
+com.schilings.neiko.autoconfigure.web.pageable.WebMvcAutoConfiguration

@@ -339,7 +339,7 @@ public abstract class AbstractEventHandlerMethodMapping<T extends EventMappingIn
 	 * @return
 	 */
 	protected List<EventHandler> lookupEventHandler(Object event, EventMappingRegistry registry) {
-		
+
 		Set<T> mappingSet = new HashSet<T>(gettingStrategy.get(registry, event));
 		Map<T, EventMappingRegistration<T>> registrations = this.mappingRegistry.getRegistrations();
 		// 匹配的事件处理器

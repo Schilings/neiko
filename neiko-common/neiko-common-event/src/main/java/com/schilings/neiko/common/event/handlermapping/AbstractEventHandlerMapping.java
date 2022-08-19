@@ -21,12 +21,10 @@ import java.util.*;
 
 @Slf4j
 public abstract class AbstractEventHandlerMapping extends ApplicationObjectSupport implements EventHandleMapping {
-	
 
 	protected boolean isHandler(Class<?> beanType) {
 		return true;
 	}
-	
 
 	@Override
 	public List<EventHandler> getHandler(Object event) {
@@ -36,11 +34,12 @@ public abstract class AbstractEventHandlerMapping extends ApplicationObjectSuppo
 			handler = getHandlerInternal(event);
 			if (handler == null) {
 				EventHandlerCachHolder.put(event, Collections.emptyList());
-			} else {
+			}
+			else {
 				EventHandlerCachHolder.put(event, handler);
-			} 
+			}
 		}
-	
+
 		// 使用默认处理器
 		if (handler == null) {
 			handler = getDefaultHandler();
@@ -50,7 +49,7 @@ public abstract class AbstractEventHandlerMapping extends ApplicationObjectSuppo
 			return null;
 		}
 
-		//List<EventHandler> chains = getEventHandlerChainChain(handler, event);
+		// List<EventHandler> chains = getEventHandlerChainChain(handler, event);
 		if (logger.isTraceEnabled()) {
 			logger.trace("Mapped to " + handler);
 		}
@@ -80,7 +79,7 @@ public abstract class AbstractEventHandlerMapping extends ApplicationObjectSuppo
 	}
 
 	protected void initInterceptors() {
-		
+
 	}
 
 }

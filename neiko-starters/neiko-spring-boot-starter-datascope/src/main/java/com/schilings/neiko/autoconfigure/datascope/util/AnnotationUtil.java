@@ -3,7 +3,6 @@ package com.schilings.neiko.autoconfigure.datascope.util;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
-
 public final class AnnotationUtil {
 
 	private AnnotationUtil() {

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.injector.methods.InsertBatchSomeColumn;
 import com.schilings.neiko.common.model.domain.PageParam;
+import com.schilings.neiko.common.model.domain.PageResult;
 import com.schilings.neiko.extend.mybatis.plus.constants.Constant;
 import com.schilings.neiko.extend.mybatis.plus.utils.PageUtil;
 import com.schilings.neiko.extend.mybatis.plus.wrapper.join.NeikoBaseJoin;
@@ -24,6 +25,8 @@ import java.util.Map;
  */
 public interface ExtendMapper<T> extends BaseMapper<T> {
 
+	String AUTO_RESULT_MAP = "";
+
 	/**
 	 * 根据 PageParam 生成一个 IPage 实例
 	 * @param pageParam 分页参数
@@ -32,6 +35,16 @@ public interface ExtendMapper<T> extends BaseMapper<T> {
 	 */
 	default <V> IPage<V> prodPage(PageParam pageParam) {
 		return PageUtil.prodPage(pageParam);
+	}
+
+	/**
+	 * 根据 IPage 生成一个 PageResult 实例
+	 * @param iPage
+	 * @param <V>
+	 * @return
+	 */
+	default <V> PageResult<V> prodPage(IPage<V> iPage) {
+		return PageUtil.prodPageResult(iPage);
 	}
 
 	/**

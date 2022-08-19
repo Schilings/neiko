@@ -33,6 +33,7 @@
         <fastjson.version>1.2.83</fastjson.version>
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
         <mybatis.version>3.5.10</mybatis.version>
+        <mybatis.enhance.actable.version>1.5.0.RELEASE</mybatis.enhance.actable.version>
         <jsqlparser.version>4.3</jsqlparser.version>
         <dynamic-datasource.version>3.5.1</dynamic-datasource.version>
         <xxl-job.version>2.3.1</xxl-job.version>
@@ -45,8 +46,11 @@
         <software.amazon.awssdk.version>2.17.154</software.amazon.awssdk.version>
         <apache.lang3.version>3.12.0</apache.lang3.version>
         <javax.servlet.version>4.0.1</javax.servlet.version>
-        
+        <java.jwt.version>4.0.0</java.jwt.version>
         <netty.version>4.1.78.Final</netty.version>
+        
+        <shiro.redis.version>3.3.1</shiro.redis.version>
+        <shiro.spring.boot.starter.version>1.9.1</shiro.spring.boot.starter.version>
     </properties>
     
     <distributionManagement>
@@ -116,6 +120,12 @@
                 <version>${hutool.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.gitee.sunchenbin.mybatis.actable</groupId>
+                <artifactId>mybatis-enhance-actable</artifactId>
+                <version>${mybatis.enhance.actable.version}</version>
             </dependency>
             
          
@@ -336,6 +346,21 @@
                 <artifactId>nimbus-jose-jwt</artifactId>
                 <version>9.15.2</version>
             </dependency>
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${java.jwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.crazycake</groupId>
+                <artifactId>shiro-redis</artifactId>
+                <version>${shiro.redis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-spring-boot-starter</artifactId>
+                <version>${shiro.spring.boot.starter.version}</version>
+            </dependency>
 
             <!--netty-->
             <dependency>
@@ -355,6 +380,11 @@
             </dependency>
             
             <!--neiko common-->
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-common</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <dependency>
                 <groupId>com.schilings</groupId>
                 <artifactId>neiko-common-util</artifactId>
@@ -415,7 +445,22 @@
                 <artifactId>neiko-common-mq</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-common-shiro</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-common-authorization</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <!--neiko starter-->
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-starters</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <dependency>
                 <groupId>com.schilings</groupId>
                 <artifactId>neiko-spring-boot-starter-log</artifactId>
@@ -451,7 +496,17 @@
                 <artifactId>neiko-spring-boot-starter-event</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-spring-boot-starter-shiro</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <!--neiko cloud-->
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-cloud</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <dependency>
                 <groupId>com.schilings</groupId>
                 <artifactId>neiko-cloud-config</artifactId>
@@ -482,7 +537,13 @@
                 <artifactId>neiko-cloud-openfeign</artifactId>
                 <version>${revision}</version>
             </dependency>
+            
             <!--neiko extend-->
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-extend</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <dependency>
                 <groupId>com.schilings</groupId>
                 <artifactId>neiko-extend-mybatis-plus</artifactId>
@@ -491,6 +552,62 @@
             <dependency>
                 <groupId>com.schilings</groupId>
                 <artifactId>neiko-extend-sa-token</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            
+            <!--neiko system-->
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-system</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-system-model</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-system-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-system-biz</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            
+            <!--neiko log-->
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-log</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-log-model</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-log-biz</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-log-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            
+            <!--neiko admin-->
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-admin</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-admin-core</artifactId>
                 <version>${revision}</version>
             </dependency>
         </dependencies>

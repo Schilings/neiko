@@ -16,9 +16,9 @@ public class EvenHandlerMethodAdater implements EventHandler {
 
 	private final HandlerMethod handlerMethod;
 
-	//方法返回结果
+	// 方法返回结果
 	private Object result;
-	
+
 	public Object getResult() {
 		return result;
 	}

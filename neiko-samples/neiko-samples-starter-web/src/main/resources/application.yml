@@ -24,3 +24,7 @@ neiko:
       type: None
       receive-emails: 
         - 1146830743@qq.com
+    pageable:
+      page-parameter-name: current
+      size-parameter-name: pageSize
+      sort-parameter-name: sorts

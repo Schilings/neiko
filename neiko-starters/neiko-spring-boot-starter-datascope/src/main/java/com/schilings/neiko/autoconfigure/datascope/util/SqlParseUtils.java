@@ -4,7 +4,6 @@ import net.sf.jsqlparser.expression.Alias;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
 
-
 public final class SqlParseUtils {
 
 	private SqlParseUtils() {

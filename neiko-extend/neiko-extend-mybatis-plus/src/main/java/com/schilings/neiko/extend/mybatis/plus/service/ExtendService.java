@@ -238,6 +238,7 @@ public interface ExtendService<T> {
 	Class<T> getEntityClass();
 
 	// 来自IService-----------------------------end
+	
 
 	/**
 	 * 批量插入数据

@@ -13,12 +13,7 @@ package com.schilings.neiko.extend.mybatis.plus.constants;
  */
 public enum DefaultFuncEnum implements BaseFuncEnum {
 
-	SUM("SUM(%s)"),
-	COUNT("COUNT(%s)"), 
-	MAX("MAX(%s)"), 
-	MIN("MIN(%s)"),
-	AVG("AVG(%s)"),
-	LEN("LEN(%s)");
+	SUM("SUM(%s)"), COUNT("COUNT(%s)"), MAX("MAX(%s)"), MIN("MIN(%s)"), AVG("AVG(%s)"), LEN("LEN(%s)");
 
 	private final String sql;
 

@@ -296,6 +296,21 @@
         <version>9.15.2</version>
       </dependency>
       <dependency>
+        <groupId>com.auth0</groupId>
+        <artifactId>java-jwt</artifactId>
+        <version>4.0.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.crazycake</groupId>
+        <artifactId>shiro-redis</artifactId>
+        <version>3.3.1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.shiro</groupId>
+        <artifactId>shiro-spring-boot-starter</artifactId>
+        <version>1.9.1</version>
+      </dependency>
+      <dependency>
         <groupId>io.netty</groupId>
         <artifactId>netty-codec-http</artifactId>
         <version>${netty.version}</version>
@@ -372,6 +387,11 @@
       </dependency>
       <dependency>
         <groupId>com.schilings</groupId>
+        <artifactId>neiko-common-shiro</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>com.schilings</groupId>
         <artifactId>neiko-spring-boot-starter-log</artifactId>
         <version>0.0.1-SNAPSHOT</version>
       </dependency>
@@ -398,6 +418,16 @@
       <dependency>
         <groupId>com.schilings</groupId>
         <artifactId>neiko-spring-boot-starter-easyexcel</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>com.schilings</groupId>
+        <artifactId>neiko-spring-boot-starter-event</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>com.schilings</groupId>
+        <artifactId>neiko-spring-boot-starter-shiro</artifactId>
         <version>0.0.1-SNAPSHOT</version>
       </dependency>
       <dependency>

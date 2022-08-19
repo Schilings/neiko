@@ -1,0 +1,32 @@
+server:
+  port: 8080
+spring:
+  redis:
+    host: 47.113.200.136
+    database: 1
+    password: yblock-test@123
+    port: 6379
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://47.113.200.136:23306/nk?allowMultiQueries=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+#    username: root
+#    password: yblock-test@123
+    url: jdbc:mysql://localhost:3306/nk?allowMultiQueries=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: WNs11538...
+
+mybatis-plus:
+  mapper-locations:
+    - classpath*:/com/gitee/sunchenbin/mybatis/actable/mapping/*/*.xml #自动建表
+    - classpath*:/mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    
+actable: 
+  table: 
+    auto: update #update
+  model: 
+    pack: com.schilings.neiko.**.model.entity
+  database: 
+    type: mysql
+    

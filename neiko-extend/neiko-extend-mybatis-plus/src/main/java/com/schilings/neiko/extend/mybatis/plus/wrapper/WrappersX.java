@@ -25,7 +25,7 @@ public final class WrappersX {
 	 * WrappersX.<UserDO>lambdaJoin()
 	 */
 	public static <T> NeikoLambdaQueryWrapper<T> lambdaQueryJoin() {
-		return new NeikoLambdaQueryWrapper<>();
+		return new NeikoLambdaQueryWrapper<T>();
 	}
 
 	/**

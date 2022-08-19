@@ -9,5 +9,5 @@ package com.schilings.neiko.autoconfigure.shiro.handler;
  * @date 2022/8/6 13:53
  */
 public interface AuthenticationFailure {
-    
+
 }
