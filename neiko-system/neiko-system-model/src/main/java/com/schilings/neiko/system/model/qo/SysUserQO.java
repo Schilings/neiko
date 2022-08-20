@@ -3,6 +3,7 @@ package com.schilings.neiko.system.model.qo;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springdoc.api.annotations.ParameterObject;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ import java.util.List;
 */
 @Data
 @Schema(title = "系统用户查询对象")
+@ParameterObject
 public class SysUserQO {
 
 	/**

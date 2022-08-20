@@ -4,6 +4,7 @@ package com.schilings.neiko.system.model.qo;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springdoc.api.annotations.ParameterObject;
 
 /**
  * 
@@ -13,11 +14,11 @@ import lombok.Data;
 */
 @Data
 @Schema(title = "字典表查询对象")
+@ParameterObject
 public class SysDictQO {
 
     private static final long serialVersionUID = 1L;
     
-
     /**
      * 字典标识
      */

@@ -4,6 +4,7 @@ package com.schilings.neiko.system.model.qo;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springdoc.api.annotations.ParameterObject;
 
 import javax.validation.constraints.NotNull;
 
@@ -15,6 +16,7 @@ import javax.validation.constraints.NotNull;
 */
 @Data
 @Schema(title = "角色绑定用户查询对象")
+@ParameterObject
 public class RoleBindUserQO {
 
     @NotNull(message = "角色标识不能为空！")

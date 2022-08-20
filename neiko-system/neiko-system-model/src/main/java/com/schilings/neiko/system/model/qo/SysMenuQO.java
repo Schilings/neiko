@@ -4,6 +4,7 @@ package com.schilings.neiko.system.model.qo;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springdoc.api.annotations.ParameterObject;
 
 /**
  * 
@@ -13,6 +14,7 @@ import lombok.Data;
 */
 @Data
 @Schema(title = "菜单权限查询对象")
+@ParameterObject
 public class SysMenuQO {
 
     private static final long serialVersionUID = 1L;

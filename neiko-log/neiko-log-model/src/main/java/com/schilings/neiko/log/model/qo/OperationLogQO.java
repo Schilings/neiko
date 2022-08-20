@@ -3,6 +3,7 @@ package com.schilings.neiko.log.model.qo;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ import static cn.hutool.core.date.DatePattern.NORM_DATETIME_PATTERN;
 */
 @Data
 @Schema(title = "操作日志查询对象")
+@ParameterObject
 public class OperationLogQO {
 
     /**

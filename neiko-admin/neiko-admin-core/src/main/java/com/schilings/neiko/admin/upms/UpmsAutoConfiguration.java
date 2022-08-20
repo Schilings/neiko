@@ -1,8 +1,6 @@
 package com.schilings.neiko.admin.upms;
 
 
-import com.schilings.neiko.autoconfigure.log.annotation.EnableAccessLog;
-import com.schilings.neiko.autoconfigure.log.annotation.EnableOperationLog;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;

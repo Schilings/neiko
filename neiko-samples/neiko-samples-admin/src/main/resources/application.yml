@@ -21,12 +21,19 @@ mybatis-plus:
     - classpath*:/mapper/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    
+
+## 数据库表结构维护
 actable: 
   table: 
-    auto: update #update
+    auto: none #update
   model: 
     pack: com.schilings.neiko.**.model.entity
   database: 
     type: mysql
-    
+
+## OPEN API接口文档
+springdoc:
+  swagger-ui:
+    enabled: true
+    urls: #由于 knife4j 对于规范支持的不全面，无法直接使用单文档源数据，所以必须进行分组或者 urls 的指定。
+      - { name: 'sample', url: '/v3/api-docs' }
