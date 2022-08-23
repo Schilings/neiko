@@ -1,5 +1,6 @@
 package com.schilings.neiko.common.redis;
 
+import com.schilings.neiko.common.util.spring.SpringUtils;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.springframework.lang.Nullable;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -21,9 +23,28 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class RedisHelper {
 
+	public static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
+	public static final String DATE_PATTERN = "yyyy-MM-dd";
+	public static final String TIME_PATTERN = "HH:mm:ss";
+	public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
+	
+
 	@Getter
 	@Setter
 	static StringRedisTemplate template;
+
+	@Getter
+	@Setter
+	static RedisTemplate<String,Object> objectRedisTemplate;
+	
+	public static RedisTemplate<String,Object> objectRedisTemplate() {
+		if (objectRedisTemplate == null) {
+			objectRedisTemplate = SpringUtils.getBean("redisTemplate", RedisTemplate.class);
+		}
+		return objectRedisTemplate;
+	}
 
 	/*
 	 * common ----------------------------------------------------------

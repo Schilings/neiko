@@ -51,6 +51,9 @@
         
         <shiro.redis.version>3.3.1</shiro.redis.version>
         <shiro.spring.boot.starter.version>1.9.1</shiro.spring.boot.starter.version>
+        
+        <sa-token.version>1.30.0</sa-token.version>
+        
     </properties>
     
     <distributionManagement>
@@ -346,11 +349,13 @@
                 <artifactId>nimbus-jose-jwt</artifactId>
                 <version>9.15.2</version>
             </dependency>
+            <!--jwt-->
             <dependency>
                 <groupId>com.auth0</groupId>
                 <artifactId>java-jwt</artifactId>
                 <version>${java.jwt.version}</version>
             </dependency>
+            <!--shiro-->
             <dependency>
                 <groupId>org.crazycake</groupId>
                 <artifactId>shiro-redis</artifactId>
@@ -361,7 +366,44 @@
                 <artifactId>shiro-spring-boot-starter</artifactId>
                 <version>${shiro.spring.boot.starter.version}</version>
             </dependency>
+            <!--sa-token-->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-core</artifactId>
+                <version>${sa-token.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-servlet</artifactId>
+                <version>${sa-token.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-dao-redis</artifactId>
+                <version>${sa-token.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-dao-redis-jackson</artifactId>
+                <version>${sa-token.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-jwt</artifactId>
+                <version>${sa-token.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-oauth2</artifactId>
+                <version>${sa-token.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-spring-boot-starter</artifactId>
+                <version>${sa-token.version}</version>
+            </dependency>
 
+            
             <!--netty-->
             <dependency>
                 <groupId>io.netty</groupId>
@@ -452,7 +494,7 @@
             </dependency>
             <dependency>
                 <groupId>com.schilings</groupId>
-                <artifactId>neiko-common-authorization</artifactId>
+                <artifactId>neiko-common-security</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!--neiko starter-->
@@ -599,6 +641,37 @@
                 <version>${revision}</version>
             </dependency>
             
+            <!--neiko auth-->
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-auth</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-auth-server</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-auth-client</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-auth-model</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-auth-biz</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-auth-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <!--neiko admin-->
             <dependency>
                 <groupId>com.schilings</groupId>
@@ -610,6 +683,12 @@
                 <artifactId>neiko-admin-core</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-admin-auth</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            
         </dependencies>
     </dependencyManagement>
     

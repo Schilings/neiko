@@ -21,6 +21,10 @@
             <groupId>com.schilings</groupId>
             <artifactId>neiko-common-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-common-security</artifactId>
+        </dependency>
         
         <!--mybatis plus-->
         <dependency>

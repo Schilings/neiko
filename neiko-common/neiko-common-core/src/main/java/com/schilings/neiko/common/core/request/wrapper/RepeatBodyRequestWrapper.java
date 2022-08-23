@@ -1,5 +1,6 @@
 package com.schilings.neiko.common.core.request.wrapper;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StreamUtils;
@@ -28,12 +29,13 @@ public class RepeatBodyRequestWrapper extends HttpServletRequestWrapper {
 	/**
 	 * 请求体
 	 */
-	private final byte[] body;
+	@Getter
+	protected final byte[] body;
 
 	/**
 	 * 返回此请求参数的 java.util.Map。 请求参数是随请求发送的额外信息。对于 HTTP servlet，参数包含在查询字符串或发布的表单数据中。
 	 */
-	private final Map<String, String[]> parameterMap;
+	protected final Map<String, String[]> parameterMap;
 
 	/**
 	 * Constructs a request object wrapping the given request.

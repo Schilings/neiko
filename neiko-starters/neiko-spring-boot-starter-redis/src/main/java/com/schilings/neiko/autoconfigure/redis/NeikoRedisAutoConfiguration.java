@@ -1,6 +1,14 @@
 package com.schilings.neiko.autoconfigure.redis;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.schilings.neiko.common.cache.EnableNeikoCaching;
 import com.schilings.neiko.common.cache.components.CacheRepository;
 import com.schilings.neiko.common.cache.configuration.NeikoCachingConfiguration;
@@ -27,15 +35,25 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
+
+import java.lang.reflect.Field;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
+import static com.schilings.neiko.common.redis.RedisHelper.*;
 
 @AutoConfiguration(before = { RedisAutoConfiguration.class })
 @EnableNeikoCaching
 @RequiredArgsConstructor
 @EnableConfigurationProperties(RedisCacheProperties.class)
 public class NeikoRedisAutoConfiguration {
-
+	
 	private final RedisConnectionFactory redisConnectionFactory;
 
 	/**
@@ -85,14 +103,32 @@ public class NeikoRedisAutoConfiguration {
 
 	@Bean
 	@ConditionalOnBean(IRedisPrefixConverter.class)
-	@ConditionalOnMissingBean(name = "redisTemplate") // before =
-														// RedisAutoConfiguration.class
-	public RedisTemplate<Object, Object> redisTemplate(IRedisPrefixConverter redisPrefixConverter) {
-		RedisTemplate<Object, Object> template = new RedisTemplate<>();
+	@ConditionalOnMissingBean(name = "redisTemplate") // before =RedisAutoConfiguration.class
+	public RedisTemplate<String, Object> redisTemplate(IRedisPrefixConverter redisPrefixConverter) {
+		RedisTemplate<String, Object> template = new RedisTemplate<>();
 		template.setConnectionFactory(redisConnectionFactory);
 		template.setKeySerializer(new PrefixJdkRedisSerializer(redisPrefixConverter));
-		// 使用Redis提供的Json序列化作为值序列化器
-		template.setValueSerializer(RedisSerializer.json());
+		GenericJackson2JsonRedisSerializer valueSerializer = new GenericJackson2JsonRedisSerializer();
+		try {
+			Field field = GenericJackson2JsonRedisSerializer.class.getDeclaredField("mapper");
+			field.setAccessible(true);
+			ObjectMapper objectMapper = (ObjectMapper)field.get(valueSerializer);
+			objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+			JavaTimeModule timeModule = new JavaTimeModule();
+			timeModule.addSerializer(new LocalDateTimeSerializer(DATE_TIME_FORMATTER));
+			timeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DATE_TIME_FORMATTER));
+			timeModule.addSerializer(new LocalDateSerializer(DATE_FORMATTER));
+			timeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(DATE_FORMATTER));
+			timeModule.addSerializer(new LocalTimeSerializer(TIME_FORMATTER));
+			timeModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(TIME_FORMATTER));
+			objectMapper.registerModule(timeModule);
+		} catch (Exception var7) {
+			System.err.println(var7.getMessage());
+		}
+		template.setHashKeySerializer(new StringRedisSerializer());
+		template.setValueSerializer(valueSerializer);
+		template.setHashValueSerializer(valueSerializer);
+		template.afterPropertiesSet();
 		return template;
 	}
 

@@ -43,8 +43,11 @@
             <artifactId>neiko-spring-boot-starter-log</artifactId>
         </dependency>
         
-        
-        
+        <!--neiko-auth-->
+        <dependency>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-auth-api</artifactId>
+        </dependency>
         <!--neiko-system-->
         <dependency>
             <groupId>com.schilings</groupId>

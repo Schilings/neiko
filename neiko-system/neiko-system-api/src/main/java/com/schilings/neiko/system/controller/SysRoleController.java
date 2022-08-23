@@ -4,6 +4,7 @@ package com.schilings.neiko.system.controller;
 import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;
 import com.schilings.neiko.common.model.result.R;
+import com.schilings.neiko.extend.sa.token.oauth2.annotation.Oauth2CheckScope;
 import com.schilings.neiko.system.model.qo.SysRoleQO;
 import com.schilings.neiko.system.model.vo.SysRolePageVO;
 import com.schilings.neiko.system.service.SysRoleService;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Oauth2CheckScope("system")
 @RestController
 @RequestMapping("/system/role")
 @RequiredArgsConstructor

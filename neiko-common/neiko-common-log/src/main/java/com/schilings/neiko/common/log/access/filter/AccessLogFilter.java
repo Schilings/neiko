@@ -70,7 +70,11 @@ public class AccessLogFilter extends OncePerRequestFilter {
 			requestWrapper = request;
 		}
 		else {
-			requestWrapper = new RepeatBodyRequestWrapper(request);
+			if (request instanceof RepeatBodyRequestWrapper) {
+				requestWrapper = (RepeatBodyRequestWrapper) request;
+			} else {
+				requestWrapper = new RepeatBodyRequestWrapper(request);
+			}
 		}
 		// 包装 response，便于重复获取 body
 		ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);

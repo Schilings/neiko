@@ -2,10 +2,10 @@ server:
   port: 8080
 spring:
   redis:
-    host: 47.113.200.136
-    database: 1
-    password: yblock-test@123
+    host: 120.25.221.239
+    database: 0
     port: 6379
+    password: Schilings11538...
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
 #    url: jdbc:mysql://47.113.200.136:23306/nk?allowMultiQueries=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
@@ -21,6 +21,13 @@ mybatis-plus:
     - classpath*:/mapper/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# sa-token配置
+sa-token:
+  token-name: access-token
+  auto-renew: true
+  is-log: true
+  is-concurrent: false
 
 ## 数据库表结构维护
 actable: 

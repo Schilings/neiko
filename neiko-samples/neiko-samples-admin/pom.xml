@@ -24,6 +24,7 @@
             <artifactId>neiko-admin-core</artifactId>
         </dependency>
         
+        
         <!--open-api-->
         <dependency>
             <groupId>org.springdoc</groupId>

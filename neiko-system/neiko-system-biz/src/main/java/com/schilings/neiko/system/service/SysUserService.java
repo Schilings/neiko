@@ -26,4 +26,12 @@ public interface SysUserService extends ExtendService<SysUser> {
      * @return UserInfoDTO
      */
     UserInfoDTO findUserInfo(SysUser user);
+
+    /**
+     * 根据用户名查询用户
+     *
+     * @param username 用户名
+     * @return 系统用户
+     */
+    public SysUser getByUsername(String username);
 }

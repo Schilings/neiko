@@ -1,6 +1,7 @@
 package com.schilings.neiko.admin.upms;
 
 
+import com.schilings.neiko.extend.sa.token.EnableAuthorizationServer;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,9 +16,11 @@ import org.springframework.scheduling.annotation.EnableAsync;
         "com.gitee.sunchenbin.mybatis.actable.manager.*",//自动建表
         "com.schilings.neiko.admin.upms",
         "com.schilings.neiko.system",
-        "com.schilings.neiko.log"
+        "com.schilings.neiko.log",
+        "com.schilings.neiko.auth"
 })
 @EnableAsync
 @AutoConfiguration
+@EnableAuthorizationServer
 public class UpmsAutoConfiguration {
 }

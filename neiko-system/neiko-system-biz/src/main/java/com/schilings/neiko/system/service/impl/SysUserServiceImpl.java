@@ -15,6 +15,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -34,6 +37,16 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
         return baseMapper.queryPage(pageParam, qo);
     }
 
+    /**
+     * 根据用户名查询用户
+     * @param username 用户名
+     * @return 系统用户
+     */
+    @Override
+    public SysUser getByUsername(String username) {
+        return baseMapper.selectByUsername(username);
+    }
+    
 
     /**
      * 获取用户详情信息
@@ -44,7 +57,10 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
     public UserInfoDTO findUserInfo(SysUser user) {
         UserInfoDTO userInfoDTO = new UserInfoDTO();
         userInfoDTO.setSysUser(user);
-        
-        return null;
+        userInfoDTO.setRoleCodes(Arrays.asList("ROLE_DEMO1","ROLE_DEMO2"));
+        userInfoDTO.setPermissions(Collections.emptyList());
+        return userInfoDTO;
     }
+
+
 }
