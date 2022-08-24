@@ -27,6 +27,7 @@ public class StpOauth2Logic extends StpLogic {
      * @param at 注解对象 
      */
     public void checkByAnnotation(Oauth2CheckScope at) {
+        StpOauth2UserUtil.checkLogin();
         String accessToken = SaHolder.getRequest().getHeader(SaManager.getConfig().getTokenName());
         String[] scopeArray = at.value();
         SaOAuth2Util.checkScope(accessToken,scopeArray);

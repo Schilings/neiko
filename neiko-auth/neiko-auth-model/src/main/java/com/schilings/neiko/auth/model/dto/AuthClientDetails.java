@@ -23,6 +23,7 @@ public class AuthClientDetails implements ClientDetails {
 
     @Schema(title = "应用id")
     private String clientId;
+    
     @Schema(title = "应用秘钥")
     private String clientSecret;
 

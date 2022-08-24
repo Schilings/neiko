@@ -137,7 +137,7 @@ public class GlobalHandlerExceptionResolver {
 	 */
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(value = MissingServletRequestParameterException.class)
-	public R missingServletRequestParameterExceptionHandler(HttpServletRequest req,
+	public R<String> missingServletRequestParameterExceptionHandler(HttpServletRequest req,
 			MissingServletRequestParameterException e) {
 		log.error("请求地址: {}, 请求入参异常 ex={}", req.getRequestURI(), e.getMessage(), e);
 		globalExceptionHandler.handle(e);

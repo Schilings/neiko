@@ -1,7 +1,7 @@
 package com.schilings.neiko.extend.sa.token.oauth2.annotation;
 
 
-import cn.dev33.satoken.annotation.SaMode;
+
 import com.schilings.neiko.extend.sa.token.core.StpOauth2UserUtil;
 
 import java.lang.annotation.ElementType;
@@ -24,9 +24,7 @@ public @interface Oauth2CheckScope {
      * @return 需要校验的权限码
      */
     String [] value() default {};
-
-
-
+    
 
     String type() default StpOauth2UserUtil.TYPE;
     

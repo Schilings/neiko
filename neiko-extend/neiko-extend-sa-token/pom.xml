@@ -38,6 +38,12 @@
             <artifactId>hutool-jwt</artifactId>
         </dependency>
         
+        <!--web-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+        
         <!--neiko-->
         <dependency>
             <groupId>com.schilings</groupId>

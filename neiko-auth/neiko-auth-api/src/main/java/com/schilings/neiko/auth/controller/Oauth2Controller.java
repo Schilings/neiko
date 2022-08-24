@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/")
 @RequiredArgsConstructor
-@Tag(name = "Oauth2认证模块")
+@Tag(name = "Oauth2User认证模块")
 public class Oauth2Controller {
 
 

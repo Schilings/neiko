@@ -10,7 +10,7 @@ import com.schilings.neiko.extend.sa.token.core.StpOauth2UserUtil;
 import com.schilings.neiko.extend.sa.token.oauth2.component.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
+
 
 
 /**
@@ -25,15 +25,6 @@ public class LoginServiceImpl implements LoginService {
 
     private final UserDetailsService userDetailsService;
     
-    @Override
-    public Object notLoginView() {
-        return R.fail("未登录");
-    }
-
-    @Override
-    public Object confirmView(String clientId, String scope) {
-        return R.fail("暂时无授权认证");
-    }
 
     /**
      * 密码式（Password）登录
@@ -50,7 +41,7 @@ public class LoginServiceImpl implements LoginService {
                 return R.ok();
             }
         }
-        return R.fail("账号名或密码错误");
+        return R.ok("账号名或密码错误");
     }
 
 

@@ -19,6 +19,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * 
@@ -71,6 +72,7 @@ public class ExtendSaTokenConfiguration {
         cfg.setDoLoginHandle(loginService::passwordLogin);// 登录处理函数
     }
 
+    
 
     /**
      * Sa-Token自定义Redis实现Dao
@@ -122,4 +124,5 @@ public class ExtendSaTokenConfiguration {
     }
 
     
+
 }

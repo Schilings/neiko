@@ -16,6 +16,7 @@
         <option value="$PROJECT_DIR$/neiko-samples/neiko-samples-common-event/pom.xml" />
         <option value="$PROJECT_DIR$/neiko-starters/neiko-spring-boot-starter-shiro/pom.xml" />
         <option value="$PROJECT_DIR$/neiko-samples/neiko-samples-starter-shiro/pom.xml" />
+        <option value="$PROJECT_DIR$/neiko-auth/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
@@ -24,6 +25,8 @@
         <option value="$PROJECT_DIR$/neiko-common-excel/pom.xml" />
         <option value="$PROJECT_DIR$/neiko-common/neiko-common-web/pom.xml" />
         <option value="$PROJECT_DIR$/neiko-samples/neiko-test-redis/pom.xml" />
+        <option value="$PROJECT_DIR$/neiko-system-api/pom.xml" />
+        <option value="$PROJECT_DIR$/neiko-system-biz/pom.xml" />
       </set>
     </option>
   </component>

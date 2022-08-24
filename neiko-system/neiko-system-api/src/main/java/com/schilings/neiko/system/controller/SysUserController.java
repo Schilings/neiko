@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Oauth2CheckScope("system")
 @Slf4j
 @Validated
-@Oauth2CheckScope("system")
 @RestController
 @RequestMapping("/system/user")
 @RequiredArgsConstructor
