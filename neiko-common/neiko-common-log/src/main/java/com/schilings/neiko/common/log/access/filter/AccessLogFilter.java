@@ -72,7 +72,8 @@ public class AccessLogFilter extends OncePerRequestFilter {
 		else {
 			if (request instanceof RepeatBodyRequestWrapper) {
 				requestWrapper = (RepeatBodyRequestWrapper) request;
-			} else {
+			}
+			else {
 				requestWrapper = new RepeatBodyRequestWrapper(request);
 			}
 		}

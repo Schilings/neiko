@@ -8,9 +8,8 @@ import org.springframework.stereotype.Component;
 @Component
 @NeikoEventListener
 public class TestEventListener {
-	
 
-	//@NeikoEventHandler(Object.class)
+	// @NeikoEventHandler(Object.class)
 	public void demo2(Object o) {
 		System.out.println("Test:" + o.toString());
 	}

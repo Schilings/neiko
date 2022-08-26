@@ -27,29 +27,31 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class MyRealm extends JWTRealm {
-    
-    @Autowired
-    private JWTRepository jWTRepository;
-    
-    @Autowired
-    private UserService userService;
-    
-    @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-        simpleAuthorizationInfo.addRole("admin");
-        return simpleAuthorizationInfo;
-    }
 
-    @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        JWTToken jwtToken = (JWTToken) authenticationToken;
-        String token = jwtToken.getToken();
-        String username = jWTRepository.verify(token).getClaim("username").asString();
-        User user = userService.selectByUsername(username);
-        if (ObjectUtil.isNull(user)) {
-            throw new SubjectNotExistException("cannot find '" + username + "'");
-        }
-        return new SimpleAuthenticationInfo(token, token, getName());
-    }
+	@Autowired
+	private JWTRepository jWTRepository;
+
+	@Autowired
+	private UserService userService;
+
+	@Override
+	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+		SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+		simpleAuthorizationInfo.addRole("admin");
+		return simpleAuthorizationInfo;
+	}
+
+	@Override
+	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken)
+			throws AuthenticationException {
+		JWTToken jwtToken = (JWTToken) authenticationToken;
+		String token = jwtToken.getToken();
+		String username = jWTRepository.verify(token).getClaim("username").asString();
+		User user = userService.selectByUsername(username);
+		if (ObjectUtil.isNull(user)) {
+			throw new SubjectNotExistException("cannot find '" + username + "'");
+		}
+		return new SimpleAuthenticationInfo(token, token, getName());
+	}
+
 }

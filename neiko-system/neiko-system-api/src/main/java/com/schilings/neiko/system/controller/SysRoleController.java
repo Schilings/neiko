@@ -1,6 +1,5 @@
 package com.schilings.neiko.system.controller;
 
-
 import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;
 import com.schilings.neiko.common.model.result.R;
@@ -23,18 +22,17 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "角色管理模块")
 public class SysRoleController {
 
-    private final SysRoleService sysRoleService;
+	private final SysRoleService sysRoleService;
 
+	/**
+	 * 分页查询角色信息
+	 * @param pageParam 分页参数
+	 * @return PageResult 分页结果
+	 */
+	@GetMapping("/page")
+	@Operation(summary = "分页查询系统角色")
+	public R<PageResult<SysRolePageVO>> getRolePage(@Validated PageParam pageParam, SysRoleQO sysRoleQO) {
+		return R.ok(sysRoleService.queryPage(pageParam, sysRoleQO));
+	}
 
-    /**
-     * 分页查询角色信息
-     * @param pageParam 分页参数
-     * @return PageResult 分页结果
-     */
-    @GetMapping("/page")
-    @Operation(summary = "分页查询系统角色")
-    public R<PageResult<SysRolePageVO>> getRolePage(@Validated PageParam pageParam, SysRoleQO sysRoleQO) {
-        return R.ok(sysRoleService.queryPage(pageParam, sysRoleQO));
-    }
-    
 }

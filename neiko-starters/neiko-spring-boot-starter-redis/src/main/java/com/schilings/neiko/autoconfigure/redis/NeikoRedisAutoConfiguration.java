@@ -53,7 +53,7 @@ import static com.schilings.neiko.common.redis.RedisHelper.*;
 @RequiredArgsConstructor
 @EnableConfigurationProperties(RedisCacheProperties.class)
 public class NeikoRedisAutoConfiguration {
-	
+
 	private final RedisConnectionFactory redisConnectionFactory;
 
 	/**
@@ -101,18 +101,20 @@ public class NeikoRedisAutoConfiguration {
 		return template;
 	}
 
-	@Bean
+	@Bean("redisTemplate")
 	@ConditionalOnBean(IRedisPrefixConverter.class)
-	@ConditionalOnMissingBean(name = "redisTemplate") // before =RedisAutoConfiguration.class
+	@ConditionalOnMissingBean(name = "redisTemplate") // before
+														// =RedisAutoConfiguration.class
 	public RedisTemplate<String, Object> redisTemplate(IRedisPrefixConverter redisPrefixConverter) {
 		RedisTemplate<String, Object> template = new RedisTemplate<>();
 		template.setConnectionFactory(redisConnectionFactory);
-		template.setKeySerializer(new PrefixJdkRedisSerializer(redisPrefixConverter));
+		template.setKeySerializer(new PrefixStringRedisSerializer(redisPrefixConverter));
+		template.setHashKeySerializer(new StringRedisSerializer());
 		GenericJackson2JsonRedisSerializer valueSerializer = new GenericJackson2JsonRedisSerializer();
 		try {
 			Field field = GenericJackson2JsonRedisSerializer.class.getDeclaredField("mapper");
 			field.setAccessible(true);
-			ObjectMapper objectMapper = (ObjectMapper)field.get(valueSerializer);
+			ObjectMapper objectMapper = (ObjectMapper) field.get(valueSerializer);
 			objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 			JavaTimeModule timeModule = new JavaTimeModule();
 			timeModule.addSerializer(new LocalDateTimeSerializer(DATE_TIME_FORMATTER));
@@ -122,20 +124,20 @@ public class NeikoRedisAutoConfiguration {
 			timeModule.addSerializer(new LocalTimeSerializer(TIME_FORMATTER));
 			timeModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(TIME_FORMATTER));
 			objectMapper.registerModule(timeModule);
-		} catch (Exception var7) {
+		}
+		catch (Exception var7) {
 			System.err.println(var7.getMessage());
 		}
-		template.setHashKeySerializer(new StringRedisSerializer());
 		template.setValueSerializer(valueSerializer);
 		template.setHashValueSerializer(valueSerializer);
-		template.afterPropertiesSet();
 		return template;
 	}
 
 	@Bean
 	@ConditionalOnMissingBean(RedisHelper.class)
-	public RedisHelper redisHelper(StringRedisTemplate template) {
+	public RedisHelper redisHelper(StringRedisTemplate template, RedisTemplate<String, Object> redisTemplate) {
 		RedisHelper.setTemplate(template);
+		RedisHelper.setObjectRedisTemplate(redisTemplate);
 		return new RedisHelper();
 	}
 

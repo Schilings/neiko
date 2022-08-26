@@ -29,18 +29,14 @@ public abstract class PageUtil {
 		return page;
 	}
 
-	
 	/**
 	 * 根据 IPage 生成一个 PageResult 实例
 	 * @param iPage
 	 * @return PageResult
 	 */
 	public static <V> PageResult<V> prodPageResult(IPage<V> iPage) {
-		return new PageResult<V>()
-				.setData(iPage.getRecords())
-				.setPage(iPage.getCurrent())
-				.setPages(iPage.getPages())
-				.setTotal(iPage.getTotal())
-				.setSize(iPage.getSize());
+		return new PageResult<V>().setData(iPage.getRecords()).setPage(iPage.getCurrent()).setPages(iPage.getPages())
+				.setTotal(iPage.getTotal()).setSize(iPage.getSize());
 	}
+
 }

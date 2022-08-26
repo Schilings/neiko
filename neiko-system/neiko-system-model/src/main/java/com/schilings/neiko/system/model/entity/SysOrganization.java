@@ -6,13 +6,17 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.gitee.sunchenbin.mybatis.actable.annotation.Column;
 import com.schilings.neiko.common.model.entity.LogicDeletedBaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * 系统组织架构
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @TableName("nk_sys_organization")
 @Schema(title = "组织架构")
@@ -23,7 +27,7 @@ public class SysOrganization extends LogicDeletedBaseEntity {
 	/**
 	 * ID
 	 */
-	@TableId(type = IdType.AUTO)
+	@TableId
 	@Column(comment = "ID")
 	@Schema(title = "ID")
 	private Long id;

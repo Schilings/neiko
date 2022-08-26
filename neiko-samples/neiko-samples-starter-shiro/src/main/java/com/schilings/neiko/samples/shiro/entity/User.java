@@ -17,15 +17,16 @@ import java.time.LocalDateTime;
 @TableName("t_user")
 @Data
 public class User {
-    
-    @TableId
-    private Long id;
-    
-    private String username;
-    
-    private String password;
-    
-    private String type;
-    
-    private LocalDateTime createTime;
+
+	@TableId
+	private Long id;
+
+	private String username;
+
+	private String password;
+
+	private String type;
+
+	private LocalDateTime createTime;
+
 }

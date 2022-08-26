@@ -1,0 +1,4 @@
+org.springframework.boot.ApplicationRunner=\
+  com.schilings.neiko.admin.boostrap.BoostrapApplicationRunner
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.schilings.neiko.admin.boostrap.AdminBoostrapAutoConfiguration

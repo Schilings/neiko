@@ -1,6 +1,5 @@
 package com.schilings.neiko.common.core.request.wrapper;
 
-
 import com.schilings.neiko.common.util.json.JsonUtils;
 import com.schilings.neiko.common.util.json.TypeReference;
 import lombok.Getter;
@@ -21,48 +20,50 @@ import java.util.Map;
  * @author Schilings
  */
 @Slf4j
-public class RepeatJsonBodyRequestWrapper extends RepeatBodyRequestWrapper{
+public class RepeatJsonBodyRequestWrapper extends RepeatBodyRequestWrapper {
 
-    @Getter
-    protected final String jsonStr;
-    @Getter
-    protected final Map<String, Object> jsonMap;
-    
-    /**
-     * Constructs a request object wrapping the given request.
-     *
-     * @param request the {@link HttpServletRequest} to be wrapped.
-     * @throws IllegalArgumentException if the request is null
-     */
-    public RepeatJsonBodyRequestWrapper(HttpServletRequest request) {
-        super(request);
-        this.jsonStr = toJsonStr(body);
-        this.jsonMap = toJsonMap(jsonStr);
-    }
+	@Getter
+	protected final String jsonStr;
 
-    public RepeatJsonBodyRequestWrapper(RepeatBodyRequestWrapper request) {
-        super(request);
-        this.jsonStr = toJsonStr(request.getBody());
-        this.jsonMap = toJsonMap(jsonStr);
-    }
+	@Getter
+	protected final Map<String, Object> jsonMap;
 
-    private Map<String, Object> toJsonMap(String jsonStr) {
-        try {
-            return JsonUtils.toObj(jsonStr, new TypeReference<Map<String, Object>>() {});
-        }
-        catch (Exception e) {
-            log.error("解析Json中数据异常", e);
-        }
-        return Collections.emptyMap();
-    }
+	/**
+	 * Constructs a request object wrapping the given request.
+	 * @param request the {@link HttpServletRequest} to be wrapped.
+	 * @throws IllegalArgumentException if the request is null
+	 */
+	public RepeatJsonBodyRequestWrapper(HttpServletRequest request) {
+		super(request);
+		this.jsonStr = toJsonStr(body);
+		this.jsonMap = toJsonMap(jsonStr);
+	}
 
-    private String toJsonStr( byte[] body) {
-        try {
-            return new String(body, getRequest().getCharacterEncoding());
-        }
-        catch (IOException e) {
-            log.error("解析流中数据异常", e);
-        }
-        return "";
-    }
+	public RepeatJsonBodyRequestWrapper(RepeatBodyRequestWrapper request) {
+		super(request);
+		this.jsonStr = toJsonStr(request.getBody());
+		this.jsonMap = toJsonMap(jsonStr);
+	}
+
+	private Map<String, Object> toJsonMap(String jsonStr) {
+		try {
+			return JsonUtils.toObj(jsonStr, new TypeReference<Map<String, Object>>() {
+			});
+		}
+		catch (Exception e) {
+			log.error("解析Json中数据异常", e);
+		}
+		return Collections.emptyMap();
+	}
+
+	private String toJsonStr(byte[] body) {
+		try {
+			return new String(body, getRequest().getCharacterEncoding());
+		}
+		catch (IOException e) {
+			log.error("解析流中数据异常", e);
+		}
+		return "";
+	}
+
 }

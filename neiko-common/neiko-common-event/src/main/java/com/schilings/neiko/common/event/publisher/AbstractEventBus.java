@@ -31,7 +31,6 @@ public abstract class AbstractEventBus implements EventBus, ApplicationListener<
 
 	private final EventHandleMapping handleMapping;
 
-
 	protected AbstractEventBus(EventHandleMapping handleMapping) {
 		this.handleMapping = handleMapping;
 	}
@@ -50,13 +49,10 @@ public abstract class AbstractEventBus implements EventBus, ApplicationListener<
 		}
 	}
 
-
-
 	public List<EventHandler> getHandlers(Object o) {
 		return getHandleMapping().getHandler(o);
 	}
 
-	
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		// 只加载一次

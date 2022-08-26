@@ -43,9 +43,7 @@ public class ApplicationTest {
 	@Test
 	public void test() {
 		List<PreordersGasStationDto> list = preorderMapper.selectJoinList(PreordersGasStationDto.class, AUTO_RESULT_MAP,
-				WrappersX.<Preorders>lambdaQueryJoin()
-						.selectAll(Preorders.class)
-						.select(GasStation::getBrandCode)
+				WrappersX.<Preorders>lambdaQueryJoin().selectAll(Preorders.class).select(GasStation::getBrandCode)
 						.leftJoin(GasStation.class, GasStation::getId, Preorders::getGasStationId)
 						.eqIfPresent(Preorders::getDeleted, "1"));
 		list.forEach(System.out::println);

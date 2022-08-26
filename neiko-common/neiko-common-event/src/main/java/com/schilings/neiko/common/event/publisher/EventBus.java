@@ -14,9 +14,9 @@ public interface EventBus {
 	void publishAsync(Object o);
 
 	void publishBlocking(Object o);
-	
+
 	void publishAsync(Object[] objects);
-	
+
 	void publishBlocking(Object[] objects);
 
 	Object requestBlocking(Object o);

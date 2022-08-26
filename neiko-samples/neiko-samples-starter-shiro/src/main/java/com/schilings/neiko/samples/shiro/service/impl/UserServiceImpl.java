@@ -19,13 +19,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
-    @Autowired
-    private UserMapper userMapper;
-    
-    @Override
-    public User selectByUsername(String username) {
-        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(User::getUsername, username);
-        return getOne(queryWrapper);
-    }
+	@Autowired
+	private UserMapper userMapper;
+
+	@Override
+	public User selectByUsername(String username) {
+		LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+		queryWrapper.eq(User::getUsername, username);
+		return getOne(queryWrapper);
+	}
+
 }

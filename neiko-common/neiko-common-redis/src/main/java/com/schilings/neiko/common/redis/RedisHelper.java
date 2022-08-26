@@ -24,12 +24,16 @@ import java.util.concurrent.TimeUnit;
 public class RedisHelper {
 
 	public static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
+
 	public static final String DATE_PATTERN = "yyyy-MM-dd";
+
 	public static final String TIME_PATTERN = "HH:mm:ss";
+
 	public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
 	public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
 	public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
-	
 
 	@Getter
 	@Setter
@@ -37,9 +41,9 @@ public class RedisHelper {
 
 	@Getter
 	@Setter
-	static RedisTemplate<String,Object> objectRedisTemplate;
-	
-	public static RedisTemplate<String,Object> objectRedisTemplate() {
+	static RedisTemplate<String, Object> objectRedisTemplate;
+
+	public static RedisTemplate<String, Object> objectRedisTemplate() {
 		if (objectRedisTemplate == null) {
 			objectRedisTemplate = SpringUtils.getBean("redisTemplate", RedisTemplate.class);
 		}

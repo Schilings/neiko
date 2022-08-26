@@ -16,12 +16,6 @@
             <groupId>com.schilings</groupId>
             <artifactId>neiko-auth-biz</artifactId>
         </dependency>
-        <!--Sa-Token-->
-        <dependency>
-            <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-spring-boot-starter</artifactId>
-        </dependency>
-        
     </dependencies>
 
 </project>

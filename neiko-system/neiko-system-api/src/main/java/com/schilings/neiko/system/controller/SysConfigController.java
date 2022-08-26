@@ -22,17 +22,18 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "系统配置")
 public class SysConfigController {
 
-    private final SysConfigService sysConfigService;
+	private final SysConfigService sysConfigService;
 
-    /**
-     * 分页查询
-     * @param pageParam 分页参数
-     * @param sysConfigQO 系统配置
-     * @return R<PageResult<SysConfigVO>>
-     */
-    @GetMapping("/page")
-    @Operation(summary = "分页查询", description = "分页查询")
-    public R<PageResult<SysConfigPageVO>> getSysConfigPage(@Validated PageParam pageParam, SysConfigQO sysConfigQO) {
-        return R.ok(sysConfigService.queryPage(pageParam, sysConfigQO));
-    }
+	/**
+	 * 分页查询
+	 * @param pageParam 分页参数
+	 * @param sysConfigQO 系统配置
+	 * @return R<PageResult<SysConfigVO>>
+	 */
+	@GetMapping("/page")
+	@Operation(summary = "分页查询", description = "分页查询")
+	public R<PageResult<SysConfigPageVO>> getSysConfigPage(@Validated PageParam pageParam, SysConfigQO sysConfigQO) {
+		return R.ok(sysConfigService.queryPage(pageParam, sysConfigQO));
+	}
+
 }

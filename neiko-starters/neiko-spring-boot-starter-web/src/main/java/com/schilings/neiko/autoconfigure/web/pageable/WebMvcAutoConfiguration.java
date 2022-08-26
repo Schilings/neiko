@@ -18,22 +18,21 @@ import java.util.List;
 @EnableConfigurationProperties(PageableProperties.class)
 public class WebMvcAutoConfiguration {
 
-    private final PageableProperties pageableProperties;
-    
-    private final RequestMappingHandlerAdapter requestMappingHandlerAdapter;
-    
+	private final PageableProperties pageableProperties;
 
-    /**
-     * 追加 PageParam 请求处理器 到 springmvc 中
-     */
-    @PostConstruct
-    public void setRequestExcelArgumentResolver() {
-        List<HandlerMethodArgumentResolver> oldResolvers = requestMappingHandlerAdapter.getArgumentResolvers();
-        //放在前面，否则会被ServletModelAttributeMethodProcessor拦截
-        ArrayList<HandlerMethodArgumentResolver> newReolvers = new ArrayList<>();
-        newReolvers.add(new DefaultPageParamArgumentResolver(pageableProperties));
-        newReolvers.addAll(oldResolvers);
-        requestMappingHandlerAdapter.setArgumentResolvers(newReolvers);
-    }
+	private final RequestMappingHandlerAdapter requestMappingHandlerAdapter;
+
+	/**
+	 * 追加 PageParam 请求处理器 到 springmvc 中
+	 */
+	@PostConstruct
+	public void setRequestExcelArgumentResolver() {
+		List<HandlerMethodArgumentResolver> oldResolvers = requestMappingHandlerAdapter.getArgumentResolvers();
+		// 放在前面，否则会被ServletModelAttributeMethodProcessor拦截
+		ArrayList<HandlerMethodArgumentResolver> newReolvers = new ArrayList<>();
+		newReolvers.add(new DefaultPageParamArgumentResolver(pageableProperties));
+		newReolvers.addAll(oldResolvers);
+		requestMappingHandlerAdapter.setArgumentResolvers(newReolvers);
+	}
 
 }

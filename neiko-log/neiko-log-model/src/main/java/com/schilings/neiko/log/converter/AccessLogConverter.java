@@ -1,6 +1,5 @@
 package com.schilings.neiko.log.converter;
 
-
 import com.schilings.neiko.log.model.entity.AccessLog;
 import com.schilings.neiko.log.model.vo.AccessLogPageVO;
 import org.mapstruct.Mapper;

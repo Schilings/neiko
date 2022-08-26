@@ -6,7 +6,6 @@ import java.util.concurrent.ThreadFactory;
 
 public class NeikoEventThreadFactory extends DefaultThreadFactory {
 
-
 	public NeikoEventThreadFactory(Class<?> poolType) {
 		super(poolType);
 	}
@@ -14,6 +13,5 @@ public class NeikoEventThreadFactory extends DefaultThreadFactory {
 	public NeikoEventThreadFactory(String poolName) {
 		super(poolName);
 	}
-	
 
 }

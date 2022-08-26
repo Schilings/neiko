@@ -5,7 +5,6 @@ import com.schilings.neiko.system.model.vo.SysMenuPageVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-
 @Mapper
 public interface SysMenuConverter {
 
@@ -17,7 +16,5 @@ public interface SysMenuConverter {
 	 * @return SysMenuPageVO 菜单权限PageVO
 	 */
 	SysMenuPageVO poToPageVo(SysMenu sysMenu);
-
-
 
 }

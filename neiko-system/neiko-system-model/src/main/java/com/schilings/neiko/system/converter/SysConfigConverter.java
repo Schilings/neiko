@@ -8,13 +8,13 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface SysConfigConverter {
 
-    SysConfigConverter INSTANCE = Mappers.getMapper(SysConfigConverter.class);
+	SysConfigConverter INSTANCE = Mappers.getMapper(SysConfigConverter.class);
 
-    /**
-     * PO 转 PageVO
-     * @param sysConfig 基础配置
-     * @return SysConfigPageVO 基础配置分页VO
-     */
-    SysConfigPageVO poToPageVo(SysConfig sysConfig);
-    
+	/**
+	 * PO 转 PageVO
+	 * @param sysConfig 基础配置
+	 * @return SysConfigPageVO 基础配置分页VO
+	 */
+	SysConfigPageVO poToPageVo(SysConfig sysConfig);
+
 }

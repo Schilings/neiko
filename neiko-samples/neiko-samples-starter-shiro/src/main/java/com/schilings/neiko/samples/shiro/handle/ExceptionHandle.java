@@ -18,8 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 @RestControllerAdvice
 public class ExceptionHandle {
 
-    @ExceptionHandler(value =Throwable.class)
-    public void exceptionHandler(HttpServletRequest req, Throwable e){
-        System.out.println("出现异常！原因是:"+e.toString());
-    }
+	@ExceptionHandler(value = Throwable.class)
+	public void exceptionHandler(HttpServletRequest req, Throwable e) {
+		System.out.println("出现异常！原因是:" + e.toString());
+	}
+
 }

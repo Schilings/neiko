@@ -9,6 +9,7 @@ import com.schilings.neiko.common.model.result.SystemResultCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
@@ -33,7 +34,7 @@ import javax.validation.ValidationException;
 import static com.schilings.neiko.common.model.result.BaseResultCode.LOGIC_CHECK_ERROR;
 
 @Slf4j
-@Order // 默认最低优先级
+@Order(value = Ordered.LOWEST_PRECEDENCE) // 默认最低优先级
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class GlobalHandlerExceptionResolver {

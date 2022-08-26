@@ -23,6 +23,5 @@ public class NeikoEventAutoConfiguration {
 	public EventBus eventBus(NeikoEventHandlerMethodMapping neikoEventHandlerMethodMapping) {
 		return new EventBusImpl(neikoEventHandlerMethodMapping);
 	}
-	
 
 }

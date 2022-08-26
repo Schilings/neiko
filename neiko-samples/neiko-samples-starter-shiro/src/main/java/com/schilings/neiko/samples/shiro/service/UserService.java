@@ -12,6 +12,7 @@ import com.schilings.neiko.samples.shiro.entity.User;
  * @date 2022/8/10 16:22
  */
 public interface UserService extends IService<User> {
-    
-    User selectByUsername(String username);
+
+	User selectByUsername(String username);
+
 }

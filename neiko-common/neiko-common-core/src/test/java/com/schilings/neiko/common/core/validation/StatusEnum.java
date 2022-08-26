@@ -12,7 +12,7 @@ public enum StatusEnum {
 
 	SUCCESS(1), ERROR(0);
 
-	private final int value;
+	private final Integer value;
 
 	public static StatusEnum fromValue(int value) {
 		switch (value) {

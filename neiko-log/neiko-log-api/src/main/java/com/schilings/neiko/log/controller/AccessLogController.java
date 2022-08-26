@@ -1,6 +1,5 @@
 package com.schilings.neiko.log.controller;
 
-
 import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;
 import com.schilings.neiko.common.model.result.R;
@@ -24,17 +23,18 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "访问日志管理")
 public class AccessLogController {
 
-    private final AccessLogService accessLogService;
+	private final AccessLogService accessLogService;
 
-    /**
-     * 分页查询
-     * @param pageParam 分页参数
-     * @param accessLogQO 访问日志查询对象
-     * @return R
-     */
-    @GetMapping("/page")
-    @Operation(summary = "分页查询", description = "分页查询")
-    public R<PageResult<AccessLogPageVO>> getAccessLogApiPage(@Validated PageParam pageParam, AccessLogQO accessLogQO) {
-        return R.ok(accessLogService.queryPage(pageParam, accessLogQO));
-    }
+	/**
+	 * 分页查询
+	 * @param pageParam 分页参数
+	 * @param accessLogQO 访问日志查询对象
+	 * @return R
+	 */
+	@GetMapping("/page")
+	@Operation(summary = "分页查询", description = "分页查询")
+	public R<PageResult<AccessLogPageVO>> getAccessLogApiPage(@Validated PageParam pageParam, AccessLogQO accessLogQO) {
+		return R.ok(accessLogService.queryPage(pageParam, accessLogQO));
+	}
+
 }

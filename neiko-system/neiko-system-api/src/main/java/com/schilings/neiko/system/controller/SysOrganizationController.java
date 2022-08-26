@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "组织架构管理")
 public class SysOrganizationController {
 
-
-    private final SysOrganizationService sysOrganizationService;
-
+	private final SysOrganizationService sysOrganizationService;
 
 }

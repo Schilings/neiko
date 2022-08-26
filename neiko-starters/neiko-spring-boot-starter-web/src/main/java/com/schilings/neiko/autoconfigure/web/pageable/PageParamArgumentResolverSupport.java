@@ -26,7 +26,6 @@ import java.util.Map;
 
 import static com.schilings.neiko.common.model.constants.PageableConstants.*;
 
-
 @Slf4j
 public abstract class PageParamArgumentResolverSupport {
 
@@ -77,7 +76,7 @@ public abstract class PageParamArgumentResolverSupport {
 			sorts = getSortList(sort);
 			pageParam.setSorts(sorts);
 		}
-		
+
 		return pageParam;
 	}
 

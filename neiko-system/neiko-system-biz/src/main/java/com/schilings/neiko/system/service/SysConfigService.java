@@ -9,12 +9,12 @@ import com.schilings.neiko.system.model.vo.SysConfigPageVO;
 
 public interface SysConfigService extends ExtendService<SysConfig> {
 
-    /**
-     * 根据QueryObject查询分页数据
-     * @param pageParam 分页参数
-     * @param sysConfigQO 查询参数对象
-     * @return 分页数据
-     */
-    PageResult<SysConfigPageVO> queryPage(PageParam pageParam, SysConfigQO sysConfigQO);
+	/**
+	 * 根据QueryObject查询分页数据
+	 * @param pageParam 分页参数
+	 * @param sysConfigQO 查询参数对象
+	 * @return 分页数据
+	 */
+	PageResult<SysConfigPageVO> queryPage(PageParam pageParam, SysConfigQO sysConfigQO);
 
 }

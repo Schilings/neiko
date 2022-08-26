@@ -28,15 +28,13 @@ import java.util.List;
 @Setter
 @Getter
 public class EventBusImpl extends AbstractEventBus {
-	
 
 	private DefaultEventLoopGroup executor;
-	
 
 	public EventBusImpl(EventHandleMapping handleMapping) {
 		super(handleMapping);
 	}
-	
+
 	@PostConstruct
 	public void construct() {
 		executor = new DefaultEventLoopGroup(new NeikoEventThreadFactory(getClass()));
@@ -78,4 +76,5 @@ public class EventBusImpl extends AbstractEventBus {
 		}
 		throw new EventRequestException("The handler for event request can not return result.");
 	}
+
 }

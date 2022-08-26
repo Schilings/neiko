@@ -10,21 +10,18 @@ import org.springframework.scheduling.annotation.Async;
 
 public interface OperationLogService extends ExtendService<OperationLog> {
 
-    /**
-     * 根据QueryObject查询分页数据
-     * @param pageParam 分页参数
-     * @param qo 查询参数对象
-     * @return PageResult<LoginLogVO> 分页数据
-     */
-    PageResult<OperationLogPageVO> queryPage(PageParam pageParam, OperationLogQO qo);
+	/**
+	 * 根据QueryObject查询分页数据
+	 * @param pageParam 分页参数
+	 * @param qo 查询参数对象
+	 * @return PageResult<LoginLogVO> 分页数据
+	 */
+	PageResult<OperationLogPageVO> queryPage(PageParam pageParam, OperationLogQO qo);
 
-
-    /**
-     * 异步保存操作日志
-     * @param operationLog 操作日志
-     */
-    void saveAsync(OperationLog operationLog);
-
-
+	/**
+	 * 异步保存操作日志
+	 * @param operationLog 操作日志
+	 */
+	void saveAsync(OperationLog operationLog);
 
 }

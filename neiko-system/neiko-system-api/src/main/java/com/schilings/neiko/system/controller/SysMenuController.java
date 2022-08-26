@@ -1,6 +1,5 @@
 package com.schilings.neiko.system.controller;
 
-
 import com.schilings.neiko.extend.sa.token.oauth2.annotation.Oauth2CheckScope;
 import com.schilings.neiko.system.service.SysMenuService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "菜单权限管理")
 public class SysMenuController {
 
+	private final SysMenuService sysMenuService;
 
-    private final SysMenuService sysMenuService;
-    
 }

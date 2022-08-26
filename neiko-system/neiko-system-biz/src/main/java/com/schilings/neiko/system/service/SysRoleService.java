@@ -11,13 +11,12 @@ import java.util.List;
 
 public interface SysRoleService extends ExtendService<SysRole> {
 
+	/**
+	 * 查询系统角色列表
+	 * @param pageParam 分页参数
+	 * @param qo 查询参数
+	 * @return 分页对象
+	 */
+	PageResult<SysRolePageVO> queryPage(PageParam pageParam, SysRoleQO sysRoleQO);
 
-    /**
-     * 查询系统角色列表
-     * @param pageParam 分页参数
-     * @param qo 查询参数
-     * @return 分页对象
-     */
-    PageResult<SysRolePageVO> queryPage(PageParam pageParam, SysRoleQO sysRoleQO);
-    
 }

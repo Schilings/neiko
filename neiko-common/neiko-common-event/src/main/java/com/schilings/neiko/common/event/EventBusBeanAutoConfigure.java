@@ -1,6 +1,5 @@
 package com.schilings.neiko.common.event;
 
-
 import com.schilings.neiko.common.event.publisher.EventBus;
 import com.schilings.neiko.common.event.publisher.EventBusAware;
 import lombok.extern.slf4j.Slf4j;

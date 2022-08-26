@@ -1,17 +1,55 @@
+neiko:
+  admin:
+    boostrap:
+      enabled: false
+  auth:
+    open-client: 
+      client-id: 1001
+      access-token: access_token
+    enable-aes: false
+    aes-secret-key: 'HX19ChxGmts3l/KkHnWmiw=='
+    ignore-urls: 
+      - /**
+  system:
+    administrator:
+      user-id: 1
+      username: admin
+    enable-aes: false
+    aes-secret-key: 'HX19ChxGmts3l/KkHnWmiw=='
+    password-rule: ''
+  sa-token:
+    enforce-json-filter: true
+    enforce-cancel-authenticate: true
+  web:
+    pageable:
+      page-parameter-name: page
+      size-parameter-name: size
+      sort-parameter-name: sorts
+      max-page-size: 100
+  redis:
+    key-prefix: 'neiko-'
+    null-value: 'N_V'
+    delimiter: ':'
+    thread-count: 10
+    expire-time: 3600
+
 server:
   port: 8080
 spring:
+  # redis
   redis:
     host: 120.25.221.239
     database: 0
     port: 6379
     password: Schilings11538...
+  # mysql
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/nk?allowMultiQueries=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/nk_test?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: root
     password: WNs11538...
 
+# mybatis plus配置
 mybatis-plus:
   mapper-locations:
     - classpath*:/com/gitee/sunchenbin/mybatis/actable/mapping/*/*.xml #自动建表
@@ -21,12 +59,13 @@ mybatis-plus:
 
 # sa-token配置
 sa-token:
-  token-name: access-token
-  auto-renew: true
+  token-name: login-token
+#  token-prefix: 'Bearer'
+  auto-renew: false
   is-log: true
-  is-concurrent: false
+  is-concurrent: true
 
-## 数据库表结构维护
+# 数据库表结构维护
 actable: 
   table: 
     auto: none #update
@@ -35,9 +74,11 @@ actable:
   database: 
     type: mysql
 
+
 ## OPEN API接口文档
 springdoc:
   swagger-ui:
     enabled: true
     urls: #由于 knife4j 对于规范支持的不全面，无法直接使用单文档源数据，所以必须进行分组或者 urls 的指定。
       - { name: 'sample', url: '/v3/api-docs' }
+    

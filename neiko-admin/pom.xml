@@ -13,6 +13,7 @@
     <modules>
         <module>neiko-admin-core</module>
         <module>neiko-admin-auth</module>
+        <module>neiko-admin-boostrap</module>
     </modules>
 
 

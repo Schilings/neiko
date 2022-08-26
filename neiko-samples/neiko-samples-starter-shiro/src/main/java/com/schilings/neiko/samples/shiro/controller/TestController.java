@@ -21,31 +21,32 @@ import java.util.Map;
 @RestController
 @RequestMapping("shiro")
 public class TestController {
-    
-    @Autowired
-    private JWTRepository jWTRepository;
-    
-    @GetMapping("/login")
-    public String login(String username) {
-        Map<String, String> map = new HashMap<>();
-        map.put("username", username);
-        return jWTRepository.getToken(map);
-    }
-    
-    @GetMapping("test")
-    public String test1() {
-        return "hh";
-    }
-    
-    @RequiresRoles("admin")
-    @GetMapping("test2")
-    public String test2() {
-        return "xx";
-    }
-    
-    @RequiresRoles("ll")
-    @GetMapping("test3")
-    public String test3() {
-        return "xx";
-    }
+
+	@Autowired
+	private JWTRepository jWTRepository;
+
+	@GetMapping("/login")
+	public String login(String username) {
+		Map<String, String> map = new HashMap<>();
+		map.put("username", username);
+		return jWTRepository.getToken(map);
+	}
+
+	@GetMapping("test")
+	public String test1() {
+		return "hh";
+	}
+
+	@RequiresRoles("admin")
+	@GetMapping("test2")
+	public String test2() {
+		return "xx";
+	}
+
+	@RequiresRoles("ll")
+	@GetMapping("test3")
+	public String test3() {
+		return "xx";
+	}
+
 }

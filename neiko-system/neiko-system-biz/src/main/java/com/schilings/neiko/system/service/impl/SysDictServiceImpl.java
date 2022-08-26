@@ -1,6 +1,5 @@
 package com.schilings.neiko.system.service.impl;
 
-
 import com.schilings.neiko.extend.mybatis.plus.service.ExtendService;
 import com.schilings.neiko.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import com.schilings.neiko.system.mapper.SysDictMapper;
@@ -14,4 +13,5 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class SysDictServiceImpl extends ExtendServiceImpl<SysDictMapper, SysDict> implements SysDictService {
+
 }

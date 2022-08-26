@@ -9,8 +9,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum BaseResultCode implements ResultCode {
 
-	SUCCESS(GeneralConstants.SUCCESS, GeneralConstants.SUCCESS_MESSAGE), 
-	
+	SUCCESS(GeneralConstants.SUCCESS, GeneralConstants.SUCCESS_MESSAGE),
+
 	FAIL(GeneralConstants.FAIL, GeneralConstants.FAIL_MESSAGE),
 
 	/**

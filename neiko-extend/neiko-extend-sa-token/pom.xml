@@ -26,7 +26,6 @@
         <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-servlet</artifactId>
-            <version>1.30.0</version>
         </dependency>
         <!-- Sa-Token 整合 jwt -->
         <dependency>

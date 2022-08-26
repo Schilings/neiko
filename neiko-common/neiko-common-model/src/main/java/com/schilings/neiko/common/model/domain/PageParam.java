@@ -43,10 +43,14 @@ public class PageParam {
 
 	/**
 	 * 排序字段载体
-	 * <p>sort=field1,asc</p>
-	 * <p>sort=field2,desc</p>
+	 * <p>
+	 * sort=field1,asc
+	 * </p>
+	 * <p>
+	 * sort=field2,desc
+	 * </p>
 	 */
-	@Schema(title = "排序规则")
+	@Schema(title = "排序规则", defaultValue = "field1,asc")
 	@Valid
 	private List<Sort> sorts = new ArrayList<>();
 

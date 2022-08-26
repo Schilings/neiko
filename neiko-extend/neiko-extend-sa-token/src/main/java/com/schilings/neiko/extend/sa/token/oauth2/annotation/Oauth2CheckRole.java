@@ -11,30 +11,30 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 
- * <p>角色认证：必须具有指定角色标识才能进入该方法
- * 可标注在函数、类上（效果等同于标注在此类的所有方法上）</p>
- * 
+ *
+ * <p>
+ * 角色认证：必须具有指定角色标识才能进入该方法 可标注在函数、类上（效果等同于标注在此类的所有方法上）
+ * </p>
+ *
  * @author Schilings
-*/
+ */
 @SaCheckRole(type = StpOauth2UserUtil.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD, ElementType.TYPE})
+@Target({ ElementType.METHOD, ElementType.TYPE })
 public @interface Oauth2CheckRole {
 
-    /**
-     * 需要校验的角色标识
-     * @return 需要校验的角色标识
-     */
-    @AliasFor(annotation = SaCheckRole.class)
-    String [] value() default {};
+	/**
+	 * 需要校验的角色标识
+	 * @return 需要校验的角色标识
+	 */
+	@AliasFor(annotation = SaCheckRole.class)
+	String[] value() default {};
 
-    /**
-     * 验证模式：AND | OR，默认AND
-     * @return 验证模式
-     */
-    @AliasFor(annotation = SaCheckRole.class)
-    SaMode mode() default SaMode.AND;
-
+	/**
+	 * 验证模式：AND | OR，默认AND
+	 * @return 验证模式
+	 */
+	@AliasFor(annotation = SaCheckRole.class)
+	SaMode mode() default SaMode.AND;
 
 }

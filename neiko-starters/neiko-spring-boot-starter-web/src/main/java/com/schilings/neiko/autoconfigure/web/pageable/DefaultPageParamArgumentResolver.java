@@ -15,7 +15,8 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author Schilings
  */
-public class DefaultPageParamArgumentResolver extends PageParamArgumentResolverSupport implements PageParamArgumentResolver {
+public class DefaultPageParamArgumentResolver extends PageParamArgumentResolverSupport
+		implements PageParamArgumentResolver {
 
 	public DefaultPageParamArgumentResolver(PageableProperties pageableProperties) {
 		setMaxPageSize(pageableProperties.getMaxPageSize());
@@ -46,7 +47,7 @@ public class DefaultPageParamArgumentResolver extends PageParamArgumentResolverS
 	 */
 	@Override
 	public PageParam resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-									 NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 
 		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 		if (request == null) {
@@ -58,6 +59,5 @@ public class DefaultPageParamArgumentResolver extends PageParamArgumentResolverS
 
 		return pageParam;
 	}
-
 
 }

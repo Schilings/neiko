@@ -1,19 +1,21 @@
 package com.schilings.neiko.system.model.qo;
 
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springdoc.api.annotations.ParameterObject;
 
 import java.util.List;
 
-
 /**
- * 
- * <p>SysUser多条件查询PO</p>
- * 
+ *
+ * <p>
+ * SysUser多条件查询PO
+ * </p>
+ *
  * @author Schilings
-*/
+ */
 @Data
 @Schema(title = "系统用户查询对象")
 @ParameterObject
@@ -58,7 +60,7 @@ public class SysUserQO {
 	/**
 	 * 组织机构ID
 	 */
-	@Parameter(description = "organizationId")
+	@Parameter(description = "organizationId", array = @ArraySchema)
 	private List<Integer> organizationId;
 
 	@Parameter(description = "用户类型:1:系统用户， 2：客户用户")
