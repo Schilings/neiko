@@ -32,7 +32,7 @@ public class RoleBindUserVO implements Serializable {
 	private Integer type;
 
 	@Schema(title = "组织机构ID")
-	private Integer organizationId;
+	private Long organizationId;
 
 	@Schema(title = "组织机构名称")
 	private String organizationName;

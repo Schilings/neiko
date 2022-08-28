@@ -17,4 +17,25 @@ public interface SysConfigService extends ExtendService<SysConfig> {
 	 */
 	PageResult<SysConfigPageVO> queryPage(PageParam pageParam, SysConfigQO sysConfigQO);
 
+	/**
+	 * 根据配置key获取对应value
+	 * @param confKey 配置key
+	 * @return confValue
+	 */
+	String getConfValueByKey(String confKey);
+
+	/**
+	 * 根据 confKey 进行更新
+	 * @param sysConfig 系统配置
+	 * @return 更新是否成功
+	 */
+	boolean updateByKey(SysConfig sysConfig);
+
+	/**
+	 * 根据 confKey 进行删除
+	 * @param confKey 配置key
+	 * @return 删除是否成功
+	 */
+	boolean removeByKey(String confKey);
+
 }

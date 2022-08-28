@@ -83,7 +83,7 @@ public class SysUserPageVO implements Serializable {
 	 * 组织机构ID
 	 */
 	@Schema(title = "组织机构ID")
-	private Integer organizationId;
+	private Long organizationId;
 
 	/**
 	 * 组织机构名称

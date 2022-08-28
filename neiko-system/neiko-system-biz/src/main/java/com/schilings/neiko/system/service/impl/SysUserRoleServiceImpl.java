@@ -2,14 +2,13 @@ package com.schilings.neiko.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
-import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.schilings.neiko.common.core.exception.ServiceException;
 import com.schilings.neiko.common.event.publisher.EventBus;
 
 import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;
 import com.schilings.neiko.common.model.result.BaseResultCode;
-import com.schilings.neiko.common.security.event.RoleAuthorityChangedEvent;
+import com.schilings.neiko.extend.sa.token.oauth2.event.authority.RoleAuthorityChangedEvent;
 import com.schilings.neiko.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import com.schilings.neiko.system.mapper.SysUserRoleMapper;
 import com.schilings.neiko.system.model.entity.SysRole;
@@ -24,10 +23,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -97,7 +93,7 @@ public class SysUserRoleServiceImpl extends ExtendServiceImpl<SysUserRoleMapper,
 	public boolean deleteByUserId(Long userId) {
 		boolean deleteSuccess = baseMapper.deleteAllByUserId(userId);
 		if (deleteSuccess) {
-			eventPublisher.publishEvent(new RoleAuthorityChangedEvent(userId.toString()));
+			eventPublisher.publishEvent(new RoleAuthorityChangedEvent(Arrays.asList(userId.toString())));
 		}
 		return deleteSuccess;
 	}
@@ -117,7 +113,7 @@ public class SysUserRoleServiceImpl extends ExtendServiceImpl<SysUserRoleMapper,
 		else {
 			boolean deleteSuccess = baseMapper.deleteUserRole(userId, roleCode);
 			if (deleteSuccess) {
-				eventPublisher.publishEvent(new RoleAuthorityChangedEvent(userId.toString()));
+				eventPublisher.publishEvent(new RoleAuthorityChangedEvent(Arrays.asList(userId.toString())));
 			}
 			return deleteSuccess;
 		}
@@ -135,9 +131,6 @@ public class SysUserRoleServiceImpl extends ExtendServiceImpl<SysUserRoleMapper,
 		boolean existsRoleBind = baseMapper.existsRoleBind(userId, null);
 		if (existsRoleBind) {
 			boolean deleteSuccess = baseMapper.deleteAllByUserId(userId);
-			if (deleteSuccess) {
-				eventPublisher.publishEvent(new RoleAuthorityChangedEvent(userId.toString()));
-			}
 			Assert.isTrue(deleteSuccess, () -> {
 				log.error("[updateUserRoles] 删除用户角色关联关系失败，userId：{}，roleCodes：{}", userId, roleCodes);
 				return new ServiceException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "删除用户角色关联关系失败");
@@ -145,12 +138,13 @@ public class SysUserRoleServiceImpl extends ExtendServiceImpl<SysUserRoleMapper,
 		}
 		// 没有的新授权的角色直接返回
 		if (CollectionUtil.isEmpty(roleCodes)) {
+			eventPublisher.publishEvent(new RoleAuthorityChangedEvent(Arrays.asList(userId.toString())));
 			return true;
 		}
 		// 保存新的用户角色关联关系
 		boolean addSuccess = addUserRoles(userId, roleCodes);
 		if (addSuccess) {
-			eventPublisher.publishEvent(new RoleAuthorityChangedEvent(userId.toString()));
+			eventPublisher.publishEvent(new RoleAuthorityChangedEvent(Arrays.asList(userId.toString())));
 		}
 		return addSuccess;
 	}
@@ -170,6 +164,7 @@ public class SysUserRoleServiceImpl extends ExtendServiceImpl<SysUserRoleMapper,
 			log.error("[addUserRoles] 插入用户角色关联关系失败，userId：{}，roleCodes：{}", userId, roleCodes);
 			return new ServiceException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "插入用户角色关联关系失败");
 		});
+		eventPublisher.publishEvent(new RoleAuthorityChangedEvent(Arrays.asList(userId.toString())));
 		return insertSuccess;
 	}
 

@@ -32,6 +32,9 @@ neiko:
     delimiter: ':'
     thread-count: 10
     expire-time: 3600
+  log:
+    access:
+      ignore-url-patterns: ''
 
 server:
   port: 8080

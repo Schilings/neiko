@@ -18,8 +18,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * - 默认提供 Regex 和 Slide 类型的脱敏处理器 <br/>
  * - Simple 脱敏处理器则使用SPI方式加载，便于用户扩展处理
  * </p>
- *
- * @author Hccake 2021/1/22
  * @version 1.0
  */
 public final class DesensitizationHandlerHolder {

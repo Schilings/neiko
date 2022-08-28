@@ -109,7 +109,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 		Set<String> permissions = new HashSet<>();
 		Set<SysMenu> menus = new HashSet<>();
 		for (String roleCode : roleCodes) {
-			List<SysMenu> sysMenuList = sysRoleMenuService.listByRoleCode(roleCode);
+			List<SysMenu> sysMenuList = sysRoleMenuService.listMenus(roleCode);
 			menus.addAll(sysMenuList);
 			List<String> permissionList = sysMenuList.stream().map(SysMenu::getPermission).filter(StrUtil::isNotEmpty)
 					.collect(Collectors.toList());
@@ -131,7 +131,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 		SysUser sysUser = SysUserConverter.INSTANCE.dtoToPo(sysUserDto);
 		sysUser.setType(SysUserConst.Type.SYSTEM.getValue());
 		// 对密码进行加密
-		String rawPassword = sysUserDto.getPassword();
+		String rawPassword = sysUserDto.getPass();
 		String encodedPassword = passwordHelper.encode(rawPassword, null);
 		sysUser.setPassword(encodedPassword);
 

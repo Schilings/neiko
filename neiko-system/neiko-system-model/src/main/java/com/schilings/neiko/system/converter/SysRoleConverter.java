@@ -1,5 +1,6 @@
 package com.schilings.neiko.system.converter;
 
+import com.schilings.neiko.system.model.dto.SysRoleUpdateDTO;
 import com.schilings.neiko.system.model.entity.SysRole;
 import com.schilings.neiko.system.model.vo.SysRolePageVO;
 
@@ -17,5 +18,12 @@ public interface SysRoleConverter {
 	 * @return SysRolePageVO 系统角色分页VO
 	 */
 	SysRolePageVO poToPageVo(SysRole sysRole);
+
+	/**
+	 * 修改DTO 转 PO
+	 * @param dto 修改DTO
+	 * @return SysRole PO
+	 */
+	SysRole dtoToPo(SysRoleUpdateDTO dto);
 
 }

@@ -16,6 +16,7 @@ import cn.dev33.satoken.util.SaResult;
 
 import com.schilings.neiko.common.model.result.R;
 import com.schilings.neiko.extend.sa.token.core.StpOauth2UserUtil;
+import com.schilings.neiko.extend.sa.token.holder.ApplicationEventPublisherHolder;
 
 import java.util.Map;
 
@@ -214,10 +215,16 @@ public class ExtendOauth2Handler {
 
 		// 7、生成 Access-Token
 		AccessTokenModel at = SaOAuth2Util.generateAccessToken(ra, true);
-		SaTokenInfo tokenInfo = StpOauth2UserUtil.getTokenInfo();
+		
+		// 8、Token拓展
 		Map<String, Object> map = at.toLineMap();
-		map.put("tokenInfo", tokenInfo);
-		// 8、返回 Access-Token
+		map.put(SaOAuth2Consts.Param.grant_type, SaOAuth2Consts.GrantType.password);//授权方式
+		map.put("tokenInfo",  StpOauth2UserUtil.getTokenInfo());//系统登录Token
+		
+		// 9、发布登录成功事件
+		ApplicationEventPublisherHolder.pushAuthenticationSuccessEvent(map);
+		
+		// 10、返回 Access-Token
 		return R.ok(map);
 	}
 

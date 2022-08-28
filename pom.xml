@@ -11,7 +11,7 @@
     <modules>
         <module>neiko-auth</module>
         <module>neiko-common</module>
-        <module>neiko-dependencies</module>
+<!--        <module>neiko-dependencies</module>-->
         <module>neiko-starters</module>
         <module>neiko-samples</module>
         <module>neiko-cloud</module>

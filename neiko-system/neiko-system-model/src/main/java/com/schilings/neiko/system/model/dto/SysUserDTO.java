@@ -26,7 +26,7 @@ public class SysUserDTO {
 	 */
 	@NotNull(message = "userId不能为空", groups = UpdateGroup.class)
 	@Schema(title = "主键id")
-	private Integer userId;
+	private Long userId;
 
 	/**
 	 * 前端传入密码

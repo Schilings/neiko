@@ -21,7 +21,7 @@ public class SysUserInfo implements Serializable {
 	 * 用户ID
 	 */
 	@Schema(title = "用户ID")
-	private Integer userId;
+	private Long userId;
 
 	/**
 	 * 登录账号
@@ -45,7 +45,7 @@ public class SysUserInfo implements Serializable {
 	 * 组织机构ID
 	 */
 	@Schema(title = "组织机构ID")
-	private Integer organizationId;
+	private Long organizationId;
 
 	/**
 	 * 用户类型

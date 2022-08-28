@@ -4,7 +4,9 @@ import com.schilings.neiko.common.log.operation.aspect.OperationLogAspect;
 import com.schilings.neiko.common.log.operation.handler.OperationLogHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration(proxyBeanMethods = false)
 public class OperationLogAutoConfiguration {
 
 	/**

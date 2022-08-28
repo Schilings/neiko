@@ -1,14 +1,13 @@
 package com.schilings.neiko.extend.sa.token.holder;
 
 import cn.dev33.satoken.session.SaSessionCustomUtil;
-import com.schilings.neiko.common.security.event.PermissionAuthorityChangedEvent;
-import com.schilings.neiko.common.security.event.RoleAuthorityChangedEvent;
+import com.schilings.neiko.extend.sa.token.oauth2.event.authority.PermissionAuthorityChangedEvent;
+import com.schilings.neiko.extend.sa.token.oauth2.event.authority.RoleAuthorityChangedEvent;
 import com.schilings.neiko.extend.sa.token.core.StpOauth2UserUtil;
 import com.schilings.neiko.extend.sa.token.oauth2.pojo.UserDetails;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.List;
-import java.util.Set;
 import java.util.function.Supplier;
 
 public class RBACAuthorityHolder {
@@ -21,12 +20,12 @@ public class RBACAuthorityHolder {
 
 	@ExceptionHandler
 	public void refreshUserRole(RoleAuthorityChangedEvent event) {
-		deleteRoles(event.getUserId());
+		event.getUserId().forEach(RBACAuthorityHolder::deleteRoles);
 	}
 
 	@ExceptionHandler
 	public void refreshRolePermission(PermissionAuthorityChangedEvent event) {
-		deletePermissions(event.getRoleCode());
+		event.getRoleCode().forEach(RBACAuthorityHolder::deletePermissions);
 	}
 
 	public static void deleteUserDetails(String userId) {

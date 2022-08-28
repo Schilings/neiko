@@ -45,7 +45,7 @@ public class StpInterfaceImpl implements StpInterface {
 		for (String roleId : getRoleList(userId, loginType)) {
 			List<String> permissions = RBACAuthorityHolder.getPermissions(roleId, () -> {
 				// 从数据库查询这个角色所拥有的权限列表
-				return sysRoleMenuService.listPermissionByRoleCode(roleId);
+				return sysRoleMenuService.listPermissions(roleId);
 			});
 			permissionList.addAll(new ArrayList<>(permissions));
 		}

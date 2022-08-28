@@ -58,6 +58,10 @@ public class R<T> implements Serializable {
 		return result(BaseResultCode.FAIL, null);
 	}
 
+	public static <T> R<T> fail(Integer code) {
+		return result(BaseResultCode.FAIL, null);
+	}
+
 	public static <T> R<T> fail(String message) {
 		return result(BaseResultCode.FAIL.getCode(), message, null);
 	}

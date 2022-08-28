@@ -16,5 +16,41 @@
         <module>neiko-admin-boostrap</module>
     </modules>
 
+    <!--添加这段配置是为了识别你的xml和yml配置文件-->
+<!--    <build>
+        <resources>
+            &lt;!&ndash; 该节点会扫描src/main/java目录，若该目录下有配置文件，则需要添加以下配置，保证文件能够被扫描和加载到 &ndash;&gt;
+            <resource>
+                <directory>src/main</directory>
+                <includes>
+                    &lt;!&ndash; 根据目录下的文件配置需要扫描的文件类型 &ndash;&gt;
+                    <include>**/*.yml</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            &lt;!&ndash; 该节点会扫描src/main/resources，一般资源文件和配置文件会放在该目录下 &ndash;&gt;
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    &lt;!&ndash; 根据目录下的文件配置需要扫描的文件类型 &ndash;&gt;
+                    <include>**/*.yml</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            &lt;!&ndash;此处的配置是识别到mapper.xml文件，也可以在application.properties中配置&ndash;&gt;
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+        </resources>
+
+    </build>-->
+
 
 </project>

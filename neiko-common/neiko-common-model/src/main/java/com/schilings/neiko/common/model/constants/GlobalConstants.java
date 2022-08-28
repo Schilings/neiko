@@ -16,6 +16,6 @@ public interface GlobalConstants {
 	/**
 	 * 树根节点ID
 	 */
-	Integer TREE_ROOT_ID = 0;
+	Long TREE_ROOT_ID = 0L;
 
 }

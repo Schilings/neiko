@@ -30,7 +30,7 @@ public class SysRoleServiceImpl extends ExtendServiceImpl<SysRoleMapper, SysRole
 
 	private final EventBus eventBus;
 
-	private final SysRoleMenuMapper sysRoleMenuMapper;
+	private final SysRoleMenuService sysRoleMenuService;
 
 	/**
 	 * 查询系统角色列表
@@ -52,7 +52,7 @@ public class SysRoleServiceImpl extends ExtendServiceImpl<SysRoleMapper, SysRole
 	@Transactional(rollbackFor = Exception.class)
 	public boolean removeById(Serializable id) {
 		SysRole role = getById(id);
-		boolean deleteSuccess = sysRoleMenuMapper.deleteAllByRoleCode(role.getCode());
+		boolean deleteSuccess = sysRoleMenuService.deleteAllByRoleCode(role.getCode());
 		Assert.isTrue(deleteSuccess, () -> {
 			log.error("[removeById] 删除角色菜单关联关系失败，roleId：{}", id);
 			return new ServiceException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "删除角色菜单关联关系失败");

@@ -18,6 +18,23 @@
 		update_time
     </sql>
 
+    <!--	这里为了兼容 shardingsphare 4.x 暂时使用 ${} 传参-->
+    <update id="followMoveChildNode">
+        UPDATE
+            nk_sys_organization
+        SET
+            hierarchy = CONCAT(#{param.targetParentHierarchy},
+                               SUBSTR(hierarchy, ${param.originParentHierarchyLengthPlusOne})),
+            depth = depth - #{param.depthDiff}
+        WHERE
+            deleted = 0
+          AND  (
+                    parent_id = #{param.parentId}  -- 儿子节点
+                OR
+                    hierarchy like #{param.grandsonConditionalStatement} -- 孙子节点
+            )
+    </update>
+
 
     <select id="listChildOrganization" resultType="com.schilings.neiko.system.model.entity.SysOrganization">
         SELECT

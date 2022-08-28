@@ -4,13 +4,15 @@ import com.schilings.neiko.auth.check.PasswordChecker;
 import com.schilings.neiko.common.model.result.R;
 import com.schilings.neiko.extend.sa.token.holder.RBACAuthorityHolder;
 import com.schilings.neiko.extend.sa.token.oauth2.component.UserDetailsService;
-import com.schilings.neiko.common.security.event.RoleAuthorityChangedEvent;
+import com.schilings.neiko.extend.sa.token.oauth2.event.authority.RoleAuthorityChangedEvent;
 import com.schilings.neiko.extend.sa.token.oauth2.pojo.UserDetails;
 import com.schilings.neiko.common.util.spring.SpringUtils;
 import com.schilings.neiko.extend.sa.token.core.StpOauth2UserUtil;
 import com.schilings.neiko.extend.sa.token.oauth2.component.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
 
 /**
  *
@@ -57,10 +59,10 @@ public class LoginServiceImpl implements LoginService {
 	 * @param loginId
 	 */
 	@Override
-	public void logout(String loginId) {
+	public void logoutInternal(String loginId) {
 		StpOauth2UserUtil.logout(loginId);
 		// 删除缓存
-		SpringUtils.publishEvent(new RoleAuthorityChangedEvent(loginId));
+		SpringUtils.publishEvent(new RoleAuthorityChangedEvent(Arrays.asList(loginId)));
 	}
 
 }

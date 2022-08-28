@@ -1,4 +1,4 @@
-package com.schilings.neiko.common.security.event;
+package com.schilings.neiko.extend.sa.token.oauth2.event.authority;
 
 import org.springframework.context.ApplicationEvent;
 
@@ -10,7 +10,7 @@ import org.springframework.context.ApplicationEvent;
  *
  * @author Schilings
  */
-public class AuthorityChangedEvent extends ApplicationEvent {
+public abstract class AuthorityChangedEvent extends ApplicationEvent {
 
 	public AuthorityChangedEvent(Object source) {
 		super(source);

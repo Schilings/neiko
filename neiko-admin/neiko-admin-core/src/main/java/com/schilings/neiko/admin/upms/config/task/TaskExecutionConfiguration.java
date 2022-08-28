@@ -27,6 +27,7 @@ public class TaskExecutionConfiguration {
 		// 这里使用主线程直接执行该任务
 		return (taskExecutor -> {
 			taskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+			taskExecutor.setTaskDecorator(new MdcTaskDecorator());
 		});
 	}
 

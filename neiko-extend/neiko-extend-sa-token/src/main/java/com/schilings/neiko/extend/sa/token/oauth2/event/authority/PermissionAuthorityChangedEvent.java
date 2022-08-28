@@ -1,8 +1,9 @@
-package com.schilings.neiko.common.security.event;
+package com.schilings.neiko.extend.sa.token.oauth2.event.authority;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Collection;
 
 /**
  *
@@ -16,9 +17,9 @@ import lombok.Setter;
 @Setter
 public class PermissionAuthorityChangedEvent extends AuthorityChangedEvent {
 
-	private final String roleCode;
+	private final Collection<String> roleCode;
 
-	public PermissionAuthorityChangedEvent(String roleCode) {
+	public PermissionAuthorityChangedEvent(Collection<String> roleCode) {
 		super(roleCode);
 		this.roleCode = roleCode;
 	}

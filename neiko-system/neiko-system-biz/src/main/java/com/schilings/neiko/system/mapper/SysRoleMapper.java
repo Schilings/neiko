@@ -1,6 +1,7 @@
 package com.schilings.neiko.system.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.schilings.neiko.common.model.constants.GlobalConstants;
 import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;
 import com.schilings.neiko.extend.mybatis.plus.mapper.ExtendMapper;
@@ -35,7 +36,8 @@ public interface SysRoleMapper extends ExtendMapper<SysRole> {
 	default PageResult<SysRolePageVO> queryPage(PageParam pageParam, SysRoleQO qo) {
 		IPage<SysRolePageVO> page = this.prodPage(pageParam);
 		NeikoLambdaQueryWrapper<Object> queryWrapper = WrappersX.lambdaQueryJoin().selectAll(SysRole.class)
-				.likeIfPresent(SysRole::getName, qo.getName()).likeIfPresent(SysRole::getCode, qo.getCode())
+				.eq(SysRole::getDeleted, NOT_DELETED_FLAG).likeIfPresent(SysRole::getName, qo.getName())
+				.likeIfPresent(SysRole::getCode, qo.getCode())
 				.betweenIfPresent(SysRole::getCreateTime, qo.getStartTime(), qo.getEndTime());
 		IPage<SysRolePageVO> iPage = this.selectJoinPage(page, SysRolePageVO.class, AUTO_RESULT_MAP, queryWrapper);
 		return this.prodPage(iPage);

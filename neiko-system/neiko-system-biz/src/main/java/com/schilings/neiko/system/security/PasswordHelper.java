@@ -31,6 +31,7 @@ public class PasswordHelper {
 	 * @return 符合返回 true
 	 */
 	public boolean validateRule(String rawPassword) {
+		rawPassword = decodeAes(rawPassword);
 		if (passwordPattern == null) {
 			return true;
 		}
@@ -57,14 +58,7 @@ public class PasswordHelper {
 	 * @return
 	 */
 	public String encode(String asePassword, String salt) {
-		String rawPassword;
-		if (systemProperties.isEnableAes()) {
-			// 解析出明文密码
-			rawPassword = DefaultPasswordEncoder.decodeAes(asePassword, systemProperties.getAesSecretKey());
-		}
-		else {
-			rawPassword = asePassword;
-		}
+		String rawPassword = decodeAes(asePassword);
 		return DefaultPasswordEncoder.encode(rawPassword, salt);
 	}
 
