@@ -2,6 +2,7 @@ package com.schilings.neiko.extend.sa.token.holder;
 
 
 import com.schilings.neiko.common.util.spring.SpringUtils;
+import com.schilings.neiko.extend.sa.token.oauth2.event.authentication.AbstractAuthenticationFailureEvent;
 import com.schilings.neiko.extend.sa.token.oauth2.event.authentication.AuthenticationSuccessEvent;
 import com.schilings.neiko.extend.sa.token.oauth2.pojo.Authentication;
 import com.schilings.neiko.extend.sa.token.oauth2.pojo.AuthenticationImpl;
@@ -44,5 +45,9 @@ public class ApplicationEventPublisherHolder {
         authentication.setUserDetails(RBACAuthorityHolder.getUserDetails());
         authentication.setAuthenticated(true);
         publishEvent(new AuthenticationSuccessEvent(authentication));
+    }
+
+    public static void pushAbstractAuthenticationFailureEvent(AbstractAuthenticationFailureEvent event) {
+        publishEvent(event);
     }
 }

@@ -57,6 +57,7 @@
         <module name="neiko-common-log" />
         <module name="neiko-auth-model" />
         <module name="neiko-common-core" />
+        <module name="neiko-admin-boostrap" />
         <module name="neiko-log-model" />
         <module name="neiko-system-model" />
         <module name="neiko-spring-boot-starter-log" />

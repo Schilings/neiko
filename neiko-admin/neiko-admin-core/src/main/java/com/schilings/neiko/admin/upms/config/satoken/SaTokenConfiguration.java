@@ -2,6 +2,7 @@ package com.schilings.neiko.admin.upms.config.satoken;
 
 import cn.dev33.satoken.interceptor.SaAnnotationInterceptor;
 import cn.dev33.satoken.stp.StpInterface;
+import com.schilings.neiko.auth.handler.AuthHandlerExceptionResolver;
 import com.schilings.neiko.extend.sa.token.holder.RBACAuthorityHolder;
 import com.schilings.neiko.system.service.SysMenuService;
 import com.schilings.neiko.system.service.SysRoleMenuService;
@@ -45,6 +46,15 @@ public class SaTokenConfiguration {
 	public RBACAuthorityHolder rbacAuthorityHolder() {
 		return new RBACAuthorityHolder();
 	}
+
+
+	@Bean
+	@ConditionalOnMissingBean(AuthHandlerExceptionResolver.class)
+	public AuthHandlerExceptionResolver authHandlerExceptionResolver() {
+		return new AuthHandlerExceptionResolver();
+	}
+	
+	
 
 	@Configuration
 	public class SaTokenConfigure implements WebMvcConfigurer {

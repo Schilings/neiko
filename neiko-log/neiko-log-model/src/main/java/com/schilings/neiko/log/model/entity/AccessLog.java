@@ -113,7 +113,7 @@ public class AccessLog {
 	/**
 	 * 响应信息
 	 */
-	@Column(comment = "响应信息")
+	@Column(comment = "响应信息", length = 500)
 	@Schema(title = "响应信息")
 	private String result;
 

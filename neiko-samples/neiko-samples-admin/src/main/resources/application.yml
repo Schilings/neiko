@@ -19,7 +19,7 @@ neiko:
     password-rule: ''
   sa-token:
     enforce-json-filter: true
-    enforce-cancel-authenticate: true
+    enforce-cancel-authenticate: false
   web:
     pageable:
       page-parameter-name: page
@@ -34,7 +34,7 @@ neiko:
     expire-time: 3600
   log:
     access:
-      ignore-url-patterns: ''
+      ignore-url-patterns: /oauth2/*
 
 server:
   port: 8080
@@ -67,6 +67,8 @@ sa-token:
   auto-renew: false
   is-log: true
   is-concurrent: true
+  timeout: 3600
+  activity-timeout: 1800
 
 # 数据库表结构维护
 actable: 

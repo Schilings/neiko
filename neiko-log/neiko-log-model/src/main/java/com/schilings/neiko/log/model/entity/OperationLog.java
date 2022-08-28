@@ -106,7 +106,7 @@ public class OperationLog {
 	/**
 	 * 操作结果
 	 */
-	@Column(comment = "操作结果")
+	@Column(comment = "操作结果", length = 500)
 	@Schema(title = "操作结果")
 	private String result;
 

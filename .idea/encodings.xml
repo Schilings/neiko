@@ -5,8 +5,11 @@
     <file url="file://$PROJECT_DIR$/Neiko-common-util/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-admin/neiko-admin-auth/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-admin/neiko-admin-auth/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-admin/neiko-admin-boostrap/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-admin/neiko-admin-boostrap/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-admin/neiko-admin-core/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-admin/neiko-admin-core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-admin/src/main" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-admin/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-admin/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-auth/neiko-auth-api/src/main/java" charset="UTF-8" />
