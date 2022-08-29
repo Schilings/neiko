@@ -27,6 +27,12 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-websocket</artifactId>
         </dependency>
+        <!-- spring-data-redis 非必选依赖 -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <!--jakarta annotation-->
         <dependency>
             <groupId>jakarta.annotation</groupId>

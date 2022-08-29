@@ -497,6 +497,11 @@
                 <artifactId>neiko-common-security</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-common-websocket</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <!--neiko starter-->
             <dependency>
                 <groupId>com.schilings</groupId>
@@ -541,6 +546,11 @@
             <dependency>
                 <groupId>com.schilings</groupId>
                 <artifactId>neiko-spring-boot-starter-shiro</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-spring-boot-starter-websocket</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!--neiko cloud-->
@@ -711,7 +721,7 @@
             </dependency>
             <dependency>
                 <groupId>com.schilings</groupId>
-                <artifactId>neiko-admin-auth</artifactId>
+                <artifactId>neiko-admin-websocket</artifactId>
                 <version>${revision}</version>
             </dependency>
 

@@ -1,0 +1,13 @@
+neiko:
+  websocket:
+    path: '/ws'
+    heartbeat: true
+    map-session: true
+    message-distributor: local #使用 redis 做为消息分发器
+    concurrent:
+      enable: true # 允许多线程发送
+      send-time-limit: 2000 # 发送时间的限制（ms
+      buffer-size-limit: 102400 # 发送消息缓冲上限 (byte)
+      overflow-strategy: terminate # 溢出时的执行策略
+    allowed-origins: 
+      - '*'

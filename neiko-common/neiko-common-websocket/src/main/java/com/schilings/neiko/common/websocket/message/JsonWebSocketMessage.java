@@ -13,7 +13,7 @@ package com.schilings.neiko.common.websocket.message;
  *
  * @author Schilings
  */
-public abstract class JsonWebsocketMessage {
+public abstract class JsonWebSocketMessage {
 
 	public static final String TYPE_FIELD = "type";
 
@@ -22,7 +22,7 @@ public abstract class JsonWebsocketMessage {
 	 */
 	private final String type;
 
-	protected JsonWebsocketMessage(String type) {
+	protected JsonWebSocketMessage(String type) {
 		this.type = type;
 	}
 

@@ -20,6 +20,7 @@
         <module>neiko-samples-cloud-gateway</module>
         <module>neiko-samples-cloud-demo-provider</module>
         <module>neiko-samples-admin</module>
+        <module>neiko-samples-starter-websocket</module>
 
     </modules>
 

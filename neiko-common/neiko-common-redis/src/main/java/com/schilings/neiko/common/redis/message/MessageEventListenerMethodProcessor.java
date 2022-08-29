@@ -1,5 +1,6 @@
 package com.schilings.neiko.common.redis.message;
 
+import com.schilings.neiko.common.redis.RedisHelper;
 import com.schilings.neiko.common.redis.message.annoation.RedisListener;
 import com.schilings.neiko.common.redis.message.evaluator.MessageEventExpressionEvaluator;
 import com.schilings.neiko.common.redis.message.factory.MessageEventListenerFactory;
@@ -136,8 +137,8 @@ public class MessageEventListenerMethodProcessor
 		try {
 			RedisMessageListenerContainer container = beanFactory.getBean(RedisMessageListenerContainer.class);
 			setListenerContainer(container);
-			RedisTemplate template = beanFactory.getBean("redisTemplate", RedisTemplate.class);
-			setRedisSerializer(template.getValueSerializer());
+			setRedisSerializer(RedisHelper.objectRedisTemplate().getValueSerializer());
+			
 		}
 		catch (NoSuchBeanDefinitionException e) {
 			//

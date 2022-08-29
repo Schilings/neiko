@@ -8,10 +8,19 @@
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>neiko-admin-auth</artifactId>
+    <artifactId>neiko-admin-websocket</artifactId>
     
     <dependencies>
-
+        <!--websocket-->
+        <dependency>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-spring-boot-starter-websocket</artifactId>
+        </dependency>
+        <!--neiko admin core-->
+        <dependency>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-admin-core</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
