@@ -2,6 +2,7 @@ package com.schilings.neiko.samples.admin;
 
 import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;
+import com.schilings.neiko.notify.mapper.AnnouncementMapper;
 import com.schilings.neiko.system.mapper.SysRoleMapper;
 import com.schilings.neiko.system.mapper.SysUserMapper;
 import com.schilings.neiko.system.mapper.SysUserRoleMapper;
@@ -113,6 +114,36 @@ public class AdminApplicationTest {
 		qo.setRoleCode("NORMAL");
 		PageResult<RoleBindUserVO> pageResult = sysUserRoleMapper.queryUserPageByRoleCode(new PageParam(), qo);
 		pageResult.getData().forEach(System.out::println);
+	}
+
+
+	@Autowired
+	private AnnouncementMapper announcementMapper;
+
+	@Test
+	public void testNotify() {
+		/**
+		 * SELECT 
+		 * 	t.id,
+		 * 	t.title,
+		 * 	t.content,
+		 * 	t.recipient_filter_type,
+		 * 	t.recipient_filter_condition,
+		 * 	t.receive_mode,
+		 * 	t.status,
+		 * 	t.immortal,
+		 * 	t.deadline,
+		 * 	t.deleted,
+		 * 	t.create_by,
+		 * 	t.update_by,
+		 * 	t.create_time,
+		 * 	t.update_time 
+		 * FROM notify_announcement t 
+		 * LEFT JOIN notify_user_announcement t1 
+		 * ON (t1.announcement_id = t.id) 
+		 * WHERE (t.deleted = 0 AND t.status = 1 AND t.immortal = 1 AND t1.id IS NOT NULL)
+		 */
+		announcementMapper.listUserAnnouncements(1L, true);
 	}
 
 }

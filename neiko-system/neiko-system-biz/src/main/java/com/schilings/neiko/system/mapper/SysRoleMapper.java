@@ -1,17 +1,15 @@
 package com.schilings.neiko.system.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.schilings.neiko.common.model.constants.GlobalConstants;
 import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;
+import com.schilings.neiko.common.model.domain.SelectData;
 import com.schilings.neiko.extend.mybatis.plus.mapper.ExtendMapper;
 import com.schilings.neiko.extend.mybatis.plus.wrapper.WrappersX;
 import com.schilings.neiko.extend.mybatis.plus.wrapper.join.NeikoLambdaQueryWrapper;
 import com.schilings.neiko.system.model.entity.SysRole;
-import com.schilings.neiko.system.model.entity.SysUserRole;
 import com.schilings.neiko.system.model.qo.SysRoleQO;
 import com.schilings.neiko.system.model.vo.SysRolePageVO;
-import com.schilings.neiko.system.model.vo.SysUserPageVO;
 
 import java.util.List;
 
@@ -42,5 +40,19 @@ public interface SysRoleMapper extends ExtendMapper<SysRole> {
 		IPage<SysRolePageVO> iPage = this.selectJoinPage(page, SysRolePageVO.class, AUTO_RESULT_MAP, queryWrapper);
 		return this.prodPage(iPage);
 	}
+
+	/**
+	 * 获取角色下拉框数据
+	 *
+	 * @return 下拉选择框数据集合
+	 */
+	default List<SelectData> listSelectData() {
+		NeikoLambdaQueryWrapper<SelectData<Void>> queryWrapper = WrappersX.<SelectData<Void>>lambdaQueryJoin()
+				.selectAs(SysRole::getName, SelectData<Void>::getName)
+				.selectAs(SysRole::getCode, SelectData<Void>::getValue)
+				.eq(SysRole::getDeleted, NOT_DELETED_FLAG);
+		return this.selectJoinList(SelectData.class, AUTO_RESULT_MAP, queryWrapper);
+	}
+
 
 }

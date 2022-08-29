@@ -2,18 +2,17 @@ package com.schilings.neiko.system.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.schilings.neiko.common.model.constants.GlobalConstants;
 import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;
+import com.schilings.neiko.common.model.domain.SelectData;
 import com.schilings.neiko.extend.mybatis.plus.mapper.ExtendMapper;
 import com.schilings.neiko.extend.mybatis.plus.wrapper.WrappersX;
 import com.schilings.neiko.extend.mybatis.plus.wrapper.join.NeikoLambdaQueryWrapper;
 import com.schilings.neiko.system.model.entity.SysOrganization;
 import com.schilings.neiko.system.model.entity.SysUser;
-import com.schilings.neiko.system.model.entity.SysUserRole;
 import com.schilings.neiko.system.model.qo.SysUserQO;
 import com.schilings.neiko.system.model.vo.SysUserPageVO;
 
@@ -92,7 +91,8 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 	 * @return 用户集合
 	 */
 	default List<SysUser> listByOrganizationIds(Collection<Long> organizationIds) {
-		return this.selectList(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getDeleted, GlobalConstants.NOT_DELETED_FLAG)
+		return this.selectList(Wrappers.<SysUser>lambdaQuery()
+				.eq(SysUser::getDeleted, GlobalConstants.NOT_DELETED_FLAG)
 				.in(SysUser::getOrganizationId, organizationIds));
 	}
 
@@ -102,7 +102,8 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 	 * @return 用户集合
 	 */
 	default List<SysUser> listByUserTypes(Collection<Integer> userTypes) {
-		return this.selectList(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getDeleted, GlobalConstants.NOT_DELETED_FLAG)
+		return this.selectList(Wrappers.<SysUser>lambdaQuery()
+				.eq(SysUser::getDeleted, GlobalConstants.NOT_DELETED_FLAG)
 				.in(SysUser::getType, userTypes));
 	}
 
@@ -112,7 +113,8 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 	 * @return 用户集合
 	 */
 	default List<SysUser> listByUserIds(Collection<Long> userIds) {
-		return this.selectList(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getDeleted, GlobalConstants.NOT_DELETED_FLAG)
+		return this.selectList(Wrappers.<SysUser>lambdaQuery()
+				.eq(SysUser::getDeleted, GlobalConstants.NOT_DELETED_FLAG)
 				.in(SysUser::getUserId, userIds));
 	}
 
@@ -122,10 +124,30 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 	 * @return boolean 存在返回 true
 	 */
 	default boolean existsForOrganization(Long organizationId) {
-		LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery(SysUser.class).eq(SysUser::getOrganizationId,
-				organizationId);
+		LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery(SysUser.class)
+				.eq(SysUser::getDeleted, GlobalConstants.NOT_DELETED_FLAG)
+				.eq(SysUser::getOrganizationId, organizationId);
 		Long count = this.selectCount(wrapper);
 		return SqlHelper.retBool(count);
 	}
+
+	/**
+	 * 返回用户的select数据 name=> username value => userId
+	 *
+	 * @param userTypes 用户类型
+	 * @return List<SelectData>
+	 */
+	default List<SelectData> listSelectData(Collection<Integer> userTypes) {
+		NeikoLambdaQueryWrapper<SelectData> queryWrapper = WrappersX.<SelectData>lambdaQueryJoin()
+				.selectAs(SysUser::getUsername, SelectData<Void>::getName)
+				.selectAs(SysUser::getUserId, SelectData<Void>::getValue)
+				.eq(SysUser::getDeleted, GlobalConstants.NOT_DELETED_FLAG)
+				.inIfPresent(SysUser::getType, userTypes);
+		return this.selectJoinList(SelectData.class, AUTO_RESULT_MAP, queryWrapper);
+
+
+	}
+
+
 
 }

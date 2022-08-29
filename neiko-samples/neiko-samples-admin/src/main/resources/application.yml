@@ -73,7 +73,7 @@ sa-token:
 # 数据库表结构维护
 actable: 
   table: 
-    auto: none #update
+    auto: update #update
   model: 
     pack: com.schilings.neiko.**.model.entity
   database: 

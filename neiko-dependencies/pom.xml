@@ -640,6 +640,27 @@
                 <artifactId>neiko-log-api</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <!--neiko notify-->
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-notify</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-notify-model</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-notify-biz</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-notify-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
             
             <!--neiko auth-->
             <dependency>

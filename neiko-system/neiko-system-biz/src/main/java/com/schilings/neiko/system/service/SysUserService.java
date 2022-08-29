@@ -2,6 +2,7 @@ package com.schilings.neiko.system.service;
 
 import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;
+import com.schilings.neiko.common.model.domain.SelectData;
 import com.schilings.neiko.extend.mybatis.plus.service.ExtendService;
 import com.schilings.neiko.system.model.dto.SysUserDTO;
 import com.schilings.neiko.system.model.dto.SysUserScope;
@@ -121,4 +122,11 @@ public interface SysUserService extends ExtendService<SysUser> {
 	 */
 	boolean existsForOrganization(Long organizationId);
 
+
+	/**
+	 * 返回用户的select数据
+	 * @param type 为空时返回所有客户为1返回系统客户 name=> username value => userId
+	 * @return List<SelectData>
+	 */
+	List<SelectData> listSelectData(Collection<Integer> type);
 }

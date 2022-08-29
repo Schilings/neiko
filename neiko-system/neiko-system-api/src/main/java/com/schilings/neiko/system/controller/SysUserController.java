@@ -9,6 +9,7 @@ import com.schilings.neiko.common.log.operation.annotation.ReadOperationLogging;
 import com.schilings.neiko.common.log.operation.annotation.UpdateOperationLogging;
 import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;
+import com.schilings.neiko.common.model.domain.SelectData;
 import com.schilings.neiko.common.model.result.BaseResultCode;
 import com.schilings.neiko.common.model.result.R;
 import com.schilings.neiko.common.model.result.SystemResultCode;
@@ -229,6 +230,18 @@ public class SysUserController {
 			return R.result(BaseResultCode.FILE_UPLOAD_ERROR, null);
 		}
 		return R.ok(objectName);
+	}
+
+	/**
+	 * 获取用户Select
+	 * @return 用户SelectData
+	 */
+	@GetMapping("/select")
+	@Oauth2CheckPermission("system:user:read")
+	@Operation(summary = "获取用户下拉列表数据")
+	public R<List<SelectData>> listSelectData(
+			@RequestParam(value = "userTypes", required = false) List<Integer> userTypes) {
+		return R.ok(sysUserService.listSelectData(userTypes));
 	}
 
 }

@@ -20,6 +20,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 		"com.schilings.neiko.admin.upms",
 		"com.schilings.neiko.system", 
 		"com.schilings.neiko.log",
+		"com.schilings.neiko.notify",
 		"com.schilings.neiko.auth" })
 @EnableAsync
 @AutoConfiguration

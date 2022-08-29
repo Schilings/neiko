@@ -19,6 +19,7 @@
         <module>neiko-system</module>
         <module>neiko-admin</module>
         <module>neiko-log</module>
+        <module>neiko-notify</module>
     </modules>
 
     <properties>

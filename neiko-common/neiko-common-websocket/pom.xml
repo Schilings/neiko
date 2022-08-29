@@ -10,4 +10,27 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>neiko-common-websocket</artifactId>
     
+    
+    <dependencies>
+        <!--neiko-->
+        <dependency>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-common-core</artifactId>
+        </dependency>
+        <!-- slf4j日志 -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <!--websokcet-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-websocket</artifactId>
+        </dependency>
+        <!--jakarta annotation-->
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+        </dependency>
+    </dependencies>
 </project>

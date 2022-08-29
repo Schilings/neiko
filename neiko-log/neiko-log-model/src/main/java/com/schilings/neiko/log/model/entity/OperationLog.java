@@ -3,6 +3,7 @@ package com.schilings.neiko.log.model.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.gitee.sunchenbin.mybatis.actable.annotation.Column;
+import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -36,7 +37,7 @@ public class OperationLog {
 	/**
 	 * 追踪ID
 	 */
-	@Column(comment = "追踪ID")
+	@Column(comment = "追踪ID",type = MySqlTypeConstant.CHAR)
 	@Schema(title = "追踪ID")
 	private String traceId;
 
@@ -78,7 +79,7 @@ public class OperationLog {
 	/**
 	 * 操作提交的数据
 	 */
-	@Column(comment = "操作提交的数据")
+	@Column(comment = "操作提交的数据",type = MySqlTypeConstant.TEXT)
 	@Schema(title = "操作提交的数据")
 	private String params;
 

@@ -3,6 +3,7 @@ package com.schilings.neiko.system.service.impl;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.schilings.neiko.common.event.publisher.EventBus;
+import com.schilings.neiko.common.util.StringUtils;
 import com.schilings.neiko.extend.sa.token.oauth2.event.authority.PermissionAuthorityChangedEvent;
 import com.schilings.neiko.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import com.schilings.neiko.system.mapper.SysRoleMenuMapper;
@@ -66,7 +67,9 @@ public class SysRoleMenuServiceImpl extends ExtendServiceImpl<SysRoleMenuMapper,
 	 */
 	@Override
 	public List<String> listPermissions(String roleCode) {
-		return baseMapper.listMenuByRoleCode(roleCode).stream().map(SysMenu::getPermission).filter(StrUtil::isNotEmpty)
+		return baseMapper.listMenuByRoleCode(roleCode).stream()
+				.map(SysMenu::getPermission)
+				.filter(StringUtils::isNotBlank)
 				.collect(Collectors.toList());
 	}
 

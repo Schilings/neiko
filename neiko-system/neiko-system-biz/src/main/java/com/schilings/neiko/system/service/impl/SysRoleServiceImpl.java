@@ -6,11 +6,10 @@ import com.schilings.neiko.common.core.exception.ServiceException;
 import com.schilings.neiko.common.event.publisher.EventBus;
 import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;
+import com.schilings.neiko.common.model.domain.SelectData;
 import com.schilings.neiko.common.model.result.BaseResultCode;
 import com.schilings.neiko.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import com.schilings.neiko.system.mapper.SysRoleMapper;
-import com.schilings.neiko.system.mapper.SysRoleMenuMapper;
-import com.schilings.neiko.system.mapper.SysUserRoleMapper;
 import com.schilings.neiko.system.model.entity.SysRole;
 import com.schilings.neiko.system.model.qo.SysRoleQO;
 import com.schilings.neiko.system.model.vo.SysRolePageVO;
@@ -22,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -58,6 +58,15 @@ public class SysRoleServiceImpl extends ExtendServiceImpl<SysRoleMapper, SysRole
 			return new ServiceException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "删除角色菜单关联关系失败");
 		});
 		return SqlHelper.retBool(baseMapper.deleteById(id));
+	}
+
+	/**
+	 * 角色的选择数据
+	 * @return List<SelectData<?>>
+	 */
+	@Override
+	public List<SelectData> listSelectData() {
+		return baseMapper.listSelectData();
 	}
 
 }

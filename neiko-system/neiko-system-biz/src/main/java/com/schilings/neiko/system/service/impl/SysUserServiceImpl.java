@@ -10,6 +10,7 @@ import com.schilings.neiko.common.core.exception.ServiceException;
 import com.schilings.neiko.common.event.publisher.EventBus;
 import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;
+import com.schilings.neiko.common.model.domain.SelectData;
 import com.schilings.neiko.common.model.result.BaseResultCode;
 import com.schilings.neiko.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import com.schilings.neiko.system.checker.AdminstratorChecker;
@@ -307,6 +308,17 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	 */
 	public boolean existsForOrganization(Long organizationId) {
 		return baseMapper.existsForOrganization(organizationId);
+	}
+
+
+	/**
+	 * 返回用户的select数据 name=> username value => userId
+	 * @return List<SelectData>
+	 * @param userTypes 用户类型
+	 */
+	@Override
+	public List<SelectData> listSelectData(Collection<Integer> userTypes) {
+		return baseMapper.listSelectData(userTypes);
 	}
 
 }

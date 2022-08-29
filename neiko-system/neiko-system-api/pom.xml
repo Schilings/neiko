@@ -23,10 +23,5 @@
             <artifactId>neiko-common-log</artifactId>
         </dependency>
         
-<!--        &lt;!&ndash;sa-token&ndash;&gt;
-        <dependency>
-            <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-core</artifactId>
-        </dependency>-->
     </dependencies>
 </project>

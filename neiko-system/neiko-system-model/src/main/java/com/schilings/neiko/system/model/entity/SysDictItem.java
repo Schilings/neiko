@@ -71,7 +71,7 @@ public class SysDictItem extends LogicDeletedBaseEntity {
 	 * 附加属性值
 	 */
 	@TableField(jdbcType = JdbcType.VARCHAR, typeHandler = JacksonTypeHandler.class)
-	@Column(comment = "附加属性值", type = MySqlTypeConstant.VARCHAR)
+	@Column(comment = "附加属性值", type = MySqlTypeConstant.JSON)
 	@Schema(title = "附加属性值")
 	private Map<String, Object> attributes;
 

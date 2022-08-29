@@ -3,6 +3,7 @@ package com.schilings.neiko.log.model.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.gitee.sunchenbin.mybatis.actable.annotation.Column;
+import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -92,14 +93,14 @@ public class AccessLog {
 	/**
 	 * 请求参数
 	 */
-	@Column(comment = "请求参数")
+	@Column(comment = "请求参数",type = MySqlTypeConstant.TEXT)
 	@Schema(title = "请求参数")
 	private String reqParams;
 
 	/**
 	 * 请求body
 	 */
-	@Column(comment = "请求body")
+	@Column(comment = "请求body",type = MySqlTypeConstant.TEXT)
 	@Schema(title = "请求body")
 	private String reqBody;
 
@@ -113,14 +114,14 @@ public class AccessLog {
 	/**
 	 * 响应信息
 	 */
-	@Column(comment = "响应信息", length = 500)
+	@Column(comment = "响应信息", type = MySqlTypeConstant.TEXT)
 	@Schema(title = "响应信息")
 	private String result;
 
 	/**
 	 * 错误消息
 	 */
-	@Column(comment = "错误消息")
+	@Column(comment = "错误消息",type = MySqlTypeConstant.TEXT)
 	@Schema(title = "错误消息")
 	private String errorMsg;
 

@@ -5,6 +5,7 @@ import com.schilings.neiko.common.log.operation.annotation.DeleteOperationLoggin
 import com.schilings.neiko.common.log.operation.annotation.UpdateOperationLogging;
 import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;
+import com.schilings.neiko.common.model.domain.SelectData;
 import com.schilings.neiko.common.model.result.BaseResultCode;
 import com.schilings.neiko.common.model.result.R;
 import com.schilings.neiko.extend.sa.token.oauth2.annotation.Oauth2CheckPermission;
@@ -168,6 +169,15 @@ public class SysRoleController {
 	@Operation(summary = "解绑与用户绑定关系", description = "解绑与用户绑定关系")
 	public R<Boolean> unbindRoleUser(@RequestParam("userId") Long userId, @RequestParam("roleCode") String roleCode) {
 		return R.ok(sysUserRoleService.unbindRoleUser(userId, roleCode));
+	}
+
+	/**
+	 * 获取角色列表
+	 * @return 角色列表
+	 */
+	@GetMapping("/select")
+	public R<List<SelectData>> listSelectData() {
+		return R.ok(sysRoleService.listSelectData());
 	}
 
 }
