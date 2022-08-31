@@ -93,6 +93,7 @@ public interface AnnouncementMapper extends ExtendMapper<Announcement> {
                 .selectAll(Announcement.class)
                 .leftJoin(UserAnnouncement.class, UserAnnouncement::getAnnouncementId, Announcement::getId)
                 .eq(Announcement::getDeleted, GlobalConstants.NOT_DELETED_FLAG)
+                .eq(UserAnnouncement::getUserId,userId)
                 .eq(Announcement::getStatus, AnnouncementStatusEnum.ENABLED.getValue())
                 .and(wrapper->{
                     wrapper.eq(Announcement::getImmortal, BooleanEnum.TRUE.getValue())

@@ -1,10 +1,16 @@
 package com.schilings.neiko.admin.boostrap;
 
 import com.schilings.neiko.auth.mapper.AuthClientMapper;
+import com.schilings.neiko.auth.service.AuthClientService;
 import com.schilings.neiko.log.mapper.AccessLogMapper;
 import com.schilings.neiko.log.mapper.OperationLogMapper;
+import com.schilings.neiko.log.service.AccessLogService;
+import com.schilings.neiko.log.service.OperationLogService;
+import com.schilings.neiko.notify.service.AnnouncementService;
+import com.schilings.neiko.notify.service.UserAnnouncementService;
 import com.schilings.neiko.system.mapper.*;
 
+import com.schilings.neiko.system.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,56 +32,66 @@ public class BoostrapApplicationRunner implements ApplicationRunner {
 
 	// auth
 	@Autowired
-	private AuthClientMapper authClientMapper;
+	private AuthClientService authClientService;
 
 	// system
 	@Autowired
-	private SysUserMapper sysUserMapper;
+	private SysUserService sysUserService;
 
 	@Autowired
-	private SysRoleMapper sysRoleMapper;
+	private SysRoleService sysRoleService;
 
 	@Autowired
-	private SysMenuMapper sysMenuMapper;
+	private SysMenuService sysMenuService;
 
 	@Autowired
-	private SysUserRoleMapper sysUserRoleMapper;
+	private SysUserRoleService sysUserRoleService;
 
 	@Autowired
-	private SysRoleMenuMapper sysRoleMenuMapper;
+	private SysRoleMenuService sysRoleMenuService;
 
 	@Autowired
-	private SysOrganizationMapper sysOrganizationMapper;
+	private SysOrganizationService sysOrganizationService;
 
 	@Autowired
-	private SysConfigMapper sysConfigMapper;
+	private SysConfigService sysConfigService;
 
 	@Autowired
-	private SysDictMapper sysDictMapper;
+	private SysDictService sysDictService;
 
 	@Autowired
-	private SysDictItemMapper sysDictItemMapper;
+	private SysDictItemService sysDictItemService;
+
+	//notify
+	@Autowired
+	private AnnouncementService announcementService;
+
+	@Autowired
+	private UserAnnouncementService userAnnouncementService;
 
 	// log
 	@Autowired
-	private AccessLogMapper accessLogMapper;
+	private AccessLogService accessLogService;
 
 	@Autowired
-	private OperationLogMapper operationLogMapper;
+	private OperationLogService operationLogService;
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		if (isAuthBoostrap.compareAndSet(false, true)) {
 			log.info("[start-neiko]数据库数据应用初始化 开始。。。");
 			// auth
-			authClientMapper.insertBatchSomeColumn(BoostrapDataHolder.getAuthClientList());
+			authClientService.saveBatch(BoostrapDataHolder.getAuthClientList());
 			// system
-			sysUserMapper.insertBatchSomeColumn(BoostrapDataHolder.getSysUserList());
-			sysRoleMapper.insertBatchSomeColumn(BoostrapDataHolder.getSysRoleList());
-			sysMenuMapper.insertBatchSomeColumn(BoostrapDataHolder.getSysMenuList());
-			sysUserRoleMapper.insertBatchSomeColumn(BoostrapDataHolder.getSysUserRoleList());
-			sysRoleMenuMapper.insertBatchSomeColumn(BoostrapDataHolder.getSysRoleMenuList());
-			sysOrganizationMapper.insertBatchSomeColumn(BoostrapDataHolder.getSysOrganizationList());
+			sysUserService.saveBatch(BoostrapDataHolder.getSysUserList());
+			sysRoleService.saveBatch(BoostrapDataHolder.getSysRoleList());
+			sysMenuService.saveBatch(BoostrapDataHolder.getSysMenuList());
+			sysUserRoleService.saveBatch(BoostrapDataHolder.getSysUserRoleList());
+			sysRoleMenuService.saveBatch(BoostrapDataHolder.getSysRoleMenuList());
+			sysOrganizationService.saveBatch(BoostrapDataHolder.getSysOrganizationList());
+			sysConfigService.saveBatch(BoostrapDataHolder.getSysConfigList());
+			sysDictService.saveBatch(BoostrapDataHolder.getSysDictList());
+			sysDictItemService.saveBatch(BoostrapDataHolder.getSysDictItemList());
 			log.info("[finish-neiko]数据库数据应用初始化 结束。。。");
 		}
 	}

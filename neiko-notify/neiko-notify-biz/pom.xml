@@ -19,13 +19,31 @@
         </dependency>
         <dependency>
             <groupId>com.schilings</groupId>
+            <artifactId>neiko-extend-sa-token</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.schilings</groupId>
             <artifactId>neiko-common-event</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-common-websocket</artifactId>
+        </dependency>
+        <!--mail-->
+        <dependency>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-spring-boot-starter-mail</artifactId>
         </dependency>
 
         <!--neiko notify-->
         <dependency>
             <groupId>com.schilings</groupId>
             <artifactId>neiko-notify-model</artifactId>
+        </dependency>
+        <!--neiko system-->
+        <dependency>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-system-biz</artifactId>
         </dependency>
 
         <!--spring-->
@@ -34,6 +52,7 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <scope>compile</scope>
         </dependency>
+
     </dependencies>
 
 </project>

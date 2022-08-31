@@ -9,8 +9,10 @@ import com.gitee.sunchenbin.mybatis.actable.annotation.Column;
 import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
 import com.schilings.neiko.common.model.entity.LogicDeletedBaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.JdbcType;
 
 import java.util.Map;
@@ -24,6 +26,8 @@ import java.util.Map;
  * @author Schilings
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @TableName(value = "nk_sys_dict_item", autoResultMap = true)
 @Schema(title = "字典项")

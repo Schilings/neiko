@@ -6,8 +6,10 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.gitee.sunchenbin.mybatis.actable.annotation.Column;
 import com.schilings.neiko.common.model.entity.LogicDeletedBaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  *
@@ -18,6 +20,8 @@ import lombok.EqualsAndHashCode;
  * @author Schilings
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Schema(title = "基础配置")
 @TableName("nk_sys_config")

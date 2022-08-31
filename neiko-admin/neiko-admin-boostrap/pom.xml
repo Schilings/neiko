@@ -25,6 +25,10 @@
             <groupId>com.schilings</groupId>
             <artifactId>neiko-log-biz</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-notify-biz</artifactId>
+        </dependency>
         
         <!--spring-->
         <dependency>

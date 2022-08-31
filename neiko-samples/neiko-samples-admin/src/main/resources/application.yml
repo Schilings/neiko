@@ -9,7 +9,18 @@ neiko:
     enable-aes: false
     aes-secret-key: 'HX19ChxGmts3l/KkHnWmiw=='
     ignore-urls: 
-      - /**
+      - /public/**
+      - /actuator/**
+      - /doc.html
+      - /v2/api-docs/**
+      - /v3/api-docs/**
+      - /swagger-resources/**
+      - /swagger-ui/**
+      - /swagger-ui.html
+      - /webjars/**
+      - /bycdao-ui/**
+      - /favicon.ico
+      - /captcha/**
   system:
     administrator:
       user-id: 1
@@ -17,6 +28,11 @@ neiko:
     enable-aes: false
     aes-secret-key: 'HX19ChxGmts3l/KkHnWmiw=='
     password-rule: ''
+  log:
+    access:
+      ignore-url-patterns: 
+        - /oauth2/*
+        - /ws/*
   sa-token:
     enforce-json-filter: true
     enforce-cancel-authenticate: false
@@ -32,12 +48,15 @@ neiko:
     delimiter: ':'
     thread-count: 10
     expire-time: 3600
-  log:
-    access:
-      ignore-url-patterns: /oauth2/*
-
+  websocket:
+    message-distributor: local #使用 redis 做为消息分发器
+    allowed-origins:
+      - '*'
+        
 server:
   port: 8080
+  
+# spring配置
 spring:
   # redis
   redis:
@@ -51,6 +70,22 @@ spring:
     url: jdbc:mysql://localhost:3306/nk_test?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: root
     password: WNs11538...
+  # JavaMailSender 邮件发送的配置
+  mail:
+    #以qq邮箱发送
+    host: smtp.qq.com
+    username: 1146830743@qq.com
+    #QQ邮箱的授权码
+    password: dsejzvaoazwnhjbb
+    properties:
+      from: 1146830743@qq.com
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+    default-encoding: UTF-8
 
 # mybatis plus配置
 mybatis-plus:
@@ -59,6 +94,14 @@ mybatis-plus:
     - classpath*:/mapper/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    banner: false
+    db-config:
+      #id-type: auto
+      insert-strategy: not_empty
+      update-strategy: not_empty
+      logic-delete-value: "NOW()" # 逻辑已删除值(使用当前时间标识)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
 
 # sa-token配置
 sa-token:
@@ -73,7 +116,7 @@ sa-token:
 # 数据库表结构维护
 actable: 
   table: 
-    auto: update #update
+    auto: none #update
   model: 
     pack: com.schilings.neiko.**.model.entity
   database: 
