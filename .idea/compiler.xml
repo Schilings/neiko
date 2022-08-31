@@ -53,12 +53,15 @@
         <module name="neiko-common-shiro" />
         <module name="neiko-cloud-openfeign" />
         <module name="neiko-common-redis" />
+        <module name="neiko-spring-boot-starter-file" />
         <module name="neiko-cloud-loadbalance" />
         <module name="neiko-common-log" />
         <module name="neiko-auth-model" />
         <module name="neiko-common-core" />
+        <module name="neiko-weixin" />
         <module name="neiko-admin-boostrap" />
         <module name="neiko-log-model" />
+        <module name="neiko-spring-boot-starter-websocket" />
         <module name="neiko-system-model" />
         <module name="neiko-spring-boot-starter-log" />
         <module name="neiko-common-cache" />
@@ -74,11 +77,15 @@
         <module name="neiko-samples-cloud-gateway" />
         <module name="neiko-extend-mybatis-plus" />
         <module name="neiko-samples-cloud-demo-provider" />
+        <module name="neiko-notify-model" />
         <module name="neiko-log-api" />
         <module name="neiko-common-validate" />
         <module name="neiko-samples-extend-mybatis-plus" />
+        <module name="neiko-admin-websocket" />
+        <module name="neiko-samples-starter-file" />
         <module name="neiko-log-biz" />
         <module name="neiko-spring-boot-starter-mail" />
+        <module name="neiko-samples-starter-websocket" />
         <module name="neiko-system-biz" />
         <module name="neiko-spring-boot-starter-event" />
         <module name="neiko-common-loadbalance" />
@@ -88,7 +95,7 @@
         <module name="neiko-samples-starter-redis" />
         <module name="neiko-spring-boot-starter-redis" />
         <module name="neiko-auth-api" />
-        <module name="neiko-admin-auth" />
+        <module name="neiko-notify-biz" />
         <module name="neiko-common-security" />
         <module name="neiko-common-easyexcel" />
         <module name="neiko-common-event" />
@@ -97,9 +104,12 @@
         <module name="neiko-admin-core" />
         <module name="neiko-cloud-gateway" />
         <module name="neiko-common-model" />
+        <module name="neiko-spring-boot-starter-oss" />
+        <module name="neiko-notify-api" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="neiko-admin-auth" target="1.8" />
       <module name="neiko-common-excel" target="1.8" />
       <module name="neiko-common-web" target="1.8" />
       <module name="neiko-test-redis" target="8" />

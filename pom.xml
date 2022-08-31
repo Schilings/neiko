@@ -269,6 +269,14 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- 跳过单元测试 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
 
             <!--deploy插件的版本是2.7需要在项目的pom.xml文件中配置上传的仓库信息, 升级到2.8后会使用setting.xml中的配置-->
 <!--            <plugin>-->

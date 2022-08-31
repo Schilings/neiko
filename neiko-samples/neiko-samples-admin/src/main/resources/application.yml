@@ -31,8 +31,9 @@ neiko:
   log:
     access:
       ignore-url-patterns: 
-        - /oauth2/*
-        - /ws/*
+        - /oauth2/**
+        - /ws/**
+        - /**
   sa-token:
     enforce-json-filter: true
     enforce-cancel-authenticate: false

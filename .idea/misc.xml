@@ -17,6 +17,7 @@
         <option value="$PROJECT_DIR$/neiko-starters/neiko-spring-boot-starter-shiro/pom.xml" />
         <option value="$PROJECT_DIR$/neiko-samples/neiko-samples-starter-shiro/pom.xml" />
         <option value="$PROJECT_DIR$/neiko-auth/pom.xml" />
+        <option value="$PROJECT_DIR$/neiko-admin/neiko-admin-websocket/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

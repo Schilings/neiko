@@ -18,6 +18,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @ComponentScan({ 
 		"com.gitee.sunchenbin.mybatis.actable.manager.*", // 自动建表
 		"com.schilings.neiko.admin.upms",
+		"com.schilings.neiko.file",
 		"com.schilings.neiko.system", 
 		"com.schilings.neiko.log",
 		"com.schilings.neiko.notify",
