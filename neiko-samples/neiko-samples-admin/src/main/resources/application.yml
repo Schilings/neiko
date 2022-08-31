@@ -52,6 +52,17 @@ neiko:
     message-distributor: local #使用 redis 做为消息分发器
     allowed-origins:
       - '*'
+  oss:
+    endpoint: oss-cn-shenzhen.aliyuncs.com # oss-cn-shenzhen.aliyuncs.com
+    region: oss-cn-shenzhen
+    access-key: LTAI5t75M5VySn4baE63G5Ss
+    access-secret: fDGkh8U9nWaI5euYdCNEU6XUkPHKZP
+    bucket: schilings-ballcat # schilings-ballcat
+  file:
+    local:
+      # 这个可以不进行配置或者设置 空字符串, 这样文件就会和系统的临时文件放在一起
+      # '/opt/nginx/images'
+      path: 'C:\Users\X1\Desktop'
         
 server:
   port: 8080

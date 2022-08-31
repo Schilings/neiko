@@ -553,6 +553,16 @@
                 <artifactId>neiko-spring-boot-starter-websocket</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-spring-boot-starter-file</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-spring-boot-starter-oss</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <!--neiko cloud-->
             <dependency>
                 <groupId>com.schilings</groupId>

@@ -1,6 +1,7 @@
 package com.schilings.neiko.notify.service.impl;
 
 
+import com.schilings.neiko.common.event.publisher.EventBus;
 import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;
 import com.schilings.neiko.extend.mybatis.plus.service.impl.ExtendServiceImpl;
@@ -10,13 +11,19 @@ import com.schilings.neiko.notify.model.entity.UserAnnouncement;
 import com.schilings.neiko.notify.model.qo.UserAnnouncementQO;
 import com.schilings.neiko.notify.model.vo.UserAnnouncementPageVO;
 import com.schilings.neiko.notify.service.UserAnnouncementService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserAnnouncementServiceImpl extends ExtendServiceImpl<UserAnnouncementMapper, UserAnnouncement> 
         implements UserAnnouncementService {
+
+    private final EventBus eventBus;
     
     /**
      * 根据QueryObject查询分页数据

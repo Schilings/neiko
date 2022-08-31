@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.schilings.neiko.autoconfigure.file.FileAutoConfiguration

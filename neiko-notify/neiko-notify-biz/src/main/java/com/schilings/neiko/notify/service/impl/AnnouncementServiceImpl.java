@@ -1,13 +1,19 @@
 package com.schilings.neiko.notify.service.impl;
 
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.schilings.neiko.common.core.exception.ServiceException;
+import com.schilings.neiko.common.event.publisher.EventBus;
 import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;
 import com.schilings.neiko.common.model.enums.BooleanEnum;
+import com.schilings.neiko.common.model.result.BaseResultCode;
 import com.schilings.neiko.common.model.result.SystemResultCode;
 import com.schilings.neiko.extend.mybatis.plus.service.impl.ExtendServiceImpl;
+import com.schilings.neiko.file.service.FileService;
 import com.schilings.neiko.notify.converter.AnnouncementConverter;
 import com.schilings.neiko.notify.converter.NotifyInfoConverter;
 import com.schilings.neiko.notify.enums.AnnouncementStatusEnum;
@@ -27,7 +33,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +45,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AnnouncementServiceImpl extends ExtendServiceImpl<AnnouncementMapper, Announcement>
         implements AnnouncementService {
+
+
+    private final EventBus eventBus;
+
+    private final FileService fileService;
     
     private final ApplicationEventPublisher publisher;
     
@@ -154,19 +168,19 @@ public class AnnouncementServiceImpl extends ExtendServiceImpl<AnnouncementMappe
     @Override
     public List<String> uploadImages(List<MultipartFile> files) {
         List<String> objectNames = new ArrayList<>();
-//        for (MultipartFile file : files) {
-//            String objectName = "announcement/" + LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE)
-//                    + StrUtil.SLASH + IdUtil.fastSimpleUUID() + StrUtil.DOT
-//                    + FileUtil.extName(file.getOriginalFilename());
-//            try {
-//                objectName = fileService.upload(file.getInputStream(), objectName, file.getSize());
-//                objectNames.add(objectName);
-//            }
-//            catch (IOException e) {
-//                // TODO 删除无效文件
-//                throw new ServiceException(BaseResultCode.FILE_UPLOAD_ERROR.getCode(), "图片上传失败！", e);
-//            }
-//        }
+        for (MultipartFile file : files) {
+            String objectName = "announcement/" + LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE)
+                    + StrUtil.SLASH + IdUtil.fastSimpleUUID() + StrUtil.DOT
+                    + FileUtil.extName(file.getOriginalFilename());
+            try {
+                objectName = fileService.upload(file.getInputStream(), objectName, file.getSize());
+                objectNames.add(objectName);
+            }
+            catch (IOException e) {
+                // TODO 删除无效文件
+                throw new ServiceException(BaseResultCode.FILE_UPLOAD_ERROR.getCode(), "图片上传失败！", e);
+            }
+        }
         return objectNames;
     }
 

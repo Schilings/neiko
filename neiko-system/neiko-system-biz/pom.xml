@@ -47,6 +47,16 @@
             <artifactId>neiko-system-model</artifactId>
         </dependency>
         
+        <!--neiko file oss-->
+        <dependency>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-spring-boot-starter-file</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-spring-boot-starter-oss</artifactId>
+        </dependency>
+        
         <!--spring-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

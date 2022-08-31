@@ -21,6 +21,7 @@
         <module>neiko-samples-cloud-demo-provider</module>
         <module>neiko-samples-admin</module>
         <module>neiko-samples-starter-websocket</module>
+        <module>neiko-samples-starter-file</module>
 
     </modules>
 

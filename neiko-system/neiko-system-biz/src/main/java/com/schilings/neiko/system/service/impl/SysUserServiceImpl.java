@@ -13,6 +13,7 @@ import com.schilings.neiko.common.model.domain.PageResult;
 import com.schilings.neiko.common.model.domain.SelectData;
 import com.schilings.neiko.common.model.result.BaseResultCode;
 import com.schilings.neiko.extend.mybatis.plus.service.impl.ExtendServiceImpl;
+import com.schilings.neiko.file.service.FileService;
 import com.schilings.neiko.system.checker.AdminstratorChecker;
 import com.schilings.neiko.system.constant.SysUserConst;
 import com.schilings.neiko.system.converter.SysUserConverter;
@@ -46,6 +47,8 @@ import java.util.stream.Collectors;
 public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
 	private final EventBus eventBus;
+
+	private final FileService fileService;
 
 	private final AdminstratorChecker adminstratorChecker;
 
@@ -263,9 +266,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 		// 获取系统用户头像的文件名
 		String objectName = "sysuser/" + userId + "/avatar/" + LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE)
 				+ StrUtil.SLASH + IdUtil.fastSimpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
-		// objectName = fileService.upload(file.getInputStream(), objectName,
-		// file.getSize());
-
+		objectName = fileService.upload(file.getInputStream(), objectName, file.getSize());
 		SysUser sysUser = new SysUser();
 		sysUser.setUserId(userId);
 		sysUser.setAvatar(objectName);

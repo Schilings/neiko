@@ -21,6 +21,8 @@
         <module>neiko-spring-boot-starter-event</module>
         <module>neiko-spring-boot-starter-shiro</module>
         <module>neiko-spring-boot-starter-websocket</module>
+        <module>neiko-spring-boot-starter-file</module>
+        <module>neiko-spring-boot-starter-oss</module>
     </modules>
     
 

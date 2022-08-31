@@ -20,6 +20,7 @@
         <module>neiko-admin</module>
         <module>neiko-log</module>
         <module>neiko-notify</module>
+        <module>neiko-weixin</module>
     </modules>
 
     <properties>
