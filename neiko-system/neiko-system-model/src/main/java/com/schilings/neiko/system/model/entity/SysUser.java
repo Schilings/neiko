@@ -3,6 +3,7 @@ package com.schilings.neiko.system.model.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.gitee.sunchenbin.mybatis.actable.annotation.Column;
+import com.gitee.sunchenbin.mybatis.actable.annotation.Table;
 import com.schilings.neiko.common.model.entity.LogicDeletedBaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@Table(comment = "系统用户表")
 @TableName("nk_sys_user")
 @Schema(title = "系统用户表")
 public class SysUser extends LogicDeletedBaseEntity {
@@ -120,6 +122,6 @@ public class SysUser extends LogicDeletedBaseEntity {
 
 	@Column(comment = "组织机构ID")
 	@Schema(title = "组织机构ID")
-	private Integer organizationId;
+	private Long organizationId;
 
 }

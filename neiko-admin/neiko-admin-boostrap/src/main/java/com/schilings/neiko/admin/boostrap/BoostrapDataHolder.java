@@ -48,10 +48,10 @@ public class BoostrapDataHolder {
 			sysUserList = new ArrayList<>();
 			sysUserList.add(new SysUser(1L, "admin", "超管牛逼", "51f5c2f36d9803ab55d4ba5cee9a3e48", "",
 					"sysuser/1/avatar/20200226/ab6bd5221afe4238ae4987f278758113.jpg", 1, "chengbohua@foxmail.com",
-					"15800000000", 1, 1, 6));
+					"15800000000", 1, 1, 6L));
 			sysUserList.add(new SysUser(2L, "test", "测试用户213", "51f5c2f36d9803ab55d4ba5cee9a3e48", "",
 					"sysuser/10/avatar/20201204/002875d468db41239ee02ad99ab14490.jpg", 2, "magic.xiaohua@gmail.com",
-					"12345678520", 0, 1, 6));
+					"12345678520", 0, 1, 6L));
 		}
 		if (sysRoleList == null) {
 			sysRoleList = new ArrayList<>();
@@ -61,7 +61,7 @@ public class BoostrapDataHolder {
 			sysRoleList.add(new SysRole(15L, "销售专员", "ROLE_SALESMAN", 2, 1, null, "销售专员"));
 		}
 		if (sysMenuList == null) {
-			sysMenuList = new ArrayList<>();
+			sysMenuList = new ArrayList<>(); 
 			sysMenuList.add(new SysMenu(10028L, 0L, "个人页", "user", null, "account", 1, "account/settings/Index", 0, 0, 1, 1, null));
 			sysMenuList.add(new SysMenu(10030L, 10028L, "个人设置", null, null, "settings", 1, null, 1, 0, 1, 0, null));
 			sysMenuList.add(new SysMenu(10031L, 10030L, "基本设置", null, null, "base", 1, "account/settings/BaseSetting", 1, 0, 0, 1, null));

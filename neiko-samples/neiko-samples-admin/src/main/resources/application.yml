@@ -103,7 +103,7 @@ spring:
 mybatis-plus:
   mapper-locations:
     - classpath*:/com/gitee/sunchenbin/mybatis/actable/mapping/*/*.xml #自动建表
-    - classpath*:/mapper/*.xml
+    - classpath*:/mapper/**/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:

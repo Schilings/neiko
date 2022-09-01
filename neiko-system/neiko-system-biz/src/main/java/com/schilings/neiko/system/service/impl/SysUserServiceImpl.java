@@ -17,6 +17,8 @@ import com.schilings.neiko.file.service.FileService;
 import com.schilings.neiko.system.checker.AdminstratorChecker;
 import com.schilings.neiko.system.constant.SysUserConst;
 import com.schilings.neiko.system.converter.SysUserConverter;
+import com.schilings.neiko.system.event.UserCreatedEvent;
+import com.schilings.neiko.system.event.UserOrganizationChangeEvent;
 import com.schilings.neiko.system.mapper.*;
 import com.schilings.neiko.system.model.dto.SysUserDTO;
 import com.schilings.neiko.system.model.dto.SysUserScope;
@@ -30,6 +32,7 @@ import com.schilings.neiko.system.security.PasswordHelper;
 import com.schilings.neiko.system.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,6 +50,8 @@ import java.util.stream.Collectors;
 public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
 	private final EventBus eventBus;
+
+	private final ApplicationEventPublisher publisher;
 
 	private final FileService fileService;
 
@@ -155,6 +160,10 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 				return new ServiceException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "更新用户角色信息失败");
 			});
 		}
+
+		// 发布用户创建事件
+		publisher.publishEvent(new UserCreatedEvent(sysUser, sysUserDto.getRoleCodes()));
+		
 		return true;
 	}
 
@@ -170,7 +179,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 		Assert.isTrue(adminstratorChecker.hasModifyPermission(entity), "当前用户不允许修改!");
 
 		// 如果不更新组织，直接执行
-		Integer currentOrganizationId = entity.getOrganizationId();
+		Long currentOrganizationId = entity.getOrganizationId();
 		if (currentOrganizationId == null) {
 			return SqlHelper.retBool(baseMapper.updateById(entity));
 		}
@@ -181,14 +190,13 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 		Assert.notNull(oldUser, "修改用户失败，当前用户不存在：{}", userId);
 
 		// 是否修改了组织
-		Integer originOrganizationId = oldUser.getOrganizationId();
+		Long originOrganizationId = oldUser.getOrganizationId();
 		boolean organizationIdModified = !currentOrganizationId.equals(originOrganizationId);
 		// 是否更改成功
 		boolean isUpdateSuccess = SqlHelper.retBool(baseMapper.updateById(entity));
 		// 如果修改了组织且修改成功，则发送用户组织更新事件
 		if (isUpdateSuccess && organizationIdModified) {
-			// publisher.publishEvent(new UserOrganizationChangeEvent(userId,
-			// originOrganizationId, currentOrganizationId));
+			 publisher.publishEvent(new UserOrganizationChangeEvent(userId, originOrganizationId, currentOrganizationId));
 		}
 
 		return isUpdateSuccess;
