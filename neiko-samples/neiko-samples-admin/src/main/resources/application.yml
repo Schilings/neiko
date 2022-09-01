@@ -63,7 +63,7 @@ neiko:
     local:
       # 这个可以不进行配置或者设置 空字符串, 这样文件就会和系统的临时文件放在一起
       # '/opt/nginx/images'
-      path: 'C:\Users\X1\Desktop'
+      path: 'D:\temp'
         
 server:
   port: 8080

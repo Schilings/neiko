@@ -21,6 +21,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 		"com.schilings.neiko.file",
 		"com.schilings.neiko.system", 
 		"com.schilings.neiko.log",
+		//"com.schilings.neiko.wechat",
 		"com.schilings.neiko.notify",
 		"com.schilings.neiko.auth" })
 @EnableAsync

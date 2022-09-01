@@ -62,10 +62,11 @@ public class SysUserQO {
 	 */
 	@Parameter(description = "organizationId", array = @ArraySchema)
 	private List<Integer> organizationId;
-
+	
+	
 	@Parameter(description = "用户类型:1:系统用户， 2：客户用户")
 	private Integer type;
-
+	
 	@Parameter(description = "开始时间")
 	private String startTime;
 

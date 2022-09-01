@@ -53,7 +53,7 @@
         <shiro.spring.boot.starter.version>1.9.1</shiro.spring.boot.starter.version>
         
         <sa-token.version>1.30.0</sa-token.version>
-        
+        <weixin-java.version>4.4.0</weixin-java.version>
     </properties>
     
     <distributionManagement>
@@ -421,6 +421,23 @@
                 <version>${netty.version}</version>
             </dependency>
             
+            <!--wejava-->
+            <dependency>
+                <groupId>com.github.binarywang</groupId>
+                <artifactId>weixin-java-mp</artifactId>
+                <version>${weixin-java.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.binarywang</groupId>
+                <artifactId>weixin-java-pay</artifactId>
+                <version>${weixin-java.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.binarywang</groupId>
+                <artifactId>wx-java-miniapp-spring-boot-starter</artifactId>
+                <version>${weixin-java.version}</version>
+            </dependency>
+            
             <!--neiko common-->
             <dependency>
                 <groupId>com.schilings</groupId>
@@ -500,6 +517,11 @@
             <dependency>
                 <groupId>com.schilings</groupId>
                 <artifactId>neiko-common-websocket</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-common-context</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!--neiko starter-->
@@ -711,6 +733,27 @@
             <dependency>
                 <groupId>com.schilings</groupId>
                 <artifactId>neiko-auth-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--neiko wechat-->
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-wechat</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-wechat-model</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-wechat-biz</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-wechat-api</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!--neiko admin-->
