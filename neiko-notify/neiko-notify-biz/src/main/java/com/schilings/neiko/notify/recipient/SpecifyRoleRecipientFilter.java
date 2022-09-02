@@ -12,11 +12,9 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @Component
 @RequiredArgsConstructor
 public class SpecifyRoleRecipientFilter implements RecipientFilter {
-	
 
 	private final SysUserRoleService sysUserRoleService;
 

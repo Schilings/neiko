@@ -42,7 +42,7 @@ public class LoginServiceImpl implements LoginService {
 		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 		if (userDetails != null) {
 			if (!userDetails.isEnabled()) {
-				return R.fail(SystemResultCode.BAD_REQUEST,"账号不可用");
+				return R.fail(SystemResultCode.BAD_REQUEST, "账号不可用");
 			}
 			// 账号密码匹配
 			if (username.equals(userDetails.getUsername())
@@ -52,7 +52,7 @@ public class LoginServiceImpl implements LoginService {
 				return R.ok();
 			}
 		}
-		return R.fail(SystemResultCode.BAD_REQUEST,"账号名或密码错误");
+		return R.fail(SystemResultCode.BAD_REQUEST, "账号名或密码错误");
 	}
 
 	/**

@@ -1,6 +1,5 @@
 package com.schilings.neiko.autoconfigure.oss.exception;
 
-
 public class OssDisabledException extends RuntimeException {
 
 	public OssDisabledException() {

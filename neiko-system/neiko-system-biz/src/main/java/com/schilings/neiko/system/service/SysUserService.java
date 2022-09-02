@@ -122,11 +122,11 @@ public interface SysUserService extends ExtendService<SysUser> {
 	 */
 	boolean existsForOrganization(Long organizationId);
 
-
 	/**
 	 * 返回用户的select数据
 	 * @param type 为空时返回所有客户为1返回系统客户 name=> username value => userId
 	 * @return List<SelectData>
 	 */
 	List<SelectData> listSelectData(Collection<Integer> type);
+
 }

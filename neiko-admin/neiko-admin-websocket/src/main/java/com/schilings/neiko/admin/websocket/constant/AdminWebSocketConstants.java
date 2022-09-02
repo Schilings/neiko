@@ -2,7 +2,6 @@ package com.schilings.neiko.admin.websocket.constant;
 
 import com.schilings.neiko.common.security.constant.SecurityConstants;
 
-
 public final class AdminWebSocketConstants {
 
 	private AdminWebSocketConstants() {

@@ -163,7 +163,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 
 		// 发布用户创建事件
 		publisher.publishEvent(new UserCreatedEvent(sysUser, sysUserDto.getRoleCodes()));
-		
+
 		return true;
 	}
 
@@ -196,7 +196,8 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 		boolean isUpdateSuccess = SqlHelper.retBool(baseMapper.updateById(entity));
 		// 如果修改了组织且修改成功，则发送用户组织更新事件
 		if (isUpdateSuccess && organizationIdModified) {
-			 publisher.publishEvent(new UserOrganizationChangeEvent(userId, originOrganizationId, currentOrganizationId));
+			publisher
+					.publishEvent(new UserOrganizationChangeEvent(userId, originOrganizationId, currentOrganizationId));
 		}
 
 		return isUpdateSuccess;
@@ -318,7 +319,6 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	public boolean existsForOrganization(Long organizationId) {
 		return baseMapper.existsForOrganization(organizationId);
 	}
-
 
 	/**
 	 * 返回用户的select数据 name=> username value => userId

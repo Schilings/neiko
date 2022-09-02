@@ -8,12 +8,13 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface LoginLogConverter {
 
-    LoginLogConverter INSTANCE = Mappers.getMapper(LoginLogConverter.class);
+	LoginLogConverter INSTANCE = Mappers.getMapper(LoginLogConverter.class);
 
-    /**
-     * PO 转 PageVO
-     * @param loginLog 登陆日志
-     * @return AdminLoginLogPageVO 登陆日志PageVO
-     */
-    LoginLogPageVO poToPageVo(LoginLog loginLog);
+	/**
+	 * PO 转 PageVO
+	 * @param loginLog 登陆日志
+	 * @return AdminLoginLogPageVO 登陆日志PageVO
+	 */
+	LoginLogPageVO poToPageVo(LoginLog loginLog);
+
 }

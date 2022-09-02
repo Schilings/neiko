@@ -1,6 +1,5 @@
 package com.schilings.neiko.autoconfigure.websocket.distribute;
 
-
 import com.schilings.neiko.autoconfigure.websocket.properties.MessageDistributorTypeConstants;
 import com.schilings.neiko.autoconfigure.websocket.properties.WebSocketProperties;
 import com.schilings.neiko.common.websocket.distribute.MessageDistributor;

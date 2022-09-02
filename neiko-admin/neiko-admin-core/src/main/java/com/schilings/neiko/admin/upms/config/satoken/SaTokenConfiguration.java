@@ -47,14 +47,11 @@ public class SaTokenConfiguration {
 		return new RBACAuthorityHolder();
 	}
 
-
 	@Bean
 	@ConditionalOnMissingBean(AuthHandlerExceptionResolver.class)
 	public AuthHandlerExceptionResolver authHandlerExceptionResolver() {
 		return new AuthHandlerExceptionResolver();
 	}
-	
-	
 
 	@Configuration
 	public class SaTokenConfigure implements WebMvcConfigurer {

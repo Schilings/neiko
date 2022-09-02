@@ -93,14 +93,14 @@ public class AccessLog {
 	/**
 	 * 请求参数
 	 */
-	@Column(comment = "请求参数",type = MySqlTypeConstant.TEXT)
+	@Column(comment = "请求参数", type = MySqlTypeConstant.TEXT)
 	@Schema(title = "请求参数")
 	private String reqParams;
 
 	/**
 	 * 请求body
 	 */
-	@Column(comment = "请求body",type = MySqlTypeConstant.TEXT)
+	@Column(comment = "请求body", type = MySqlTypeConstant.TEXT)
 	@Schema(title = "请求body")
 	private String reqBody;
 
@@ -121,7 +121,7 @@ public class AccessLog {
 	/**
 	 * 错误消息
 	 */
-	@Column(comment = "错误消息",type = MySqlTypeConstant.TEXT)
+	@Column(comment = "错误消息", type = MySqlTypeConstant.TEXT)
 	@Schema(title = "错误消息")
 	private String errorMsg;
 

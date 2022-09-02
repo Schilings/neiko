@@ -1,6 +1,5 @@
 package com.schilings.neiko.log.service.impl;
 
-
 import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;
 import com.schilings.neiko.extend.mybatis.plus.service.impl.ExtendServiceImpl;
@@ -14,16 +13,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class LoginLogServiceImpl extends ExtendServiceImpl<LoginLogMapper, LoginLog> implements LoginLogService {
 
-    /**
-     * 根据QueryObject查询分页数据
-     * @param pageParam 分页参数
-     * @param qo 查询参数对象
-     * @return PageResult<LoginLogVO> 分页数据
-     */
-    @Override
-    public PageResult<LoginLogPageVO> queryPage(PageParam pageParam, LoginLogQO qo) {
-        return baseMapper.queryPage(pageParam, qo);
-    }
+	/**
+	 * 根据QueryObject查询分页数据
+	 * @param pageParam 分页参数
+	 * @param qo 查询参数对象
+	 * @return PageResult<LoginLogVO> 分页数据
+	 */
+	@Override
+	public PageResult<LoginLogPageVO> queryPage(PageParam pageParam, LoginLogQO qo) {
+		return baseMapper.queryPage(pageParam, qo);
+	}
 
-    
 }

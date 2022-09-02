@@ -6,11 +6,13 @@ import com.schilings.neiko.notify.enums.NotifyRecipientFilterTypeEnum;
 import java.util.List;
 
 /**
- * 
- * <p>用于做消息通知推送的基类DTO</p>
- * 
+ *
+ * <p>
+ * 用于做消息通知推送的基类DTO
+ * </p>
+ *
  * @author Schilings
-*/
+ */
 public interface NotifyInfo {
 
 	/**

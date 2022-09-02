@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * 公告信息
-
+ *
  */
 @Data
 @Schema(title = "公告信息")

@@ -138,7 +138,7 @@ public class MessageEventListenerMethodProcessor
 			RedisMessageListenerContainer container = beanFactory.getBean(RedisMessageListenerContainer.class);
 			setListenerContainer(container);
 			setRedisSerializer(RedisHelper.objectRedisTemplate().getValueSerializer());
-			
+
 		}
 		catch (NoSuchBeanDefinitionException e) {
 			//

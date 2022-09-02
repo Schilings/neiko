@@ -13,7 +13,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.socket.WebSocketHandler;
 
-
 @RequiredArgsConstructor
 public class WebSocketHandlerConfig {
 
@@ -33,7 +32,7 @@ public class WebSocketHandlerConfig {
 	@Bean
 	@ConditionalOnMissingBean(WebSocketHandler.class)
 	public WebSocketHandler webSocketHandler(WebSocketSessionStore webSocketSessionStore,
-											 @Autowired(required = false) PlanTextMessageHandler planTextMessageHandler) {
+			@Autowired(required = false) PlanTextMessageHandler planTextMessageHandler) {
 		NeikoWebSocketHandler webSocketHandler = new NeikoWebSocketHandler(planTextMessageHandler);
 		if (webSocketProperties.isMapSession()) {
 			return new MapSessionWebSocketHandlerDecorator(webSocketHandler, webSocketSessionStore,

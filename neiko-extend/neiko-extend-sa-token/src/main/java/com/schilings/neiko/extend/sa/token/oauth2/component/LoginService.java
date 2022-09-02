@@ -47,17 +47,15 @@ public interface LoginService {
 	 * @param loginId
 	 */
 	default void logout(String loginId) {
-		//发布登出事件
+		// 发布登出事件
 		ApplicationEventPublisherHolder.pushLogoutSuccessEvent();
 		// do nothing
 		logoutInternal(loginId);
-		
+
 	}
 
 	default void logoutInternal(String loginId) {
-		
-	}
-	
 
+	}
 
 }

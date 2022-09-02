@@ -1,4 +1,4 @@
-package com.schilings.neiko.wechat.biz.service.impl;
+package com.schilings.neiko.wechat.service.impl;
 
 
 import cn.hutool.core.lang.Assert;
@@ -8,8 +8,8 @@ import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;
 import com.schilings.neiko.common.model.result.BaseResultCode;
 import com.schilings.neiko.extend.mybatis.plus.service.impl.ExtendServiceImpl;
-import com.schilings.neiko.wechat.biz.mapper.WechatMpReplyMapper;
-import com.schilings.neiko.wechat.biz.service.WechatMpReplyService;
+import com.schilings.neiko.wechat.mapper.WechatMpReplyMapper;
+import com.schilings.neiko.wechat.service.WechatMpReplyService;
 import com.schilings.neiko.wechat.converter.WechatMpReplyConverter;
 import com.schilings.neiko.wechat.model.dto.WechatMpReplyDTO;
 import com.schilings.neiko.wechat.model.entity.WechatMpReply;

@@ -6,7 +6,7 @@ import lombok.ToString;
 
 /**
  * 用户组织变更事件
-
+ *
  */
 @Getter
 @ToString

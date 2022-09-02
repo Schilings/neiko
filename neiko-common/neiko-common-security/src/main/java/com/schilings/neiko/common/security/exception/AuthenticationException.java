@@ -1,8 +1,6 @@
 package com.schilings.neiko.common.security.exception;
 
 /**
- *
- *
  * @author Schilings
  */
 public abstract class AuthenticationException extends SecurityException {

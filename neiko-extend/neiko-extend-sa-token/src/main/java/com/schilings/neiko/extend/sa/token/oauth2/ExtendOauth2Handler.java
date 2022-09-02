@@ -215,15 +215,15 @@ public class ExtendOauth2Handler {
 
 		// 7、生成 Access-Token
 		AccessTokenModel at = SaOAuth2Util.generateAccessToken(ra, true);
-		
+
 		// 8、Token拓展
 		Map<String, Object> map = at.toLineMap();
-		map.put(SaOAuth2Consts.Param.grant_type, SaOAuth2Consts.GrantType.password);//授权方式
-		map.put("tokenInfo",  StpOauth2UserUtil.getTokenInfo());//系统登录Token
-		
+		map.put(SaOAuth2Consts.Param.grant_type, SaOAuth2Consts.GrantType.password);// 授权方式
+		map.put("tokenInfo", StpOauth2UserUtil.getTokenInfo());// 系统登录Token
+
 		// 9、发布登录成功事件
 		ApplicationEventPublisherHolder.pushAuthenticationSuccessEvent(map);
-		
+
 		// 10、返回 Access-Token
 		return R.ok(map);
 	}

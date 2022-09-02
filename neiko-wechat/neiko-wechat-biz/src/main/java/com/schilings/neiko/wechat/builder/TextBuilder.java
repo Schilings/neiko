@@ -1,4 +1,4 @@
-package com.schilings.neiko.wechat.biz.builder;
+package com.schilings.neiko.wechat.builder;
 
 
 import me.chanjar.weixin.mp.api.WxMpService;

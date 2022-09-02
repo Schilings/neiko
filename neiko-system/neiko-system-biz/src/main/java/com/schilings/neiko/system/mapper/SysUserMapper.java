@@ -91,8 +91,7 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 	 * @return 用户集合
 	 */
 	default List<SysUser> listByOrganizationIds(Collection<Long> organizationIds) {
-		return this.selectList(Wrappers.<SysUser>lambdaQuery()
-				.eq(SysUser::getDeleted, GlobalConstants.NOT_DELETED_FLAG)
+		return this.selectList(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getDeleted, GlobalConstants.NOT_DELETED_FLAG)
 				.in(SysUser::getOrganizationId, organizationIds));
 	}
 
@@ -102,8 +101,7 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 	 * @return 用户集合
 	 */
 	default List<SysUser> listByUserTypes(Collection<Integer> userTypes) {
-		return this.selectList(Wrappers.<SysUser>lambdaQuery()
-				.eq(SysUser::getDeleted, GlobalConstants.NOT_DELETED_FLAG)
+		return this.selectList(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getDeleted, GlobalConstants.NOT_DELETED_FLAG)
 				.in(SysUser::getType, userTypes));
 	}
 
@@ -113,8 +111,7 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 	 * @return 用户集合
 	 */
 	default List<SysUser> listByUserIds(Collection<Long> userIds) {
-		return this.selectList(Wrappers.<SysUser>lambdaQuery()
-				.eq(SysUser::getDeleted, GlobalConstants.NOT_DELETED_FLAG)
+		return this.selectList(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getDeleted, GlobalConstants.NOT_DELETED_FLAG)
 				.in(SysUser::getUserId, userIds));
 	}
 
@@ -133,7 +130,6 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 
 	/**
 	 * 返回用户的select数据 name=> username value => userId
-	 *
 	 * @param userTypes 用户类型
 	 * @return List<SelectData>
 	 */
@@ -141,13 +137,9 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 		NeikoLambdaQueryWrapper<SelectData> queryWrapper = WrappersX.<SelectData>lambdaQueryJoin()
 				.selectAs(SysUser::getUsername, SelectData<Void>::getName)
 				.selectAs(SysUser::getUserId, SelectData<Void>::getValue)
-				.eq(SysUser::getDeleted, GlobalConstants.NOT_DELETED_FLAG)
-				.inIfPresent(SysUser::getType, userTypes);
+				.eq(SysUser::getDeleted, GlobalConstants.NOT_DELETED_FLAG).inIfPresent(SysUser::getType, userTypes);
 		return this.selectJoinList(SelectData.class, AUTO_RESULT_MAP, queryWrapper);
 
-
 	}
-
-
 
 }

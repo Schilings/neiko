@@ -1,4 +1,4 @@
-package com.schilings.neiko.wechat.biz.service;
+package com.schilings.neiko.wechat.service;
 
 import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;

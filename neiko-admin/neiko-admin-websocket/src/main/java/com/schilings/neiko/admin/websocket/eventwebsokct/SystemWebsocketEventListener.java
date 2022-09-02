@@ -1,6 +1,5 @@
 package com.schilings.neiko.admin.websocket.eventwebsokct;
 
-
 import com.schilings.neiko.admin.websocket.jsonmessage.DictChangeMessage;
 import com.schilings.neiko.common.util.json.JsonUtils;
 import com.schilings.neiko.common.websocket.distribute.MessageDistributor;

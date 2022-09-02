@@ -1,11 +1,9 @@
 package com.schilings.neiko.notify.converter;
 
-
 import com.schilings.neiko.notify.model.entity.UserAnnouncement;
 import com.schilings.neiko.notify.model.vo.UserAnnouncementPageVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-
 
 @Mapper
 public interface UserAnnouncementConverter {

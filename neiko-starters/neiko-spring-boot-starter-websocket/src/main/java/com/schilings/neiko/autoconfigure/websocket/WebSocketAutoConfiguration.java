@@ -1,6 +1,5 @@
 package com.schilings.neiko.autoconfigure.websocket;
 
-
 import com.schilings.neiko.autoconfigure.websocket.core.WebSocketHandlerConfig;
 import com.schilings.neiko.autoconfigure.websocket.distribute.LocalMessageDistributorConfig;
 import com.schilings.neiko.autoconfigure.websocket.distribute.RedisMessageDistributorConfig;
@@ -25,7 +24,6 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistra
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
 import java.util.List;
-
 
 @AutoConfiguration
 @Import({ WebSocketHandlerConfig.class, LocalMessageDistributorConfig.class, RedisMessageDistributorConfig.class })

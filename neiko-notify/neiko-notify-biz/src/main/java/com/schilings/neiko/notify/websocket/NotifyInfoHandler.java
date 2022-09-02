@@ -1,6 +1,5 @@
 package com.schilings.neiko.notify.websocket;
 
-
 import com.schilings.neiko.notify.model.domain.NotifyInfo;
 import com.schilings.neiko.system.model.entity.SysUser;
 

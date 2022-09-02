@@ -1,6 +1,5 @@
 package com.schilings.neiko.notify.websocket.announcement;
 
-
 import com.schilings.neiko.common.websocket.message.JsonWebSocketMessage;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +8,7 @@ import java.time.LocalDateTime;
 
 /**
  * 公告发布消息
-
+ *
  */
 @Getter
 @Setter

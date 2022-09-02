@@ -1,6 +1,5 @@
 package com.schilings.neiko.autoconfigure.oss;
 
-
 import com.schilings.neiko.autoconfigure.oss.interceptor.ModifyPathInterceptor;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -15,7 +14,6 @@ import software.amazon.awssdk.services.s3.S3ClientBuilder;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.function.Consumer;
-
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ClientBuilder {

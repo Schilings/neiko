@@ -25,4 +25,5 @@ public interface SysRoleService extends ExtendService<SysRole> {
 	 * @return 角色下拉列表数据集合
 	 */
 	List<SelectData> listSelectData();
+
 }

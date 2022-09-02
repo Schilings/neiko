@@ -14,26 +14,23 @@ import com.schilings.neiko.log.model.vo.LoginLogPageVO;
 
 public interface LoginLogMapper extends ExtendMapper<LoginLog> {
 
-    /**
-     * 分页查询
-     * @param pageParam 分页参数
-     * @param qo 查询对象
-     * @return 分页结果数据 PageResult
-     */
-    default PageResult<LoginLogPageVO> queryPage(PageParam pageParam, LoginLogQO qo) {
-        IPage<LoginLog> page = this.prodPage(pageParam);
-        NeikoLambdaQueryWrapper<LoginLogPageVO> queryWrapper = WrappersX.<LoginLogPageVO>lambdaQueryJoin()
-                .selectAll(LoginLog.class)
-                .eqIfPresent(LoginLog::getUsername, qo.getUsername())
-                .eqIfPresent(LoginLog::getTraceId, qo.getTraceId())
-                .eqIfPresent(LoginLog::getIp, qo.getIp())
-                .eqIfPresent(LoginLog::getEventType, qo.getEventType())
-                .eqIfPresent(LoginLog::getStatus, qo.getStatus())
-                .gtIfPresent(LoginLog::getLoginTime, qo.getStartTime())
-                .ltIfPresent(LoginLog::getLoginTime, qo.getEndTime());
+	/**
+	 * 分页查询
+	 * @param pageParam 分页参数
+	 * @param qo 查询对象
+	 * @return 分页结果数据 PageResult
+	 */
+	default PageResult<LoginLogPageVO> queryPage(PageParam pageParam, LoginLogQO qo) {
+		IPage<LoginLog> page = this.prodPage(pageParam);
+		NeikoLambdaQueryWrapper<LoginLogPageVO> queryWrapper = WrappersX.<LoginLogPageVO>lambdaQueryJoin()
+				.selectAll(LoginLog.class).eqIfPresent(LoginLog::getUsername, qo.getUsername())
+				.eqIfPresent(LoginLog::getTraceId, qo.getTraceId()).eqIfPresent(LoginLog::getIp, qo.getIp())
+				.eqIfPresent(LoginLog::getEventType, qo.getEventType()).eqIfPresent(LoginLog::getStatus, qo.getStatus())
+				.gtIfPresent(LoginLog::getLoginTime, qo.getStartTime())
+				.ltIfPresent(LoginLog::getLoginTime, qo.getEndTime());
 
-        IPage<LoginLogPageVO> voPage = this.selectJoinPage(page, LoginLogPageVO.class, AUTO_RESULT_MAP, queryWrapper);
-        return this.prodPage(voPage);
-    }
-    
+		IPage<LoginLogPageVO> voPage = this.selectJoinPage(page, LoginLogPageVO.class, AUTO_RESULT_MAP, queryWrapper);
+		return this.prodPage(voPage);
+	}
+
 }

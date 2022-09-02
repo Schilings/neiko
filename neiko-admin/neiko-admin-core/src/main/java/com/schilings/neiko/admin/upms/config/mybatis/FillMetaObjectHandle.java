@@ -30,15 +30,16 @@ public class FillMetaObjectHandle implements MetaObjectHandler {
 			this.strictInsertFill(metaObject, "createTime", LocalDateTime.class, LocalDateTime.now());
 		}
 		// 创建人
-		 if (metaObject.hasSetter("createBy")) {
-			 try {
-				 this.strictInsertFill(metaObject, "createBy", Long.class,
-						 Long.valueOf(StpOauth2UserUtil.getLoginIdAsString()));
-			 } catch (Exception e) {
-				 this.strictInsertFill(metaObject, "createBy", Long.class, null);
-				 log.error("[strictInsertFill]createBy insert error!,ex:" + e);
-			 }
-		 }
+		if (metaObject.hasSetter("createBy")) {
+			try {
+				this.strictInsertFill(metaObject, "createBy", Long.class,
+						Long.valueOf(StpOauth2UserUtil.getLoginIdAsString()));
+			}
+			catch (Exception e) {
+				this.strictInsertFill(metaObject, "createBy", Long.class, null);
+				log.error("[strictInsertFill]createBy insert error!,ex:" + e);
+			}
+		}
 	}
 
 	@Override
@@ -48,15 +49,16 @@ public class FillMetaObjectHandle implements MetaObjectHandler {
 			this.strictUpdateFill(metaObject, "updateTime", LocalDateTime.class, LocalDateTime.now());
 		}
 		// 修改人
-		 if (metaObject.hasSetter("updateBy")) {
-			 try {
-				 this.strictInsertFill(metaObject, "updateBy", Long.class,
-						 Long.valueOf(StpOauth2UserUtil.getLoginIdAsString()));
-			 } catch (Exception e) {
-				 this.strictInsertFill(metaObject, "updateBy", Long.class, null);
-				 log.error("[strictInsertFill]updateBy insert error!,ex:" + e);
-			 }
-		 }
+		if (metaObject.hasSetter("updateBy")) {
+			try {
+				this.strictInsertFill(metaObject, "updateBy", Long.class,
+						Long.valueOf(StpOauth2UserUtil.getLoginIdAsString()));
+			}
+			catch (Exception e) {
+				this.strictInsertFill(metaObject, "updateBy", Long.class, null);
+				log.error("[strictInsertFill]updateBy insert error!,ex:" + e);
+			}
+		}
 	}
 
 }

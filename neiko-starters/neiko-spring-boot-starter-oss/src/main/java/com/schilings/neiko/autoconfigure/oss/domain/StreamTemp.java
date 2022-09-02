@@ -6,7 +6,6 @@ import lombok.experimental.Accessors;
 
 import java.io.*;
 
-
 @Data
 @Accessors(chain = true)
 @RequiredArgsConstructor

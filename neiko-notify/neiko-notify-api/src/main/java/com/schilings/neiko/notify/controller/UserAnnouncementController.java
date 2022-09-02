@@ -22,28 +22,29 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "用户公告表管理")
 public class UserAnnouncementController {
 
-    private final UserAnnouncementService userAnnouncementService;
+	private final UserAnnouncementService userAnnouncementService;
 
-    /**
-     * 分页查询
-     * @param pageParam 分页参数
-     * @param userAnnouncementQO 用户公告表查询对象
-     * @return R 通用返回体
-     */
-    @GetMapping("/page")
-    @Oauth2CheckPermission("notify:userannouncement:read")
-    @Operation(summary = "分页查询", description = "分页查询")
-    public R<PageResult<UserAnnouncementPageVO>> getUserAnnouncementPage(@Validated PageParam pageParam,
-                                                                         UserAnnouncementQO userAnnouncementQO) {
-        return R.ok(userAnnouncementService.queryPage(pageParam, userAnnouncementQO));
-    }
+	/**
+	 * 分页查询
+	 * @param pageParam 分页参数
+	 * @param userAnnouncementQO 用户公告表查询对象
+	 * @return R 通用返回体
+	 */
+	@GetMapping("/page")
+	@Oauth2CheckPermission("notify:userannouncement:read")
+	@Operation(summary = "分页查询", description = "分页查询")
+	public R<PageResult<UserAnnouncementPageVO>> getUserAnnouncementPage(@Validated PageParam pageParam,
+			UserAnnouncementQO userAnnouncementQO) {
+		return R.ok(userAnnouncementService.queryPage(pageParam, userAnnouncementQO));
+	}
 
-    @PatchMapping("/read/{announcementId}")
-    @Oauth2CheckPermission("notify:userannouncement:read")
-    @Operation(summary = "用户公告已读上报", description = "用户公告已读上报")
-    public R<Void> readAnnouncement(@PathVariable("announcementId") Long announcementId) {
-        Long userId = Long.valueOf(RBACAuthorityHolder.getUserDetails().getUserId());
-        userAnnouncementService.readAnnouncement(userId, announcementId);
-        return R.ok();
-    }
+	@PatchMapping("/read/{announcementId}")
+	@Oauth2CheckPermission("notify:userannouncement:read")
+	@Operation(summary = "用户公告已读上报", description = "用户公告已读上报")
+	public R<Void> readAnnouncement(@PathVariable("announcementId") Long announcementId) {
+		Long userId = Long.valueOf(RBACAuthorityHolder.getUserDetails().getUserId());
+		userAnnouncementService.readAnnouncement(userId, announcementId);
+		return R.ok();
+	}
+
 }

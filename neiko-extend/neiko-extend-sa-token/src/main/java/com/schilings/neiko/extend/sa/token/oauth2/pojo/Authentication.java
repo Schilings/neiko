@@ -1,25 +1,25 @@
 package com.schilings.neiko.extend.sa.token.oauth2.pojo;
 
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 
 /**
- * 
- * <p>身份验证</p>
- * 
+ *
+ * <p>
+ * 身份验证
+ * </p>
+ *
  * @author Schilings
-*/
+ */
 public interface Authentication extends Serializable {
 
+	Object getTokenDetails();
 
-    Object getTokenDetails();
+	UserDetails getUserDetails();
 
-    UserDetails getUserDetails();
+	boolean isAuthenticated();
 
-    boolean isAuthenticated();
-
-    void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException;
+	void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException;
 
 }

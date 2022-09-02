@@ -1,4 +1,4 @@
-package com.schilings.neiko.wechat.biz.service.impl;
+package com.schilings.neiko.wechat.service.impl;
 
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -6,8 +6,8 @@ import com.google.common.collect.Lists;
 import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;
 import com.schilings.neiko.extend.mybatis.plus.service.impl.ExtendServiceImpl;
-import com.schilings.neiko.wechat.biz.mapper.WechatUserMapper;
-import com.schilings.neiko.wechat.biz.service.WechatUserService;
+import com.schilings.neiko.wechat.mapper.WechatUserMapper;
+import com.schilings.neiko.wechat.service.WechatUserService;
 import com.schilings.neiko.wechat.constant.WechatConst;
 import com.schilings.neiko.wechat.model.dto.WechatOpenDataDTO;
 import com.schilings.neiko.wechat.model.entity.WechatUser;

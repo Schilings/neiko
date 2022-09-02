@@ -7,13 +7,14 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-
 /**
- * 
- * <p>站内通知方式，采用Websocket</p>
- * 
+ *
+ * <p>
+ * 站内通知方式，采用Websocket
+ * </p>
+ *
  * @author Schilings
-*/
+ */
 @Getter
 @RequiredArgsConstructor
 public class StationNotifyPushEvent {

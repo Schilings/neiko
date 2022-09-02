@@ -16,7 +16,6 @@ import org.springframework.scheduling.annotation.Async;
 
 import java.util.List;
 
-
 @Slf4j
 @RequiredArgsConstructor
 public class NotifyWebsocketEventListener {

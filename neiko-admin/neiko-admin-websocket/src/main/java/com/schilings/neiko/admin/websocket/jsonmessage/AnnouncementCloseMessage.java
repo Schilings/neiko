@@ -1,10 +1,8 @@
 package com.schilings.neiko.admin.websocket.jsonmessage;
 
-
 import com.schilings.neiko.common.websocket.message.JsonWebSocketMessage;
 import lombok.Getter;
 import lombok.Setter;
-
 
 @Getter
 @Setter

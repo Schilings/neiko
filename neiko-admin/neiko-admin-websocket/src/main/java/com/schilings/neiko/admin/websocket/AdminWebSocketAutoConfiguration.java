@@ -1,6 +1,5 @@
 package com.schilings.neiko.admin.websocket;
 
-
 import com.schilings.neiko.admin.websocket.component.UserAttributeHandshakeInterceptor;
 import com.schilings.neiko.admin.websocket.component.UserSessionKeyGenerator;
 import com.schilings.neiko.common.websocket.session.SessionKeyGenerator;
@@ -11,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
-@Import({NotifyWebsocketEventListenerConfiguration.class,SystemWebsocketEventListenerConfiguration.class})
+@Import({ NotifyWebsocketEventListenerConfiguration.class, SystemWebsocketEventListenerConfiguration.class })
 @AutoConfiguration
 @RequiredArgsConstructor
 public class AdminWebSocketAutoConfiguration {

@@ -22,11 +22,13 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
- * 
- * <p>操作日志处理类</p>
- * 
+ *
+ * <p>
+ * 操作日志处理类
+ * </p>
+ *
  * @author Schilings
-*/
+ */
 @RequiredArgsConstructor
 public class CustomOperationLogHandler extends AbstractOperationLogHandler<OperationLog> {
 
@@ -40,7 +42,7 @@ public class CustomOperationLogHandler extends AbstractOperationLogHandler<Opera
 	 */
 	@Override
 	public OperationLog buildLog(OperationLogging operationLogging, ProceedingJoinPoint joinPoint) {
-		//获取Request
+		// 获取Request
 		HttpServletRequest request = WebUtils.getRequest();
 
 		// @formatter:off
@@ -61,7 +63,8 @@ public class CustomOperationLogHandler extends AbstractOperationLogHandler<Opera
 		}
 
 		// 操作用户
-		Optional.ofNullable(RBACAuthorityHolder.getUserDetails()).ifPresent(x -> operationLog.setOperator(((UserDetails) x).getUsername()));
+		Optional.ofNullable(RBACAuthorityHolder.getUserDetails())
+				.ifPresent(x -> operationLog.setOperator(((UserDetails) x).getUsername()));
 		return operationLog;
 	}
 
@@ -76,9 +79,9 @@ public class CustomOperationLogHandler extends AbstractOperationLogHandler<Opera
 	 * @return
 	 */
 	@Override
-	public OperationLog recordExecutionInfo(OperationLog operationLog, ProceedingJoinPoint joinPoint, long executionTime,
-			Throwable throwable, boolean isSaveResult, Object result) {
-		//执行时长
+	public OperationLog recordExecutionInfo(OperationLog operationLog, ProceedingJoinPoint joinPoint,
+			long executionTime, Throwable throwable, boolean isSaveResult, Object result) {
+		// 执行时长
 		operationLog.setTime(executionTime);
 		// 执行状态
 		LogStatusEnum logStatusEnum = throwable == null ? LogStatusEnum.SUCCESS : LogStatusEnum.FAIL;

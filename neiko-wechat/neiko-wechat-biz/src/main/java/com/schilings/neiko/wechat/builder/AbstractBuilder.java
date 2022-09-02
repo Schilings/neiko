@@ -4,7 +4,7 @@
  * 注意：
  * 本软件为www.yixiang.co开发研制
  */
-package com.schilings.neiko.wechat.biz.builder;
+package com.schilings.neiko.wechat.builder;
 
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;

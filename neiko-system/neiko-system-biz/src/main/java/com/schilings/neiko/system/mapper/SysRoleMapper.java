@@ -43,16 +43,13 @@ public interface SysRoleMapper extends ExtendMapper<SysRole> {
 
 	/**
 	 * 获取角色下拉框数据
-	 *
 	 * @return 下拉选择框数据集合
 	 */
 	default List<SelectData> listSelectData() {
 		NeikoLambdaQueryWrapper<SelectData<Void>> queryWrapper = WrappersX.<SelectData<Void>>lambdaQueryJoin()
 				.selectAs(SysRole::getName, SelectData<Void>::getName)
-				.selectAs(SysRole::getCode, SelectData<Void>::getValue)
-				.eq(SysRole::getDeleted, NOT_DELETED_FLAG);
+				.selectAs(SysRole::getCode, SelectData<Void>::getValue).eq(SysRole::getDeleted, NOT_DELETED_FLAG);
 		return this.selectJoinList(SelectData.class, AUTO_RESULT_MAP, queryWrapper);
 	}
-
 
 }

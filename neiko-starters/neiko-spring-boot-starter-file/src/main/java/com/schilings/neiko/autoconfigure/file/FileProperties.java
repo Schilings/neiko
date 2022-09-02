@@ -1,10 +1,8 @@
 package com.schilings.neiko.autoconfigure.file;
 
-
 import com.schilings.neiko.autoconfigure.file.ftp.FtpMode;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-
 
 @Data
 @ConfigurationProperties(prefix = FileProperties.PREFIX)

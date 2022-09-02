@@ -23,18 +23,19 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 /**
- * 
- * <p>访问日志处理类</p>
- * 
+ *
+ * <p>
+ * 访问日志处理类
+ * </p>
+ *
  * @author Schilings
-*/
+ */
 @Slf4j
 public class CustomAccessLogHandler implements AccessLogHandler<AccessLog> {
 
 	private static final String APPLICATION_JSON = "application/json";
 
 	private final AccessLogSaveThread accessLogSaveThread;
-	
 
 	public CustomAccessLogHandler(AccessLogSaveThread accessLogSaveThread) {
 		if (!accessLogSaveThread.isAlive()) {
@@ -102,7 +103,6 @@ public class CustomAccessLogHandler implements AccessLogHandler<AccessLog> {
 		return accessLog;
 	}
 
-
 	/**
 	 * 获取参数信息
 	 * @param request 请求信息
@@ -115,7 +115,7 @@ public class CustomAccessLogHandler implements AccessLogHandler<AccessLog> {
 			for (String paramKey : needDesensitizeParams) {
 				String[] values = parameterMap.get(paramKey);
 				if (values != null && values.length != 0) {
-					//手动脱敏
+					// 手动脱敏
 					String value = DesensitizationHandlerHolder
 							.getRegexHandler(DefaultRegexDesensitizationHandler.class)
 							.handle(values[0], RegexDesensitizationTypeEnum.ENCRYPTED_PASSWORD);

@@ -10,7 +10,6 @@ import com.schilings.neiko.system.model.entity.SysUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-
 import java.util.List;
 
 /**

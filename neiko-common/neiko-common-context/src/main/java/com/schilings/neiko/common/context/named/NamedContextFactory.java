@@ -1,6 +1,5 @@
 package com.schilings.neiko.common.context.named;
 
-
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.DisposableBean;
@@ -19,176 +18,177 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 
- * <p>copy from使其独立于Neiko {@link org.springframework.cloud.context.named.NamedContextFactory}</p>
- * 
+ *
+ * <p>
+ * copy from使其独立于Neiko {@link org.springframework.cloud.context.named.NamedContextFactory}
+ * </p>
+ *
  * @author Schilings
-*/
+ */
 public abstract class NamedContextFactory<C extends NamedContextFactory.Specification>
-        implements DisposableBean, ApplicationContextAware {
+		implements DisposableBean, ApplicationContextAware {
 
-    private final String propertySourceName;
+	private final String propertySourceName;
 
-    private final String propertyName;
+	private final String propertyName;
 
-    private Map<String, AnnotationConfigApplicationContext> contexts = new ConcurrentHashMap<>();
+	private Map<String, AnnotationConfigApplicationContext> contexts = new ConcurrentHashMap<>();
 
-    private Map<String, C> configurations = new ConcurrentHashMap<>();
+	private Map<String, C> configurations = new ConcurrentHashMap<>();
 
-    private ApplicationContext parent;
+	private ApplicationContext parent;
 
-    private Class<?> defaultConfigType;
+	private Class<?> defaultConfigType;
 
-    public NamedContextFactory(Class<?> defaultConfigType, String propertySourceName, String propertyName) {
-        this.defaultConfigType = defaultConfigType;
-        this.propertySourceName = propertySourceName;
-        this.propertyName = propertyName;
-    }
+	public NamedContextFactory(Class<?> defaultConfigType, String propertySourceName, String propertyName) {
+		this.defaultConfigType = defaultConfigType;
+		this.propertySourceName = propertySourceName;
+		this.propertyName = propertyName;
+	}
 
-    @Override
-    public void setApplicationContext(ApplicationContext parent) throws BeansException {
-        this.parent = parent;
-    }
+	@Override
+	public void setApplicationContext(ApplicationContext parent) throws BeansException {
+		this.parent = parent;
+	}
 
-    public ApplicationContext getParent() {
-        return parent;
-    }
+	public ApplicationContext getParent() {
+		return parent;
+	}
 
-    public void setConfigurations(List<C> configurations) {
-        for (C client : configurations) {
-            this.configurations.put(client.getName(), client);
-        }
-    }
+	public void setConfigurations(List<C> configurations) {
+		for (C client : configurations) {
+			this.configurations.put(client.getName(), client);
+		}
+	}
 
-    public Set<String> getContextNames() {
-        return new HashSet<>(this.contexts.keySet());
-    }
+	public Set<String> getContextNames() {
+		return new HashSet<>(this.contexts.keySet());
+	}
 
-    @Override
-    public void destroy() {
-        Collection<AnnotationConfigApplicationContext> values = this.contexts.values();
-        for (AnnotationConfigApplicationContext context : values) {
-            // This can fail, but it never throws an exception (you see stack traces
-            // logged as WARN).
-            context.close();
-        }
-        this.contexts.clear();
-    }
+	@Override
+	public void destroy() {
+		Collection<AnnotationConfigApplicationContext> values = this.contexts.values();
+		for (AnnotationConfigApplicationContext context : values) {
+			// This can fail, but it never throws an exception (you see stack traces
+			// logged as WARN).
+			context.close();
+		}
+		this.contexts.clear();
+	}
 
-    protected AnnotationConfigApplicationContext getContext(String name) {
-        if (!this.contexts.containsKey(name)) {
-            synchronized (this.contexts) {
-                if (!this.contexts.containsKey(name)) {
-                    this.contexts.put(name, createContext(name));
-                }
-            }
-        }
-        return this.contexts.get(name);
-    }
+	protected AnnotationConfigApplicationContext getContext(String name) {
+		if (!this.contexts.containsKey(name)) {
+			synchronized (this.contexts) {
+				if (!this.contexts.containsKey(name)) {
+					this.contexts.put(name, createContext(name));
+				}
+			}
+		}
+		return this.contexts.get(name);
+	}
 
-    protected AnnotationConfigApplicationContext createContext(String name) {
-        AnnotationConfigApplicationContext context;
-        if (this.parent != null) {
-            // jdk11 issue
-            // https://github.com/spring-cloud/spring-cloud-netflix/issues/3101
-            // https://github.com/spring-cloud/spring-cloud-openfeign/issues/475
-            DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
-            if (parent instanceof ConfigurableApplicationContext) {
-                beanFactory.setBeanClassLoader(
-                        ((ConfigurableApplicationContext) parent).getBeanFactory().getBeanClassLoader());
-            }
-            else {
-                beanFactory.setBeanClassLoader(parent.getClassLoader());
-            }
-            context = new AnnotationConfigApplicationContext(beanFactory);
-            context.setClassLoader(this.parent.getClassLoader());
-        }
-        else {
-            context = new AnnotationConfigApplicationContext();
-        }
-        if (this.configurations.containsKey(name)) {
-            for (Class<?> configuration : this.configurations.get(name).getConfiguration()) {
-                context.register(configuration);
-            }
-        }
-        for (Map.Entry<String, C> entry : this.configurations.entrySet()) {
-            if (entry.getKey().startsWith("default.")) {
-                for (Class<?> configuration : entry.getValue().getConfiguration()) {
-                    context.register(configuration);
-                }
-            }
-        }
-        context.register(PropertyPlaceholderAutoConfiguration.class, this.defaultConfigType);
-        context.getEnvironment().getPropertySources().addFirst(new MapPropertySource(this.propertySourceName,
-                Collections.<String, Object>singletonMap(this.propertyName, name)));
-        if (this.parent != null) {
-            // Uses Environment from parent as well as beans
-            context.setParent(this.parent);
-        }
-        context.setDisplayName(generateDisplayName(name));
-        context.refresh();
-        return context;
-    }
+	protected AnnotationConfigApplicationContext createContext(String name) {
+		AnnotationConfigApplicationContext context;
+		if (this.parent != null) {
+			// jdk11 issue
+			// https://github.com/spring-cloud/spring-cloud-netflix/issues/3101
+			// https://github.com/spring-cloud/spring-cloud-openfeign/issues/475
+			DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+			if (parent instanceof ConfigurableApplicationContext) {
+				beanFactory.setBeanClassLoader(
+						((ConfigurableApplicationContext) parent).getBeanFactory().getBeanClassLoader());
+			}
+			else {
+				beanFactory.setBeanClassLoader(parent.getClassLoader());
+			}
+			context = new AnnotationConfigApplicationContext(beanFactory);
+			context.setClassLoader(this.parent.getClassLoader());
+		}
+		else {
+			context = new AnnotationConfigApplicationContext();
+		}
+		if (this.configurations.containsKey(name)) {
+			for (Class<?> configuration : this.configurations.get(name).getConfiguration()) {
+				context.register(configuration);
+			}
+		}
+		for (Map.Entry<String, C> entry : this.configurations.entrySet()) {
+			if (entry.getKey().startsWith("default.")) {
+				for (Class<?> configuration : entry.getValue().getConfiguration()) {
+					context.register(configuration);
+				}
+			}
+		}
+		context.register(PropertyPlaceholderAutoConfiguration.class, this.defaultConfigType);
+		context.getEnvironment().getPropertySources().addFirst(new MapPropertySource(this.propertySourceName,
+				Collections.<String, Object>singletonMap(this.propertyName, name)));
+		if (this.parent != null) {
+			// Uses Environment from parent as well as beans
+			context.setParent(this.parent);
+		}
+		context.setDisplayName(generateDisplayName(name));
+		context.refresh();
+		return context;
+	}
 
-    protected String generateDisplayName(String name) {
-        return this.getClass().getSimpleName() + "-" + name;
-    }
+	protected String generateDisplayName(String name) {
+		return this.getClass().getSimpleName() + "-" + name;
+	}
 
-    public <T> T getInstance(String name, Class<T> type) {
-        AnnotationConfigApplicationContext context = getContext(name);
-        try {
-            return context.getBean(type);
-        }
-        catch (NoSuchBeanDefinitionException e) {
-            // ignore
-        }
-        return null;
-    }
+	public <T> T getInstance(String name, Class<T> type) {
+		AnnotationConfigApplicationContext context = getContext(name);
+		try {
+			return context.getBean(type);
+		}
+		catch (NoSuchBeanDefinitionException e) {
+			// ignore
+		}
+		return null;
+	}
 
-    public <T> ObjectProvider<T> getLazyProvider(String name, Class<T> type) {
-        return new ClientFactoryObjectProvider<>(this, name, type);
-    }
+	public <T> ObjectProvider<T> getLazyProvider(String name, Class<T> type) {
+		return new ClientFactoryObjectProvider<>(this, name, type);
+	}
 
-    public <T> ObjectProvider<T> getProvider(String name, Class<T> type) {
-        AnnotationConfigApplicationContext context = getContext(name);
-        return context.getBeanProvider(type);
-    }
+	public <T> ObjectProvider<T> getProvider(String name, Class<T> type) {
+		AnnotationConfigApplicationContext context = getContext(name);
+		return context.getBeanProvider(type);
+	}
 
-    public <T> T getInstance(String name, Class<?> clazz, Class<?>... generics) {
-        ResolvableType type = ResolvableType.forClassWithGenerics(clazz, generics);
-        return getInstance(name, type);
-    }
+	public <T> T getInstance(String name, Class<?> clazz, Class<?>... generics) {
+		ResolvableType type = ResolvableType.forClassWithGenerics(clazz, generics);
+		return getInstance(name, type);
+	}
 
-    @SuppressWarnings("unchecked")
-    public <T> T getInstance(String name, ResolvableType type) {
-        AnnotationConfigApplicationContext context = getContext(name);
-        String[] beanNames = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(context, type);
-        if (beanNames.length > 0) {
-            for (String beanName : beanNames) {
-                if (context.isTypeMatch(beanName, type)) {
-                    return (T) context.getBean(beanName);
-                }
-            }
-        }
-        return null;
-    }
+	@SuppressWarnings("unchecked")
+	public <T> T getInstance(String name, ResolvableType type) {
+		AnnotationConfigApplicationContext context = getContext(name);
+		String[] beanNames = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(context, type);
+		if (beanNames.length > 0) {
+			for (String beanName : beanNames) {
+				if (context.isTypeMatch(beanName, type)) {
+					return (T) context.getBean(beanName);
+				}
+			}
+		}
+		return null;
+	}
 
-    public <T> Map<String, T> getInstances(String name, Class<T> type) {
-        AnnotationConfigApplicationContext context = getContext(name);
+	public <T> Map<String, T> getInstances(String name, Class<T> type) {
+		AnnotationConfigApplicationContext context = getContext(name);
 
-        return BeanFactoryUtils.beansOfTypeIncludingAncestors(context, type);
-    }
+		return BeanFactoryUtils.beansOfTypeIncludingAncestors(context, type);
+	}
 
-    /**
-     * Specification with name and configuration.
-     */
-    public interface Specification {
+	/**
+	 * Specification with name and configuration.
+	 */
+	public interface Specification {
 
-        String getName();
+		String getName();
 
-        Class<?>[] getConfiguration();
+		Class<?>[] getConfiguration();
 
-    }
+	}
 
 }
-

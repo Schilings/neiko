@@ -7,7 +7,7 @@ import com.schilings.neiko.common.model.result.BaseResultCode;
 import com.schilings.neiko.common.model.result.R;
 import com.schilings.neiko.extend.sa.token.oauth2.annotation.Oauth2CheckPermission;
 import com.schilings.neiko.extend.sa.token.oauth2.annotation.Oauth2CheckScope;
-import com.schilings.neiko.wechat.biz.service.WechatMpReplyService;
+import com.schilings.neiko.wechat.service.WechatMpReplyService;
 import com.schilings.neiko.wechat.constant.WechatMpConst;
 import com.schilings.neiko.wechat.model.dto.WechatMpReplyDTO;
 import com.schilings.neiko.wechat.model.entity.WechatMpReply;

@@ -1,6 +1,5 @@
 package com.schilings.neiko.common.core.thread;
 
-
 import com.schilings.neiko.common.util.json.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;

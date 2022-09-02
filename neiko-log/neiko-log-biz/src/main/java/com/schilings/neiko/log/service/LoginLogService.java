@@ -9,13 +9,12 @@ import com.schilings.neiko.log.model.vo.LoginLogPageVO;
 
 public interface LoginLogService extends ExtendService<LoginLog> {
 
-    /**
-     * 根据QueryObject查询分页数据
-     * @param page 分页参数
-     * @param qo 查询参数对象
-     * @return PageResult<LoginLogVO> 分页数据
-     */
-    PageResult<LoginLogPageVO> queryPage(PageParam page, LoginLogQO qo);
-
+	/**
+	 * 根据QueryObject查询分页数据
+	 * @param page 分页参数
+	 * @param qo 查询参数对象
+	 * @return PageResult<LoginLogVO> 分页数据
+	 */
+	PageResult<LoginLogPageVO> queryPage(PageParam page, LoginLogQO qo);
 
 }

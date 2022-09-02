@@ -1,6 +1,5 @@
 package com.schilings.neiko.autoconfigure.oss;
 
-
 import com.schilings.neiko.autoconfigure.oss.domain.StreamTemp;
 import com.schilings.neiko.autoconfigure.oss.exception.OssDisabledException;
 import lombok.Getter;
@@ -19,7 +18,6 @@ import java.io.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-
 
 @Slf4j
 @Getter

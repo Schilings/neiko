@@ -16,15 +16,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * 
- * <p>基类：将NotifyInfo转换成JsonWebsocketMessage进行Websocket通知</p>
- * 
+ *
+ * <p>
+ * 基类：将NotifyInfo转换成JsonWebsocketMessage进行Websocket通知
+ * </p>
+ *
  * @author Schilings
-*/
+ */
 public abstract class AbstractNotifyInfoHandler<T extends NotifyInfo, M extends JsonWebSocketMessage>
 		implements NotifyInfoHandler<T> {
 
-	@Autowired
+	@Autowired(required = false)
 	private MessageDistributor messageDistributor;
 
 	protected final Class<T> clz;
@@ -42,9 +44,7 @@ public abstract class AbstractNotifyInfoHandler<T extends NotifyInfo, M extends 
 		String msg = JsonUtils.toJson(message);
 		List<Object> sessionKeys = userList.stream().map(SysUser::getUserId).collect(Collectors.toList());
 		persistMessage(userList, notifyInfo);
-		MessageDTO messageDO = new MessageDTO()
-				.setMessageText(msg)
-				.setSessionKeys(sessionKeys)
+		MessageDTO messageDO = new MessageDTO().setMessageText(msg).setSessionKeys(sessionKeys)
 				.setNeedBroadcast(CollUtil.isEmpty(sessionKeys));
 		messageDistributor.distribute(messageDO);
 	}

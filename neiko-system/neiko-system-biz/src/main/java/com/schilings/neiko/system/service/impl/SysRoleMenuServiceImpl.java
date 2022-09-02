@@ -67,10 +67,8 @@ public class SysRoleMenuServiceImpl extends ExtendServiceImpl<SysRoleMenuMapper,
 	 */
 	@Override
 	public List<String> listPermissions(String roleCode) {
-		return baseMapper.listMenuByRoleCode(roleCode).stream()
-				.map(SysMenu::getPermission)
-				.filter(StringUtils::isNotBlank)
-				.collect(Collectors.toList());
+		return baseMapper.listMenuByRoleCode(roleCode).stream().map(SysMenu::getPermission)
+				.filter(StringUtils::isNotBlank).collect(Collectors.toList());
 	}
 
 	/**

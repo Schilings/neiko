@@ -1,4 +1,4 @@
-package com.schilings.neiko.wechat.biz.mapper;
+package com.schilings.neiko.wechat.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;

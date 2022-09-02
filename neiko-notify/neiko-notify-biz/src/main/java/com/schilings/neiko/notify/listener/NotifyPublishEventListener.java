@@ -1,6 +1,5 @@
 package com.schilings.neiko.notify.listener;
 
-
 import com.schilings.neiko.notify.event.NotifyPublishEvent;
 import com.schilings.neiko.notify.model.domain.NotifyInfo;
 import lombok.RequiredArgsConstructor;

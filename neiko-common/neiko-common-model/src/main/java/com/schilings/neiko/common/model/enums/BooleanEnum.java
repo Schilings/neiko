@@ -3,7 +3,6 @@ package com.schilings.neiko.common.model.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-
 @Getter
 @AllArgsConstructor
 public enum BooleanEnum {

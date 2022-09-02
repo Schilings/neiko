@@ -8,7 +8,6 @@ import software.amazon.awssdk.http.SdkHttpRequest;
 
 import static com.schilings.neiko.autoconfigure.oss.OssConstants.SLASH;
 
-
 /**
  * <p>
  * oss 拦截器

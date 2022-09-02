@@ -1,11 +1,9 @@
 package com.schilings.neiko.autoconfigure.websocket.properties;
 
-
 import com.schilings.neiko.common.websocket.core.ConcurrentWebSocketSessionOptions;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
-
 
 @Data
 @ConfigurationProperties(WebSocketProperties.PREFIX)

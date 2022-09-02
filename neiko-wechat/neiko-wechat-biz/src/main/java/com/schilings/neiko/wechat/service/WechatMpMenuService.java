@@ -1,4 +1,4 @@
-package com.schilings.neiko.wechat.biz.service;
+package com.schilings.neiko.wechat.service;
 
 
 import com.schilings.neiko.extend.mybatis.plus.service.ExtendService;

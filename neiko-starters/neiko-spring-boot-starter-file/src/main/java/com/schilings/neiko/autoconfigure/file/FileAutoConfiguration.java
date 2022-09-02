@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Bean;
 
 import java.io.IOException;
 
-
 @AutoConfiguration
 @AllArgsConstructor
 @EnableConfigurationProperties(FileProperties.class)
@@ -28,8 +27,8 @@ public class FileAutoConfiguration {
 	@Bean
 	@ConditionalOnMissingBean(FileClient.class)
 	public FileClient neikoFileLocalClient(FileProperties properties) throws IOException {
-		FileProperties.LocalProperties localProperties = properties == null || properties.getLocal() == null ? new FileProperties.LocalProperties()
-				: properties.getLocal();
+		FileProperties.LocalProperties localProperties = properties == null || properties.getLocal() == null
+				? new FileProperties.LocalProperties() : properties.getLocal();
 		return new LocalFileClient(localProperties);
 	}
 

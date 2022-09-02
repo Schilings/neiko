@@ -1,6 +1,5 @@
 package com.schilings.neiko.notify.recipient;
 
-
 import com.schilings.neiko.notify.enums.NotifyRecipientFilterTypeEnum;
 import com.schilings.neiko.system.model.entity.SysUser;
 import com.schilings.neiko.system.service.SysUserService;
@@ -8,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-
 
 @Component
 @RequiredArgsConstructor

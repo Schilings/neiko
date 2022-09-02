@@ -1,6 +1,5 @@
 package com.schilings.neiko.log.thread;
 
-
 import com.schilings.neiko.common.core.thread.AbstractBlockingQueueThread;
 import com.schilings.neiko.log.model.entity.AccessLog;
 import com.schilings.neiko.log.service.AccessLogService;
@@ -10,11 +9,12 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 /**
- * 
- * <p></p>
- * 
+ *
+ * <p>
+ * </p>
+ *
  * @author Schilings
-*/
+ */
 @Slf4j
 @RequiredArgsConstructor
 public class AccessLogSaveThread extends AbstractBlockingQueueThread<AccessLog> {

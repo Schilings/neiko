@@ -5,7 +5,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.StringUtils;
 import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
 
-
 @Data
 @ConfigurationProperties(prefix = "neiko.oss")
 public class OssProperties {

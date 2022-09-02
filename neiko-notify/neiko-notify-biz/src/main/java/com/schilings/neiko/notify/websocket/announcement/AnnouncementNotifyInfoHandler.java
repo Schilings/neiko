@@ -1,6 +1,5 @@
 package com.schilings.neiko.notify.websocket.announcement;
 
-
 import com.schilings.neiko.notify.websocket.AbstractNotifyInfoHandler;
 import com.schilings.neiko.notify.model.domain.AnnouncementNotifyInfo;
 import com.schilings.neiko.notify.model.entity.UserAnnouncement;

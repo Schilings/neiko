@@ -1,5 +1,5 @@
 
-package com.schilings.neiko.wechat.biz.handler;
+package com.schilings.neiko.wechat.handler;
 
 import me.chanjar.weixin.mp.api.WxMpMessageHandler;
 import org.slf4j.Logger;

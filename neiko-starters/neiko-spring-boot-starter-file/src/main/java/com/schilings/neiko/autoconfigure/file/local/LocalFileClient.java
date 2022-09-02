@@ -13,7 +13,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-
 public class LocalFileClient extends AbstractFileClient {
 
 	private final File parentDir;
@@ -53,7 +52,7 @@ public class LocalFileClient extends AbstractFileClient {
 		}
 
 		try (FileOutputStream outputStream = new FileOutputStream(file)) {
-			
+
 			StreamUtils.write(stream, outputStream);
 		}
 

@@ -18,49 +18,50 @@ import java.time.LocalDateTime;
 @Schema(title = "用户公告表")
 public class UserAnnouncement {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * ID
-     */
-    @TableId
-    @Column(comment = "ID")
-    @Schema(title = "ID")
-    private Long id;
+	/**
+	 * ID
+	 */
+	@TableId
+	@Column(comment = "ID")
+	@Schema(title = "ID")
+	private Long id;
 
-    /**
-     * 公告id
-     */
-    @Column(comment = "公告id")
-    @Schema(title = "公告id")
-    private Long announcementId;
+	/**
+	 * 公告id
+	 */
+	@Column(comment = "公告id")
+	@Schema(title = "公告id")
+	private Long announcementId;
 
-    /**
-     * 用户ID
-     */
-    @Column(comment = "用户ID")
-    @Schema(title = "用户ID")
-    private Long userId;
+	/**
+	 * 用户ID
+	 */
+	@Column(comment = "用户ID")
+	@Schema(title = "用户ID")
+	private Long userId;
 
-    /**
-     * 状态，已读(1)|未读(0)
-     */
-    @Column(comment = "状态，已读(1)|未读(0)")
-    @Schema(title = "状态，已读(1)|未读(0)")
-    private Integer state;
+	/**
+	 * 状态，已读(1)|未读(0)
+	 */
+	@Column(comment = "状态，已读(1)|未读(0)")
+	@Schema(title = "状态，已读(1)|未读(0)")
+	private Integer state;
 
-    /**
-     * 阅读时间
-     */
-    @Column(comment = "阅读时间")
-    @Schema(title = "阅读时间")
-    private LocalDateTime readTime;
+	/**
+	 * 阅读时间
+	 */
+	@Column(comment = "阅读时间")
+	@Schema(title = "阅读时间")
+	private LocalDateTime readTime;
 
-    /**
-     * 拉取时间
-     */
-    @TableField(fill = FieldFill.INSERT)
-    @Column(comment = "拉取时间")
-    @Schema(title = "拉取时间")
-    private LocalDateTime createTime;
+	/**
+	 * 拉取时间
+	 */
+	@TableField(fill = FieldFill.INSERT)
+	@Column(comment = "拉取时间")
+	@Schema(title = "拉取时间")
+	private LocalDateTime createTime;
+
 }

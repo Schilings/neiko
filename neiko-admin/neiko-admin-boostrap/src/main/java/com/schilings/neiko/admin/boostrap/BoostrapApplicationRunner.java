@@ -62,7 +62,7 @@ public class BoostrapApplicationRunner implements ApplicationRunner {
 	@Autowired
 	private SysDictItemService sysDictItemService;
 
-	//notify
+	// notify
 	@Autowired
 	private AnnouncementService announcementService;
 

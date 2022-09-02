@@ -1,7 +1,5 @@
 package com.schilings.neiko.notify.push;
 
-
-
 import com.schilings.neiko.notify.model.domain.NotifyInfo;
 import com.schilings.neiko.system.model.entity.SysUser;
 

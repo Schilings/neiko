@@ -37,7 +37,7 @@ public class OperationLog {
 	/**
 	 * 追踪ID
 	 */
-	@Column(comment = "追踪ID",type = MySqlTypeConstant.CHAR)
+	@Column(comment = "追踪ID", type = MySqlTypeConstant.CHAR)
 	@Schema(title = "追踪ID")
 	private String traceId;
 
@@ -79,7 +79,7 @@ public class OperationLog {
 	/**
 	 * 操作提交的数据
 	 */
-	@Column(comment = "操作提交的数据",type = MySqlTypeConstant.TEXT)
+	@Column(comment = "操作提交的数据", type = MySqlTypeConstant.TEXT)
 	@Schema(title = "操作提交的数据")
 	private String params;
 

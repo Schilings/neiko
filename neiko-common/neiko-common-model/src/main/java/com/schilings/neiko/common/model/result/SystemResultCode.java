@@ -3,7 +3,6 @@ package com.schilings.neiko.common.model.result;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-
 @Getter
 @AllArgsConstructor
 public enum SystemResultCode implements ResultCode {
