@@ -14,6 +14,7 @@
         <module>neiko-admin-core</module>
         <module>neiko-admin-websocket</module>
         <module>neiko-admin-boostrap</module>
+        <module>neiko-admin-datascope</module>
     </modules>
 
     <!--添加这段配置是为了识别你的xml和yml配置文件-->

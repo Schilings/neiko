@@ -22,6 +22,7 @@
         <module>neiko-samples-admin</module>
         <module>neiko-samples-starter-websocket</module>
         <module>neiko-samples-starter-file</module>
+        <module>neiko-samples-starter-datascope</module>
 
     </modules>
 

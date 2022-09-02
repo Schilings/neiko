@@ -524,6 +524,11 @@
                 <artifactId>neiko-common-context</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-common-datascope</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <!--neiko starter-->
             <dependency>
                 <groupId>com.schilings</groupId>
@@ -583,6 +588,11 @@
             <dependency>
                 <groupId>com.schilings</groupId>
                 <artifactId>neiko-spring-boot-starter-oss</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-spring-boot-starter-datascope</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!--neiko cloud-->

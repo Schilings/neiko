@@ -28,6 +28,7 @@
         <module>neiko-common-retry</module>
         <module>neiko-common-security</module>
         <module>neiko-common-context</module>
+        <module>neiko-common-datascope</module>
     </modules>
 
     
