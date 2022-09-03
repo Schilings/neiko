@@ -274,7 +274,6 @@ public class ExtendOAuth2Handler {
 
 		// 构建 Access-Token
 		AccessTokenModel token = SaOAuth2Util.generateAccessToken(code);
-
 		// 返回
 		return R.ok(token.toLineMap());
 	}

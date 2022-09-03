@@ -26,7 +26,6 @@ public class StpInterfaceImpl implements StpInterface {
 
 	@Override
 	public List<String> getRoleList(Object userId, String loginType) {
-
 		return RBACAuthorityHolder.getRoles((String) userId, () -> {
 			return sysUserRoleService.listRoleCodes(Long.valueOf((String) userId));
 		});
@@ -34,7 +33,6 @@ public class StpInterfaceImpl implements StpInterface {
 
 	@Override
 	public List<String> getPermissionList(Object userId, String loginType) {
-
 		// 1. 声明权限码集合
 		List<String> permissionList = new ArrayList<>();
 		// 2. 遍历角色列表，查询拥有的权限码

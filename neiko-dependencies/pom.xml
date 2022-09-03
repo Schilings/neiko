@@ -787,6 +787,11 @@
                 <artifactId>neiko-admin-websocket</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-admin-datascope</artifactId>
+                <version>${revision}</version>
+            </dependency>
 
             
         </dependencies>

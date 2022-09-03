@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 @Slf4j
@@ -42,6 +43,15 @@ public class SysRoleServiceImpl extends ExtendServiceImpl<SysRoleMapper, SysRole
 	@Override
 	public PageResult<SysRolePageVO> queryPage(PageParam pageParam, SysRoleQO qo) {
 		return baseMapper.queryPage(pageParam, qo);
+	}
+
+	/**
+	 * 根据多个roleCode查多个角色列表
+	 * @param roleCodes
+	 */
+	@Override
+	public List<SysRole> list(Collection<String> roleCodes) {
+		return baseMapper.listByRoleCodes(roleCodes);
 	}
 
 	/**

@@ -1,6 +1,7 @@
 package com.schilings.neiko.system.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.schilings.neiko.common.model.constants.GlobalConstants;
 import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;
 import com.schilings.neiko.common.model.domain.SelectData;
@@ -11,6 +12,7 @@ import com.schilings.neiko.system.model.entity.SysRole;
 import com.schilings.neiko.system.model.qo.SysRoleQO;
 import com.schilings.neiko.system.model.vo.SysRolePageVO;
 
+import java.util.Collection;
 import java.util.List;
 
 import static com.schilings.neiko.common.model.constants.GlobalConstants.NOT_DELETED_FLAG;
@@ -52,4 +54,14 @@ public interface SysRoleMapper extends ExtendMapper<SysRole> {
 		return this.selectJoinList(SelectData.class, AUTO_RESULT_MAP, queryWrapper);
 	}
 
+	/**
+	 * 根据多个roleCode查多个角色列表
+	 *
+	 * @param roleCodes
+	 */
+	default List<SysRole> listByRoleCodes(Collection<String> roleCodes) {
+		return this.selectList(WrappersX.lambdaQueryX(SysRole.class)
+				.eq(SysRole::getDeleted, NOT_DELETED_FLAG)
+				.in(SysRole::getCode, roleCodes));
+	}
 }

@@ -29,6 +29,10 @@
         </dependency>
         <dependency>
             <groupId>com.schilings</groupId>
+            <artifactId>neiko-admin-datascope</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.schilings</groupId>
             <artifactId>neiko-admin-boostrap</artifactId>
         </dependency>
         

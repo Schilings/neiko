@@ -37,6 +37,7 @@ neiko:
   sa-token:
     enforce-json-filter: true
     enforce-cancel-authenticate: false
+    check-login: true
   web:
     pageable:
       page-parameter-name: page

@@ -57,14 +57,6 @@ public class CustomEmailGranter implements OAuth2Granter {
         AccessTokenModel at = SaOAuth2Util.generateAccessToken(ra, true);
 
         // 8、Token拓展
-        Map<String, Object> map = at.toLineMap();
-        map.put(SaOAuth2Consts.Param.grant_type, SaOAuth2Consts.GrantType.password);// 授权方式
-        map.put(SecurityConstants.ResponseType.token, StpOAuth2UserUtil.getTokenInfo());// 系统登录Token
-
-        // 9、发布登录成功事件
-        ApplicationEventPublisherHolder.publishAuthenticationSuccessEvent(map);
-
-        // 10、返回 Access-Token
-        return R.ok(map);
+        return at.toLineMap();
     }
 }
