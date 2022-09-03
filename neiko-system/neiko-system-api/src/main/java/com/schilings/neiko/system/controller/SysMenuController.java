@@ -7,8 +7,8 @@ import com.schilings.neiko.common.log.operation.annotation.UpdateOperationLoggin
 import com.schilings.neiko.common.model.result.BaseResultCode;
 import com.schilings.neiko.common.model.result.R;
 import com.schilings.neiko.extend.sa.token.holder.RBACAuthorityHolder;
-import com.schilings.neiko.extend.sa.token.oauth2.annotation.Oauth2CheckPermission;
-import com.schilings.neiko.extend.sa.token.oauth2.annotation.Oauth2CheckScope;
+import com.schilings.neiko.extend.sa.token.oauth2.annotation.OAuth2CheckPermission;
+import com.schilings.neiko.extend.sa.token.oauth2.annotation.OAuth2CheckScope;
 import com.schilings.neiko.extend.sa.token.oauth2.pojo.UserDetails;
 import com.schilings.neiko.system.converter.SysMenuConverter;
 import com.schilings.neiko.system.enums.SysMenuType;
@@ -30,7 +30,7 @@ import javax.validation.Valid;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Oauth2CheckScope("system")
+@OAuth2CheckScope("system")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/system/menu")
@@ -75,7 +75,7 @@ public class SysMenuController {
 	 * @return R 通用返回体
 	 */
 	@GetMapping("/list")
-	@Oauth2CheckPermission("@per.hasPermission('system:menu:read')")
+	@OAuth2CheckPermission("system:menu:read")
 	@Operation(summary = "查询菜单列表", description = "查询菜单列表")
 	public R<List<SysMenuPageVO>> getSysMenuPage(SysMenuQO sysMenuQO) {
 		List<SysMenu> sysMenus = sysMenuService.listOrderBySort(sysMenuQO);
@@ -92,7 +92,7 @@ public class SysMenuController {
 	 * @return R 通用返回体
 	 */
 	@GetMapping("/grant-list")
-	@Oauth2CheckPermission("@per.hasPermission('system:menu:read')")
+	@OAuth2CheckPermission("system:menu:read")
 	@Operation(summary = "查询授权菜单列表", description = "查询授权菜单列表")
 	public R<List<SysMenuGrantVO>> getSysMenuGrantList() {
 		List<SysMenu> sysMenus = sysMenuService.list();
@@ -111,7 +111,7 @@ public class SysMenuController {
 	 */
 	@CreateOperationLogging(msg = "新增菜单权限")
 	@PostMapping
-	@Oauth2CheckPermission("@per.hasPermission('system:menu:add')")
+	@OAuth2CheckPermission("system:menu:add")
 	@Operation(summary = "新增菜单权限", description = "新增菜单权限")
 	public R<Void> save(@Valid @RequestBody SysMenuCreateDTO sysMenuCreateDTO) {
 		return sysMenuService.create(sysMenuCreateDTO) ? R.ok()
@@ -125,7 +125,7 @@ public class SysMenuController {
 	 */
 	@UpdateOperationLogging(msg = "修改菜单权限")
 	@PutMapping
-	@Oauth2CheckPermission("system:menu:edit")
+	@OAuth2CheckPermission("system:menu:edit")
 	@Operation(summary = "修改菜单权限", description = "修改菜单权限")
 	public R<Void> updateById(@RequestBody SysMenuUpdateDTO sysMenuUpdateDTO) {
 		sysMenuService.update(sysMenuUpdateDTO);
@@ -139,7 +139,7 @@ public class SysMenuController {
 	 */
 	@DeleteOperationLogging(msg = "通过id删除菜单权限")
 	@DeleteMapping("/{id}")
-	@Oauth2CheckPermission("system:menu:del")
+	@OAuth2CheckPermission("system:menu:del")
 	@Operation(summary = "通过id删除菜单权限", description = "通过id删除菜单权限")
 	public R<Void> removeById(@PathVariable("id") Integer id) {
 		return sysMenuService.removeById(id) ? R.ok() : R.fail(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除菜单权限失败");

@@ -3,9 +3,9 @@ package com.schilings.neiko.extend.sa.token.holder;
 import cn.dev33.satoken.session.SaSessionCustomUtil;
 import com.schilings.neiko.extend.sa.token.oauth2.event.authority.PermissionAuthorityChangedEvent;
 import com.schilings.neiko.extend.sa.token.oauth2.event.authority.RoleAuthorityChangedEvent;
-import com.schilings.neiko.extend.sa.token.core.StpOauth2UserUtil;
+import com.schilings.neiko.extend.sa.token.core.StpOAuth2UserUtil;
 import com.schilings.neiko.extend.sa.token.oauth2.pojo.UserDetails;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.context.event.EventListener;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -18,19 +18,18 @@ public class RBACAuthorityHolder {
 
 	private static final String PERMISSIONS = "auth:permissions:";
 
-	@ExceptionHandler
+	@EventListener(RoleAuthorityChangedEvent.class)
 	public void refreshUserRole(RoleAuthorityChangedEvent event) {
 		event.getUserId().forEach(RBACAuthorityHolder::deleteRoles);
 	}
 
-	@ExceptionHandler
+	@EventListener(PermissionAuthorityChangedEvent.class)
 	public void refreshRolePermission(PermissionAuthorityChangedEvent event) {
 		event.getRoleCode().forEach(RBACAuthorityHolder::deletePermissions);
 	}
 
 	public static void deleteUserDetails(String userId) {
-		StpOauth2UserUtil.getSessionByLoginId(userId).delete("USER_DETAILS");
-
+		StpOAuth2UserUtil.getSessionByLoginId(userId).delete("USER_DETAILS");
 	}
 
 	public static void deleteRoles(String userId) {
@@ -42,32 +41,36 @@ public class RBACAuthorityHolder {
 	}
 
 	public static <T extends UserDetails> void setUserDetails(String userId, T userDetails) {
-		StpOauth2UserUtil.getSessionByLoginId(userId).set("USER_DETAILS", userDetails);
+		StpOAuth2UserUtil.getSessionByLoginId(userId).set("USER_DETAILS", userDetails);
+	}
 
+	public static <T extends UserDetails> void setUserDetails( T userDetails) {
+		StpOAuth2UserUtil.getSession().set("USER_DETAILS", userDetails);
 	}
 
 	public static void setRoles(String userId, List<String> roles) {
+		//放置于公共缓存
 		SaSessionCustomUtil.getSessionById(ROLES + userId).set("ROLES", roles);
+		
 	}
 
 	public static void setPermissions(String roleCode, List<String> permissions) {
+		//放置于公共缓存
 		SaSessionCustomUtil.getSessionById(PERMISSIONS + roleCode).set("PERMISSIONS", permissions);
 	}
 
 	/**
 	 * 获取当前登录用户的UserDetails
-	 * @param userId
 	 * @param <T>
 	 * @return
 	 */
-
 	public static <T extends UserDetails> T getUserDetails() {
-		return (T) StpOauth2UserUtil.getSession().get("USER_DETAILS");
+		return (T) StpOAuth2UserUtil.getSession().get("USER_DETAILS");
 		// return JsonUtils.toObj(value, new TypeReference<T>() {});
 	}
 
 	public static <T extends UserDetails> T getUserDetails(String userId) {
-		return (T) StpOauth2UserUtil.getSessionByLoginId(userId).get("USER_DETAILS");
+		return (T) StpOAuth2UserUtil.getSessionByLoginId(userId).get("USER_DETAILS");
 		// return JsonUtils.toObj(value, new TypeReference<T>() {});
 	}
 

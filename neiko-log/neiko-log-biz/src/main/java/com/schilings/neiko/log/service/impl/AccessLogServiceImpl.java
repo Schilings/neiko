@@ -6,10 +6,13 @@ import com.schilings.neiko.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import com.schilings.neiko.log.mapper.AccessLogMapper;
 import com.schilings.neiko.log.model.entity.AccessLog;
 import com.schilings.neiko.log.model.qo.AccessLogQO;
+import com.schilings.neiko.log.model.vo.AccessLogExcelVO;
 import com.schilings.neiko.log.model.vo.AccessLogPageVO;
 import com.schilings.neiko.log.service.AccessLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -24,6 +27,17 @@ public class AccessLogServiceImpl extends ExtendServiceImpl<AccessLogMapper, Acc
 	@Override
 	public PageResult<AccessLogPageVO> queryPage(PageParam pageParam, AccessLogQO qo) {
 		return baseMapper.queryPage(pageParam, qo);
+	}
+
+	/**
+	 * 列表查询
+	 *
+	 * @param qo 查询对象
+	 * @return 结果数据 List
+	 */
+	@Override
+	public List<AccessLogExcelVO> queryList(AccessLogQO qo) {
+		return baseMapper.queryList(qo);
 	}
 
 }

@@ -1,6 +1,6 @@
 package com.schilings.neiko.extend.sa.token.oauth2.annotation;
 
-import com.schilings.neiko.extend.sa.token.core.StpOauth2UserUtil;
+import com.schilings.neiko.extend.sa.token.core.StpOAuth2UserUtil;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.METHOD, ElementType.TYPE })
-public @interface Oauth2CheckScope {
+public @interface OAuth2CheckScope {
 
 	/**
 	 * 需要校验的权限码
@@ -24,6 +24,6 @@ public @interface Oauth2CheckScope {
 	 */
 	String[] value() default {};
 
-	String type() default StpOauth2UserUtil.TYPE;
+	String type() default StpOAuth2UserUtil.TYPE;
 
 }

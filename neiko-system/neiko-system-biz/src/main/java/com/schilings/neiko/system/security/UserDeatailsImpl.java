@@ -8,9 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.util.Assert;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Data
@@ -31,6 +29,8 @@ public class UserDeatailsImpl implements UserDetails {
 
 	private Set<String> permissionSet;
 
+	private Map<String, Object> attributes;
+
 	private boolean enabled;
 
 	public UserDeatailsImpl() {
@@ -46,7 +46,7 @@ public class UserDeatailsImpl implements UserDetails {
 		this.enabled = userInfoDTO.getSysUser().getStatus().equals(SysUserConst.Status.NORMAL.getValue());
 		this.roleSet = new HashSet<>(userInfoDTO.getRoleCodes());
 		this.permissionSet = new HashSet<>(userInfoDTO.getPermissions());
-
+		this.attributes = new HashMap<>();
 	}
 
 	@Override
@@ -74,6 +74,16 @@ public class UserDeatailsImpl implements UserDetails {
 		return salt;
 	}
 
+	@JsonIgnore
+	public Set<String> getRoleSet() {
+		return roleSet;
+	}
+
+	@JsonIgnore
+	public Set<String> getPermissionSet() {
+		return permissionSet;
+	}
+
 	@Override
 	@JsonIgnore
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -90,6 +100,11 @@ public class UserDeatailsImpl implements UserDetails {
 	@JsonIgnore
 	public Collection<RoleAuthority> getRoles() {
 		return roleSet.stream().map(RoleAuthorityImpl::new).collect(Collectors.toSet());
+	}
+
+	@Override
+	public Map<String, Object> getAttributes() {
+		return attributes;
 	}
 
 	@Override

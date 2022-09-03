@@ -1,24 +1,19 @@
 package com.schilings.neiko.extend.sa.token.core;
 
-import cn.dev33.satoken.SaManager;
-import cn.dev33.satoken.annotation.SaCheckSafe;
-import cn.dev33.satoken.annotation.SaMode;
 import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.exception.NotLoginException;
-import cn.dev33.satoken.exception.NotPermissionException;
 import cn.dev33.satoken.oauth2.logic.SaOAuth2Consts;
 import cn.dev33.satoken.oauth2.logic.SaOAuth2Util;
 import cn.dev33.satoken.stp.StpLogic;
-import cn.dev33.satoken.util.SaFoxUtil;
-import com.schilings.neiko.extend.sa.token.oauth2.annotation.Oauth2CheckScope;
+import com.schilings.neiko.extend.sa.token.oauth2.annotation.OAuth2CheckScope;
 
-public class StpOauth2Logic extends StpLogic {
+public class StpOAuth2Logic extends StpLogic {
 
 	/**
 	 * 初始化StpLogic, 并指定账号类型
 	 * @param loginType 账号体系标识
 	 */
-	public StpOauth2Logic(String loginType) {
+	public StpOAuth2Logic(String loginType) {
 		super(loginType);
 	}
 
@@ -26,8 +21,8 @@ public class StpOauth2Logic extends StpLogic {
 	 * 根据注解(@Oauth2CheckScope)鉴权
 	 * @param at 注解对象
 	 */
-	public void checkByAnnotation(Oauth2CheckScope at) {
-		StpOauth2UserUtil.checkLogin();
+	public void checkByAnnotation(OAuth2CheckScope at) {
+		StpOAuth2UserUtil.checkLogin();
 		String accessToken = SaHolder.getRequest().getHeader(SaOAuth2Consts.Param.access_token);
 		String[] scopeArray = at.value();
 		SaOAuth2Util.checkScope(accessToken, scopeArray);

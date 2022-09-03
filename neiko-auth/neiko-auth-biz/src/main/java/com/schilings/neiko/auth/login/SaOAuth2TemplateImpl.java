@@ -5,10 +5,11 @@ import cn.dev33.satoken.oauth2.logic.SaOAuth2Consts;
 import cn.dev33.satoken.oauth2.logic.SaOAuth2Template;
 import cn.dev33.satoken.oauth2.model.SaClientModel;
 import cn.hutool.core.util.ObjectUtil;
-import com.schilings.neiko.auth.check.PasswordChecker;
-import com.schilings.neiko.auth.check.OpenClientChecker;
+import com.schilings.neiko.auth.checker.PasswordChecker;
+import com.schilings.neiko.auth.checker.OpenClientChecker;
 import com.schilings.neiko.auth.client.AuthClientDetails;
 import com.schilings.neiko.auth.properties.AuthProperties;
+import com.schilings.neiko.extend.sa.token.oauth2.ExtendClientModel;
 import com.schilings.neiko.extend.sa.token.oauth2.component.ClientDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -39,29 +40,21 @@ public class SaOAuth2TemplateImpl extends SaOAuth2Template {
 	 * @return
 	 */
 	@Override
-	public SaClientModel getClientModel(String clientId) {
+	public ExtendClientModel getClientModel(String clientId) {
 		AuthClientDetails clientDetails = this.clientDetailsService.loadClientByClientId(clientId);
 		if (clientDetails != null) {
 			if (clientDetails.getClientId().equals(clientId)) {
-				SaClientModel saClientModel = new SaClientModel()
-						// 客户端账号密码
-						.setClientId(clientDetails.getClientId()).setClientSecret(clientDetails.getClientSecret())
-						// 支持的url
-						.setAllowUrl(String.join(",", clientDetails.getUrls()))
-						// 支持的作用域
-						.setContractScope(String.join(",", clientDetails.getScope()))
-						// 支持的认证模式
-						.setIsCode(clientDetails.getAuthorizedGrantTypes()
-								.contains(SaOAuth2Consts.GrantType.authorization_code))
-						.setIsNewRefresh(clientDetails.getAuthorizedGrantTypes()
-								.contains(SaOAuth2Consts.GrantType.refresh_token))
-						.setIsPassword(
-								clientDetails.getAuthorizedGrantTypes().contains(SaOAuth2Consts.GrantType.password))
-						.setIsImplicit(
-								clientDetails.getAuthorizedGrantTypes().contains(SaOAuth2Consts.GrantType.implicit))
-						.setIsClient(clientDetails.getAuthorizedGrantTypes()
-								.contains(SaOAuth2Consts.GrantType.client_credentials))
-						.setIsAutoMode(true);
+				ExtendClientModel saClientModel = new ExtendClientModel();
+				// 客户端账号密码
+				saClientModel.setClientId(clientDetails.getClientId());
+				saClientModel.setClientSecret(clientDetails.getClientSecret());
+				// 支持的url
+				saClientModel.setAllowUrl(String.join(",", clientDetails.getUrls()));
+				// 支持的作用域	
+				saClientModel.setContractScope(String.join(",", clientDetails.getScope()));
+				// 支持的认证模式
+				saClientModel.setGrantTypes(clientDetails.getAuthorizedGrantTypes());
+				saClientModel.setIsAutoMode(true);
 				if (ObjectUtil.isNotNull(clientDetails.getAccessTokenTimeout())) {
 					saClientModel.setAccessTokenTimeout(clientDetails.getAccessTokenTimeout());
 				}
@@ -117,6 +110,7 @@ public class SaOAuth2TemplateImpl extends SaOAuth2Template {
 	 * @param accessToken Access-Token
 	 * @param scopes 需要校验的权限列表
 	 */
+	@Override
 	public void checkScope(String accessToken, String... scopes) {
 		if (openClientChecker.isOpenByAccessToken(accessToken)) {
 			return;

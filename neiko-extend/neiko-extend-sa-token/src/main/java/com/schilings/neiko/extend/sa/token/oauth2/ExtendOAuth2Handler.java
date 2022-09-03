@@ -1,6 +1,5 @@
 package com.schilings.neiko.extend.sa.token.oauth2;
 
-import cn.dev33.satoken.SaManager;
 import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.context.model.SaRequest;
 import cn.dev33.satoken.context.model.SaResponse;
@@ -11,14 +10,21 @@ import cn.dev33.satoken.oauth2.logic.SaOAuth2Consts;
 import cn.dev33.satoken.oauth2.logic.SaOAuth2Util;
 import cn.dev33.satoken.oauth2.model.*;
 
-import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.util.SaResult;
 
 import com.schilings.neiko.common.model.result.R;
-import com.schilings.neiko.extend.sa.token.core.StpOauth2UserUtil;
+import com.schilings.neiko.common.security.constant.SecurityConstants;
+import com.schilings.neiko.common.util.spring.SpringUtils;
+import com.schilings.neiko.extend.sa.token.core.StpOAuth2UserUtil;
 import com.schilings.neiko.extend.sa.token.holder.ApplicationEventPublisherHolder;
+import com.schilings.neiko.extend.sa.token.holder.ExtendComponentHolder;
+import com.schilings.neiko.extend.sa.token.oauth2.component.OAuth2Granter;
+import com.schilings.neiko.extend.sa.token.oauth2.component.TokenEnhancer;
+import org.springframework.util.CollectionUtils;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * <p>
@@ -30,14 +36,14 @@ import java.util.Map;
  *
  * @author Schilings
  */
-public class ExtendOauth2Handler {
+public class ExtendOAuth2Handler {
 
 	/**
 	 * 再度封装请求Request
 	 * @return
 	 */
 	public static SaRequest getRequest() {
-		return new ExtendOauth2Request(SaHolder.getRequest());
+		return new ExtendOAuth2Request(SaHolder.getRequest());
 	}
 
 	public static SaResponse getResponse() {
@@ -99,7 +105,7 @@ public class ExtendOauth2Handler {
 		// 模式二：隐藏式
 		if (req.isPath(SaOAuth2Consts.Api.authorize)
 				&& req.isParam(SaOAuth2Consts.Param.response_type, SaOAuth2Consts.ResponseType.token)) {
-			SaClientModel cm = currClientModel();
+			ExtendClientModel cm = currClientModel();
 			if (cfg.getIsImplicit() && (cm.isImplicit || cm.isAutoMode)) {
 				return authorize(req, res, cfg);
 			}
@@ -109,7 +115,7 @@ public class ExtendOauth2Handler {
 		// 模式三：密码式
 		if (req.isPath(SaOAuth2Consts.Api.token)
 				&& req.isParam(SaOAuth2Consts.Param.grant_type, SaOAuth2Consts.GrantType.password)) {
-			SaClientModel cm = currClientModel();
+			ExtendClientModel cm = currClientModel();
 			if (cfg.getIsPassword() && (cm.isPassword || cm.isAutoMode)) {
 				return password(req, res, cfg);
 			}
@@ -119,9 +125,19 @@ public class ExtendOauth2Handler {
 		// 模式四：凭证式
 		if (req.isPath(SaOAuth2Consts.Api.client_token)
 				&& req.isParam(SaOAuth2Consts.Param.grant_type, SaOAuth2Consts.GrantType.client_credentials)) {
-			SaClientModel cm = currClientModel();
+			ExtendClientModel cm = currClientModel();
 			if (cfg.getIsClient() && (cm.isClient || cm.isAutoMode)) {
 				return clientToken(req, res, cfg);
+			}
+			throw new SaOAuth2Exception("暂未开放的授权模式");
+		}
+
+		// 自定义模式
+		if (req.isPath(SaOAuth2Consts.Api.token)
+				&& req.hasParam(SaOAuth2Consts.Param.grant_type)) {
+			ExtendClientModel cm = currClientModel();
+			if (cm.supportGrantType(req.getParam(SaOAuth2Consts.Param.grant_type))) {
+				return grant(req, res, cfg);
 			}
 			throw new SaOAuth2Exception("暂未开放的授权模式");
 		}
@@ -140,12 +156,12 @@ public class ExtendOauth2Handler {
 	public static Object authorize(SaRequest req, SaResponse res, SaOAuth2Config cfg) {
 
 		// 1、如果尚未登录, 则先去登录
-		if (StpOauth2UserUtil.isLogin() == false) {
+		if (StpOAuth2UserUtil.isLogin() == false) {
 			return cfg.getNotLoginView().get();
 		}
 
 		// 2、构建请求Model
-		RequestAuthModel ra = SaOAuth2Util.generateRequestAuth(req, StpOauth2UserUtil.getLoginId());
+		RequestAuthModel ra = SaOAuth2Util.generateRequestAuth(req, StpOAuth2UserUtil.getLoginId());
 
 		// 3、校验：重定向域名是否合法
 		SaOAuth2Util.checkRightUrl(ra.clientId, ra.redirectUri);
@@ -199,18 +215,18 @@ public class ExtendOauth2Handler {
 		SaOAuth2Util.checkClientSecret(clientId, clientSecret);
 
 		// 3、防止因前端误传token造成逻辑干扰
-		SaHolder.getStorage().set(StpOauth2UserUtil.stpLogic.splicingKeyJustCreatedSave(), "no-token");
+		SaHolder.getStorage().set(StpOAuth2UserUtil.stpLogic.splicingKeyJustCreatedSave(), "no-token");
 
 		// 4、调用API 开始登录，如果没能成功登录，则直接退出
 		Object retObj = cfg.getDoLoginHandle().apply(username, password);
-		if (StpOauth2UserUtil.isLogin() == false) {
+		if (StpOAuth2UserUtil.isLogin() == false) {
 			return retObj;
 		}
 
 		// 5、构建 ra对象
 		RequestAuthModel ra = new RequestAuthModel();
 		ra.clientId = clientId;
-		ra.loginId = StpOauth2UserUtil.getLoginId();
+		ra.loginId = StpOAuth2UserUtil.getLoginId();
 		ra.scope = scope;
 
 		// 7、生成 Access-Token
@@ -219,13 +235,24 @@ public class ExtendOauth2Handler {
 		// 8、Token拓展
 		Map<String, Object> map = at.toLineMap();
 		map.put(SaOAuth2Consts.Param.grant_type, SaOAuth2Consts.GrantType.password);// 授权方式
-		map.put("tokenInfo", StpOauth2UserUtil.getTokenInfo());// 系统登录Token
-
+		map.put(SecurityConstants.ResponseType.token, StpOAuth2UserUtil.getTokenInfo());// 系统登录Token
+		map = enhanceToken(map);
 		// 9、发布登录成功事件
-		ApplicationEventPublisherHolder.pushAuthenticationSuccessEvent(map);
-
+		ApplicationEventPublisherHolder.publishAuthenticationSuccessEvent(map);
 		// 10、返回 Access-Token
 		return R.ok(map);
+	}
+
+	/**
+	 * Token增强
+	 * @param map
+	 * @return
+	 */
+	public static Map<String, Object> enhanceToken(Map<String, Object> map) {
+		ExtendComponentHolder.tokenEnhancersProvider.ifAvailable(enhancers->{
+			enhancers.forEach(e -> e.enhance(map));
+		});
+		return map;
 	}
 
 	/**
@@ -314,7 +341,7 @@ public class ExtendOauth2Handler {
 	public static Object doConfirm(SaRequest req) {
 		String clientId = req.getParamNotNull(SaOAuth2Consts.Param.client_id);
 		String scope = req.getParamNotNull(SaOAuth2Consts.Param.scope);
-		Object loginId = StpOauth2UserUtil.getLoginId();
+		Object loginId = StpOAuth2UserUtil.getLoginId();
 		SaOAuth2Util.saveGrantScope(clientId, loginId, scope);
 		return SaResult.ok();
 	}
@@ -347,12 +374,31 @@ public class ExtendOauth2Handler {
 	}
 
 	/**
+	 * 自定义授权模式
+	 * @param req 请求对象
+	 * @param res 响应对象
+	 * @param cfg 配置对象
+	 * @return 处理结果
+	 */
+	public static Object grant(SaRequest req, SaResponse res, SaOAuth2Config cfg) {
+		List<OAuth2Granter> granters = ExtendComponentHolder.oAuth2GrantersProvider.getIfAvailable();
+		if (CollectionUtils.isEmpty(granters)) {
+			throw new SaOAuth2Exception("暂未开放的授权模式");
+		}
+		Optional<OAuth2Granter> oAuth2Granter = granters.stream().filter(granter -> granter.supports(req.getParam(SaOAuth2Consts.Param.grant_type))).findFirst();
+		if (!oAuth2Granter.isPresent()) {
+			throw new SaOAuth2Exception("暂未开放的授权模式");
+		}
+		return oAuth2Granter.get().grant(req, res, cfg);
+	}
+
+	/**
 	 * 根据当前请求提交的 client_id 参数获取 SaClientModel 对象
 	 * @return /
 	 */
-	public static SaClientModel currClientModel() {
+	public static ExtendClientModel currClientModel() {
 		String clientId = getRequest().getParam(SaOAuth2Consts.Param.client_id);
-		return SaOAuth2Util.checkClientModel(clientId);
+		return (ExtendClientModel)SaOAuth2Util.checkClientModel(clientId);
 	}
 
 }

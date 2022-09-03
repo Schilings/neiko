@@ -25,7 +25,7 @@ import java.io.IOException;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class ExtendOauth2RequestFilter extends OncePerRequestFilter {
+public class ExtendOAuth2RequestFilter extends OncePerRequestFilter {
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

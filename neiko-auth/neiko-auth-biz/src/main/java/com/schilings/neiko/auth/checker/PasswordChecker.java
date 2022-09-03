@@ -1,4 +1,4 @@
-package com.schilings.neiko.auth.check;
+package com.schilings.neiko.auth.checker;
 
 import com.schilings.neiko.auth.properties.AuthProperties;
 import com.schilings.neiko.extend.sa.token.password.DefaultPasswordEncoder;

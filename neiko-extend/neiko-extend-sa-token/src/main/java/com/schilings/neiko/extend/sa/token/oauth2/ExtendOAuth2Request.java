@@ -9,9 +9,7 @@ import cn.hutool.http.ContentType;
 import com.schilings.neiko.common.core.request.wrapper.RepeatBodyRequestWrapper;
 import com.schilings.neiko.common.core.request.wrapper.RepeatJsonBodyRequestWrapper;
 import com.schilings.neiko.common.util.StringUtils;
-import com.schilings.neiko.common.util.json.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.Assert;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -19,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  *
@@ -29,13 +26,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author Schilings
  */
 @Slf4j
-public class ExtendOauth2Request implements SaRequest {
+public class ExtendOAuth2Request implements SaRequest {
 
 	private HttpServletRequestWrapper requestWrapper = null;
 
 	private boolean parsedJsonBody = false;
 
-	public ExtendOauth2Request(SaRequest req) {
+	public ExtendOAuth2Request(SaRequest req) {
 		if (req instanceof SaRequestForServlet) {
 			HttpServletRequest source = (HttpServletRequest) req.getSource();
 			// Json

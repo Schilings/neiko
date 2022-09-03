@@ -1,11 +1,11 @@
 package com.schilings.neiko.auth.controller;
 
 import com.schilings.neiko.common.model.result.R;
-import com.schilings.neiko.extend.sa.token.core.StpOauth2UserUtil;
+import com.schilings.neiko.extend.sa.token.core.StpOAuth2UserUtil;
 import com.schilings.neiko.extend.sa.token.holder.RBACAuthorityHolder;
-import com.schilings.neiko.extend.sa.token.oauth2.ExtendOauth2Handler;
+import com.schilings.neiko.extend.sa.token.oauth2.ExtendOAuth2Handler;
 
-import com.schilings.neiko.extend.sa.token.oauth2.Oauth2RequestBody;
+import com.schilings.neiko.extend.sa.token.oauth2.OAuth2RequestBody;
 import com.schilings.neiko.extend.sa.token.oauth2.component.LoginService;
 import com.schilings.neiko.extend.sa.token.oauth2.pojo.UserDetails;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,16 +23,14 @@ public class Oauth2Controller {
 
 	@PostMapping("/oauth2/*")
 	@Operation(summary = "Oauth2认证登录", description = "Oauth2认证登录")
-	public Object request(@RequestBody Oauth2RequestBody requestBody) {
-		return ExtendOauth2Handler.serverRequest();
+	public Object request(@RequestBody OAuth2RequestBody requestBody) {
+		return ExtendOAuth2Handler.serverRequest();
 	}
 
 	@GetMapping("/oauth2/logout")
 	@Operation(summary = "Oauth2注销登录", description = "Oauth2注销登录")
 	public Object logout() {
-		String userId = (String) StpOauth2UserUtil.getLoginId();
-		UserDetails userDetails = RBACAuthorityHolder.getUserDetails(userId);
-		System.out.println(userDetails.getUsername());
+		String userId = (String) StpOAuth2UserUtil.getLoginId();
 		loginService.logout(userId);
 		return R.ok();
 	}

@@ -2,6 +2,7 @@ package com.schilings.neiko.extend.sa.token.oauth2.pojo;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Map;
 
 /**
  *
@@ -60,6 +61,9 @@ public interface UserDetails extends Serializable {
 	 * @return
 	 */
 	Collection<RoleAuthority> getRoles();
+
+
+	Map<String, Object> getAttributes();
 
 	/**
 	 * 是否可用

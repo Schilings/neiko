@@ -7,8 +7,8 @@ import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;
 import com.schilings.neiko.common.model.result.BaseResultCode;
 import com.schilings.neiko.common.model.result.R;
-import com.schilings.neiko.extend.sa.token.oauth2.annotation.Oauth2CheckPermission;
-import com.schilings.neiko.extend.sa.token.oauth2.annotation.Oauth2CheckScope;
+import com.schilings.neiko.extend.sa.token.oauth2.annotation.OAuth2CheckPermission;
+import com.schilings.neiko.extend.sa.token.oauth2.annotation.OAuth2CheckScope;
 import com.schilings.neiko.system.manager.SysDictManager;
 import com.schilings.neiko.system.model.entity.SysDict;
 import com.schilings.neiko.system.model.entity.SysDictItem;
@@ -34,7 +34,7 @@ import java.util.Map;
  *
  * @author Schilings
  */
-@Oauth2CheckScope("system")
+@OAuth2CheckScope("system")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/system/dict")
@@ -70,7 +70,7 @@ public class SysDictController {
 	 * @return R<PageResult<SysDictVO>>
 	 */
 	@GetMapping("/page")
-	@Oauth2CheckPermission("system:dict:read")
+	@OAuth2CheckPermission("system:dict:read")
 	@Operation(summary = "分页查询", description = "分页查询")
 	public R<PageResult<SysDictPageVO>> getSysDictPage(@Validated PageParam pageParam, SysDictQO sysDictQO) {
 		return R.ok(sysDictManager.dictPage(pageParam, sysDictQO));
@@ -83,7 +83,7 @@ public class SysDictController {
 	 */
 	@CreateOperationLogging(msg = "新增字典表")
 	@PostMapping
-	@Oauth2CheckPermission("system:dict:add")
+	@OAuth2CheckPermission("system:dict:add")
 	@Operation(summary = "新增字典表", description = "新增字典表")
 	public R<Void> save(@RequestBody SysDict sysDict) {
 		return sysDictManager.dictSave(sysDict) ? R.ok() : R.fail(BaseResultCode.UPDATE_DATABASE_ERROR, "新增字典表失败");
@@ -96,7 +96,7 @@ public class SysDictController {
 	 */
 	@UpdateOperationLogging(msg = "修改字典表")
 	@PutMapping
-	@Oauth2CheckPermission("system:dict:edit")
+	@OAuth2CheckPermission("system:dict:edit")
 	@Operation(summary = "修改字典表", description = "修改字典表")
 	public R<Void> updateById(@RequestBody SysDict sysDict) {
 		return sysDictManager.updateDictById(sysDict) ? R.ok()
@@ -110,7 +110,7 @@ public class SysDictController {
 	 */
 	@DeleteOperationLogging(msg = "通过id删除字典表")
 	@DeleteMapping("/{id}")
-	@Oauth2CheckPermission("system:dict:del")
+	@OAuth2CheckPermission("system:dict:del")
 	@Operation(summary = "通过id删除字典表", description = "通过id删除字典表")
 	public R<Void> removeById(@PathVariable("id") Integer id) {
 		sysDictManager.removeDictById(id);
@@ -124,7 +124,7 @@ public class SysDictController {
 	 * @return R
 	 */
 	@GetMapping("/item/page")
-	@Oauth2CheckPermission("system:dict:read")
+	@OAuth2CheckPermission("system:dict:read")
 	@Operation(summary = "分页查询", description = "分页查询")
 	public R<PageResult<SysDictItemPageVO>> getSysDictItemPage(PageParam pageParam,
 			@RequestParam("dictCode") String dictCode) {
@@ -138,7 +138,7 @@ public class SysDictController {
 	 */
 	@CreateOperationLogging(msg = "新增字典项")
 	@PostMapping("item")
-	@Oauth2CheckPermission("system:dict:add")
+	@OAuth2CheckPermission("system:dict:add")
 	@Operation(summary = "新增字典项", description = "新增字典项")
 	public R<Void> saveItem(@RequestBody SysDictItem sysDictItem) {
 		return sysDictManager.saveDictItem(sysDictItem) ? R.ok()
@@ -152,7 +152,7 @@ public class SysDictController {
 	 */
 	@UpdateOperationLogging(msg = "修改字典项")
 	@PutMapping("item")
-	@Oauth2CheckPermission("system:dict:edit")
+	@OAuth2CheckPermission("system:dict:edit")
 	@Operation(summary = "修改字典项", description = "修改字典项")
 	public R<Void> updateItemById(@RequestBody SysDictItem sysDictItem) {
 		return sysDictManager.updateDictItemById(sysDictItem) ? R.ok()
@@ -166,7 +166,7 @@ public class SysDictController {
 	 */
 	@DeleteOperationLogging(msg = "通过id删除字典项")
 	@DeleteMapping("/item/{id}")
-	@Oauth2CheckPermission("system:dict:del")
+	@OAuth2CheckPermission("system:dict:del")
 	@Operation(summary = "通过id删除字典项", description = "通过id删除字典项")
 	public R<Void> removeItemById(@PathVariable("id") Integer id) {
 		return sysDictManager.removeDictItemById(id) ? R.ok()
@@ -180,7 +180,7 @@ public class SysDictController {
 	 */
 	@UpdateOperationLogging(msg = "通过id修改字典项状态")
 	@PatchMapping("/item/{id}")
-	@Oauth2CheckPermission("system:dict:edit")
+	@OAuth2CheckPermission("system:dict:edit")
 	@Operation(summary = "通过id修改字典项状态", description = "通过id修改字典项状态")
 	public R<Void> updateDictItemStatusById(@PathVariable("id") Long id, @RequestParam("status") Integer status) {
 		sysDictManager.updateDictItemStatusById(id, status);

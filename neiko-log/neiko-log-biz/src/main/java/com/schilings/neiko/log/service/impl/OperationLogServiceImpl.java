@@ -6,10 +6,13 @@ import com.schilings.neiko.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import com.schilings.neiko.log.mapper.OperationLogMapper;
 import com.schilings.neiko.log.model.entity.OperationLog;
 import com.schilings.neiko.log.model.qo.OperationLogQO;
+import com.schilings.neiko.log.model.vo.OperationLogExcelVO;
 import com.schilings.neiko.log.model.vo.OperationLogPageVO;
 import com.schilings.neiko.log.service.OperationLogService;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class OperationLogServiceImpl extends ExtendServiceImpl<OperationLogMapper, OperationLog>
@@ -24,6 +27,17 @@ public class OperationLogServiceImpl extends ExtendServiceImpl<OperationLogMappe
 	@Override
 	public PageResult<OperationLogPageVO> queryPage(PageParam pageParam, OperationLogQO qo) {
 		return baseMapper.queryPage(pageParam, qo);
+	}
+
+	/**
+	 * 列表查询
+	 *
+	 * @param qo 查询对象
+	 * @return 结果数据 List
+	 */
+	@Override
+	public List<OperationLogExcelVO> queryList(OperationLogQO qo) {
+		return baseMapper.queryList(qo);
 	}
 
 	/**

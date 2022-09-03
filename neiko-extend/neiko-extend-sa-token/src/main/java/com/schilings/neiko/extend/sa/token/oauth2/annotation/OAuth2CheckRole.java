@@ -2,7 +2,7 @@ package com.schilings.neiko.extend.sa.token.oauth2.annotation;
 
 import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
-import com.schilings.neiko.extend.sa.token.core.StpOauth2UserUtil;
+import com.schilings.neiko.extend.sa.token.core.StpOAuth2UserUtil;
 import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.ElementType;
@@ -18,10 +18,10 @@ import java.lang.annotation.Target;
  *
  * @author Schilings
  */
-@SaCheckRole(type = StpOauth2UserUtil.TYPE)
+@SaCheckRole(type = StpOAuth2UserUtil.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.METHOD, ElementType.TYPE })
-public @interface Oauth2CheckRole {
+public @interface OAuth2CheckRole {
 
 	/**
 	 * 需要校验的角色标识

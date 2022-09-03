@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
 @SaCheckBasic
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.METHOD, ElementType.TYPE })
-public @interface Oauth2CheckBasic {
+public @interface OAuth2CheckBasic {
 
 	/**
 	 * 领域

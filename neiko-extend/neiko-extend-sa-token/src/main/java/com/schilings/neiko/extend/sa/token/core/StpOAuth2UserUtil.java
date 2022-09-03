@@ -5,8 +5,6 @@ import cn.dev33.satoken.fun.SaFunction;
 import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.SaTokenInfo;
-import cn.dev33.satoken.stp.StpLogic;
-import cn.dev33.satoken.stp.StpUtil;
 
 import java.util.List;
 
@@ -18,7 +16,7 @@ import java.util.List;
  *
  * @author Schilings
  */
-public class StpOauth2UserUtil {
+public class StpOAuth2UserUtil {
 
 	/**
 	 * 账号体系标识
@@ -28,7 +26,7 @@ public class StpOauth2UserUtil {
 	/**
 	 * 底层的 StpLogic 对象
 	 */
-	public static StpOauth2Logic stpLogic = new StpOauth2Logic(TYPE);
+	public static StpOAuth2Logic stpLogic = new StpOAuth2Logic(TYPE);
 
 	/**
 	 * 获取当前 StpLogic 的账号类型
@@ -42,8 +40,8 @@ public class StpOauth2UserUtil {
 	 * 重置 StpLogic 对象
 	 * @param stpLogic /
 	 */
-	public static void setStpLogic(StpOauth2Logic stpLogic) {
-		StpOauth2UserUtil.stpLogic = stpLogic;
+	public static void setStpLogic(StpOAuth2Logic stpLogic) {
+		StpOAuth2UserUtil.stpLogic = stpLogic;
 		// 防止自定义 stpLogic 被覆盖
 		SaManager.putStpLogic(stpLogic);
 	}

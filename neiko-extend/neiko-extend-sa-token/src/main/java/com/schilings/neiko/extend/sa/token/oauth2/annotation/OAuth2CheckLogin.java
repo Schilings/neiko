@@ -1,7 +1,7 @@
 package com.schilings.neiko.extend.sa.token.oauth2.annotation;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
-import com.schilings.neiko.extend.sa.token.core.StpOauth2UserUtil;
+import com.schilings.neiko.extend.sa.token.core.StpOAuth2UserUtil;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -16,9 +16,9 @@ import java.lang.annotation.Target;
  *
  * @author Schilings
  */
-@SaCheckLogin(type = StpOauth2UserUtil.TYPE)
+@SaCheckLogin(type = StpOAuth2UserUtil.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.METHOD, ElementType.TYPE })
-public @interface Oauth2CheckLogin {
+public @interface OAuth2CheckLogin {
 
 }

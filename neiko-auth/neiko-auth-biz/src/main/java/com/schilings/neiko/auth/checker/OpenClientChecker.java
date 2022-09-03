@@ -1,4 +1,4 @@
-package com.schilings.neiko.auth.check;
+package com.schilings.neiko.auth.checker;
 
 /**
  *

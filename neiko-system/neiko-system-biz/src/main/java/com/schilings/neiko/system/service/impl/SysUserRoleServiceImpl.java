@@ -10,6 +10,7 @@ import com.schilings.neiko.common.model.domain.PageResult;
 import com.schilings.neiko.common.model.result.BaseResultCode;
 import com.schilings.neiko.extend.sa.token.oauth2.event.authority.RoleAuthorityChangedEvent;
 import com.schilings.neiko.extend.mybatis.plus.service.impl.ExtendServiceImpl;
+
 import com.schilings.neiko.system.mapper.SysUserRoleMapper;
 import com.schilings.neiko.system.model.entity.SysRole;
 import com.schilings.neiko.system.model.entity.SysUser;
@@ -33,6 +34,7 @@ public class SysUserRoleServiceImpl extends ExtendServiceImpl<SysUserRoleMapper,
 		implements SysUserRoleService {
 
 	private final EventBus EventBus;
+	
 
 	private final ApplicationEventPublisher eventPublisher;
 

@@ -8,8 +8,8 @@ import com.schilings.neiko.common.model.domain.PageResult;
 import com.schilings.neiko.common.model.result.BaseResultCode;
 import com.schilings.neiko.common.model.result.R;
 import com.schilings.neiko.extend.sa.token.holder.RBACAuthorityHolder;
-import com.schilings.neiko.extend.sa.token.oauth2.annotation.Oauth2CheckPermission;
-import com.schilings.neiko.extend.sa.token.oauth2.annotation.Oauth2CheckScope;
+import com.schilings.neiko.extend.sa.token.oauth2.annotation.OAuth2CheckPermission;
+import com.schilings.neiko.extend.sa.token.oauth2.annotation.OAuth2CheckScope;
 import com.schilings.neiko.notify.model.dto.AnnouncementDTO;
 import com.schilings.neiko.notify.model.entity.Announcement;
 import com.schilings.neiko.notify.model.qo.AnnouncementQO;
@@ -25,7 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 
-@Oauth2CheckScope("system")
+@OAuth2CheckScope("system")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/notify/announcement")
@@ -41,7 +41,7 @@ public class AnnouncementController {
 	 * @return R 通用返回体
 	 */
 	@GetMapping("/page")
-	@Oauth2CheckPermission("notify:announcement:read")
+	@OAuth2CheckPermission("notify:announcement:read")
 	@Operation(summary = "分页查询", description = "分页查询")
 	public R<PageResult<AnnouncementPageVO>> getAnnouncementPage(@Validated PageParam pageParam,
 			AnnouncementQO announcementQO) {
@@ -55,7 +55,7 @@ public class AnnouncementController {
 	 */
 	@CreateOperationLogging(msg = "新增公告信息")
 	@PostMapping
-	@Oauth2CheckPermission("notify:announcement:add")
+	@OAuth2CheckPermission("notify:announcement:add")
 	@Operation(summary = "新增公告信息", description = "新增公告信息")
 	public R<Void> save(@Valid @RequestBody AnnouncementDTO announcementDTO) {
 		return announcementService.addAnnouncement(announcementDTO) ? R.ok()
@@ -69,7 +69,7 @@ public class AnnouncementController {
 	 */
 	@UpdateOperationLogging(msg = "修改公告信息")
 	@PutMapping
-	@Oauth2CheckPermission("notify:announcement:edit")
+	@OAuth2CheckPermission("notify:announcement:edit")
 	@Operation(summary = "修改公告信息", description = "修改公告信息")
 	public R<Void> updateById(@Valid @RequestBody AnnouncementDTO announcementDTO) {
 		return announcementService.updateAnnouncement(announcementDTO) ? R.ok()
@@ -83,7 +83,7 @@ public class AnnouncementController {
 	 */
 	@DeleteOperationLogging(msg = "通过id删除公告信息")
 	@DeleteMapping("/{id}")
-	@Oauth2CheckPermission("notify:announcement:del")
+	@OAuth2CheckPermission("notify:announcement:del")
 	@Operation(summary = "通过id删除公告信息", description = "通过id删除公告信息")
 	public R<Void> removeById(@PathVariable("id") Long id) {
 		return announcementService.removeById(id) ? R.ok()
@@ -96,7 +96,7 @@ public class AnnouncementController {
 	 */
 	@UpdateOperationLogging(msg = "发布公告信息")
 	@PatchMapping("/publish/{announcementId}")
-	@Oauth2CheckPermission("notify:announcement:edit")
+	@OAuth2CheckPermission("notify:announcement:edit")
 	@Operation(summary = "发布公告信息", description = "发布公告信息")
 	public R<Void> enableAnnouncement(@PathVariable("announcementId") Long announcementId) {
 		return announcementService.publish(announcementId) ? R.ok()
@@ -109,7 +109,7 @@ public class AnnouncementController {
 	 */
 	@UpdateOperationLogging(msg = "关闭公告信息")
 	@PatchMapping("/close/{announcementId}")
-	@Oauth2CheckPermission("notify:announcement:edit")
+	@OAuth2CheckPermission("notify:announcement:edit")
 	@Operation(summary = "关闭公告信息", description = "关闭公告信息")
 	public R<Void> disableAnnouncement(@PathVariable("announcementId") Long announcementId) {
 		return announcementService.close(announcementId) ? R.ok()
@@ -117,7 +117,7 @@ public class AnnouncementController {
 	}
 
 	@UpdateOperationLogging(msg = "公告内容图片上传", recordParams = false)
-	@Oauth2CheckPermission("notify:announcement:edit")
+	@OAuth2CheckPermission("notify:announcement:edit")
 	@PostMapping("/image")
 	@Operation(summary = "公告内容图片上传", description = "公告内容图片上传")
 	public R<List<String>> uploadImages(@RequestParam("files") List<MultipartFile> files) {
@@ -126,7 +126,7 @@ public class AnnouncementController {
 	}
 
 	@GetMapping("/user")
-	@Oauth2CheckPermission("notify:userannouncement:read")
+	@OAuth2CheckPermission("notify:userannouncement:read")
 	@Operation(summary = "用户公告信息", description = "用户公告信息")
 	public R<List<Announcement>> getUserAnnouncements() {
 		Long userId = Long.valueOf(RBACAuthorityHolder.getUserDetails().getUserId());

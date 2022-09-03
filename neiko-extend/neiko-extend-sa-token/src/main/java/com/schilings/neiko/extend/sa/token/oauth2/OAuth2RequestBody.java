@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Oauth2RequestBody {
+public class OAuth2RequestBody {
 
 	/**
 	 * 返回类型

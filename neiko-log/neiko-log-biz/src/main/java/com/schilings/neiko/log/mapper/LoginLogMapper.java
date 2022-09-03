@@ -10,7 +10,10 @@ import com.schilings.neiko.extend.mybatis.plus.wrapper.query.LambdaQueryWrapperX
 import com.schilings.neiko.log.converter.LoginLogConverter;
 import com.schilings.neiko.log.model.entity.LoginLog;
 import com.schilings.neiko.log.model.qo.LoginLogQO;
+import com.schilings.neiko.log.model.vo.LoginLogExcelVO;
 import com.schilings.neiko.log.model.vo.LoginLogPageVO;
+
+import java.util.List;
 
 public interface LoginLogMapper extends ExtendMapper<LoginLog> {
 
@@ -31,6 +34,22 @@ public interface LoginLogMapper extends ExtendMapper<LoginLog> {
 
 		IPage<LoginLogPageVO> voPage = this.selectJoinPage(page, LoginLogPageVO.class, AUTO_RESULT_MAP, queryWrapper);
 		return this.prodPage(voPage);
+	}
+
+
+	/**
+	 * 列表查询
+	 * @param qo 查询对象
+	 * @return 结果数据 List
+	 */
+	default List<LoginLogExcelVO> queryList(LoginLogQO qo) {
+		NeikoLambdaQueryWrapper<LoginLog> queryWrapper = WrappersX.<LoginLog>lambdaQueryJoin()
+				.selectAll(LoginLog.class).eqIfPresent(LoginLog::getUsername, qo.getUsername())
+				.eqIfPresent(LoginLog::getTraceId, qo.getTraceId()).eqIfPresent(LoginLog::getIp, qo.getIp())
+				.eqIfPresent(LoginLog::getEventType, qo.getEventType()).eqIfPresent(LoginLog::getStatus, qo.getStatus())
+				.gtIfPresent(LoginLog::getLoginTime, qo.getStartTime())
+				.ltIfPresent(LoginLog::getLoginTime, qo.getEndTime());
+		return this.selectJoinList(LoginLogExcelVO.class, AUTO_RESULT_MAP, queryWrapper);
 	}
 
 }

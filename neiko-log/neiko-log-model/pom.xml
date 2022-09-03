@@ -20,6 +20,10 @@
             <groupId>com.schilings</groupId>
             <artifactId>neiko-common-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-common-easyexcel</artifactId>
+        </dependency>
 
         <!--mybatis plus-->
         <dependency>

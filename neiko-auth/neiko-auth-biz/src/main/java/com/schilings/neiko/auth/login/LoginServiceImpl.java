@@ -1,19 +1,18 @@
 package com.schilings.neiko.auth.login;
 
-import com.schilings.neiko.auth.check.PasswordChecker;
+import com.schilings.neiko.auth.checker.PasswordChecker;
 import com.schilings.neiko.common.model.result.R;
 import com.schilings.neiko.common.model.result.SystemResultCode;
 import com.schilings.neiko.extend.sa.token.holder.RBACAuthorityHolder;
 import com.schilings.neiko.extend.sa.token.oauth2.component.UserDetailsService;
-import com.schilings.neiko.extend.sa.token.oauth2.event.authority.RoleAuthorityChangedEvent;
+import com.schilings.neiko.extend.sa.token.oauth2.pojo.RoleAuthority;
 import com.schilings.neiko.extend.sa.token.oauth2.pojo.UserDetails;
-import com.schilings.neiko.common.util.spring.SpringUtils;
-import com.schilings.neiko.extend.sa.token.core.StpOauth2UserUtil;
+import com.schilings.neiko.extend.sa.token.core.StpOAuth2UserUtil;
 import com.schilings.neiko.extend.sa.token.oauth2.component.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -47,8 +46,9 @@ public class LoginServiceImpl implements LoginService {
 			// 账号密码匹配
 			if (username.equals(userDetails.getUsername())
 					&& passwordChecker.check(password, userDetails.getPassword(), userDetails.getSalt())) {
-				StpOauth2UserUtil.login(userDetails.getUserId());
+				StpOAuth2UserUtil.login(userDetails.getUserId());
 				RBACAuthorityHolder.setUserDetails(userDetails.getUserId(), userDetails);
+				RBACAuthorityHolder.setRoles(userDetails.getUserId(), userDetails.getRoles().stream().map(RoleAuthority::getRole).collect(Collectors.toList()));
 				return R.ok();
 			}
 		}
@@ -61,9 +61,7 @@ public class LoginServiceImpl implements LoginService {
 	 */
 	@Override
 	public void logoutInternal(String loginId) {
-		StpOauth2UserUtil.logout(loginId);
-		// 删除缓存
-		SpringUtils.publishEvent(new RoleAuthorityChangedEvent(Arrays.asList(loginId)));
+		StpOAuth2UserUtil.logout(loginId);
 	}
 
 }

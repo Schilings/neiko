@@ -6,8 +6,8 @@ import com.schilings.neiko.common.log.operation.annotation.UpdateOperationLoggin
 import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;
 import com.schilings.neiko.common.model.result.R;
-import com.schilings.neiko.extend.sa.token.oauth2.annotation.Oauth2CheckPermission;
-import com.schilings.neiko.extend.sa.token.oauth2.annotation.Oauth2CheckScope;
+import com.schilings.neiko.extend.sa.token.oauth2.annotation.OAuth2CheckPermission;
+import com.schilings.neiko.extend.sa.token.oauth2.annotation.OAuth2CheckScope;
 import com.schilings.neiko.system.model.entity.SysConfig;
 import com.schilings.neiko.system.model.qo.SysConfigQO;
 import com.schilings.neiko.system.model.vo.SysConfigPageVO;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
  *
  * @author Schilings
  */
-@Oauth2CheckScope("system")
+@OAuth2CheckScope("system")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/system/config")
@@ -42,7 +42,7 @@ public class SysConfigController {
 	 * @return R<PageResult<SysConfigVO>>
 	 */
 	@GetMapping("/page")
-	@Oauth2CheckPermission("system:config:read")
+	@OAuth2CheckPermission("system:config:read")
 	@Operation(summary = "分页查询", description = "分页查询")
 	public R<PageResult<SysConfigPageVO>> getSysConfigPage(@Validated PageParam pageParam, SysConfigQO sysConfigQO) {
 		return R.ok(sysConfigService.queryPage(pageParam, sysConfigQO));
@@ -55,7 +55,7 @@ public class SysConfigController {
 	 */
 	@CreateOperationLogging(msg = "新增系统配置")
 	@PostMapping
-	@Oauth2CheckPermission("system:config:add")
+	@OAuth2CheckPermission("system:config:add")
 	@Operation(summary = "新增系统配置", description = "新增系统配置")
 	public R<Boolean> save(@RequestBody SysConfig sysConfig) {
 		return R.ok(sysConfigService.save(sysConfig));
@@ -68,7 +68,7 @@ public class SysConfigController {
 	 */
 	@UpdateOperationLogging(msg = "修改系统配置")
 	@PutMapping
-	@Oauth2CheckPermission("system:config:edit")
+	@OAuth2CheckPermission("system:config:edit")
 	@Operation(summary = "修改系统配置")
 	public R<Boolean> updateById(@RequestBody SysConfig sysConfig) {
 		return R.ok(sysConfigService.updateByKey(sysConfig));
@@ -81,7 +81,7 @@ public class SysConfigController {
 	 */
 	@DeleteOperationLogging(msg = "删除系统配置")
 	@DeleteMapping
-	@Oauth2CheckPermission("system:config:del")
+	@OAuth2CheckPermission("system:config:del")
 	@Operation(summary = "删除系统配置")
 	public R<Boolean> removeById(@RequestParam("confKey") String confKey) {
 		return R.ok(sysConfigService.removeByKey(confKey));

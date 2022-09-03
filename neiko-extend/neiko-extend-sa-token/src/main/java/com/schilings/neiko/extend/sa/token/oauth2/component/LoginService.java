@@ -2,6 +2,8 @@ package com.schilings.neiko.extend.sa.token.oauth2.component;
 
 import com.schilings.neiko.extend.sa.token.holder.ApplicationEventPublisherHolder;
 
+import java.util.Arrays;
+
 public interface LoginService {
 
 	default Object notLoginView() {
@@ -48,10 +50,11 @@ public interface LoginService {
 	 */
 	default void logout(String loginId) {
 		// 发布登出事件
-		ApplicationEventPublisherHolder.pushLogoutSuccessEvent();
+		ApplicationEventPublisherHolder.publishLogoutSuccessEvent();
+		// 删除缓存
+		ApplicationEventPublisherHolder.publishRoleAuthorityChangedEvent(Arrays.asList(loginId));
 		// do nothing
 		logoutInternal(loginId);
-
 	}
 
 	default void logoutInternal(String loginId) {

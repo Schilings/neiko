@@ -2,16 +2,12 @@ package com.schilings.neiko.admin.upms.config.satoken;
 
 import cn.dev33.satoken.stp.StpInterface;
 import com.schilings.neiko.extend.sa.token.holder.RBACAuthorityHolder;
-import com.schilings.neiko.system.model.entity.SysMenu;
-import com.schilings.neiko.system.service.SysMenuService;
-import com.schilings.neiko.system.service.SysRoleMenuService;
-import com.schilings.neiko.system.service.SysUserRoleService;
-import com.schilings.neiko.system.service.SysUserService;
+import com.schilings.neiko.system.service.*;
 import lombok.RequiredArgsConstructor;
+
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -23,17 +19,17 @@ import java.util.stream.Collectors;
  */
 @RequiredArgsConstructor
 public class StpInterfaceImpl implements StpInterface {
-
+	
 	private final SysUserRoleService sysUserRoleService;
 
 	private final SysRoleMenuService sysRoleMenuService;
 
 	@Override
 	public List<String> getRoleList(Object userId, String loginType) {
+
 		return RBACAuthorityHolder.getRoles((String) userId, () -> {
 			return sysUserRoleService.listRoleCodes(Long.valueOf((String) userId));
 		});
-
 	}
 
 	@Override
