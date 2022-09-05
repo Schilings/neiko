@@ -36,8 +36,8 @@ public class AccessLogServiceImpl extends ExtendServiceImpl<AccessLogMapper, Acc
 	 * @return 结果数据 List
 	 */
 	@Override
-	public List<AccessLogExcelVO> queryList(AccessLogQO qo) {
-		return baseMapper.queryList(qo);
+	public List<AccessLogExcelVO> queryExcelList(AccessLogQO qo) {
+		return baseMapper.queryExcelList(qo);
 	}
 
 }

@@ -26,5 +26,5 @@ public interface AccessLogService extends ExtendService<AccessLog> {
 	 * @param qo 查询对象
 	 * @return 结果数据 List
 	 */
-	List<AccessLogExcelVO> queryList(AccessLogQO qo); 
+	List<AccessLogExcelVO> queryExcelList(AccessLogQO qo); 
 }

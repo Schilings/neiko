@@ -56,7 +56,7 @@ public class OperationLogController {
 	@Operation(summary = "Excel导出", description = "Excel导出")
 	@ResponseExcel(name = "操作日志Excel", sheets = { @Sheet(sheetNo = 1, sheetName = "sheetNO1") })
 	public List<OperationLogExcelVO> exportOperationLogList(OperationLogQO operationLogQO) {
-		return operationLogService.queryList(operationLogQO);
+		return operationLogService.queryExcelList(operationLogQO);
 	}
 	
 

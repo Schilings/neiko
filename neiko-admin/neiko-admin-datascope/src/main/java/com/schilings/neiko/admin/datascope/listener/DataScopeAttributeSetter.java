@@ -1,9 +1,11 @@
 package com.schilings.neiko.admin.datascope.listener;
 
 
+import cn.dev33.satoken.SaManager;
 import com.schilings.neiko.admin.datascope.component.UserDataScope;
 import com.schilings.neiko.admin.datascope.component.UserDataScopeProcessor;
 import com.schilings.neiko.common.security.constant.UserAttributeNameConstants;
+import com.schilings.neiko.extend.sa.token.core.StpOAuth2UserUtil;
 import com.schilings.neiko.extend.sa.token.holder.RBACAuthorityHolder;
 import com.schilings.neiko.extend.sa.token.oauth2.event.authentication.AuthenticationSuccessEvent;
 import com.schilings.neiko.extend.sa.token.oauth2.pojo.Authentication;
@@ -20,8 +22,9 @@ public class DataScopeAttributeSetter {
     public void dataScopeAttributeSetter(AuthenticationSuccessEvent event) {
         Authentication authentication = event.getAuthentication();
         UserDetails userDetails = authentication.getUserDetails();
-        // 数据权限填充,登录时就会放入RoleCode，按道理这里拿得到RoleCodes
-        UserDataScope userDataScope = dataScopeProcessor.mergeScopeType(Long.valueOf(userDetails.getUserId()),RBACAuthorityHolder.getRoles(userDetails.getUserId()));
+        UserDataScope userDataScope = dataScopeProcessor.mergeScopeType(
+                (Long) StpOAuth2UserUtil.getLoginId(), SaManager.getStpInterface().getRoleList(userDetails.getUserId(), StpOAuth2UserUtil.getLoginType())
+        );
         userDetails.getAttributes().put(UserAttributeNameConstants.USER_DATA_SCOPE, userDataScope);
         RBACAuthorityHolder.setUserDetails(userDetails);
     }

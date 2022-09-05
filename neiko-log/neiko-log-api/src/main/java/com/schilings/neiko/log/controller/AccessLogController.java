@@ -48,8 +48,8 @@ public class AccessLogController {
 	 */
 	@GetMapping("/export")
 	@Operation(summary = "Excel导出", description = "Excel导出")
-	@ResponseExcel(name = "访问日志Excel", sheets = { @Sheet(sheetNo = 1, sheetName = "sheetNO1") })
+	@ResponseExcel(name = "访问日志Excel", sheets = { @Sheet(sheetNo = 1, sheetName = "sheet1") })
 	public List<AccessLogExcelVO> exportLoginLogList(AccessLogQO accessLogQO) {
-		return accessLogService.queryList(accessLogQO);
+		return accessLogService.queryExcelList(accessLogQO);
 	}
 }

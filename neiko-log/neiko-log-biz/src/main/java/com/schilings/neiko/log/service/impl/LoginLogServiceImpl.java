@@ -34,8 +34,8 @@ public class LoginLogServiceImpl extends ExtendServiceImpl<LoginLogMapper, Login
 	 * @return 结果数据 List
 	 */
 	@Override
-	public List<LoginLogExcelVO> queryList(LoginLogQO qo) {
-		return baseMapper.queryList(qo);
+	public List<LoginLogExcelVO> queryExcelList(LoginLogQO qo) {
+		return baseMapper.queryExcelList(qo);
 	}
 
 }

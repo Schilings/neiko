@@ -28,5 +28,5 @@ public interface LoginLogService extends ExtendService<LoginLog> {
 	 * @param qo 查询对象
 	 * @return 结果数据 List
 	 */
-	List<LoginLogExcelVO> queryList(LoginLogQO qo);
+	List<LoginLogExcelVO> queryExcelList(LoginLogQO qo);
 }

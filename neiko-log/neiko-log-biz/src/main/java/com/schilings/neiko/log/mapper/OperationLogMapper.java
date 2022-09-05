@@ -40,7 +40,7 @@ public interface OperationLogMapper extends ExtendMapper<OperationLog> {
 	 * @param qo 查询对象
 	 * @return 结果数据 List
 	 */
-	default List<OperationLogExcelVO> queryList(OperationLogQO qo) {
+	default List<OperationLogExcelVO> queryExcelList(OperationLogQO qo) {
 		NeikoLambdaQueryWrapper<OperationLog> queryWrapper = WrappersX.<OperationLog>lambdaQueryJoin()
 				.selectAll(OperationLog.class)
 				.eqIfPresent(OperationLog::getOperator, qo.getUserId())

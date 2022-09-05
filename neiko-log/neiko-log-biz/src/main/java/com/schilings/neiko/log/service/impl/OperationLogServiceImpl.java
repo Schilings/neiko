@@ -36,8 +36,8 @@ public class OperationLogServiceImpl extends ExtendServiceImpl<OperationLogMappe
 	 * @return 结果数据 List
 	 */
 	@Override
-	public List<OperationLogExcelVO> queryList(OperationLogQO qo) {
-		return baseMapper.queryList(qo);
+	public List<OperationLogExcelVO> queryExcelList(OperationLogQO qo) {
+		return baseMapper.queryExcelList(qo);
 	}
 
 	/**

@@ -23,6 +23,7 @@
         <module>neiko-spring-boot-starter-websocket</module>
         <module>neiko-spring-boot-starter-file</module>
         <module>neiko-spring-boot-starter-oss</module>
+        <module>neiko-spring-boot-starter-job</module>
     </modules>
     
 

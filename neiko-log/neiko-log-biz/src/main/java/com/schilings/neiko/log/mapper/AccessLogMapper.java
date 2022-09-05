@@ -39,7 +39,7 @@ public interface AccessLogMapper extends ExtendMapper<AccessLog> {
 	 * @param qo 查询对象
 	 * @return 结果数据 List
 	 */
-	default List<AccessLogExcelVO> queryList(AccessLogQO qo) {
+	default List<AccessLogExcelVO> queryExcelList(AccessLogQO qo) {
 		NeikoLambdaQueryWrapper<AccessLog> queryWrapper = WrappersX.<AccessLog>lambdaQueryJoin()
 				.selectAll(AccessLog.class).eqIfPresent(AccessLog::getUserId, qo.getUserId())
 				.eqIfPresent(AccessLog::getTraceId, qo.getTraceId())

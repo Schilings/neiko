@@ -52,7 +52,7 @@ public class LoginLogController {
 	@Operation(summary = "Excel导出", description = "Excel导出")
 	@ResponseExcel(name = "登陆日志Excel", sheets = { @Sheet(sheetNo = 1, sheetName = "sheetNO1") })
 	public List<LoginLogExcelVO> exportAccessLogList(LoginLogQO loginLogQO) {
-		return loginLogService.queryList(loginLogQO);
+		return loginLogService.queryExcelList(loginLogQO);
 	}
 
 }
