@@ -20,11 +20,11 @@ public interface AccessLogService extends ExtendService<AccessLog> {
 	 */
 	PageResult<AccessLogPageVO> queryPage(PageParam page, AccessLogQO qo);
 
-
 	/**
 	 * 列表查询
 	 * @param qo 查询对象
 	 * @return 结果数据 List
 	 */
-	List<AccessLogExcelVO> queryExcelList(AccessLogQO qo); 
+	List<AccessLogExcelVO> queryExcelList(AccessLogQO qo);
+
 }

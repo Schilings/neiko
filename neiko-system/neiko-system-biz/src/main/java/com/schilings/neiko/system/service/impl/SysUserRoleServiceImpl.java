@@ -34,7 +34,6 @@ public class SysUserRoleServiceImpl extends ExtendServiceImpl<SysUserRoleMapper,
 		implements SysUserRoleService {
 
 	private final EventBus EventBus;
-	
 
 	private final ApplicationEventPublisher eventPublisher;
 

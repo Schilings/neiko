@@ -1,6 +1,5 @@
 package com.schilings.neiko.samples.extend.mybatis.plus.datascope;
 
-
 import com.schilings.neiko.common.datascope.DataScope;
 import com.schilings.neiko.common.datascope.util.SqlParseUtils;
 import net.sf.jsqlparser.expression.Alias;
@@ -20,25 +19,26 @@ import java.util.TreeSet;
 @Component
 public class CustomDataScope implements DataScope {
 
-    public static final String RESOURCE_NAME = "tenant";
+	public static final String RESOURCE_NAME = "tenant";
 
-    final String columnName = "deleted";
-    
-    @Override
-    public String getResource() {
-        return RESOURCE_NAME;
-    }
+	final String columnName = "deleted";
 
-    @Override
-    public Collection<String> getTableNames() {
-        Set<String> tableNames = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
-        tableNames.addAll(Arrays.asList("preorders","gas_station"));
-        return tableNames;
-    }
+	@Override
+	public String getResource() {
+		return RESOURCE_NAME;
+	}
 
-    @Override
-    public Expression getExpression(String tableName, Alias tableAlias) {
-        Column column = SqlParseUtils.getAliasColumn(tableName, tableAlias, columnName);
-        return new EqualsTo(column, new LongValue("1"));
-    }
+	@Override
+	public Collection<String> getTableNames() {
+		Set<String> tableNames = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+		tableNames.addAll(Arrays.asList("preorders", "gas_station"));
+		return tableNames;
+	}
+
+	@Override
+	public Expression getExpression(String tableName, Alias tableAlias) {
+		Column column = SqlParseUtils.getAliasColumn(tableName, tableAlias, columnName);
+		return new EqualsTo(column, new LongValue("1"));
+	}
+
 }

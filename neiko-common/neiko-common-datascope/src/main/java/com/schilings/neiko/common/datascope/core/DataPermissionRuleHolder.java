@@ -1,7 +1,5 @@
 package com.schilings.neiko.common.datascope.core;
 
-
-
 import com.schilings.neiko.common.datascope.annotation.DataPermission;
 
 import java.util.ArrayDeque;
@@ -10,18 +8,18 @@ import java.util.Deque;
 /**
  * 数据权限规则的持有者，使用栈存储调用链中的数据权限规则
  *
- * 区别于{@link DataPermission}
- * {@link DataPermissionRule} 是编程式数据权限控制的使用，优先级高于注解
+ * 区别于{@link DataPermission} {@link DataPermissionRule} 是编程式数据权限控制的使用，优先级高于注解
  */
 public final class DataPermissionRuleHolder {
 
 	private DataPermissionRuleHolder() {
 	}
+
 	/**
 	 * 使用栈存储 DataPermissionRule，便于在方法嵌套调用时使用不同的数据权限控制。
 	 */
-	private static final ThreadLocal<Deque<DataPermissionRule>> DATA_PERMISSION_RULES = 
-			ThreadLocal.withInitial(ArrayDeque::new);
+	private static final ThreadLocal<Deque<DataPermissionRule>> DATA_PERMISSION_RULES = ThreadLocal
+			.withInitial(ArrayDeque::new);
 
 	/**
 	 * 获取当前的 DataPermissionRule

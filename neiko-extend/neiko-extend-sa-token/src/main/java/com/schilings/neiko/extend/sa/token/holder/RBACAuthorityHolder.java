@@ -45,19 +45,20 @@ public class RBACAuthorityHolder {
 		StpOAuth2UserUtil.getSessionByLoginId(userId).set(UserAttributeNameConstants.USER_DETAILS, userDetails);
 	}
 
-	public static <T extends UserDetails> void setUserDetails( T userDetails) {
+	public static <T extends UserDetails> void setUserDetails(T userDetails) {
 		StpOAuth2UserUtil.getSession().set(UserAttributeNameConstants.USER_DETAILS, userDetails);
 	}
 
 	public static void setRoles(String userId, List<String> roles) {
-		//放置于公共缓存
+		// 放置于公共缓存
 		SaSessionCustomUtil.getSessionById(ROLES + userId).set(UserAttributeNameConstants.ROLE_CODES, roles);
-		
+
 	}
 
 	public static void setPermissions(String roleCode, List<String> permissions) {
-		//放置于公共缓存
-		SaSessionCustomUtil.getSessionById(PERMISSIONS + roleCode).set(UserAttributeNameConstants.PERMISSIONS, permissions);
+		// 放置于公共缓存
+		SaSessionCustomUtil.getSessionById(PERMISSIONS + roleCode).set(UserAttributeNameConstants.PERMISSIONS,
+				permissions);
 	}
 
 	/**
@@ -98,7 +99,8 @@ public class RBACAuthorityHolder {
 	 */
 
 	public static List<String> getRoles(String userId) {
-		return (List<String>) SaSessionCustomUtil.getSessionById(ROLES + userId).get(UserAttributeNameConstants.ROLE_CODES);
+		return (List<String>) SaSessionCustomUtil.getSessionById(ROLES + userId)
+				.get(UserAttributeNameConstants.ROLE_CODES);
 	}
 
 	public static List<String> getRoles(String userId, Supplier<List<String>> supplier) {
@@ -117,7 +119,8 @@ public class RBACAuthorityHolder {
 	 * @return
 	 */
 	public static List<String> getPermissions(String roleCode) {
-		return (List<String>) SaSessionCustomUtil.getSessionById(PERMISSIONS + roleCode).get(UserAttributeNameConstants.PERMISSIONS);
+		return (List<String>) SaSessionCustomUtil.getSessionById(PERMISSIONS + roleCode)
+				.get(UserAttributeNameConstants.PERMISSIONS);
 
 	}
 

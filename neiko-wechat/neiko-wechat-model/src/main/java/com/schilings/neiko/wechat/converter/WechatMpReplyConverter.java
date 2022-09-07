@@ -8,7 +8,8 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface WechatMpReplyConverter {
 
-    WechatMpReplyConverter INSTANCE = Mappers.getMapper(WechatMpReplyConverter.class);
+	WechatMpReplyConverter INSTANCE = Mappers.getMapper(WechatMpReplyConverter.class);
 
-    WechatMpReply dtoToPo(WechatMpReplyDTO wechatMpReplyDTO);
+	WechatMpReply dtoToPo(WechatMpReplyDTO wechatMpReplyDTO);
+
 }

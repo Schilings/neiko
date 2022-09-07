@@ -1,12 +1,10 @@
 package com.schilings.neiko.samples.starter.datascope.datapermission;
 
-
 import com.schilings.neiko.common.datascope.advisor.DataPermissionAnnotationAdvisor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-
 
 @EnableAspectJAutoProxy
 @Configuration(proxyBeanMethods = false)

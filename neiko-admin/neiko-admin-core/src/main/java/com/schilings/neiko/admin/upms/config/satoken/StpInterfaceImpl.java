@@ -5,7 +5,6 @@ import com.schilings.neiko.extend.sa.token.holder.RBACAuthorityHolder;
 import com.schilings.neiko.system.service.*;
 import lombok.RequiredArgsConstructor;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +18,7 @@ import java.util.List;
  */
 @RequiredArgsConstructor
 public class StpInterfaceImpl implements StpInterface {
-	
+
 	private final SysUserRoleService sysUserRoleService;
 
 	private final SysRoleMenuService sysRoleMenuService;

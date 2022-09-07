@@ -1,11 +1,12 @@
 package com.schilings.neiko.common.datascope.core;
 
-
 import com.schilings.neiko.common.datascope.annotation.DataPermission;
 
 /**
  * 数据权限的规则抽象类
- * <p>用来决定使用哪些DataScope,不与核心实现强耦合</p>
+ * <p>
+ * 用来决定使用哪些DataScope,不与核心实现强耦合
+ * </p>
  */
 public class DataPermissionRule {
 

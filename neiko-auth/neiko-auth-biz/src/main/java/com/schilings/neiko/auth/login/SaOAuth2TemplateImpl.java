@@ -50,7 +50,7 @@ public class SaOAuth2TemplateImpl extends SaOAuth2Template {
 				saClientModel.setClientSecret(clientDetails.getClientSecret());
 				// 支持的url
 				saClientModel.setAllowUrl(String.join(",", clientDetails.getUrls()));
-				// 支持的作用域	
+				// 支持的作用域
 				saClientModel.setContractScope(String.join(",", clientDetails.getScope()));
 				// 支持的认证模式
 				saClientModel.setGrantTypes(clientDetails.getAuthorizedGrantTypes());

@@ -21,13 +21,12 @@ public interface SysRoleService extends ExtendService<SysRole> {
 	 */
 	PageResult<SysRolePageVO> queryPage(PageParam pageParam, SysRoleQO qo);
 
-
 	/**
 	 * 根据多个roleCode查多个角色列表
 	 * @param roleCodes
 	 */
 	List<SysRole> list(Collection<String> roleCodes);
-	
+
 	/**
 	 * 角色的选择数据
 	 * @return 角色下拉列表数据集合

@@ -42,8 +42,7 @@ public interface OperationLogMapper extends ExtendMapper<OperationLog> {
 	 */
 	default List<OperationLogExcelVO> queryExcelList(OperationLogQO qo) {
 		NeikoLambdaQueryWrapper<OperationLog> queryWrapper = WrappersX.<OperationLog>lambdaQueryJoin()
-				.selectAll(OperationLog.class)
-				.eqIfPresent(OperationLog::getOperator, qo.getUserId())
+				.selectAll(OperationLog.class).eqIfPresent(OperationLog::getOperator, qo.getUserId())
 				.eqIfPresent(OperationLog::getTraceId, qo.getTraceId()).eqIfPresent(OperationLog::getUri, qo.getUri())
 				.eqIfPresent(OperationLog::getIp, qo.getIp()).eqIfPresent(OperationLog::getStatus, qo.getStatus())
 				.eqIfPresent(OperationLog::getType, qo.getType()).likeIfPresent(OperationLog::getMsg, qo.getMsg())

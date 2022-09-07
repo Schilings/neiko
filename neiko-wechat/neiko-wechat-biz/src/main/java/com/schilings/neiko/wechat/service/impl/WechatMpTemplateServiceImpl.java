@@ -1,6 +1,5 @@
 package com.schilings.neiko.wechat.service.impl;
 
-
 import com.schilings.neiko.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import com.schilings.neiko.wechat.mapper.WechatMpTemplateMapper;
 import com.schilings.neiko.wechat.service.WechatMpTemplateService;
@@ -9,5 +8,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class WechatMpTemplateServiceImpl extends ExtendServiceImpl<WechatMpTemplateMapper, WechatMpTemplate>
-        implements WechatMpTemplateService {
+		implements WechatMpTemplateService {
+
 }

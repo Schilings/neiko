@@ -1,6 +1,5 @@
 package com.schilings.neiko.samples.starter.datascope.datarule.datascope;
 
-
 import com.schilings.neiko.common.datascope.DataScope;
 import com.schilings.neiko.common.datascope.util.CollectionUtils;
 import com.schilings.neiko.samples.starter.datascope.datarule.user.LoginUser;

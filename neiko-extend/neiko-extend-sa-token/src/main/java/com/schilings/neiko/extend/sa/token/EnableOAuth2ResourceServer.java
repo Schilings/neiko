@@ -1,5 +1,6 @@
 package com.schilings.neiko.extend.sa.token;
 
+
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.ElementType;
@@ -10,14 +11,13 @@ import java.lang.annotation.Target;
 /**
  *
  * <p>
- * 开启自定义授权中心
+ * 开启自定义资源中心
  * </p>
  *
  * @author Schilings
  */
-@Import(ExtendSaTokenConfiguration.class)
+@Import(OAuth2ResourceServerConfiguration.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.TYPE })
-public @interface EnableAuthorizationServer {
-
+public @interface EnableOAuth2ResourceServer {
 }

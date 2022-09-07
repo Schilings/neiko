@@ -133,8 +133,7 @@ public class ExtendOAuth2Handler {
 		}
 
 		// 自定义模式
-		if (req.isPath(SaOAuth2Consts.Api.token)
-				&& req.hasParam(SaOAuth2Consts.Param.grant_type)) {
+		if (req.isPath(SaOAuth2Consts.Api.token) && req.hasParam(SaOAuth2Consts.Param.grant_type)) {
 			ExtendClientModel cm = currClientModel();
 			if (cm.supportGrantType(req.getParam(SaOAuth2Consts.Param.grant_type))) {
 				return grant(req, res, cfg);
@@ -249,7 +248,7 @@ public class ExtendOAuth2Handler {
 	 * @return
 	 */
 	public static Map<String, Object> enhanceToken(Map<String, Object> map) {
-		ExtendComponentHolder.tokenEnhancersProvider.ifAvailable(enhancers->{
+		ExtendComponentHolder.tokenEnhancersProvider.ifAvailable(enhancers -> {
 			enhancers.forEach(e -> e.enhance(map));
 		});
 		return map;
@@ -384,7 +383,8 @@ public class ExtendOAuth2Handler {
 		if (CollectionUtils.isEmpty(granters)) {
 			throw new SaOAuth2Exception("暂未开放的授权模式");
 		}
-		Optional<OAuth2Granter> oAuth2Granter = granters.stream().filter(granter -> granter.supports(req.getParam(SaOAuth2Consts.Param.grant_type))).findFirst();
+		Optional<OAuth2Granter> oAuth2Granter = granters.stream()
+				.filter(granter -> granter.supports(req.getParam(SaOAuth2Consts.Param.grant_type))).findFirst();
 		if (!oAuth2Granter.isPresent()) {
 			throw new SaOAuth2Exception("暂未开放的授权模式");
 		}
@@ -397,7 +397,7 @@ public class ExtendOAuth2Handler {
 	 */
 	public static ExtendClientModel currClientModel() {
 		String clientId = getRequest().getParam(SaOAuth2Consts.Param.client_id);
-		return (ExtendClientModel)SaOAuth2Util.checkClientModel(clientId);
+		return (ExtendClientModel) SaOAuth2Util.checkClientModel(clientId);
 	}
 
 }

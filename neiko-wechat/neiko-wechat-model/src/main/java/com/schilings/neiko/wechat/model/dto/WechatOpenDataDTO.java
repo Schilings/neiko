@@ -7,12 +7,21 @@ import lombok.Data;
  */
 @Data
 public class WechatOpenDataDTO {
+
 	private String appId;
+
 	private String userId;
+
 	private String encryptedData;
+
 	private String errMsg;
+
 	private String iv;
+
 	private String rawData;
+
 	private String signature;
+
 	private String sessionKey;
+
 }

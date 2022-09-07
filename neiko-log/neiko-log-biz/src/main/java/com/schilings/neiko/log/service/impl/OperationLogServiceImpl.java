@@ -31,7 +31,6 @@ public class OperationLogServiceImpl extends ExtendServiceImpl<OperationLogMappe
 
 	/**
 	 * 列表查询
-	 *
 	 * @param qo 查询对象
 	 * @return 结果数据 List
 	 */

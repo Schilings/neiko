@@ -14,5 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "微信公众号菜单")
 public class WechatMpMenuController {
 
-    private final WechatMpMenuService wechatMpMenuService;
+	private final WechatMpMenuService wechatMpMenuService;
+
 }

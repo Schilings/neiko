@@ -7,8 +7,12 @@ import java.util.Collection;
 
 /**
  *
- * <p>{@link com.baomidou.mybatisplus.extension.plugins.handler.DataPermissionHandler}</p> 
- * <p>{@link com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler}</p> 
+ * <p>
+ * {@link com.baomidou.mybatisplus.extension.plugins.handler.DataPermissionHandler}
+ * </p>
+ * <p>
+ * {@link com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler}
+ * </p>
  *
  * @author Schilings
  */
@@ -30,7 +34,9 @@ public interface DataScope {
 
 	/**
 	 * 根据表名和表别名，动态生成的 where/or 筛选条件
-	 * <p>注意，返回null即表示对于该sql不做权限控制</p>
+	 * <p>
+	 * 注意，返回null即表示对于该sql不做权限控制
+	 * </p>
 	 * @param tableName 表名
 	 * @param tableAlias 表别名，可能为空
 	 * @return 数据规则表达式

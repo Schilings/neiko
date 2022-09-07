@@ -58,6 +58,5 @@ public class OperationLogController {
 	public List<OperationLogExcelVO> exportOperationLogList(OperationLogQO operationLogQO) {
 		return operationLogService.queryExcelList(operationLogQO);
 	}
-	
 
 }

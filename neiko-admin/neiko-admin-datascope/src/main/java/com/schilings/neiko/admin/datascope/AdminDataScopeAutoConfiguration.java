@@ -1,6 +1,5 @@
 package com.schilings.neiko.admin.datascope;
 
-
 import com.schilings.neiko.admin.datascope.component.AdminDefaultDataScope;
 import com.schilings.neiko.admin.datascope.component.DefaultUserDataScopeProcessor;
 import com.schilings.neiko.admin.datascope.component.UserDataScopeProcessor;
@@ -15,31 +14,33 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 
 /**
- * 
- * <p></p>
- * 
+ *
+ * <p>
+ * </p>
+ *
  * @author Schilings
-*/
+ */
 @AutoConfiguration
 @RequiredArgsConstructor
 public class AdminDataScopeAutoConfiguration {
 
-    @Bean
-    @ConditionalOnMissingBean
-    public AdminDefaultDataScope adminDefaultDataScope() {
-        return new AdminDefaultDataScope();
-    }
+	@Bean
+	@ConditionalOnMissingBean
+	public AdminDefaultDataScope adminDefaultDataScope() {
+		return new AdminDefaultDataScope();
+	}
 
-    @Bean
-    @ConditionalOnMissingBean
-    public DefaultUserDataScopeProcessor defaultUserDataScopeProcessor(SysOrganizationService sysOrganizationService, SysUserService sysUserService, SysRoleService sysRoleService) {
-        return new DefaultUserDataScopeProcessor(sysOrganizationService, sysUserService, sysRoleService);
-    }
+	@Bean
+	@ConditionalOnMissingBean
+	public DefaultUserDataScopeProcessor defaultUserDataScopeProcessor(SysOrganizationService sysOrganizationService,
+			SysUserService sysUserService, SysRoleService sysRoleService) {
+		return new DefaultUserDataScopeProcessor(sysOrganizationService, sysUserService, sysRoleService);
+	}
 
-    @Bean
-    @ConditionalOnMissingBean
-    public DataScopeAttributeSetter dataScopeAttributeSetter(UserDataScopeProcessor userDataScopeProcessor) {
-        return new DataScopeAttributeSetter(userDataScopeProcessor);
-    }
-    
+	@Bean
+	@ConditionalOnMissingBean
+	public DataScopeAttributeSetter dataScopeAttributeSetter(UserDataScopeProcessor userDataScopeProcessor) {
+		return new DataScopeAttributeSetter(userDataScopeProcessor);
+	}
+
 }

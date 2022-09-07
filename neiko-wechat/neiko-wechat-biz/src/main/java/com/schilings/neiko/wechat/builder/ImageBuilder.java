@@ -14,17 +14,15 @@ import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 /**
  * @author Binary Wang(https://github.com/binarywang)
  */
-public class ImageBuilder extends AbstractBuilder{
+public class ImageBuilder extends AbstractBuilder {
 
-    @Override
-    public WxMpXmlOutMessage build(String content, WxMpXmlMessage wxMessage,
-                                   WxMpService service) {
+	@Override
+	public WxMpXmlOutMessage build(String content, WxMpXmlMessage wxMessage, WxMpService service) {
 
-        WxMpXmlOutImageMessage m = WxMpXmlOutMessage.IMAGE().mediaId(content)
-                .fromUser(wxMessage.getToUser()).toUser(wxMessage.getFromUser())
-                .build();
+		WxMpXmlOutImageMessage m = WxMpXmlOutMessage.IMAGE().mediaId(content).fromUser(wxMessage.getToUser())
+				.toUser(wxMessage.getFromUser()).build();
 
-        return m;
-    }
+		return m;
+	}
 
 }

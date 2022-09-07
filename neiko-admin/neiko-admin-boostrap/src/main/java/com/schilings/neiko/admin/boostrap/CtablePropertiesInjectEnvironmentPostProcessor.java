@@ -15,7 +15,6 @@ public class CtablePropertiesInjectEnvironmentPostProcessor implements Environme
 		Map<String, Object> map = new HashMap<>();
 		MapPropertySource ctableSource = new MapPropertySource("ctable", map);
 		environment.getPropertySources().addFirst(ctableSource);
-
 	}
 
 }

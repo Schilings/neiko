@@ -4,7 +4,6 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
-
 @Data
 @ConfigurationProperties(prefix = "xxl.job")
 public class XxlJobProperties {

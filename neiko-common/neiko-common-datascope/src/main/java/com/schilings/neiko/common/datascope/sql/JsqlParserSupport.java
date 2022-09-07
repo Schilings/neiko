@@ -11,7 +11,9 @@ import net.sf.jsqlparser.statement.select.Select;
 import net.sf.jsqlparser.statement.update.Update;
 
 /**
- * <p>copy from Mybatis Plus</p>
+ * <p>
+ * copy from Mybatis Plus
+ * </p>
  * https://github.com/JSQLParser/JSqlParser
  *
  * @author miemie hccake

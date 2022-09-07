@@ -14,5 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "微信公众号模板消息")
 public class WechatMpTemplateController {
 
-    private final WechatMpTemplateService wechatMpTemplateService;
+	private final WechatMpTemplateService wechatMpTemplateService;
+
 }

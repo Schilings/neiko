@@ -56,12 +56,11 @@ public interface SysRoleMapper extends ExtendMapper<SysRole> {
 
 	/**
 	 * 根据多个roleCode查多个角色列表
-	 *
 	 * @param roleCodes
 	 */
 	default List<SysRole> listByRoleCodes(Collection<String> roleCodes) {
-		return this.selectList(WrappersX.lambdaQueryX(SysRole.class)
-				.eq(SysRole::getDeleted, NOT_DELETED_FLAG)
+		return this.selectList(WrappersX.lambdaQueryX(SysRole.class).eq(SysRole::getDeleted, NOT_DELETED_FLAG)
 				.in(SysRole::getCode, roleCodes));
 	}
+
 }

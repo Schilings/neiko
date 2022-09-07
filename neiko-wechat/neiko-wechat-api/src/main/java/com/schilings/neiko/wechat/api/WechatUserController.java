@@ -12,7 +12,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/wechat/user")
 @Tag(name = "微信关联用户")
 public class WechatUserController {
-    
-    
-    
+
 }

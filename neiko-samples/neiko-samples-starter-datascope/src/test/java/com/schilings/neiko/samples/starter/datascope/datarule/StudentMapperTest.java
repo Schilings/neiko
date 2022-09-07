@@ -1,6 +1,5 @@
 package com.schilings.neiko.samples.starter.datascope.datarule;
 
-
 import com.schilings.neiko.autoconfigure.datascope.DataScopeAutoConfiguration;
 import com.schilings.neiko.common.datascope.DataScope;
 import com.schilings.neiko.common.datascope.core.DataPermissionHandler;

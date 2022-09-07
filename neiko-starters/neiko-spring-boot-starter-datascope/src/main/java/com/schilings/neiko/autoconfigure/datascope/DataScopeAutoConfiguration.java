@@ -1,6 +1,5 @@
 package com.schilings.neiko.autoconfigure.datascope;
 
-
 import com.schilings.neiko.common.datascope.DataScope;
 import com.schilings.neiko.common.datascope.advisor.DataPermissionAnnotationAdvisor;
 import com.schilings.neiko.common.datascope.core.DataPermissionHandler;
@@ -51,6 +50,5 @@ public class DataScopeAutoConfiguration {
 	public DataPermissionInterceptor dataPermissionInterceptor(DataPermissionHandler dataPermissionHandler) {
 		return new DataPermissionInterceptor(new DataScopeSqlProcessor(), dataPermissionHandler);
 	}
-
 
 }

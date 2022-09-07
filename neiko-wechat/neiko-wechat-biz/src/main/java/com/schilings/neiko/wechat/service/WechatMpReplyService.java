@@ -10,17 +10,17 @@ import com.schilings.neiko.wechat.model.vo.WechatMpReplyPageVO;
 
 public interface WechatMpReplyService extends ExtendService<WechatMpReply> {
 
-    PageResult<WechatMpReplyPageVO> queryPage(PageParam pageParam, WechatMpReplyQO qo);
-    
-    /**
-     * 根据关键字查询
-     * @param key
-     * @return
-     */
-    WechatMpReply getByKey(String key);
+	PageResult<WechatMpReplyPageVO> queryPage(PageParam pageParam, WechatMpReplyQO qo);
 
+	/**
+	 * 根据关键字查询
+	 * @param key
+	 * @return
+	 */
+	WechatMpReply getByKey(String key);
 
-    WechatMpReply getByType(Integer type);
+	WechatMpReply getByType(Integer type);
 
-    boolean addMpReply(WechatMpReplyDTO wechatMpReplyDTO);
+	boolean addMpReply(WechatMpReplyDTO wechatMpReplyDTO);
+
 }

@@ -1,26 +1,22 @@
 package com.schilings.neiko.admin.boostrap;
 
-import com.schilings.neiko.auth.mapper.AuthClientMapper;
 import com.schilings.neiko.auth.service.AuthClientService;
-import com.schilings.neiko.log.mapper.AccessLogMapper;
-import com.schilings.neiko.log.mapper.OperationLogMapper;
+
 import com.schilings.neiko.log.service.AccessLogService;
 import com.schilings.neiko.log.service.OperationLogService;
 import com.schilings.neiko.notify.service.AnnouncementService;
 import com.schilings.neiko.notify.service.UserAnnouncementService;
-import com.schilings.neiko.system.mapper.*;
+
 
 import com.schilings.neiko.system.service.*;
-import lombok.RequiredArgsConstructor;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
+
+import org.springframework.util.CollectionUtils;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -79,6 +75,9 @@ public class BoostrapApplicationRunner implements ApplicationRunner {
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		if (isAuthBoostrap.compareAndSet(false, true)) {
+			if (!CollectionUtils.isEmpty(authClientService.list())) {
+				return;
+			}
 			log.info("[start-neiko]数据库数据应用初始化 开始。。。");
 			// auth
 			authClientService.saveBatch(BoostrapDataHolder.getAuthClientList());

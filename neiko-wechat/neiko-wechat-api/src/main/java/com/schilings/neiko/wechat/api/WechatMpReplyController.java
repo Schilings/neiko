@@ -28,49 +28,45 @@ import javax.validation.groups.Default;
 @Tag(name = "微信公众号自定义回复")
 public class WechatMpReplyController {
 
-    private final WechatMpReplyService wechatMpReplyService;
-    
-    @GetMapping("/page")
-    @OAuth2CheckPermission("wechat:mpreply:read")
-    @Operation(summary = "分页查询微信公众号自定义回复")
-    public R<PageResult<WechatMpReplyPageVO>> getMpReplyPage(@Validated PageParam pageParam, WechatMpReplyQO qo) {
-        return R.ok(wechatMpReplyService.queryPage(pageParam, qo));
-    }
+	private final WechatMpReplyService wechatMpReplyService;
 
-    /**
-     * 通过id查询消息自动回复
-     * @param id id
-     * @return R
-     */
-    @GetMapping("/{id}")
-    @OAuth2CheckPermission("wechat:mpreply:read")
-    @Operation(summary = "通过id查询微信公众号自定义回复")
-    public R<WechatMpReply> get(@PathVariable("id") Long id){
-        return R.ok(wechatMpReplyService.getById(id));
-    }
+	@GetMapping("/page")
+	@OAuth2CheckPermission("wechat:mpreply:read")
+	@Operation(summary = "分页查询微信公众号自定义回复")
+	public R<PageResult<WechatMpReplyPageVO>> getMpReplyPage(@Validated PageParam pageParam, WechatMpReplyQO qo) {
+		return R.ok(wechatMpReplyService.queryPage(pageParam, qo));
+	}
 
-    /**
-     * 新增消息自动回复
-     * @return R
-     */
-    @PostMapping
-    @OAuth2CheckPermission("wechat:mpreply:add")
-    @Operation(summary = "新增微信公众号自定义回复")
-    public R addMpReply(@Validated({ Default.class, CreateGroup.class }) @RequestBody WechatMpReplyDTO wechatMpReplyDTO){
-        //关注时回复只能唯一
-        if (wechatMpReplyDTO.getType() == WechatMpConst.Reply.SUBSCRIBE.getValue()) {
-            WechatMpReply reply = wechatMpReplyService.getByType(wechatMpReplyDTO.getType());
-            if (reply != null) {
-                return R.fail(BaseResultCode.LOGIC_CHECK_ERROR, "该类型自动回复已存在");
-            }
-        }
-        return wechatMpReplyService.addMpReply(wechatMpReplyDTO) ? R.ok()
-                : R.fail(BaseResultCode.UPDATE_DATABASE_ERROR, "新增微信公众号自定义回复失败");
-    }
-    
-    
-    
-    
-    
+	/**
+	 * 通过id查询消息自动回复
+	 * @param id id
+	 * @return R
+	 */
+	@GetMapping("/{id}")
+	@OAuth2CheckPermission("wechat:mpreply:read")
+	@Operation(summary = "通过id查询微信公众号自定义回复")
+	public R<WechatMpReply> get(@PathVariable("id") Long id) {
+		return R.ok(wechatMpReplyService.getById(id));
+	}
+
+	/**
+	 * 新增消息自动回复
+	 * @return R
+	 */
+	@PostMapping
+	@OAuth2CheckPermission("wechat:mpreply:add")
+	@Operation(summary = "新增微信公众号自定义回复")
+	public R addMpReply(
+			@Validated({ Default.class, CreateGroup.class }) @RequestBody WechatMpReplyDTO wechatMpReplyDTO) {
+		// 关注时回复只能唯一
+		if (wechatMpReplyDTO.getType() == WechatMpConst.Reply.SUBSCRIBE.getValue()) {
+			WechatMpReply reply = wechatMpReplyService.getByType(wechatMpReplyDTO.getType());
+			if (reply != null) {
+				return R.fail(BaseResultCode.LOGIC_CHECK_ERROR, "该类型自动回复已存在");
+			}
+		}
+		return wechatMpReplyService.addMpReply(wechatMpReplyDTO) ? R.ok()
+				: R.fail(BaseResultCode.UPDATE_DATABASE_ERROR, "新增微信公众号自定义回复失败");
+	}
+
 }
-

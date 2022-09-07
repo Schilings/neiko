@@ -170,17 +170,14 @@ public class BoostrapDataHolder {
 					"notify/userannouncement/UserAnnouncementPage", 1, 0, 1, 1, null));
 			sysMenuList.add(new SysMenu(120201L, 120200L, "用户公告表查询", null, "notify:userannouncement:read", null, 1,
 					null, 0, 0, 0, 2, null));
-			sysMenuList.add(new SysMenu(660000L, 0L, "Ballcat 官网", "crown", null, "ballcat", 2, "http://www.ballcat.cn",
-					0, 1, 0, 1, null));
-			sysMenuList.add(new SysMenu(990000L, 0L, "开发平台", "desktop", "", "develop", 1, null, 99, 0, 0, 0, null));
 			sysMenuList.add(new SysMenu(990100L, 990000L, "接口文档", "file", "", "swagger", 3,
-					"http://ballcat-admin:8080/swagger-ui/index.html", 1, 0, 0, 1, null));
+					"http://neiko-admin:8080/swagger-ui/index.html", 1, 0, 0, 1, null));
 			sysMenuList.add(new SysMenu(990200L, 990000L, "文档增强", "file-text", "", "doc", 3,
-					"http://ballcat-admin:8080/doc.html", 2, 0, 0, 1, null));
+					"http://neiko-admin:8080/doc.html", 2, 0, 0, 1, null));
 			sysMenuList.add(new SysMenu(990300L, 990000L, "调度中心", "rocket", "", "xxl-job", 3,
-					"http://ballcat-job:8888/xxl-job-admin", 3, 0, 0, 1, null));
+					"http://neiko-job:8888/xxl-job-admin", 3, 0, 0, 1, null));
 			sysMenuList.add(new SysMenu(990400L, 990000L, "服务监控", "alert", "", "monitor", 3,
-					"http://ballcat-monitor:9999", 4, 0, 0, 1, null));
+					"http://neiko-monitor:9999", 4, 0, 0, 1, null));
 			sysMenuList.add(new SysMenu(990500L, 990000L, "代码生成", "printer", "", "codegen", 3, "http://localhost:7777",
 					5, 0, 0, 1, null));
 		}

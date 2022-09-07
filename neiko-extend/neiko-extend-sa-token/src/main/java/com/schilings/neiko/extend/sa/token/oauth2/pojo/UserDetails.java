@@ -62,7 +62,6 @@ public interface UserDetails extends Serializable {
 	 */
 	Collection<RoleAuthority> getRoles();
 
-
 	Map<String, Object> getAttributes();
 
 	/**

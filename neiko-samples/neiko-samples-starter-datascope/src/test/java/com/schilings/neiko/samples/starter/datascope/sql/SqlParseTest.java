@@ -1,6 +1,5 @@
 package com.schilings.neiko.samples.starter.datascope.sql;
 
-
 import com.schilings.neiko.common.datascope.DataScope;
 import com.schilings.neiko.common.datascope.core.DataPermissionHandler;
 import com.schilings.neiko.common.datascope.core.DefaultDataPermissionHandler;
@@ -32,7 +31,7 @@ class SqlParseTest {
 			Set<String> tableNames = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
 			tableNames.addAll(Arrays.asList("entity", "entity1", "entity2", "entity3", "t1", "t2"));
 			return tableNames;
-		}	
+		}
 
 		@Override
 		public Expression getExpression(String tableName, Alias tableAlias) {

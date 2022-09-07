@@ -1,6 +1,5 @@
 package com.schilings.neiko.samples.starter.datascope.sql;
 
-
 import com.schilings.neiko.common.datascope.DataScope;
 import com.schilings.neiko.common.datascope.core.DataPermissionHandler;
 import com.schilings.neiko.common.datascope.core.DefaultDataPermissionHandler;
@@ -17,11 +16,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
-
 class DataScopeMatchTest {
 
 	DataScope dataScope = new DataScope() {
-		
+
 		final String columnId = "order_id";
 
 		@Override

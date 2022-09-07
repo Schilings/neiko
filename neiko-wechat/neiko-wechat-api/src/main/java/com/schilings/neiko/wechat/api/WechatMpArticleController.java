@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "微信公众号文章")
 public class WechatMpArticleController {
 
-    private final WechatMpArticleService wechatMpArticleService;
-    
-    
+	private final WechatMpArticleService wechatMpArticleService;
+
 }

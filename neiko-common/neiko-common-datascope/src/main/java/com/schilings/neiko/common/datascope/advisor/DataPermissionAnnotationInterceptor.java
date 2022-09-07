@@ -9,11 +9,13 @@ import org.aopalliance.intercept.MethodInvocation;
 import java.lang.reflect.Method;
 
 /**
- * 
- * <p>DataPermission注解的拦截器，在执行方法前将当前方法的对应注解压栈，执行后弹出注解</p>
- * 
+ *
+ * <p>
+ * DataPermission注解的拦截器，在执行方法前将当前方法的对应注解压栈，执行后弹出注解
+ * </p>
+ *
  * @author Schilings
-*/
+ */
 public class DataPermissionAnnotationInterceptor implements MethodInterceptor {
 
 	@Override

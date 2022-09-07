@@ -1,6 +1,5 @@
 package com.schilings.neiko.wechat.service.impl;
 
-
 import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.schilings.neiko.common.core.exception.ServiceException;
@@ -21,36 +20,37 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class WechatMpReplyServiceImpl extends ExtendServiceImpl<WechatMpReplyMapper, WechatMpReply>
-        implements WechatMpReplyService {
+		implements WechatMpReplyService {
 
-    @Override
-    public PageResult<WechatMpReplyPageVO> queryPage(PageParam pageParam, WechatMpReplyQO qo) {
-        return baseMapper.queryPage(pageParam, qo);
-    }
+	@Override
+	public PageResult<WechatMpReplyPageVO> queryPage(PageParam pageParam, WechatMpReplyQO qo) {
+		return baseMapper.queryPage(pageParam, qo);
+	}
 
-    /**
-     * 根据关键字查询
-     * @param key
-     * @return
-     */
-    public WechatMpReply getByKey(String key) {
-        return baseMapper.getByKey(key);
-    }
+	/**
+	 * 根据关键字查询
+	 * @param key
+	 * @return
+	 */
+	public WechatMpReply getByKey(String key) {
+		return baseMapper.getByKey(key);
+	}
 
-    @Override
-    public WechatMpReply getByType(Integer type) {
-        return baseMapper.getByType(type);
-    }
+	@Override
+	public WechatMpReply getByType(Integer type) {
+		return baseMapper.getByType(type);
+	}
 
-    @Override
-    public boolean addMpReply(WechatMpReplyDTO wechatMpReplyDTO) {
-        WechatMpReply wechatMpReply = WechatMpReplyConverter.INSTANCE.dtoToPo(wechatMpReplyDTO);
-        // 保存用户
-        boolean insertSuccess = SqlHelper.retBool(baseMapper.insert(wechatMpReply));
-        Assert.isTrue(insertSuccess, () -> {
-            log.error("[addMpReply] 数据插入微信公众号回复表失败，wechatMpReplyDTO：{}", wechatMpReplyDTO);
-            return new ServiceException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "数据插入微信公众号回复表失败");
-        });
-        return insertSuccess;
-    }
+	@Override
+	public boolean addMpReply(WechatMpReplyDTO wechatMpReplyDTO) {
+		WechatMpReply wechatMpReply = WechatMpReplyConverter.INSTANCE.dtoToPo(wechatMpReplyDTO);
+		// 保存用户
+		boolean insertSuccess = SqlHelper.retBool(baseMapper.insert(wechatMpReply));
+		Assert.isTrue(insertSuccess, () -> {
+			log.error("[addMpReply] 数据插入微信公众号回复表失败，wechatMpReplyDTO：{}", wechatMpReplyDTO);
+			return new ServiceException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "数据插入微信公众号回复表失败");
+		});
+		return insertSuccess;
+	}
+
 }

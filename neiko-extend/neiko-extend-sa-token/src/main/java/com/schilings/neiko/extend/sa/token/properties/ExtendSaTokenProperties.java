@@ -25,10 +25,15 @@ public class ExtendSaTokenProperties {
 	private boolean enforceCancelAuthenticate = false;
 
 	private boolean checkLogin = true;
+
 	private boolean checkRole = true;
+
 	private boolean checkPermission = true;
+
 	private boolean checkSafe = true;
+
 	private boolean checkBasic = true;
+
 	private boolean checkScope = true;
 
 }

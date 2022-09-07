@@ -6,5 +6,6 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface WechatMpTemplateConverter {
 
-    WechatMpTemplateConverter INSTANCE = Mappers.getMapper(WechatMpTemplateConverter.class);
+	WechatMpTemplateConverter INSTANCE = Mappers.getMapper(WechatMpTemplateConverter.class);
+
 }

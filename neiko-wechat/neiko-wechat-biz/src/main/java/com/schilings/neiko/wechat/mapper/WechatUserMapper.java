@@ -13,28 +13,26 @@ import com.schilings.neiko.wechat.model.vo.WechatUserPageVO;
 
 public interface WechatUserMapper extends ExtendMapper<WechatUser> {
 
-    default PageResult<WechatUserPageVO> queryPage(PageParam pageParam, WechatUserQO qo) {
-        IPage<WechatUserPageVO> page = this.prodPage(pageParam);
-        NeikoLambdaQueryWrapper<Object> queryWrapper = WrappersX.lambdaQueryJoin()
-                .selectAll(WechatUser.class)
-                .eq(WechatUser::getDeleted, GlobalConstants.NOT_DELETED_FLAG)
-                .likeIfPresent(WechatUser::getNickName, qo.getNickName())
-                .eqIfPresent(WechatUser::getAppType, qo.getAppType())
-                .eqIfPresent(WechatUser::getPhone, qo.getPhone())
-                .eqIfPresent(WechatUser::getSubscribe, qo.getSubscribe())
-                .eqIfPresent(WechatUser::getSubscribeScene, qo.getSubscribeScene())
-                .eqIfPresent(WechatUser::getSex, qo.getSex());
-        IPage<WechatUserPageVO> voPage = this.selectJoinPage(page, WechatUserPageVO.class, AUTO_RESULT_MAP, queryWrapper);
-        return this.prodPage(voPage);
-    }
+	default PageResult<WechatUserPageVO> queryPage(PageParam pageParam, WechatUserQO qo) {
+		IPage<WechatUserPageVO> page = this.prodPage(pageParam);
+		NeikoLambdaQueryWrapper<Object> queryWrapper = WrappersX.lambdaQueryJoin().selectAll(WechatUser.class)
+				.eq(WechatUser::getDeleted, GlobalConstants.NOT_DELETED_FLAG)
+				.likeIfPresent(WechatUser::getNickName, qo.getNickName())
+				.eqIfPresent(WechatUser::getAppType, qo.getAppType()).eqIfPresent(WechatUser::getPhone, qo.getPhone())
+				.eqIfPresent(WechatUser::getSubscribe, qo.getSubscribe())
+				.eqIfPresent(WechatUser::getSubscribeScene, qo.getSubscribeScene())
+				.eqIfPresent(WechatUser::getSex, qo.getSex());
+		IPage<WechatUserPageVO> voPage = this.selectJoinPage(page, WechatUserPageVO.class, AUTO_RESULT_MAP,
+				queryWrapper);
+		return this.prodPage(voPage);
+	}
 
-    default WechatUser getById(Long id) {
-        return this.selectById(id);
-    }
+	default WechatUser getById(Long id) {
+		return this.selectById(id);
+	}
 
-    default WechatUser getByOpenId(String openId) {
-        return this.selectOne(WrappersX.lambdaQueryX(WechatUser.class).eq(WechatUser::getOpenId, openId));
-    }
-    
-    
+	default WechatUser getByOpenId(String openId) {
+		return this.selectOne(WrappersX.lambdaQueryX(WechatUser.class).eq(WechatUser::getOpenId, openId));
+	}
+
 }

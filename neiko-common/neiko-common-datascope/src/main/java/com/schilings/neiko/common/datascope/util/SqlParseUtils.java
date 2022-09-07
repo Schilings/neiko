@@ -36,8 +36,8 @@ public final class SqlParseUtils {
 		return getAliasColumn(table.getName(), table.getAlias(), columnName);
 	}
 
-	
-	//==================模仿 com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor.getAliasColumn
+	// ==================模仿
+	// com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor.getAliasColumn
 	/**
 	 * 根据当前表是否有别名，动态对字段名前添加表别名 eg. 表名： table_1 as t 原始字段：column1 返回： t.column1
 	 * @param tableName 表名
@@ -56,8 +56,7 @@ public final class SqlParseUtils {
 		}
 		columnBuilder.append(".").append(columnName);
 		return new Column(columnBuilder.toString());
-		
-	}
 
+	}
 
 }

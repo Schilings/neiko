@@ -1,11 +1,9 @@
 package com.schilings.neiko.common.security.constant;
 
-
 public interface UserAttributeNameConstants {
 
-
 	String USER_DETAILS = "userDetails";
-	
+
 	/**
 	 * 用户角色集合属性
 	 */

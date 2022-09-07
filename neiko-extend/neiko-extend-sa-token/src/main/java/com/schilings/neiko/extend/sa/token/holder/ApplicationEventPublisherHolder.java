@@ -18,18 +18,18 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * 
- * <p></p>
- * 
+ *
+ * <p>
+ * </p>
+ *
  * @author Schilings
-*/
+ */
 public class ApplicationEventPublisherHolder {
-	
 
 	public static void publishEvent(ApplicationEvent event) {
 		SpringUtils.publishEvent(event);
 	}
-	
+
 	public static void publishAuthenticationSuccessEvent(Map token) {
 		AuthenticationImpl authentication = new AuthenticationImpl();
 		authentication.setToken(token);

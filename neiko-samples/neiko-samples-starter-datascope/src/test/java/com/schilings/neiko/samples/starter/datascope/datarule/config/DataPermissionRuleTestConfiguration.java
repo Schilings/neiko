@@ -1,6 +1,5 @@
 package com.schilings.neiko.samples.starter.datascope.datarule.config;
 
-
 import com.schilings.neiko.common.datascope.DataScope;
 import com.schilings.neiko.samples.starter.datascope.datarule.datascope.ClassDataScope;
 import com.schilings.neiko.samples.starter.datascope.datarule.datascope.SchoolDataScope;
@@ -9,7 +8,6 @@ import com.schilings.neiko.samples.starter.datascope.datarule.service.StudentSer
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-
 
 @EnableAspectJAutoProxy
 @Configuration(proxyBeanMethods = false)

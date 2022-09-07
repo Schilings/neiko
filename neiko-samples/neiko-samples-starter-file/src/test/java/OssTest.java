@@ -14,52 +14,50 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
- * 
- * <p></p>
+ *
+ * <p>
+ * </p>
  * <img src="https://schilings-ballcat.oss-cn-shenzhen.aliyuncs.com/2.jpg"></img>
- * 
+ *
  * @author Schilings
-*/
+ */
 @SpringBootTest(classes = FileApplication.class)
 public class OssTest {
 
-    private static final File OPERATE_FILE = new File("E:\\PS files\\pic\\普通图\\1(1).jpg");
-    
-    
-    @Autowired
-    private OssClient ossClient;
+	private static final File OPERATE_FILE = new File("E:\\PS files\\pic\\普通图\\1(1).jpg");
 
-    
-    @Autowired
-    private FileClient fileClient;
+	@Autowired
+	private OssClient ossClient;
 
-    @Autowired
-    private FileService fileService;
+	@Autowired
+	private FileClient fileClient;
 
+	@Autowired
+	private FileService fileService;
 
-    @Test
-    public void testFileService() throws IOException {
-        FileInputStream inputStream = new FileInputStream(OPERATE_FILE);
-        StreamTemp temp = ossClient.getSize(inputStream);
-        fileService.upload(temp.getStream(), "1.jpg", temp.getSize());
-        
-    }
+	@Test
+	public void testFileService() throws IOException {
+		FileInputStream inputStream = new FileInputStream(OPERATE_FILE);
+		StreamTemp temp = ossClient.getSize(inputStream);
+		fileService.upload(temp.getStream(), "1.jpg", temp.getSize());
 
-    @Test
-    public void testFileClient() throws IOException {
-        FileInputStream inputStream = new FileInputStream(OPERATE_FILE);
-        fileClient.upload(inputStream, "2.jpg");
-    }
+	}
 
-    @Test
-    public void testOssClient() throws IOException {
-        FileInputStream inputStream = new FileInputStream(OPERATE_FILE);
-        final String relativePath = "2.jpg";
-        
-        ossClient.upload(inputStream, relativePath);
-        inputStream.close();
-        System.out.println(ossClient.getDownloadUrl(relativePath));
+	@Test
+	public void testFileClient() throws IOException {
+		FileInputStream inputStream = new FileInputStream(OPERATE_FILE);
+		fileClient.upload(inputStream, "2.jpg");
+	}
 
-    }
-        
+	@Test
+	public void testOssClient() throws IOException {
+		FileInputStream inputStream = new FileInputStream(OPERATE_FILE);
+		final String relativePath = "2.jpg";
+
+		ossClient.upload(inputStream, relativePath);
+		inputStream.close();
+		System.out.println(ossClient.getDownloadUrl(relativePath));
+
+	}
+
 }

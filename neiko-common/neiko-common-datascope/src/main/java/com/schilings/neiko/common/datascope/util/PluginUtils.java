@@ -32,7 +32,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <p>copy from Mybatis Plus</p>
+ * <p>
+ * copy from Mybatis Plus
+ * </p>
  * 插件工具类
  *
  * @author TaoYu , hubin

@@ -9,7 +9,6 @@ import com.schilings.neiko.extend.sa.token.core.StpOAuth2UserUtil;
 import com.schilings.neiko.extend.sa.token.oauth2.annotation.OAuth2CheckScope;
 import com.schilings.neiko.extend.sa.token.properties.ExtendSaTokenProperties;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 
@@ -24,9 +23,10 @@ import javax.annotation.PostConstruct;
  */
 @Configuration(proxyBeanMethods = false)
 @RequiredArgsConstructor
-public class ExtendAnnotationConfiguration {
+public class ExtendStrategyConfiguration {
 
 	private final ExtendSaTokenProperties extendSaTokenProperties;
+	
 
 	/**
 	 * 注入自定义Sa-Token校验逻辑StpOauth2Logic
@@ -35,6 +35,15 @@ public class ExtendAnnotationConfiguration {
 	public void putStpLogic() {
 		SaManager.putStpLogic(new StpOAuth2Logic(StpOAuth2UserUtil.TYPE));
 	}
+
+
+//	@PostConstruct
+//	public void rewriteCreateToken() {
+//		// 重写Sa-Token的注解处理器，增加注解合并功能
+//		SaStrategy.me.createToken = (loginId, loginType) -> {
+//			return null;
+//		};
+//	}
 
 	/**
 	 * 重写Sa-Token注解搜索逻辑
@@ -66,7 +75,7 @@ public class ExtendAnnotationConfiguration {
 					SaManager.getStpLogic(checkLogin.type()).checkByAnnotation(checkLogin);
 				}
 			}
-			
+
 			// 校验 @SaCheckRole 注解
 			if (extendSaTokenProperties.isCheckRole()) {
 				SaCheckRole checkRole = (SaCheckRole) SaStrategy.me.getAnnotation.apply(target, SaCheckRole.class);
@@ -74,7 +83,7 @@ public class ExtendAnnotationConfiguration {
 					SaManager.getStpLogic(checkRole.type()).checkByAnnotation(checkRole);
 				}
 			}
-			
+
 			// 校验 @SaCheckPermission 注解
 			if (extendSaTokenProperties.isCheckPermission()) {
 				SaCheckPermission checkPermission = (SaCheckPermission) SaStrategy.me.getAnnotation.apply(target,
@@ -83,7 +92,7 @@ public class ExtendAnnotationConfiguration {
 					SaManager.getStpLogic(checkPermission.type()).checkByAnnotation(checkPermission);
 				}
 			}
-			
+
 			// 校验 @SaCheckSafe 注解
 			if (extendSaTokenProperties.isCheckSafe()) {
 				SaCheckSafe checkSafe = (SaCheckSafe) SaStrategy.me.getAnnotation.apply(target, SaCheckSafe.class);
@@ -91,7 +100,7 @@ public class ExtendAnnotationConfiguration {
 					SaManager.getStpLogic(checkSafe.type()).checkByAnnotation(checkSafe);
 				}
 			}
-			
+
 			// 校验 @SaCheckBasic 注解
 			if (extendSaTokenProperties.isCheckBasic()) {
 				SaCheckBasic checkBasic = (SaCheckBasic) SaStrategy.me.getAnnotation.apply(target, SaCheckBasic.class);
@@ -99,7 +108,6 @@ public class ExtendAnnotationConfiguration {
 					SaBasicUtil.check(checkBasic.realm(), checkBasic.account());
 				}
 			}
-			
 			// 校验自定义 @Oauth2CheckScope 注解
 			if (extendSaTokenProperties.isCheckScope()) {
 				OAuth2CheckScope checkScope = (OAuth2CheckScope) SaStrategy.me.getAnnotation.apply(target,

@@ -23,9 +23,15 @@ import java.util.stream.Collectors;
 
 /**
  * <h1>一个与DataScope配合的JsqlParser</h1>
- * <p>模仿 {@link com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor}</p>
- * <p>充当如{@link com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor}的角色</p>
- * <p>但不与Mybatis Plus耦合</p>
+ * <p>
+ * 模仿 {@link com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor}
+ * </p>
+ * <p>
+ * 充当如{@link com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor}的角色
+ * </p>
+ * <p>
+ * 但不与Mybatis Plus耦合
+ * </p>
  * {@link com.baomidou.mybatisplus.extension.plugins.inner.DataPermissionInterceptor}
  * {@link com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor}
  * 数据权限 sql 处理器 参考 mybatis-plus 租户拦截器，解析 sql where 部分，进行查询表达式注入
@@ -56,8 +62,8 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 			DataScopeHolder.remove();
 		}
 	}
-	
-	//copy
+
+	// copy
 	protected void processSelectBody(SelectBody selectBody) {
 		if (selectBody == null) {
 			return;
@@ -123,7 +129,7 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 		}
 	}
 
-	//copy
+	// copy
 	/**
 	 * 处理 PlainSelect
 	 */
@@ -154,7 +160,8 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 			plainSelect.setWhere(injectExpression(where, mainTables));
 		}
 	}
-	//copy
+
+	// copy
 	private List<Table> processFromItem(FromItem fromItem) {
 		// 处理括号括起来的表达式
 		while (fromItem instanceof ParenthesisFromItem) {
@@ -179,7 +186,7 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 		return mainTables;
 	}
 
-	//copy
+	// copy
 	/**
 	 * 处理where条件内的子查询
 	 * <p>
@@ -229,7 +236,7 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 		}
 	}
 
-	//copy
+	// copy
 	protected void processSelectItem(SelectItem selectItem) {
 		if (selectItem instanceof SelectExpressionItem) {
 			SelectExpressionItem selectExpressionItem = (SelectExpressionItem) selectItem;
@@ -242,7 +249,7 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 		}
 	}
 
-	//copy
+	// copy
 	/**
 	 * 处理函数
 	 * <p>
@@ -267,7 +274,7 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 		}
 	}
 
-	//copy
+	// copy
 	/**
 	 * 处理子查询等
 	 */
@@ -297,7 +304,7 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 		}
 	}
 
-	//copy
+	// copy
 	/**
 	 * 处理 sub join
 	 * @param subJoin subJoin
@@ -313,7 +320,7 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 		return mainTables;
 	}
 
-	//copy
+	// copy
 	/**
 	 * 处理 joins
 	 * @param mainTables 可以为 null
@@ -425,8 +432,8 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 
 		return mainTables;
 	}
-	
-	//===============================================================================
+
+	// ===============================================================================
 	/**
 	 * 根据 DataScope ，将数据过滤的表达式注入原本的 where/or 条件
 	 * @param currentExpression Expression where/or
@@ -466,15 +473,13 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 			DataScopeMatchNumHolder.incrementMatchNumIfPresent();
 
 			// 获取到数据权限过滤的表达式
-			matchDataScopes.stream()
-					.map(x -> x.getExpression(tableName, table.getAlias()))
-					.filter(Objects::nonNull)
+			matchDataScopes.stream().map(x -> x.getExpression(tableName, table.getAlias())).filter(Objects::nonNull)
 					.reduce(AndExpression::new)
-					//收集起来
+					// 收集起来
 					.ifPresent(dataFilterExpressions::add);
 		}
-		
-		//无权限控制，直接返回
+
+		// 无权限控制，直接返回
 		if (dataFilterExpressions.isEmpty()) {
 			return currentExpression;
 		}

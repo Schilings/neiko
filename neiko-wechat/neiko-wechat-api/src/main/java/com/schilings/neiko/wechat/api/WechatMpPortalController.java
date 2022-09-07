@@ -17,88 +17,89 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "微信公众号菜单")
 public class WechatMpPortalController {
 
-    private final WxMpService wxService;
-    private final WxMpMessageRouter messageRouter;
+	private final WxMpService wxService;
 
-    @GetMapping(produces = "text/plain;charset=utf-8")
-    public String authGet(@PathVariable String appid,
-                          @RequestParam(name = "signature", required = false) String signature,
-                          @RequestParam(name = "timestamp", required = false) String timestamp,
-                          @RequestParam(name = "nonce", required = false) String nonce,
-                          @RequestParam(name = "echostr", required = false) String echostr) {
+	private final WxMpMessageRouter messageRouter;
 
-        log.info("\n接收到来自微信服务器的认证消息：[{}, {}, {}, {}]", signature,
-                timestamp, nonce, echostr);
-        if (StringUtils.isAnyBlank(signature, timestamp, nonce, echostr)) {
-            throw new IllegalArgumentException("请求参数非法，请核实!");
-        }
+	@GetMapping(produces = "text/plain;charset=utf-8")
+	public String authGet(@PathVariable String appid,
+			@RequestParam(name = "signature", required = false) String signature,
+			@RequestParam(name = "timestamp", required = false) String timestamp,
+			@RequestParam(name = "nonce", required = false) String nonce,
+			@RequestParam(name = "echostr", required = false) String echostr) {
 
-        if (!this.wxService.switchover(appid)) {
-            throw new IllegalArgumentException(String.format("未找到对应appid=[%s]的配置，请核实！", appid));
-        }
+		log.info("\n接收到来自微信服务器的认证消息：[{}, {}, {}, {}]", signature, timestamp, nonce, echostr);
+		if (StringUtils.isAnyBlank(signature, timestamp, nonce, echostr)) {
+			throw new IllegalArgumentException("请求参数非法，请核实!");
+		}
 
-        if (wxService.checkSignature(timestamp, nonce, signature)) {
-            return echostr;
-        }
+		if (!this.wxService.switchover(appid)) {
+			throw new IllegalArgumentException(String.format("未找到对应appid=[%s]的配置，请核实！", appid));
+		}
 
-        return "非法请求";
-    }
+		if (wxService.checkSignature(timestamp, nonce, signature)) {
+			return echostr;
+		}
 
-    @PostMapping(produces = "application/xml; charset=UTF-8")
-    public String post(@PathVariable String appid,
-                       @RequestBody String requestBody,
-                       @RequestParam("signature") String signature,
-                       @RequestParam("timestamp") String timestamp,
-                       @RequestParam("nonce") String nonce,
-                       @RequestParam("openid") String openid,
-                       @RequestParam(name = "encrypt_type", required = false) String encType,
-                       @RequestParam(name = "msg_signature", required = false) String msgSignature) {
-        log.info("\n接收微信请求：[openid=[{}], [signature=[{}], encType=[{}], msgSignature=[{}],"
-                        + " timestamp=[{}], nonce=[{}], requestBody=[\n{}\n] ",
-                openid, signature, encType, msgSignature, timestamp, nonce, requestBody);
+		return "非法请求";
+	}
 
-        if (!this.wxService.switchover(appid)) {
-            throw new IllegalArgumentException(String.format("未找到对应appid=[%s]的配置，请核实！", appid));
-        }
+	@PostMapping(produces = "application/xml; charset=UTF-8")
+	public String post(@PathVariable String appid, @RequestBody String requestBody,
+			@RequestParam("signature") String signature, @RequestParam("timestamp") String timestamp,
+			@RequestParam("nonce") String nonce, @RequestParam("openid") String openid,
+			@RequestParam(name = "encrypt_type", required = false) String encType,
+			@RequestParam(name = "msg_signature", required = false) String msgSignature) {
+		log.info(
+				"\n接收微信请求：[openid=[{}], [signature=[{}], encType=[{}], msgSignature=[{}],"
+						+ " timestamp=[{}], nonce=[{}], requestBody=[\n{}\n] ",
+				openid, signature, encType, msgSignature, timestamp, nonce, requestBody);
 
-        if (!wxService.checkSignature(timestamp, nonce, signature)) {
-            throw new IllegalArgumentException("非法请求，可能属于伪造的请求！");
-        }
+		if (!this.wxService.switchover(appid)) {
+			throw new IllegalArgumentException(String.format("未找到对应appid=[%s]的配置，请核实！", appid));
+		}
 
-        String out = null;
-        if (encType == null) {
-            // 明文传输的消息
-            WxMpXmlMessage inMessage = WxMpXmlMessage.fromXml(requestBody);
-            WxMpXmlOutMessage outMessage = this.route(inMessage);
-            if (outMessage == null) {
-                return "";
-            }
+		if (!wxService.checkSignature(timestamp, nonce, signature)) {
+			throw new IllegalArgumentException("非法请求，可能属于伪造的请求！");
+		}
 
-            out = outMessage.toXml();
-        } else if ("aes".equalsIgnoreCase(encType)) {
-            // aes加密的消息
-            WxMpXmlMessage inMessage = WxMpXmlMessage.fromEncryptedXml(requestBody, wxService.getWxMpConfigStorage(),
-                    timestamp, nonce, msgSignature);
-            log.debug("\n消息解密后内容为：\n{} ", inMessage.toString());
-            WxMpXmlOutMessage outMessage = this.route(inMessage);
-            if (outMessage == null) {
-                return "";
-            }
+		String out = null;
+		if (encType == null) {
+			// 明文传输的消息
+			WxMpXmlMessage inMessage = WxMpXmlMessage.fromXml(requestBody);
+			WxMpXmlOutMessage outMessage = this.route(inMessage);
+			if (outMessage == null) {
+				return "";
+			}
 
-            out = outMessage.toEncryptedXml(wxService.getWxMpConfigStorage());
-        }
+			out = outMessage.toXml();
+		}
+		else if ("aes".equalsIgnoreCase(encType)) {
+			// aes加密的消息
+			WxMpXmlMessage inMessage = WxMpXmlMessage.fromEncryptedXml(requestBody, wxService.getWxMpConfigStorage(),
+					timestamp, nonce, msgSignature);
+			log.debug("\n消息解密后内容为：\n{} ", inMessage.toString());
+			WxMpXmlOutMessage outMessage = this.route(inMessage);
+			if (outMessage == null) {
+				return "";
+			}
 
-        log.debug("\n组装回复信息：{}", out);
-        return out;
-    }
+			out = outMessage.toEncryptedXml(wxService.getWxMpConfigStorage());
+		}
 
-    private WxMpXmlOutMessage route(WxMpXmlMessage message) {
-        try {
-            return this.messageRouter.route(message);
-        } catch (Exception e) {
-            log.error("路由消息时出现异常！", e);
-        }
+		log.debug("\n组装回复信息：{}", out);
+		return out;
+	}
 
-        return null;
-    }
+	private WxMpXmlOutMessage route(WxMpXmlMessage message) {
+		try {
+			return this.messageRouter.route(message);
+		}
+		catch (Exception e) {
+			log.error("路由消息时出现异常！", e);
+		}
+
+		return null;
+	}
+
 }

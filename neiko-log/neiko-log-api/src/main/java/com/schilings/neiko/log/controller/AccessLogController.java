@@ -52,4 +52,5 @@ public class AccessLogController {
 	public List<AccessLogExcelVO> exportLoginLogList(AccessLogQO accessLogQO) {
 		return accessLogService.queryExcelList(accessLogQO);
 	}
+
 }

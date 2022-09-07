@@ -12,6 +12,9 @@
     
     
     <dependencies>
-        
+        <dependency>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-extend-sa-token</artifactId>
+        </dependency>
     </dependencies>
 </project>

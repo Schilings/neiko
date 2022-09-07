@@ -1,6 +1,5 @@
 package com.schilings.neiko.autoconfigure.job;
 
-
 import com.schilings.neiko.autoconfigure.job.properties.XxlExecutorProperties;
 import com.schilings.neiko.autoconfigure.job.properties.XxlJobProperties;
 import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;

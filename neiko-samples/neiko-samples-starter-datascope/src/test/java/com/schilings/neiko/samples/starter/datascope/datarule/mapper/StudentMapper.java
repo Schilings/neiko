@@ -1,6 +1,5 @@
 package com.schilings.neiko.samples.starter.datascope.datarule.mapper;
 
-
 import com.schilings.neiko.samples.starter.datascope.datarule.entity.Student;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

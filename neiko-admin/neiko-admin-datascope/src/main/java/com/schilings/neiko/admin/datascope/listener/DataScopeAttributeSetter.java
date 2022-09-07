@@ -1,6 +1,5 @@
 package com.schilings.neiko.admin.datascope.listener;
 
-
 import cn.dev33.satoken.SaManager;
 import com.schilings.neiko.admin.datascope.component.UserDataScope;
 import com.schilings.neiko.admin.datascope.component.UserDataScopeProcessor;
@@ -16,16 +15,17 @@ import org.springframework.context.event.EventListener;
 @RequiredArgsConstructor
 public class DataScopeAttributeSetter {
 
-    private final UserDataScopeProcessor dataScopeProcessor;
-    
-    @EventListener(value = AuthenticationSuccessEvent.class)
-    public void dataScopeAttributeSetter(AuthenticationSuccessEvent event) {
-        Authentication authentication = event.getAuthentication();
-        UserDetails userDetails = authentication.getUserDetails();
-        UserDataScope userDataScope = dataScopeProcessor.mergeScopeType(
-                (Long) StpOAuth2UserUtil.getLoginId(), SaManager.getStpInterface().getRoleList(userDetails.getUserId(), StpOAuth2UserUtil.getLoginType())
-        );
-        userDetails.getAttributes().put(UserAttributeNameConstants.USER_DATA_SCOPE, userDataScope);
-        RBACAuthorityHolder.setUserDetails(userDetails);
-    }
+	private final UserDataScopeProcessor dataScopeProcessor;
+
+	@EventListener(value = AuthenticationSuccessEvent.class)
+	public void dataScopeAttributeSetter(AuthenticationSuccessEvent event) {
+		Authentication authentication = event.getAuthentication();
+		UserDetails userDetails = authentication.getUserDetails();
+		UserDataScope userDataScope = dataScopeProcessor.mergeScopeType(
+				Long.valueOf((String) StpOAuth2UserUtil.getLoginId()),
+				SaManager.getStpInterface().getRoleList(userDetails.getUserId(), StpOAuth2UserUtil.getLoginType()));
+		userDetails.getAttributes().put(UserAttributeNameConstants.USER_DATA_SCOPE, userDataScope);
+		RBACAuthorityHolder.setUserDetails(userDetails);
+	}
+
 }

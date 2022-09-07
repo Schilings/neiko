@@ -1,6 +1,5 @@
 package com.schilings.neiko.samples.starter.datascope.datapermission;
 
-
 import com.schilings.neiko.common.datascope.advisor.DataPermissionAnnotationAdvisor;
 import com.schilings.neiko.common.datascope.core.DataPermissionRule;
 import com.schilings.neiko.common.datascope.core.DataPermissionRuleHolder;
@@ -9,8 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.aop.MethodMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-
-
 
 @SpringJUnitConfig({ DataPermissionTestConfiguration.class })
 class DataPermissionTest {

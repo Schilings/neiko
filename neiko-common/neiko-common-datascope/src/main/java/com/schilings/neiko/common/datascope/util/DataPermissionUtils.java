@@ -1,6 +1,5 @@
 package com.schilings.neiko.common.datascope.util;
 
-
 import com.schilings.neiko.common.datascope.function.Task;
 import com.schilings.neiko.common.datascope.core.DataPermissionRule;
 import com.schilings.neiko.common.datascope.core.DataPermissionRuleHolder;

@@ -13,22 +13,23 @@ import com.schilings.neiko.wechat.model.vo.WechatMpArticlePageVO;
 
 public interface WechatMpArticleMapper extends ExtendMapper<WechatMpArticle> {
 
-    /**
-     * 分页查询
-     * @param pageParam 分页参数
-     * @param qo 查询参数
-     * @return
-     */
-    default PageResult<WechatMpArticlePageVO> queryPage(PageParam pageParam, WechatMpArticleQO qo) {
-        IPage<WechatMpArticlePageVO> page = this.prodPage(pageParam);
-        NeikoLambdaQueryWrapper<Object> queryWrapper = WrappersX.lambdaQueryJoin()
-                .selectAll(WechatMpArticle.class)
-                .eq(WechatMpArticle::getDeleted, GlobalConstants.NOT_DELETED_FLAG)
-                .likeIfPresent(WechatMpArticle::getAuthor, qo.getAuthor())
-                .likeIfPresent(WechatMpArticle::getTitle, qo.getTitle())
-                .eqIfPresent(WechatMpArticle::getStatus, qo.getStatus())
-                .betweenIfPresent(WechatMpArticle::getCreateTime, qo.getStartTime(), qo.getEndTime());
-        IPage<WechatMpArticlePageVO> voPage = this.selectJoinPage(page, WechatMpArticlePageVO.class, AUTO_RESULT_MAP, queryWrapper);
-        return this.prodPage(voPage);
-    }
+	/**
+	 * 分页查询
+	 * @param pageParam 分页参数
+	 * @param qo 查询参数
+	 * @return
+	 */
+	default PageResult<WechatMpArticlePageVO> queryPage(PageParam pageParam, WechatMpArticleQO qo) {
+		IPage<WechatMpArticlePageVO> page = this.prodPage(pageParam);
+		NeikoLambdaQueryWrapper<Object> queryWrapper = WrappersX.lambdaQueryJoin().selectAll(WechatMpArticle.class)
+				.eq(WechatMpArticle::getDeleted, GlobalConstants.NOT_DELETED_FLAG)
+				.likeIfPresent(WechatMpArticle::getAuthor, qo.getAuthor())
+				.likeIfPresent(WechatMpArticle::getTitle, qo.getTitle())
+				.eqIfPresent(WechatMpArticle::getStatus, qo.getStatus())
+				.betweenIfPresent(WechatMpArticle::getCreateTime, qo.getStartTime(), qo.getEndTime());
+		IPage<WechatMpArticlePageVO> voPage = this.selectJoinPage(page, WechatMpArticlePageVO.class, AUTO_RESULT_MAP,
+				queryWrapper);
+		return this.prodPage(voPage);
+	}
+
 }

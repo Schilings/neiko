@@ -21,14 +21,20 @@ public class Oauth2Controller {
 
 	private final LoginService loginService;
 
-	@PostMapping("/oauth2/*")
-	@Operation(summary = "Oauth2认证登录", description = "Oauth2认证登录")
+	@PostMapping("/oauth2/token")
+	@Operation(summary = "Oauth2 认证登录")
 	public Object request(@RequestBody OAuth2RequestBody requestBody) {
 		return ExtendOAuth2Handler.serverRequest();
 	}
 
+	@PostMapping("/oauth2/check_token")
+	@Operation(summary = "Oauth2 Token自省")
+	public Object check_token(@RequestBody OAuth2RequestBody requestBody) {
+		return ExtendOAuth2Handler.serverRequest();
+	}
+
 	@GetMapping("/oauth2/logout")
-	@Operation(summary = "Oauth2注销登录", description = "Oauth2注销登录")
+	@Operation(summary = "Oauth2 注销登录")
 	public Object logout() {
 		String userId = (String) StpOAuth2UserUtil.getLoginId();
 		loginService.logout(userId);

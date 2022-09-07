@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
 @Service
 public class StudentService {
 
@@ -33,6 +32,7 @@ public class StudentService {
 	public List<Student> listStudentOnlyFilterClass() {
 		return studentMapper.listStudent();
 	}
+
 	/**
 	 * 指定数据权限维度
 	 * @return

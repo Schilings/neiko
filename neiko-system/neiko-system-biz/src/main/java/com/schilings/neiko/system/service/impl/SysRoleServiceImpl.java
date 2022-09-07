@@ -30,8 +30,7 @@ import java.util.List;
 public class SysRoleServiceImpl extends ExtendServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
 
 	private final EventBus eventBus;
-	
-	
+
 	private final SysRoleMenuService sysRoleMenuService;
 
 	/**

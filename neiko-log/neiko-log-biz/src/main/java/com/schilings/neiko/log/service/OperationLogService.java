@@ -25,12 +25,11 @@ public interface OperationLogService extends ExtendService<OperationLog> {
 
 	/**
 	 * 列表查询
-	 *
 	 * @param qo 查询对象
 	 * @return 结果数据 List
 	 */
 	List<OperationLogExcelVO> queryExcelList(OperationLogQO qo);
-	
+
 	/**
 	 * 异步保存操作日志
 	 * @param operationLog 操作日志

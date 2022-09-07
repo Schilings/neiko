@@ -48,7 +48,8 @@ public class LoginServiceImpl implements LoginService {
 					&& passwordChecker.check(password, userDetails.getPassword(), userDetails.getSalt())) {
 				StpOAuth2UserUtil.login(userDetails.getUserId());
 				RBACAuthorityHolder.setUserDetails(userDetails.getUserId(), userDetails);
-				RBACAuthorityHolder.setRoles(userDetails.getUserId(), userDetails.getRoles().stream().map(RoleAuthority::getRole).collect(Collectors.toList()));
+				RBACAuthorityHolder.setRoles(userDetails.getUserId(),
+						userDetails.getRoles().stream().map(RoleAuthority::getRole).collect(Collectors.toList()));
 				return R.ok();
 			}
 		}

@@ -36,18 +36,16 @@ public interface LoginLogMapper extends ExtendMapper<LoginLog> {
 		return this.prodPage(voPage);
 	}
 
-
 	/**
 	 * 列表查询
 	 * @param qo 查询对象
 	 * @return 结果数据 List
 	 */
 	default List<LoginLogExcelVO> queryExcelList(LoginLogQO qo) {
-		NeikoLambdaQueryWrapper<LoginLog> queryWrapper = WrappersX.<LoginLog>lambdaQueryJoin()
-				.selectAll(LoginLog.class).eqIfPresent(LoginLog::getUsername, qo.getUsername())
-				.eqIfPresent(LoginLog::getTraceId, qo.getTraceId()).eqIfPresent(LoginLog::getIp, qo.getIp())
-				.eqIfPresent(LoginLog::getEventType, qo.getEventType()).eqIfPresent(LoginLog::getStatus, qo.getStatus())
-				.gtIfPresent(LoginLog::getLoginTime, qo.getStartTime())
+		NeikoLambdaQueryWrapper<LoginLog> queryWrapper = WrappersX.<LoginLog>lambdaQueryJoin().selectAll(LoginLog.class)
+				.eqIfPresent(LoginLog::getUsername, qo.getUsername()).eqIfPresent(LoginLog::getTraceId, qo.getTraceId())
+				.eqIfPresent(LoginLog::getIp, qo.getIp()).eqIfPresent(LoginLog::getEventType, qo.getEventType())
+				.eqIfPresent(LoginLog::getStatus, qo.getStatus()).gtIfPresent(LoginLog::getLoginTime, qo.getStartTime())
 				.ltIfPresent(LoginLog::getLoginTime, qo.getEndTime());
 		return this.selectJoinList(LoginLogExcelVO.class, AUTO_RESULT_MAP, queryWrapper);
 	}
