@@ -1,6 +1,5 @@
 package com.schilings.neiko.log.handler;
 
-
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import com.schilings.neiko.common.log.constants.LogConstant;
@@ -37,6 +36,7 @@ public class LoginLogHandler {
 	 * 登陆成功时间监听 记录用户登录日志
 	 * @param event 登陆成功 event
 	 */
+	@Async
 	@EventListener(AuthenticationSuccessEvent.class)
 	public void onAuthenticationSuccessEvent(AuthenticationSuccessEvent event) {
 
@@ -59,6 +59,7 @@ public class LoginLogHandler {
 	 * 注销成功事件
 	 * @param event
 	 */
+	@Async
 	@EventListener(LogoutSuccessEvent.class)
 	public void onLogoutSuccessEvent(LogoutSuccessEvent event) {
 		Authentication source = (Authentication) event.getSource();
@@ -70,6 +71,7 @@ public class LoginLogHandler {
 	 * 监听鉴权失败事件
 	 * @param event the event
 	 */
+	@Async
 	@EventListener(AbstractAuthenticationFailureEvent.class)
 	public void onAuthenticationFailureEvent(AbstractAuthenticationFailureEvent event) {
 
@@ -83,10 +85,8 @@ public class LoginLogHandler {
 	private LoginLog prodLoginLog(Authentication source) {
 		// 获取 Request
 		HttpServletRequest request = WebUtils.getRequest();
-		LoginLog loginLog = new LoginLog().setLoginTime(LocalDateTime.now())
-				.setIp(IpUtils.getIpAddr(request))
-				.setStatus(LogStatusEnum.SUCCESS.getValue())
-				.setTraceId(MDC.get(LogConstant.TRACE_ID))
+		LoginLog loginLog = new LoginLog().setLoginTime(LocalDateTime.now()).setIp(IpUtils.getIpAddr(request))
+				.setStatus(LogStatusEnum.SUCCESS.getValue()).setTraceId(MDC.get(LogConstant.TRACE_ID))
 				.setUsername(source.getUserDetails().getUsername());
 		// 根据 ua 获取浏览器和操作系统
 		UserAgent ua = UserAgentUtil.parse(request.getHeader("user-agent"));

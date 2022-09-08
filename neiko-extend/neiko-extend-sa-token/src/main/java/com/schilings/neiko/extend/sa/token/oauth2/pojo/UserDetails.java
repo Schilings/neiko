@@ -43,7 +43,6 @@ public interface UserDetails extends Serializable {
 	 * @return
 	 */
 	String getSalt();
-	
 
 	/**
 	 * 返回用户的权限标识符

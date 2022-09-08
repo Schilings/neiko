@@ -90,7 +90,6 @@ public class AuthHandlerExceptionResolver {
 		return R.fail(SystemResultCode.BAD_REQUEST, exception.getMessage());
 	}
 
-
 	/**
 	 * SecurityException错误
 	 * @param exception

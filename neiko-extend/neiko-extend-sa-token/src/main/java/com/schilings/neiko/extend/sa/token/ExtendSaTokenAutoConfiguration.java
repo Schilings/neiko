@@ -29,7 +29,6 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(ExtendSaTokenProperties.class)
 public class ExtendSaTokenAutoConfiguration {
 
-
 	/**
 	 * 处理权限变更等事件的事件监听器
 	 * @return
@@ -50,7 +49,6 @@ public class ExtendSaTokenAutoConfiguration {
 		return new RBACAuthorityHolder();
 	}
 
-	
 	/**
 	 * Sa-Token自定义Redis实现Dao
 	 * @return
@@ -61,6 +59,5 @@ public class ExtendSaTokenAutoConfiguration {
 	public SaTokenDao redisSaTokenDao() {
 		return new RedisSaTokenDao();
 	}
-
 
 }

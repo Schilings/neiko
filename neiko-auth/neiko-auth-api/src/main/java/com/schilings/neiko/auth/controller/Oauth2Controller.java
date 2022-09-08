@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Oauth2User认证模块")
 public class Oauth2Controller {
 
-
 	@PostMapping("/oauth2/token")
 	@Operation(summary = "Oauth2 认证登录")
 	public Object request(@RequestBody OAuth2RequestBody requestBody) {

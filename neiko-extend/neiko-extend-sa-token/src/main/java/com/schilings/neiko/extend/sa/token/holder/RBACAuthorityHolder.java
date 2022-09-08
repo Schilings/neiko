@@ -23,54 +23,48 @@ public class RBACAuthorityHolder {
 	private static final String ROLES = "auth:roles:";
 
 	private static final String PERMISSIONS = "auth:permissions:";
-	
 
 	public static void deleteUserDetails(String userId) {
-		StpOAuth2UserUtil.getSessionByLoginId(userId)
-				.delete(UserAttributeNameConstants.USER_DETAILS);
+		StpOAuth2UserUtil.getSessionByLoginId(userId).delete(UserAttributeNameConstants.USER_DETAILS);
 	}
 
 	public static void deleteRoles(String userId) {
-		SaSessionCustomUtil.getSessionById(ROLES + userId)
-				.delete(UserAttributeNameConstants.ROLE_CODES);
+		SaSessionCustomUtil.getSessionById(ROLES + userId).delete(UserAttributeNameConstants.ROLE_CODES);
 	}
 
 	public static void deletePermissions(String roleCode) {
-		SaSessionCustomUtil.getSessionById(PERMISSIONS + roleCode)
-				.delete(UserAttributeNameConstants.PERMISSIONS);
+		SaSessionCustomUtil.getSessionById(PERMISSIONS + roleCode).delete(UserAttributeNameConstants.PERMISSIONS);
 	}
 
 	public static <T extends UserDetails> void setUserDetails(String userId, T userDetails) {
-		StpOAuth2UserUtil.getSessionByLoginId(userId)
-				.set(UserAttributeNameConstants.USER_DETAILS, userDetails);
+		StpOAuth2UserUtil.getSessionByLoginId(userId).set(UserAttributeNameConstants.USER_DETAILS, userDetails);
 	}
 
 	public static <T extends UserDetails> void setUserDetails(T userDetails) {
-		StpOAuth2UserUtil.getSession()
-				.set(UserAttributeNameConstants.USER_DETAILS, userDetails);
+		StpOAuth2UserUtil.getSession().set(UserAttributeNameConstants.USER_DETAILS, userDetails);
 	}
 
 	public static void setRoles(String userId, List<String> roles) {
 		// 放置于公共缓存
 		if (CollectionUtils.isEmpty(roles)) {
-			SaSessionCustomUtil.getSessionById(ROLES + userId)
-					.set(UserAttributeNameConstants.ROLE_CODES, NULL_VALUE);
-		} else {
-			SaSessionCustomUtil.getSessionById(ROLES + userId)
-					.set(UserAttributeNameConstants.ROLE_CODES, roles);
-		} 
+			SaSessionCustomUtil.getSessionById(ROLES + userId).set(UserAttributeNameConstants.ROLE_CODES, NULL_VALUE);
+		}
+		else {
+			SaSessionCustomUtil.getSessionById(ROLES + userId).set(UserAttributeNameConstants.ROLE_CODES, roles);
+		}
 
 	}
 
 	public static void setPermissions(String roleCode, List<String> permissions) {
 		// 放置于公共缓存
 		if (CollectionUtils.isEmpty(permissions)) {
-			SaSessionCustomUtil.getSessionById(PERMISSIONS + roleCode)
-					.set(UserAttributeNameConstants.PERMISSIONS, NULL_VALUE);
-		} else {
-			SaSessionCustomUtil.getSessionById(PERMISSIONS + roleCode)
-					.set(UserAttributeNameConstants.PERMISSIONS, permissions);
-		} 
+			SaSessionCustomUtil.getSessionById(PERMISSIONS + roleCode).set(UserAttributeNameConstants.PERMISSIONS,
+					NULL_VALUE);
+		}
+		else {
+			SaSessionCustomUtil.getSessionById(PERMISSIONS + roleCode).set(UserAttributeNameConstants.PERMISSIONS,
+					permissions);
+		}
 
 	}
 

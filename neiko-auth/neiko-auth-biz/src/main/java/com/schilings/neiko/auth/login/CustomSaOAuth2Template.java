@@ -31,8 +31,7 @@ public class CustomSaOAuth2Template extends ExtendSaOAuth2Template {
 	private final PasswordChecker passwordChecker;
 
 	private final OpenClientChecker openClientChecker;
-	
-	
+
 	// ------------------- 资源校验API-------------------
 
 	/**

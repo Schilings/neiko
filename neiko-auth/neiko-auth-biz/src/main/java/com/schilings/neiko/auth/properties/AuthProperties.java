@@ -21,7 +21,7 @@ public class AuthProperties {
 	 * 前后端交互使用的AES对称加密算法的密钥，建议使用ASE对秘钥双重加密得到的 16 位字符
 	 */
 	private String aesSecretKey;
-	
+
 	/**
 	 * 开放客户端，该客户端免access_token验证
 	 */

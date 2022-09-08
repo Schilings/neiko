@@ -1,6 +1,5 @@
 package com.schilings.neiko.extend.sa.token.oauth2.component;
 
-
 public interface LoginService {
 
 	default Object notLoginView() {
@@ -11,7 +10,6 @@ public interface LoginService {
 		return null;
 	}
 
-	
 	/**
 	 * 密码式（Password）登录
 	 * @param username 前端请求进来的username
@@ -22,7 +20,5 @@ public interface LoginService {
 		// do nothing
 		return null;
 	}
-
-
 
 }

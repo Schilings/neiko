@@ -116,14 +116,16 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 
 		// 设置权限列表（permission）
 		List<SysMenu> menus = sysMenuService.list();
-		List<String> permissions = menus.stream().map(SysMenu::getPermission).filter(StrUtil::isNotEmpty).collect(Collectors.toList());
-//		for (String roleCode : roleCodes) {
-//			List<SysMenu> sysMenuList = sysRoleMenuService.listMenus(roleCode);
-//			menus.addAll(sysMenuList);
-//			List<String> permissionList = sysMenuList.stream().map(SysMenu::getPermission).filter(StrUtil::isNotEmpty)
-//					.collect(Collectors.toList());
-//			permissions.addAll(permissionList);
-//		}
+		List<String> permissions = menus.stream().map(SysMenu::getPermission).filter(StrUtil::isNotEmpty)
+				.collect(Collectors.toList());
+		// for (String roleCode : roleCodes) {
+		// List<SysMenu> sysMenuList = sysRoleMenuService.listMenus(roleCode);
+		// menus.addAll(sysMenuList);
+		// List<String> permissionList =
+		// sysMenuList.stream().map(SysMenu::getPermission).filter(StrUtil::isNotEmpty)
+		// .collect(Collectors.toList());
+		// permissions.addAll(permissionList);
+		// }
 		userInfoDTO.setMenus(menus);
 		userInfoDTO.setPermissions(permissions);
 

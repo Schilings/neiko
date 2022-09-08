@@ -54,7 +54,8 @@ public class ApplicationEventPublisherHolder {
 		publishEvent(new RoleAuthorityChangedEvent(userIds));
 	}
 
-	public static void publisbAuthorityInitEvent(Object loginId,String loginType,String tokenValue) {
-		publishEvent( new AuthorityInitEvent(loginId,loginType,tokenValue));
+	public static void publisbAuthorityInitEvent(Object loginId, String loginType, String tokenValue) {
+		publishEvent(new AuthorityInitEvent(loginId, loginType, tokenValue));
 	}
+
 }

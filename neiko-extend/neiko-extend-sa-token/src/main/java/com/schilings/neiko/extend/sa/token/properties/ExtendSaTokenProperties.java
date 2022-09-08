@@ -13,5 +13,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 @ConfigurationProperties(prefix = "neiko.sa-token")
 public class ExtendSaTokenProperties {
-	
+
 }

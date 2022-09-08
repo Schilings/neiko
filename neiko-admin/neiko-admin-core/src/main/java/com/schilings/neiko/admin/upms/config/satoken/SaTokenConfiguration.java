@@ -42,7 +42,7 @@ public class SaTokenConfiguration {
 	public StpInterface stpInterfaceImpl(SysUserRoleService sysUserRoleService, SysRoleMenuService sysRoleMenuService) {
 		return new StpInterfaceImpl(sysUserRoleService, sysRoleMenuService);
 	}
-	
+
 	/**
 	 * Sa-Token异常处理
 	 * @return
@@ -52,6 +52,5 @@ public class SaTokenConfiguration {
 	public AuthHandlerExceptionResolver authHandlerExceptionResolver() {
 		return new AuthHandlerExceptionResolver();
 	}
-	
 
 }

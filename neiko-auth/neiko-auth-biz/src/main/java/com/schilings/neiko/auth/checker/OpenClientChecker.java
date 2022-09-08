@@ -11,5 +11,5 @@ package com.schilings.neiko.auth.checker;
 public interface OpenClientChecker {
 
 	boolean isOpenByClientId(String clientId);
-	
+
 }

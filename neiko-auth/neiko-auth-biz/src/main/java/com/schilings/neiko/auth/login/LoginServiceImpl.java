@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 public class LoginServiceImpl implements LoginService {
 
 	private final PasswordChecker passwordChecker;
-	
 
 	/**
 	 * 密码式（Password）登录
@@ -54,7 +53,5 @@ public class LoginServiceImpl implements LoginService {
 		}
 		return R.fail(SystemResultCode.BAD_REQUEST, "账号名或密码错误");
 	}
-
-
 
 }

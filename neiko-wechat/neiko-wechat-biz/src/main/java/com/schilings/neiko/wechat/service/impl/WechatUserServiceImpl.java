@@ -106,7 +106,7 @@ public class WechatUserServiceImpl extends ExtendServiceImpl<WechatUserMapper, W
 				wxUser = new WechatUser();
 				wxUser.setSubscribeNum(1);
 			}
-			SubscribeHandler.setWxUserValue(wxUser, wxMpUser);
+			//SubscribeHandler.setWxUserValue(wxUser, wxMpUser);
 			listWxUser.add(wxUser);
 		});
 		this.saveOrUpdateBatch(listWxUser);

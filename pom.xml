@@ -21,6 +21,7 @@
         <module>neiko-log</module>
         <module>neiko-notify</module>
         <module>neiko-wechat</module>
+        <module>neiko-service</module>
     </modules>
 
     <properties>

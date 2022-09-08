@@ -83,7 +83,7 @@ public class UserDeatailsImpl implements UserDetails {
 	public Set<String> getPermissionSet() {
 		return permissionSet;
 	}
-	
+
 	@Override
 	@JsonIgnore
 	public Collection<String> getPermissions() {
@@ -95,7 +95,7 @@ public class UserDeatailsImpl implements UserDetails {
 	public Collection<String> getRoles() {
 		return roleSet;
 	}
-	
+
 	@Override
 	public Map<String, Object> getAttributes() {
 		return attributes;

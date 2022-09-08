@@ -91,16 +91,16 @@ public class ExtendOAuth2Handler {
 		if (req.isPath(SaOAuth2Consts.Api.revoke)) {
 			return revokeToken(req);
 		}
-//
-//		// doLogin 登录接口
-//		if (req.isPath(SaOAuth2Consts.Api.doLogin)) {
-//			return doLogin(req, res, cfg);
-//		}
-//
-//		// doConfirm 确认授权接口
-//		if (req.isPath(SaOAuth2Consts.Api.doConfirm)) {
-//			return doConfirm(req);
-//		}
+		//
+		// // doLogin 登录接口
+		// if (req.isPath(SaOAuth2Consts.Api.doLogin)) {
+		// return doLogin(req, res, cfg);
+		// }
+		//
+		// // doConfirm 确认授权接口
+		// if (req.isPath(SaOAuth2Consts.Api.doConfirm)) {
+		// return doConfirm(req);
+		// }
 
 		// 模式二：隐藏式
 		if (req.isPath(SaOAuth2Consts.Api.authorize)
@@ -234,9 +234,10 @@ public class ExtendOAuth2Handler {
 		// 8、Token拓展
 		Map<String, Object> map = at.toLineMap();
 		map.put(SaOAuth2Consts.Param.grant_type, SaOAuth2Consts.GrantType.password);// 授权方式
-		//map.put(SecurityConstants.ResponseType.token, StpOAuth2UserUtil.getTokenInfo());// 系统登录Token
+		// map.put(SecurityConstants.ResponseType.token,
+		// StpOAuth2UserUtil.getTokenInfo());// 系统登录Token
 		map = enhanceToken(map);
-		
+
 		// 9、发布登录成功事件
 		ApplicationEventPublisherHolder.publishAuthenticationSuccessEvent(map);
 		// 10、返回 Access-Token

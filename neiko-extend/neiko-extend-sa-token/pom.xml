@@ -37,10 +37,10 @@
             <artifactId>hutool-jwt</artifactId>
         </dependency>
         <!-- Sa-Token整合SpringAOP实现注解鉴权 -->
-        <dependency>
-            <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-spring-aop</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>cn.dev33</groupId>-->
+<!--            <artifactId>sa-token-spring-aop</artifactId>-->
+<!--        </dependency>-->
 
 
         <dependency>

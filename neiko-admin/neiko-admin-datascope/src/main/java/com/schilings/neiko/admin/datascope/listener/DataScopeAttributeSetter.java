@@ -1,6 +1,5 @@
 package com.schilings.neiko.admin.datascope.listener;
 
-import cn.dev33.satoken.SaManager;
 import com.schilings.neiko.admin.datascope.component.UserDataScope;
 import com.schilings.neiko.admin.datascope.component.UserDataScopeProcessor;
 import com.schilings.neiko.common.security.constant.UserAttributeNameConstants;
@@ -23,9 +22,8 @@ public class DataScopeAttributeSetter {
 	public void dataScopeAttributeSetter(AuthenticationSuccessEvent event) {
 		Authentication authentication = event.getAuthentication();
 		UserDetails userDetails = authentication.getUserDetails();
-		UserDataScope userDataScope = dataScopeProcessor.mergeScopeType(
-				Long.valueOf(userDetails.getUserId()),
-				SaManager.getStpInterface().getRoleList(userDetails.getUserId(), StpOAuth2UserUtil.getLoginType()));
+		UserDataScope userDataScope = dataScopeProcessor.mergeScopeType(Long.valueOf(userDetails.getUserId()),
+				StpOAuth2UserUtil.getRoleList(userDetails.getUserId()));
 		userDetails.getAttributes().put(UserAttributeNameConstants.USER_DATA_SCOPE, userDataScope);
 		RBACAuthorityHolder.setUserDetails(userDetails.getUserId(), userDetails);
 	}
