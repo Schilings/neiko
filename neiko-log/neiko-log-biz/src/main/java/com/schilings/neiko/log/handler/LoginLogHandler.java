@@ -1,6 +1,6 @@
 package com.schilings.neiko.log.handler;
 
-import cn.dev33.satoken.exception.SaTokenException;
+
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import com.schilings.neiko.common.log.constants.LogConstant;
@@ -18,6 +18,7 @@ import com.schilings.neiko.log.service.LoginLogService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.MDC;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -71,10 +72,7 @@ public class LoginLogHandler {
 	 */
 	@EventListener(AbstractAuthenticationFailureEvent.class)
 	public void onAuthenticationFailureEvent(AbstractAuthenticationFailureEvent event) {
-		Authentication source = (Authentication) event.getSource();
-		LoginLog loginLog = prodLoginLog(source).setMsg(event.getException().getMessage())
-				.setEventType(LoginEventTypeEnum.LOGIN.getValue()).setStatus(LogStatusEnum.FAIL.getValue());
-		loginLogService.save(loginLog);
+
 	}
 
 	/**
@@ -85,8 +83,10 @@ public class LoginLogHandler {
 	private LoginLog prodLoginLog(Authentication source) {
 		// 获取 Request
 		HttpServletRequest request = WebUtils.getRequest();
-		LoginLog loginLog = new LoginLog().setLoginTime(LocalDateTime.now()).setIp(IpUtils.getIpAddr(request))
-				.setStatus(LogStatusEnum.SUCCESS.getValue()).setTraceId(MDC.get(LogConstant.TRACE_ID))
+		LoginLog loginLog = new LoginLog().setLoginTime(LocalDateTime.now())
+				.setIp(IpUtils.getIpAddr(request))
+				.setStatus(LogStatusEnum.SUCCESS.getValue())
+				.setTraceId(MDC.get(LogConstant.TRACE_ID))
 				.setUsername(source.getUserDetails().getUsername());
 		// 根据 ua 获取浏览器和操作系统
 		UserAgent ua = UserAgentUtil.parse(request.getHeader("user-agent"));

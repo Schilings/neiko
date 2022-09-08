@@ -1,7 +1,12 @@
 package com.schilings.neiko.extend.sa.token;
 
 import cn.dev33.satoken.config.SaTokenConfig;
+import cn.dev33.satoken.listener.SaTokenListener;
 import cn.dev33.satoken.oauth2.config.SaOAuth2Config;
+import cn.dev33.satoken.oauth2.logic.SaOAuth2Template;
+import com.schilings.neiko.common.security.constant.SecurityConstants;
+import com.schilings.neiko.extend.sa.token.bean.ExtendSaOAuth2Template;
+import com.schilings.neiko.extend.sa.token.bean.ExtendSaTokenListener;
 import com.schilings.neiko.extend.sa.token.holder.ExtendComponentHolder;
 import com.schilings.neiko.extend.sa.token.oauth2.component.*;
 import com.schilings.neiko.extend.sa.token.oauth2.filter.ExtendOAuth2RequestFilter;
@@ -45,21 +50,6 @@ public class OAuth2AuthorizationServerConfiguration {
 
     private final SaOAuth2Config saOAuth2Config;
 
-
-    /**
-     * 对Oauth2请求的过滤器
-     * @return
-     */
-    @Bean
-    @ConditionalOnMissingBean(ExtendOAuth2RequestFilter.class)
-    @ConditionalOnProperty(name = "neiko.sa-token.enforce-json-filter", havingValue = "true")
-    public FilterRegistrationBean<ExtendOAuth2RequestFilter> extendFilterRegistrationBean() {
-        FilterRegistrationBean<ExtendOAuth2RequestFilter> registrationBean = new FilterRegistrationBean<>(
-                new ExtendOAuth2RequestFilter());
-        registrationBean.addUrlPatterns("/oauth2/*");
-        return registrationBean;
-    }
-
     @PostConstruct
     public void initSaTokenConfig() {
         // ========Sa-Token
@@ -69,6 +59,7 @@ public class OAuth2AuthorizationServerConfiguration {
         saTokenConfig.setIsReadHead(true);
         // 限制token生成策略
         saTokenConfig.setTokenStyle("random-64");
+        saTokenConfig.setTokenName(SecurityConstants.Param.access_token);
 
         // =======OAuth2
         // 提供的oauth2认证流程，暂只适用password和refresh_token
@@ -78,7 +69,7 @@ public class OAuth2AuthorizationServerConfiguration {
         saOAuth2Config.setIsImplicit(false);
         saOAuth2Config.setIsClient(false);
         // LoginService
-        saOAuth2Config.setDoLoginHandle(loginService::passwordLogin);// 登录处理函数
+        saOAuth2Config.setDoLoginHandle(loginService::login);// 登录处理函数
     }
 
     @PostConstruct
@@ -90,5 +81,42 @@ public class OAuth2AuthorizationServerConfiguration {
         ExtendComponentHolder.setClientDetailsService(clientDetailsService);
 
     }
+
+    /**
+     * 对Oauth2请求的过滤器
+     * @return
+     */
+    @Bean
+    @ConditionalOnMissingBean(ExtendOAuth2RequestFilter.class)
+    @ConditionalOnProperty(name = "neiko.sa-token.oauth2.authorization-server.enforce-json-filter", havingValue = "true")
+    public FilterRegistrationBean<ExtendOAuth2RequestFilter> extendFilterRegistrationBean() {
+        FilterRegistrationBean<ExtendOAuth2RequestFilter> registrationBean = new FilterRegistrationBean<>(
+                new ExtendOAuth2RequestFilter());
+        registrationBean.addUrlPatterns("/oauth2/*");
+        return registrationBean;
+    }
+
+    /**
+     * Sa-Token 侦听器
+     * @return
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    public SaTokenListener extendTokenListener() {
+        return new ExtendSaTokenListener();
+    }
+
+    /**
+     * Sa-Token-OAuth2 模块 
+     * @return
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    public SaOAuth2Template extendSaOAuth2Template() {
+        return new ExtendSaOAuth2Template();
+    }
+    
+    
+
 
 }

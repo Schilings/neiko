@@ -10,9 +10,9 @@ import org.springframework.context.ApplicationEvent;
  *
  * @author Schilings
  */
-public abstract class AuthorityChangedEvent extends ApplicationEvent {
+public abstract class AuthorityEvent extends ApplicationEvent {
 
-	public AuthorityChangedEvent(Object source) {
+	public AuthorityEvent(Object source) {
 		super(source);
 	}
 

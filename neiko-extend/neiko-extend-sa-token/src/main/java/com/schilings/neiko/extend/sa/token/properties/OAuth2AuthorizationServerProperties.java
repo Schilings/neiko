@@ -22,5 +22,10 @@ public class OAuth2AuthorizationServerProperties {
      * 登陆验证码开关
      */
     private boolean loginCaptchaEnabled = true;
+    
+    /**
+     * 是否开启对/oauth2/*路径请求的强制要求Post+Json
+     */
+    private boolean enforceJsonFilter = true;
 
 }

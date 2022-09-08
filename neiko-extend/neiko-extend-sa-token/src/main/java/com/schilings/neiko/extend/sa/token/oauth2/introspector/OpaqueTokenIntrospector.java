@@ -1,4 +1,6 @@
-package com.schilings.neiko.extend.sa.token.oauth2.component;
+package com.schilings.neiko.extend.sa.token.oauth2.introspector;
+
+import com.schilings.neiko.extend.sa.token.oauth2.pojo.Authentication;
 
 import java.util.Map;
 
@@ -26,5 +28,5 @@ public interface OpaqueTokenIntrospector {
      * @param token the token to introspect
      * @return the token's attributes
      */
-    Object introspect(String token);
+    Authentication introspect(String accessToken);
 }

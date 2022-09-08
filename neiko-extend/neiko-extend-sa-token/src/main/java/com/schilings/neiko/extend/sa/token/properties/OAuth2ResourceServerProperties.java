@@ -27,6 +27,24 @@ public class OAuth2ResourceServerProperties {
     private List<String> ignoreUrls = new ArrayList<>();
 
     /**
+     * 是否强制关闭注解鉴权
+     */
+    private boolean enforceCancelAuthenticate = false;
+
+    private boolean checkLogin = true;
+
+    private boolean checkRole = true;
+
+    private boolean checkPermission = true;
+
+    private boolean checkSafe = true;
+
+    private boolean checkBasic = true;
+
+    private boolean checkScope = true;
+
+
+    /**
      * 是否禁止嵌入iframe
      */
     private boolean iframeDeny = true;

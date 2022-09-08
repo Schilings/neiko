@@ -11,21 +11,23 @@ import com.schilings.neiko.extend.sa.token.oauth2.pojo.Authentication;
 import com.schilings.neiko.extend.sa.token.oauth2.pojo.UserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 
 @RequiredArgsConstructor
 public class DataScopeAttributeSetter {
 
 	private final UserDataScopeProcessor dataScopeProcessor;
 
+	@Async
 	@EventListener(value = AuthenticationSuccessEvent.class)
 	public void dataScopeAttributeSetter(AuthenticationSuccessEvent event) {
 		Authentication authentication = event.getAuthentication();
 		UserDetails userDetails = authentication.getUserDetails();
 		UserDataScope userDataScope = dataScopeProcessor.mergeScopeType(
-				Long.valueOf((String) StpOAuth2UserUtil.getLoginId()),
+				Long.valueOf(userDetails.getUserId()),
 				SaManager.getStpInterface().getRoleList(userDetails.getUserId(), StpOAuth2UserUtil.getLoginType()));
 		userDetails.getAttributes().put(UserAttributeNameConstants.USER_DATA_SCOPE, userDataScope);
-		RBACAuthorityHolder.setUserDetails(userDetails);
+		RBACAuthorityHolder.setUserDetails(userDetails.getUserId(), userDetails);
 	}
 
 }

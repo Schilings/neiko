@@ -15,7 +15,7 @@ import java.util.Collection;
  */
 @Getter
 @Setter
-public class RoleAuthorityChangedEvent extends AuthorityChangedEvent {
+public class RoleAuthorityChangedEvent extends AuthorityEvent {
 
 	private final Collection<String> userId;
 

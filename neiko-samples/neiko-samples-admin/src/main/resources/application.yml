@@ -5,22 +5,8 @@ neiko:
   auth:
     open-client: 
       client-id: 1001
-      access-token: access_token
     enable-aes: false
     aes-secret-key: 'HX19ChxGmts3l/KkHnWmiw=='
-    ignore-urls: 
-      - /public/**
-      - /actuator/**
-      - /doc.html
-      - /v2/api-docs/**
-      - /v3/api-docs/**
-      - /swagger-resources/**
-      - /swagger-ui/**
-      - /swagger-ui.html
-      - /webjars/**
-      - /bycdao-ui/**
-      - /favicon.ico
-      - /captcha/**
   system:
     administrator:
       user-id: 1
@@ -35,9 +21,26 @@ neiko:
         - /ws/**
         - /**
   sa-token:
-    enforce-json-filter: true
-    enforce-cancel-authenticate: false
-    check-login: true
+    oauth2:
+      authorization-server:
+        login-captcha-enabled: false
+        enforce-json-filter: true
+      resource-server:
+        enforce-cancel-authenticate: false
+        ignore-urls:
+          - /public/**
+          - /ws/**
+          - /actuator/**
+          - /doc.html
+          - /v2/api-docs/**
+          - /v3/api-docs/**
+          - /swagger-resources/**
+          - /swagger-ui/**
+          - /swagger-ui.html
+          - /webjars/**
+          - /bycdao-ui/**
+          - /favicon.ico
+          - /captcha/**
   web:
     pageable:
       page-parameter-name: page
@@ -118,13 +121,12 @@ mybatis-plus:
 
 # sa-token配置
 sa-token:
-  token-name: login-token
-#  token-prefix: 'Bearer'
-  auto-renew: false
-  is-log: true
+  auto-renew: true
   is-concurrent: true
   timeout: 3600
   activity-timeout: 1800
+  oauth2:
+    access-token-timeout: 3600
 
 # 数据库表结构维护
 actable: 

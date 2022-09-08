@@ -1,20 +1,11 @@
 neiko:
-  sa-token:
-    enforce-json-filter: true
-    enforce-cancel-authenticate: false
-    check-login: true
-  web:
-    pageable:
-      page-parameter-name: page
-      size-parameter-name: size
-      sort-parameter-name: sorts
-      max-page-size: 100
   redis:
     key-prefix: 'neiko-'
     null-value: 'N_V'
     delimiter: ':'
     thread-count: 10
     expire-time: 3600
+  
 
 server:
   port: 9090
@@ -30,7 +21,7 @@ spring:
 
 # sa-token配置
 sa-token:
-  token-name: login-token
+  token-name: access_token
 #  token-prefix: 'Bearer'
   auto-renew: false
   is-log: true

@@ -7,58 +7,71 @@ import com.schilings.neiko.extend.sa.token.oauth2.event.authority.RoleAuthorityC
 import com.schilings.neiko.extend.sa.token.core.StpOAuth2UserUtil;
 import com.schilings.neiko.extend.sa.token.oauth2.pojo.UserDetails;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 
 public class RBACAuthorityHolder {
+
+	public static final List<String> NULL_VALUE = Collections.emptyList();
 
 	private static final String USERDETAILS = "auth:userdeatils:";
 
 	private static final String ROLES = "auth:roles:";
 
 	private static final String PERMISSIONS = "auth:permissions:";
-
-	@EventListener(RoleAuthorityChangedEvent.class)
-	public void refreshUserRole(RoleAuthorityChangedEvent event) {
-		event.getUserId().forEach(RBACAuthorityHolder::deleteRoles);
-	}
-
-	@EventListener(PermissionAuthorityChangedEvent.class)
-	public void refreshRolePermission(PermissionAuthorityChangedEvent event) {
-		event.getRoleCode().forEach(RBACAuthorityHolder::deletePermissions);
-	}
+	
 
 	public static void deleteUserDetails(String userId) {
-		StpOAuth2UserUtil.getSessionByLoginId(userId).delete(UserAttributeNameConstants.USER_DETAILS);
+		StpOAuth2UserUtil.getSessionByLoginId(userId)
+				.delete(UserAttributeNameConstants.USER_DETAILS);
 	}
 
 	public static void deleteRoles(String userId) {
-		SaSessionCustomUtil.getSessionById(ROLES + userId).delete(UserAttributeNameConstants.ROLE_CODES);
+		SaSessionCustomUtil.getSessionById(ROLES + userId)
+				.delete(UserAttributeNameConstants.ROLE_CODES);
 	}
 
 	public static void deletePermissions(String roleCode) {
-		SaSessionCustomUtil.getSessionById(PERMISSIONS + roleCode).delete(UserAttributeNameConstants.PERMISSIONS);
+		SaSessionCustomUtil.getSessionById(PERMISSIONS + roleCode)
+				.delete(UserAttributeNameConstants.PERMISSIONS);
 	}
 
 	public static <T extends UserDetails> void setUserDetails(String userId, T userDetails) {
-		StpOAuth2UserUtil.getSessionByLoginId(userId).set(UserAttributeNameConstants.USER_DETAILS, userDetails);
+		StpOAuth2UserUtil.getSessionByLoginId(userId)
+				.set(UserAttributeNameConstants.USER_DETAILS, userDetails);
 	}
 
 	public static <T extends UserDetails> void setUserDetails(T userDetails) {
-		StpOAuth2UserUtil.getSession().set(UserAttributeNameConstants.USER_DETAILS, userDetails);
+		StpOAuth2UserUtil.getSession()
+				.set(UserAttributeNameConstants.USER_DETAILS, userDetails);
 	}
 
 	public static void setRoles(String userId, List<String> roles) {
 		// 放置于公共缓存
-		SaSessionCustomUtil.getSessionById(ROLES + userId).set(UserAttributeNameConstants.ROLE_CODES, roles);
+		if (CollectionUtils.isEmpty(roles)) {
+			SaSessionCustomUtil.getSessionById(ROLES + userId)
+					.set(UserAttributeNameConstants.ROLE_CODES, NULL_VALUE);
+		} else {
+			SaSessionCustomUtil.getSessionById(ROLES + userId)
+					.set(UserAttributeNameConstants.ROLE_CODES, roles);
+		} 
 
 	}
 
 	public static void setPermissions(String roleCode, List<String> permissions) {
 		// 放置于公共缓存
-		SaSessionCustomUtil.getSessionById(PERMISSIONS + roleCode).set(UserAttributeNameConstants.PERMISSIONS,
-				permissions);
+		if (CollectionUtils.isEmpty(permissions)) {
+			SaSessionCustomUtil.getSessionById(PERMISSIONS + roleCode)
+					.set(UserAttributeNameConstants.PERMISSIONS, NULL_VALUE);
+		} else {
+			SaSessionCustomUtil.getSessionById(PERMISSIONS + roleCode)
+					.set(UserAttributeNameConstants.PERMISSIONS, permissions);
+		} 
+
 	}
 
 	/**
@@ -108,7 +121,7 @@ public class RBACAuthorityHolder {
 		if (value == null) {
 			List<String> roles = supplier.get();
 			setRoles(userId, roles);
-			return roles;
+			return roles == null ? NULL_VALUE : roles;
 		}
 		return value;
 	}
@@ -129,7 +142,7 @@ public class RBACAuthorityHolder {
 		if (value == null) {
 			List<String> permissions = supplier.get();
 			setPermissions(roleCode, permissions);
-			return permissions;
+			return permissions == null ? NULL_VALUE : permissions;
 		}
 		return value;
 	}

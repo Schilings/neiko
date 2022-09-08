@@ -83,25 +83,19 @@ public class UserDeatailsImpl implements UserDetails {
 	public Set<String> getPermissionSet() {
 		return permissionSet;
 	}
-
+	
 	@Override
 	@JsonIgnore
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
+	public Collection<String> getPermissions() {
+		return permissionSet;
 	}
 
 	@Override
 	@JsonIgnore
-	public Collection<PermissionAuthority> getPermissions() {
-		return permissionSet.stream().map(PermissionAuthorityImpl::new).collect(Collectors.toSet());
+	public Collection<String> getRoles() {
+		return roleSet;
 	}
-
-	@Override
-	@JsonIgnore
-	public Collection<RoleAuthority> getRoles() {
-		return roleSet.stream().map(RoleAuthorityImpl::new).collect(Collectors.toSet());
-	}
-
+	
 	@Override
 	public Map<String, Object> getAttributes() {
 		return attributes;

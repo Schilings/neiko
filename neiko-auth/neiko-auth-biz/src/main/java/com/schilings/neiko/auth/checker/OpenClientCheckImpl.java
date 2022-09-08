@@ -25,10 +25,4 @@ public class OpenClientCheckImpl implements OpenClientChecker {
 		return StringUtils.isNotBlank(id) && id.equals(clientId);
 	}
 
-	@Override
-	public boolean isOpenByAccessToken(String accessToken) {
-		String token = authProperties.getOpenClient().getAccessToken();
-		return StringUtils.isNotBlank(token) && token.equals(accessToken);
-	}
-
 }

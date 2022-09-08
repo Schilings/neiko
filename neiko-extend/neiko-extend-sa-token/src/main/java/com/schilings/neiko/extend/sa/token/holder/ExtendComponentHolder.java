@@ -1,7 +1,7 @@
 package com.schilings.neiko.extend.sa.token.holder;
 
-import com.schilings.neiko.common.util.spring.SpringUtils;
 import com.schilings.neiko.extend.sa.token.oauth2.component.*;
+import com.schilings.neiko.extend.sa.token.oauth2.introspector.OpaqueTokenIntrospector;
 import lombok.Setter;
 import org.springframework.beans.factory.ObjectProvider;
 
@@ -23,5 +23,8 @@ public class ExtendComponentHolder {
 
 	@Setter
 	public static UserDetailsService userDetailsService;
+
+	@Setter
+	public static OpaqueTokenIntrospector opaqueTokenIntrospector;
 
 }

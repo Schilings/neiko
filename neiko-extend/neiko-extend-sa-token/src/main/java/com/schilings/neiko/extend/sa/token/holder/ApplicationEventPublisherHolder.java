@@ -4,6 +4,7 @@ import com.schilings.neiko.common.util.spring.SpringUtils;
 import com.schilings.neiko.extend.sa.token.oauth2.event.authentication.AbstractAuthenticationFailureEvent;
 import com.schilings.neiko.extend.sa.token.oauth2.event.authentication.AuthenticationSuccessEvent;
 import com.schilings.neiko.extend.sa.token.oauth2.event.authentication.LogoutSuccessEvent;
+import com.schilings.neiko.extend.sa.token.oauth2.event.authority.AuthorityInitEvent;
 import com.schilings.neiko.extend.sa.token.oauth2.event.authority.RoleAuthorityChangedEvent;
 import com.schilings.neiko.extend.sa.token.oauth2.pojo.Authentication;
 import com.schilings.neiko.extend.sa.token.oauth2.pojo.AuthenticationImpl;
@@ -53,4 +54,7 @@ public class ApplicationEventPublisherHolder {
 		publishEvent(new RoleAuthorityChangedEvent(userIds));
 	}
 
+	public static void publisbAuthorityInitEvent(Object loginId,String loginType,String tokenValue) {
+		publishEvent( new AuthorityInitEvent(loginId,loginType,tokenValue));
+	}
 }

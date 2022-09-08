@@ -43,24 +43,19 @@ public interface UserDetails extends Serializable {
 	 * @return
 	 */
 	String getSalt();
-
-	/**
-	 * 返回授予用户的权限
-	 * @return
-	 */
-	Collection<? extends GrantedAuthority> getAuthorities();
+	
 
 	/**
 	 * 返回用户的权限标识符
 	 * @return
 	 */
-	Collection<PermissionAuthority> getPermissions();
+	Collection<String> getPermissions();
 
 	/**
 	 * 返回用户的角色标识符
 	 * @return
 	 */
-	Collection<RoleAuthority> getRoles();
+	Collection<String> getRoles();
 
 	Map<String, Object> getAttributes();
 

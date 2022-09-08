@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Oauth2User认证模块")
 public class Oauth2Controller {
 
-	private final LoginService loginService;
 
 	@PostMapping("/oauth2/token")
 	@Operation(summary = "Oauth2 认证登录")
@@ -36,8 +35,7 @@ public class Oauth2Controller {
 	@GetMapping("/oauth2/logout")
 	@Operation(summary = "Oauth2 注销登录")
 	public Object logout() {
-		String userId = (String) StpOAuth2UserUtil.getLoginId();
-		loginService.logout(userId);
+		StpOAuth2UserUtil.logout();
 		return R.ok();
 	}
 

@@ -32,8 +32,6 @@ public class AuthProperties {
 
 		private String clientId;
 
-		private String accessToken;
-
 	}
 
 }

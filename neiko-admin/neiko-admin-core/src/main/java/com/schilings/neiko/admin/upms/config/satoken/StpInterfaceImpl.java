@@ -40,7 +40,7 @@ public class StpInterfaceImpl implements StpInterface {
 				// 从数据库查询这个角色所拥有的权限列表
 				return sysRoleMenuService.listPermissions(roleId);
 			});
-			permissionList.addAll(new ArrayList<>(permissions));
+			permissionList.addAll(permissions);
 		}
 		return permissionList;
 	}

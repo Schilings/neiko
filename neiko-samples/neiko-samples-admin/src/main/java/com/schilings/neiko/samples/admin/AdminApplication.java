@@ -18,20 +18,6 @@ public class AdminApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AdminApplication.class, args);
 	}
-
-	@Value("${sa-token.token-name}")
-	private String tokenName;
-
-	@Bean
-	public OpenAPI openAPI() {
-		OpenAPI openAPI = new OpenAPI();
-		openAPI.components(new Components()
-				.addSecuritySchemes("client",
-						new SecurityScheme().type(SecurityScheme.Type.APIKEY).in(SecurityScheme.In.HEADER)
-								.name("access_token"))
-				.addSecuritySchemes("user", new SecurityScheme().type(SecurityScheme.Type.APIKEY)
-						.in(SecurityScheme.In.HEADER).name(tokenName)));
-		return openAPI;
-	}
+	
 
 }
