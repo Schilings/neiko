@@ -37,6 +37,8 @@ import java.util.List;
 @EnableConfigurationProperties(OAuth2AuthorizationServerProperties.class)
 public class OAuth2AuthorizationServerConfiguration {
 
+	private final OAuth2AuthorizationServerProperties authorizationServerProperties;
+
 	private final LoginService loginService;
 
 	private final UserDetailsService<?> userDetailsService;
@@ -47,28 +49,23 @@ public class OAuth2AuthorizationServerConfiguration {
 
 	public final ObjectProvider<List<OAuth2Granter>> oAuth2GrantersProvider;
 
-	private final SaTokenConfig saTokenConfig;
-
 	private final SaOAuth2Config saOAuth2Config;
 
 	@PostConstruct
 	public void initSaTokenConfig() {
-		// ========Sa-Token
-		// 限制只能从Header上读取token
-		saTokenConfig.setIsReadCookie(false);
-		saTokenConfig.setIsReadBody(false);
-		saTokenConfig.setIsReadHead(true);
-		// 限制token生成策略
-		saTokenConfig.setTokenStyle("random-64");
-		saTokenConfig.setTokenName(SecurityConstants.Param.access_token);
-
 		// =======OAuth2
 		// 提供的oauth2认证流程，暂只适用password和refresh_token
-		saOAuth2Config.setIsCode(false);
-		saOAuth2Config.setIsPassword(true);
-		saOAuth2Config.setIsNewRefresh(true);
-		saOAuth2Config.setIsImplicit(false);
-		saOAuth2Config.setIsClient(false);
+		saOAuth2Config.setIsCode(authorizationServerProperties.getSaOAuth2Config().isCode);
+		saOAuth2Config.setIsPassword(authorizationServerProperties.getSaOAuth2Config().isPassword);
+		saOAuth2Config.setIsNewRefresh(authorizationServerProperties.getSaOAuth2Config().isNewRefresh);
+		saOAuth2Config.setIsImplicit(authorizationServerProperties.getSaOAuth2Config().isImplicit);
+		saOAuth2Config.setIsClient(authorizationServerProperties.getSaOAuth2Config().isClient);
+		saOAuth2Config.setCodeTimeout(authorizationServerProperties.getSaOAuth2Config().codeTimeout);
+		saOAuth2Config.setAccessTokenTimeout(authorizationServerProperties.getSaOAuth2Config().accessTokenTimeout);
+		saOAuth2Config.setRefreshTokenTimeout(authorizationServerProperties.getSaOAuth2Config().refreshTokenTimeout);
+		saOAuth2Config.setRefreshTokenTimeout(authorizationServerProperties.getSaOAuth2Config().clientTokenTimeout);
+		saOAuth2Config
+				.setPastClientTokenTimeout(authorizationServerProperties.getSaOAuth2Config().pastClientTokenTimeout);
 		// LoginService
 		saOAuth2Config.setDoLoginHandle(loginService::login);// 登录处理函数
 	}
@@ -106,16 +103,6 @@ public class OAuth2AuthorizationServerConfiguration {
 	@ConditionalOnMissingBean
 	public SaTokenListener extendTokenListener() {
 		return new ExtendSaTokenListener();
-	}
-
-	/**
-	 * Sa-Token-OAuth2 模块
-	 * @return
-	 */
-	@Bean
-	@ConditionalOnMissingBean
-	public SaOAuth2Template extendSaOAuth2Template() {
-		return new ExtendSaOAuth2Template();
 	}
 
 }

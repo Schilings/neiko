@@ -109,6 +109,18 @@ public class StpOAuth2Logic extends StpLogic {
 	}
 
 	/**
+	 * 续签指定token：(将 [最后操作时间] 更新为当前时间戳)
+	 * @param tokenValue 指定token
+	 */
+	public void updateLastActivityToNow(String tokenValue) {
+		// 如果token == null 或者 设置了[永不过期], 则立即返回
+		if (tokenValue == null || isOpenActivityCheck() == false) {
+			return;
+		}
+		getSaTokenDao().update(splicingKeyLastActivityTime(tokenValue), String.valueOf(System.currentTimeMillis()));
+	}
+
+	/**
 	 * 重写该逻辑，优先判断缓存中有无 获取：指定账号的角色集合
 	 * @param loginId 指定账号id
 	 */

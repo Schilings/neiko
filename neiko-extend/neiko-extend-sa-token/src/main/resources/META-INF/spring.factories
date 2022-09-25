@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.schilings.neiko.extend.sa.token.ExtendSaTokenAutoConfiguration
+  com.schilings.neiko.extend.sa.token.ExtendSaTokenOAuth2AutoConfiguration

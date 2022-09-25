@@ -10,24 +10,23 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>neiko-admin-boostrap</artifactId>
 
+    <properties>
+        <!-- 版本控制 -->
+        <flyway.version>7.15.0</flyway.version>
+    </properties>
+
     <dependencies>
         
-        <!--neiko业务模块-->
+        <!-- 数据库版本控制 -->
         <dependency>
-            <groupId>com.schilings</groupId>
-            <artifactId>neiko-auth-biz</artifactId>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>7.15.0</version>
         </dependency>
         <dependency>
-            <groupId>com.schilings</groupId>
-            <artifactId>neiko-system-biz</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.schilings</groupId>
-            <artifactId>neiko-log-biz</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.schilings</groupId>
-            <artifactId>neiko-notify-biz</artifactId>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-mysql</artifactId>
+            <version>8.5.7</version>
         </dependency>
         
         <!--spring-->

@@ -1,0 +1,6 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    com.schilings.neiko.extend.openapi.OpenApiAutoConfiguration
+
+# Environment Post Processor
+org.springframework.boot.env.EnvironmentPostProcessor=\
+    com.schilings.neiko.extend.openapi.SwaggerEnabledStatusReplaceEnvironmentPostProcessor

@@ -1,6 +1,11 @@
 package com.schilings.neiko.extend.sa.token.bean;
 
+import cn.dev33.satoken.SaManager;
+import cn.dev33.satoken.oauth2.exception.SaOAuth2Exception;
 import cn.dev33.satoken.oauth2.logic.SaOAuth2Template;
+import cn.dev33.satoken.oauth2.model.AccessTokenModel;
+import cn.dev33.satoken.oauth2.model.RefreshTokenModel;
+import cn.dev33.satoken.util.SaFoxUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.schilings.neiko.extend.sa.token.core.StpOAuth2UserUtil;
 import com.schilings.neiko.extend.sa.token.holder.ExtendComponentHolder;
@@ -68,6 +73,66 @@ public class ExtendSaOAuth2Template extends SaOAuth2Template {
 	@Override
 	public String randomAccessToken(String clientId, Object loginId, String scope) {
 		return StpOAuth2UserUtil.createLoginSession(loginId);
+	}
+
+	/**
+	 * 重写Access-Token校验逻辑添加前缀可选项
+	 * @param accessToken
+	 * @return
+	 */
+	@Override
+	public AccessTokenModel getAccessToken(String accessToken) {
+		if (accessToken == null) {
+			return null;
+		}
+		// 如果配置了前缀.则减去前缀
+		String tokenPrefix = StpOAuth2UserUtil.stpLogic.getConfig().getTokenPrefix();
+		if (!SaFoxUtil.isEmpty(tokenPrefix)) {
+			if (!SaFoxUtil.isEmpty(accessToken) && accessToken.startsWith(tokenPrefix + " ")) {
+				accessToken = accessToken.substring(tokenPrefix.length() + " ".length());
+			}
+			else {
+				accessToken = null;
+			}
+		}
+		return (AccessTokenModel) SaManager.getSaTokenDao().getObject(splicingAccessTokenSaveKey(accessToken));
+	}
+
+	/**
+	 * 刷新Model：根据 Refresh-Token 生成一个新的 Access-Token
+	 * @param refreshToken Refresh-Token值
+	 * @return 新的 Access-Token
+	 */
+	@Override
+	public AccessTokenModel refreshAccessToken(String refreshToken) {
+
+		// 获取 Refresh-Token 信息
+		RefreshTokenModel rt = getRefreshToken(refreshToken);
+		SaOAuth2Exception.throwBy(rt == null, "无效refresh_token: " + refreshToken);
+
+		// 如果配置了[每次刷新产生新的Refresh-Token]
+		if (checkClientModel(rt.clientId).getIsNewRefresh()) {
+			// 删除旧 Refresh-Token
+			deleteRefreshToken(rt.refreshToken);
+
+			// 创建并保持新的 Refresh-Token
+			rt = convertRefreshTokenToRefreshToken(rt);
+			saveRefreshToken(rt);
+			saveRefreshTokenIndex(rt);
+		}
+
+		// 删除旧 Access-Token
+		deleteAccessToken(getAccessTokenValue(rt.clientId, rt.loginId));
+
+		// 生成新 Access-Token
+		AccessTokenModel at = convertRefreshTokenToAccessToken(rt);
+
+		// 保存新 Access-Token
+		saveAccessToken(at);
+		saveAccessTokenIndex(at);
+
+		// 返回新 Access-Token
+		return at;
 	}
 
 }

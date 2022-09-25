@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.springdoc.api.annotations.ParameterObject;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -24,7 +23,6 @@ import java.util.List;
  */
 @Data
 @Schema(title = "分页查询参数")
-@ParameterObject
 public class PageParam {
 
 	/**
@@ -52,7 +50,7 @@ public class PageParam {
 	 */
 	@Schema(title = "排序规则", defaultValue = "field1,asc")
 	@Valid
-	private List<Sort> sorts = new ArrayList<>();
+	private List<Sort> sort = new ArrayList<>();
 
 	@Schema(title = "排序元素载体")
 	@Getter

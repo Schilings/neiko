@@ -13,13 +13,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 
-@MapperScan({ "com.gitee.sunchenbin.mybatis.actable.dao.*", // 自动建表
-		"com.schilings.neiko.**.mapper" })
-@ComponentScan({ "com.gitee.sunchenbin.mybatis.actable.manager.*", // 自动建表
-		"com.schilings.neiko.admin.upms", "com.schilings.neiko.file", "com.schilings.neiko.system",
-		"com.schilings.neiko.log",
-		// "com.schilings.neiko.wechat",
-		"com.schilings.neiko.notify", "com.schilings.neiko.auth" })
+@MapperScan({ "com.schilings.neiko.**.mapper" })
+@ComponentScan({ "com.schilings.neiko.admin.upms", "com.schilings.neiko.file", "com.schilings.neiko.system",
+		"com.schilings.neiko.log", "com.schilings.neiko.notify", "com.schilings.neiko.auth" })
 @EnableAsync
 @AutoConfiguration
 @EnableOAuth2AuthorizationServer

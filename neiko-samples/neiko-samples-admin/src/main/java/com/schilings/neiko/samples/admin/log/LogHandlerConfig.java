@@ -1,4 +1,4 @@
-package com.schilings.neiko.samples.admin;
+package com.schilings.neiko.samples.admin.log;
 
 import com.schilings.neiko.common.log.access.handler.AccessLogHandler;
 import com.schilings.neiko.common.log.operation.handler.OperationLogHandler;

@@ -21,13 +21,13 @@ public class Oauth2Controller {
 
 	@PostMapping("/oauth2/token")
 	@Operation(summary = "Oauth2 认证登录")
-	public Object request(@RequestBody OAuth2RequestBody requestBody) {
+	public Object token(@RequestBody(required = false) OAuth2RequestBody requestBody) {
 		return ExtendOAuth2Handler.serverRequest();
 	}
 
 	@PostMapping("/oauth2/check_token")
 	@Operation(summary = "Oauth2 Token自省")
-	public Object check_token(@RequestBody OAuth2RequestBody requestBody) {
+	public Object check_token(@RequestBody(required = false) OAuth2RequestBody requestBody) {
 		return ExtendOAuth2Handler.serverRequest();
 	}
 

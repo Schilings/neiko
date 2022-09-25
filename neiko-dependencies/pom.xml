@@ -17,6 +17,8 @@
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <flatten-maven-plugin.version>1.2.7</flatten-maven-plugin.version>
         <spring-javaformat-checkstyle.version>0.0.31</spring-javaformat-checkstyle.version>
+        <jkube.version>1.9.0</jkube.version>
+        <dekorate.version>0.10.5</dekorate.version>
         
         <spring-cloud.version>2021.0.3</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.0.1.0</spring-cloud-alibaba.version>
@@ -655,6 +657,11 @@
                 <artifactId>neiko-extend-sa-token</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-extend-openapi</artifactId>
+                <version>${revision}</version>
+            </dependency>
             
             <!--neiko system-->
             <dependency>
@@ -799,10 +806,10 @@
                 <artifactId>neiko-admin-datascope</artifactId>
                 <version>${revision}</version>
             </dependency>
-
             
         </dependencies>
     </dependencyManagement>
+    
     
     <build>
         <plugins>
@@ -858,7 +865,6 @@
                     <plugin>
                         <groupId>org.sonatype.plugins</groupId>
                         <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>${nexus-staging-maven-plugin.version}</version>
                         <extensions>true</extensions>
                         <configuration>
                             <serverId>ossrh</serverId>
@@ -869,7 +875,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-release-plugin</artifactId>
-                        <version>${maven-release-plugin.version}</version>
                         <configuration>
                             <autoVersionSubmodules>true</autoVersionSubmodules>
                             <useReleaseProfile>false</useReleaseProfile>
@@ -880,7 +885,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>${maven-gpg-plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>

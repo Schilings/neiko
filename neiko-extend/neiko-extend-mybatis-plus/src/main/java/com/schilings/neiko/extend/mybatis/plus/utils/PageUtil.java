@@ -21,7 +21,7 @@ public abstract class PageUtil {
 	 */
 	public static <V> IPage<V> prodPage(PageParam pageParam) {
 		Page<V> page = new Page<>(pageParam.getPage(), pageParam.getSize());
-		List<PageParam.Sort> sorts = pageParam.getSorts();
+		List<PageParam.Sort> sorts = pageParam.getSort();
 		for (PageParam.Sort sort : sorts) {
 			OrderItem orderItem = sort.isAsc() ? OrderItem.asc(sort.getField()) : OrderItem.desc(sort.getField());
 			page.addOrder(orderItem);

@@ -1,21 +1,14 @@
 package com.schilings.neiko.admin.upms.config.satoken;
 
-import cn.dev33.satoken.interceptor.SaAnnotationInterceptor;
-import cn.dev33.satoken.interceptor.SaRouteInterceptor;
 import cn.dev33.satoken.stp.StpInterface;
-import com.schilings.neiko.auth.handler.AuthHandlerExceptionResolver;
+import com.schilings.neiko.extend.sa.token.handler.ExtendSaTokenHandlerExceptionResolver;
 import com.schilings.neiko.auth.properties.AuthProperties;
-import com.schilings.neiko.extend.sa.token.holder.RBACAuthorityHolder;
-import com.schilings.neiko.system.service.SysMenuService;
 import com.schilings.neiko.system.service.SysRoleMenuService;
 import com.schilings.neiko.system.service.SysUserRoleService;
-import com.schilings.neiko.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  *
@@ -48,9 +41,9 @@ public class SaTokenConfiguration {
 	 * @return
 	 */
 	@Bean
-	@ConditionalOnMissingBean(AuthHandlerExceptionResolver.class)
-	public AuthHandlerExceptionResolver authHandlerExceptionResolver() {
-		return new AuthHandlerExceptionResolver();
+	@ConditionalOnMissingBean(ExtendSaTokenHandlerExceptionResolver.class)
+	public ExtendSaTokenHandlerExceptionResolver authHandlerExceptionResolver() {
+		return new ExtendSaTokenHandlerExceptionResolver();
 	}
 
 }

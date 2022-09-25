@@ -74,7 +74,7 @@ public abstract class PageParamArgumentResolverSupport {
 		List<PageParam.Sort> sorts;
 		if (ArrayUtil.isNotEmpty(sort)) {
 			sorts = getSortList(sort);
-			pageParam.setSorts(sorts);
+			pageParam.setSort(sorts);
 		}
 
 		return pageParam;

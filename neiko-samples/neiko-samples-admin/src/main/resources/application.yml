@@ -1,7 +1,4 @@
 neiko:
-  admin:
-    boostrap:
-      enabled: false
   auth:
     open-client: 
       client-id: 1001
@@ -21,10 +18,18 @@ neiko:
         - /ws/**
         - /**
   sa-token:
+    sa-token-config:
+      auto-renew: true
+      is-concurrent: true
+      timeout: 3600
+      activity-timeout: 1800
+      token-prefix: 'Bearer'
     oauth2:
       authorization-server:
         login-captcha-enabled: false
         enforce-json-filter: true
+        sa-oauth2-config: 
+          is-password: true
       resource-server:
         enforce-cancel-authenticate: false
         ignore-urls:
@@ -45,7 +50,7 @@ neiko:
     pageable:
       page-parameter-name: page
       size-parameter-name: size
-      sort-parameter-name: sorts
+      sort-parameter-name: sort
       max-page-size: 100
   redis:
     key-prefix: 'neiko-'
@@ -55,8 +60,6 @@ neiko:
     expire-time: 3600
   websocket:
     message-distributor: local #使用 redis 做为消息分发器
-    allowed-origins:
-      - '*'
   oss:
     endpoint: oss-cn-shenzhen.aliyuncs.com # oss-cn-shenzhen.aliyuncs.com
     region: oss-cn-shenzhen
@@ -68,6 +71,30 @@ neiko:
       # 这个可以不进行配置或者设置 空字符串, 这样文件就会和系统的临时文件放在一起
       # '/opt/nginx/images'
       path: 'D:\temp'
+  openapi:
+    info:
+      title: Neiko-Admin Docs
+      description: Neiko 后台管理服务Api文档
+      version: ${project.version}
+    contact:
+      name: Schilings
+      email: 1146830743@qq.com
+      url: https://github.com/Schilings
+    components:
+      security-schemes:
+        apiKey:
+          type: APIKEY
+          in: HEADER
+          name: 'access_token'
+        #oauth2:
+        #  type: OAUTH2
+        #  flows:
+        #    password:
+        #      token-url: /oauth2/token
+        #      scope: system
+    security:
+      - oauth2: []
+      - apiKey: []
         
 server:
   port: 8080
@@ -102,14 +129,17 @@ spring:
             enable: true
             required: true
     default-encoding: UTF-8
-
+# 数据库版本控制维护
+  flyway:
+    clean-disabled: true
+    baseline-on-migrate: true
+    placeholder-replacement: false # 取消占位符检测
+    
 # mybatis plus配置
 mybatis-plus:
   mapper-locations:
     - classpath*:/com/gitee/sunchenbin/mybatis/actable/mapping/*/*.xml #自动建表
-    - classpath*:/mapper/**/*.xml
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    - classpath*:/mapper/**/*Mapper.xml
   global-config:
     banner: false
     db-config:
@@ -119,24 +149,14 @@ mybatis-plus:
       logic-delete-value: "NOW()" # 逻辑已删除值(使用当前时间标识)
       logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
 
-# sa-token配置
-sa-token:
-  auto-renew: true
-  is-concurrent: true
-  timeout: 3600
-  activity-timeout: 1800
-  oauth2:
-    access-token-timeout: 3600
-
 # 数据库表结构维护
-actable: 
-  table: 
+actable:
+  table:
     auto: none #update
-  model: 
-    pack: com.schilings.neiko.**.model.entity
-  database: 
+  model:
+    pack: com.schilings.**.model.entity
+  database:
     type: mysql
-
 
 ## OPEN API接口文档
 springdoc:

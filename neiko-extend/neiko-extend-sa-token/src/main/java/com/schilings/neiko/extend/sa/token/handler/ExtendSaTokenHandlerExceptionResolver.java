@@ -1,4 +1,4 @@
-package com.schilings.neiko.auth.handler;
+package com.schilings.neiko.extend.sa.token.handler;
 
 import cn.dev33.satoken.exception.*;
 import cn.dev33.satoken.oauth2.exception.SaOAuth2Exception;
@@ -6,11 +6,8 @@ import com.schilings.neiko.common.model.result.R;
 import com.schilings.neiko.common.model.result.SystemResultCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -18,7 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Order(value = Ordered.LOWEST_PRECEDENCE - 10)
 @RestControllerAdvice
 @RequiredArgsConstructor
-public class AuthHandlerExceptionResolver {
+public class ExtendSaTokenHandlerExceptionResolver {
 
 	/**
 	 * 未登录
