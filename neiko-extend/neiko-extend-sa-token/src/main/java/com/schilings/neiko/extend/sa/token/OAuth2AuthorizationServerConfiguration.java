@@ -33,6 +33,7 @@ import java.util.List;
  */
 @Slf4j
 @RequiredArgsConstructor
+@ConditionalOnSaTokenEnabled
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(OAuth2AuthorizationServerProperties.class)
 public class OAuth2AuthorizationServerConfiguration {

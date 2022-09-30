@@ -41,6 +41,7 @@ import java.util.Set;
  */
 @Configuration(proxyBeanMethods = false)
 @RequiredArgsConstructor
+@ConditionalOnSaTokenEnabled
 @Import(OpaqueTokenIntrospectorConfiguration.class)
 @EnableConfigurationProperties(OAuth2ResourceServerProperties.class)
 public class OAuth2ResourceServerConfiguration {

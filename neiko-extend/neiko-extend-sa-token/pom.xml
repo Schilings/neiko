@@ -12,6 +12,11 @@
 
     
     <dependencies>
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-spring-boot-starter</artifactId>
+            <optional>true</optional>
+        </dependency>
         <!-- Sa-Token 权限认证（core核心包）, 在线文档：http://sa-token.dev33.cn/ -->
         <dependency>
             <groupId>cn.dev33</groupId>

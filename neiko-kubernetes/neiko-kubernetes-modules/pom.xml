@@ -13,6 +13,7 @@
     <modules>
         <module>neiko-kubernetes-system</module>
         <module>neiko-kubernetes-resource</module>
+        <module>neiko-kubernetes-wechat</module>
     </modules>
 
 </project>

@@ -3,6 +3,8 @@ package com.schilings.neiko.extend.sa.token;
 import cn.dev33.satoken.config.SaTokenConfig;
 import cn.dev33.satoken.dao.SaTokenDao;
 import cn.dev33.satoken.oauth2.logic.SaOAuth2Template;
+import cn.dev33.satoken.spring.oauth2.SaOAuth2BeanInject;
+import cn.dev33.satoken.spring.oauth2.SaOAuth2BeanRegister;
 import com.schilings.neiko.common.redis.RedisHelper;
 import com.schilings.neiko.extend.sa.token.bean.ExtendSaOAuth2Template;
 import com.schilings.neiko.extend.sa.token.core.RedisSaTokenDao;
@@ -13,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +23,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 /**
- *
  * <p>
  * </p>
  *
@@ -30,6 +32,7 @@ import org.springframework.context.annotation.Primary;
 @AutoConfiguration
 @RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
+@ConditionalOnSaTokenEnabled
 @EnableConfigurationProperties(ExtendSaTokenProperties.class)
 public class ExtendSaTokenOAuth2AutoConfiguration {
 
@@ -68,6 +71,7 @@ public class ExtendSaTokenOAuth2AutoConfiguration {
 
 	/**
 	 * Sa-Token-OAuth2 模块
+	 *
 	 * @return
 	 */
 	@Bean
@@ -78,6 +82,7 @@ public class ExtendSaTokenOAuth2AutoConfiguration {
 
 	/**
 	 * 处理权限变更等事件的事件监听器
+	 *
 	 * @return
 	 */
 	@Bean
@@ -88,6 +93,7 @@ public class ExtendSaTokenOAuth2AutoConfiguration {
 
 	/**
 	 * RBAC权限缓存
+	 *
 	 * @return
 	 */
 	@Bean
@@ -98,6 +104,7 @@ public class ExtendSaTokenOAuth2AutoConfiguration {
 
 	/**
 	 * Sa-Token自定义Redis实现Dao
+	 *
 	 * @return
 	 */
 	@Bean

@@ -35,13 +35,6 @@
                         <artifactId>kubernetes-maven-plugin</artifactId>
                         <version>${jkube.version}</version>
                         <configuration>
-                            <resources>
-                                <labels>
-                                    <all>
-                                        <testProject>spring-boot-sample</testProject>
-                                    </all>
-                                </labels>
-                            </resources>
                             <generator>
                                 <includes>
                                     <include>spring-boot</include>
@@ -52,16 +45,16 @@
                                     </spring-boot>
                                 </config>
                             </generator>
-                            <enricher>
-                                <excludes>
-                                    <exclude>jkube-expose</exclude>
-                                </excludes>
-                                <config>
-                                    <jkube-service>
-                                        <type>NodePort</type>
-                                    </jkube-service>
-                                </config>
-                            </enricher>
+<!--                            <enricher>-->
+<!--                                <excludes>-->
+<!--                                    <exclude>jkube-expose</exclude>-->
+<!--                                </excludes>-->
+<!--                                <config>-->
+<!--                                    <jkube-service>-->
+<!--                                        <type>NodePort</type>-->
+<!--                                    </jkube-service>-->
+<!--                                </config>-->
+<!--                            </enricher>-->
                         </configuration>
 
                         <executions>

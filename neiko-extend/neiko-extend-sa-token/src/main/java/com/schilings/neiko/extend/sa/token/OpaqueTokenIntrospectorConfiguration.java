@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration(proxyBeanMethods = false)
 @RequiredArgsConstructor
+@ConditionalOnSaTokenEnabled
 public class OpaqueTokenIntrospectorConfiguration {
 
 	/**

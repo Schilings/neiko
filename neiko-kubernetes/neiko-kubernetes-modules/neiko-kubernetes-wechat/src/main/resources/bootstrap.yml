@@ -2,7 +2,7 @@ spring:
   main:
     cloud-platform: kubernetes
   application:
-    name: @artifactId@
+    name: wechat-application
   cloud:
     service-registry:
       auto-registration:

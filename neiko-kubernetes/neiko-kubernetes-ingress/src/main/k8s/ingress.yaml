@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-http
+  namespace: default
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: ingress.schilings.com
+      http:
+        paths:
+          - path: /nginx
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx-service
+                port:
+                  number: 80
+          - path: /tomcat
+            pathType: Prefix
+            backend:
+              service:
+                name: tomcat-service
+                port:
+                  number: 8080
