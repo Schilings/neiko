@@ -54,7 +54,7 @@ public class CustomSaOAuth2Template extends ExtendSaOAuth2Template {
 	 */
 	@Override
 	public void checkScope(String accessToken, String... scopes) {
-		if(scopes == null || scopes.length == 0) {
+		if (scopes == null || scopes.length == 0) {
 			return;
 		}
 		AccessTokenModel at = checkAccessToken(accessToken);

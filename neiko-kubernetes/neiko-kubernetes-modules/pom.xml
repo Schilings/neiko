@@ -14,44 +14,4 @@
         <module>neiko-kubernetes-system</module>
     </modules>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.eclipse.jkube</groupId>
-                <artifactId>kubernetes-maven-plugin</artifactId>
-                <version>${jkube.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>resource</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <generator>
-                        <includes>
-                            <include>spring-boot</include>
-                        </includes>
-                        <config>
-                            <spring-boot>
-                                <color>always</color>
-                            </spring-boot>
-                        </config>
-                    </generator>
-                    <enricher>
-                        <config>
-                            <jkube-service>
-                                <type>NodePort</type>
-                            </jkube-service>
-                        </config>
-                    </enricher>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>

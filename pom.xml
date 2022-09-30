@@ -16,7 +16,6 @@
         <module>neiko-cloud</module>
         <module>neiko-extend</module>
         <module>neiko-admin</module>
-        <module>neiko-kubernetes</module>
         <module>neiko-modules</module>
     </modules>
 
