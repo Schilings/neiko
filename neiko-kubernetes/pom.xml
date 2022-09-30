@@ -17,6 +17,15 @@
     
     <profiles>
         <profile>
+            <id>enable-debug</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <jkube.debug.enabled>true</jkube.debug.enabled>
+            </properties>
+        </profile>
+        <profile>
             <id>kubernetes</id>
             <build>
                 <plugins>

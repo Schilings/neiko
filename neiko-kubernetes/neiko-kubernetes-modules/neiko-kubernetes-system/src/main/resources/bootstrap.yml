@@ -2,7 +2,7 @@ spring:
   main:
     cloud-platform: kubernetes #强制让springcloud认为处于k8s环境,不然kubernetes-config不生效
   application:
-    name: @project.artifactId@
+    name: system-application
   cloud:
     service-registry:
       auto-registration:
