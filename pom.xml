@@ -22,6 +22,8 @@
         <module>neiko-notify</module>
         <module>neiko-wechat</module>
         <module>neiko-service</module>
+        <module>neiko-visual</module>
+        <module>neiko-kubernetes</module>
     </modules>
 
     <properties>

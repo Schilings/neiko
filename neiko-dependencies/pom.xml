@@ -21,6 +21,7 @@
         <dekorate.version>0.10.5</dekorate.version>
         
         <spring-cloud.version>2021.0.3</spring-cloud.version>
+        <spring-cloud-kubernetes.version>2.1.4</spring-cloud-kubernetes.version>
         <spring-cloud-alibaba.version>2021.0.1.0</spring-cloud-alibaba.version>
         
         
@@ -77,6 +78,14 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--spring cloud kubernetes-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-kubernetes-dependencies</artifactId>
+                <version>${spring-cloud-kubernetes.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -640,7 +649,26 @@
                 <artifactId>neiko-cloud-openfeign</artifactId>
                 <version>${revision}</version>
             </dependency>
-            
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-cloud-kubernetes</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-cloud-kubernetes-commons</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-cloud-kubernetes-fabric8</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-cloud-kubernetes-client</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <!--neiko extend-->
             <dependency>
                 <groupId>com.schilings</groupId>

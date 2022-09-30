@@ -8,17 +8,12 @@
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>neiko-cloud</artifactId>
+    <artifactId>neiko-kubernetes</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>neiko-cloud-discovery</module>
-        <module>neiko-cloud-loadbalance</module>
-        <module>neiko-cloud-gateway</module>
-        <module>neiko-cloud-config</module>
-        <module>neiko-cloud-commons</module>
-        <module>neiko-cloud-openfeign</module>
-        <module>neiko-cloud-kubernetes</module>
+        <module>neiko-kubernetes-modules</module>
     </modules>
+
     
 
 </project>

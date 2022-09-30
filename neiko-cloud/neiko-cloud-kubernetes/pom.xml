@@ -3,22 +3,17 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>neiko</artifactId>
+        <artifactId>neiko-cloud</artifactId>
         <groupId>com.schilings</groupId>
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>neiko-cloud</artifactId>
+    <artifactId>neiko-cloud-kubernetes</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>neiko-cloud-discovery</module>
-        <module>neiko-cloud-loadbalance</module>
-        <module>neiko-cloud-gateway</module>
-        <module>neiko-cloud-config</module>
-        <module>neiko-cloud-commons</module>
-        <module>neiko-cloud-openfeign</module>
-        <module>neiko-cloud-kubernetes</module>
+        <module>neiko-cloud-kubernetes-commons</module>
+        <module>neiko-cloud-kubernetes-fabric8</module>
+        <module>neiko-cloud-kubernetes-client</module>
     </modules>
-    
 
 </project>
