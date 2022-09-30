@@ -2,14 +2,12 @@ package com.schilings.neiko.admin.datascope.component;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
-import com.schilings.neiko.extend.sa.token.oauth2.pojo.RoleAuthority;
 import com.schilings.neiko.system.enums.DataScopeTypeEnum;
 import com.schilings.neiko.system.model.entity.SysOrganization;
 import com.schilings.neiko.system.model.entity.SysRole;
 import com.schilings.neiko.system.model.entity.SysUser;
 import com.schilings.neiko.system.service.SysOrganizationService;
 import com.schilings.neiko.system.service.SysRoleService;
-import com.schilings.neiko.system.service.SysUserRoleService;
 import com.schilings.neiko.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 

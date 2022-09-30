@@ -9,21 +9,15 @@
     <packaging>pom</packaging>
     <version>${revision}</version>
     <modules>
-        <module>neiko-auth</module>
         <module>neiko-common</module>
 <!--        <module>neiko-dependencies</module>-->
         <module>neiko-starters</module>
         <module>neiko-samples</module>
         <module>neiko-cloud</module>
         <module>neiko-extend</module>
-        <module>neiko-system</module>
         <module>neiko-admin</module>
-        <module>neiko-log</module>
-        <module>neiko-notify</module>
-        <module>neiko-wechat</module>
-        <module>neiko-service</module>
-        <module>neiko-visual</module>
         <module>neiko-kubernetes</module>
+        <module>neiko-modules</module>
     </modules>
 
     <properties>

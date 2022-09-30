@@ -15,6 +15,19 @@ import lombok.Getter;
 @Getter
 public class SecurityConstants {
 
+
+	/**
+	 * 所有API接口
+	 *
+	 * @author kong
+	 */
+	public static final class Scope {
+
+		public static String all = "*";
+		
+	}
+	
+
 	/**
 	 * 所有API接口
 	 *

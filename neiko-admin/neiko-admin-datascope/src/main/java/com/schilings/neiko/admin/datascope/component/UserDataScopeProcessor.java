@@ -1,9 +1,5 @@
 package com.schilings.neiko.admin.datascope.component;
 
-import com.schilings.neiko.extend.sa.token.oauth2.pojo.RoleAuthority;
-import com.schilings.neiko.system.model.entity.SysRole;
-import com.schilings.neiko.system.model.entity.SysUser;
-
 import java.util.Collection;
 
 public interface UserDataScopeProcessor {

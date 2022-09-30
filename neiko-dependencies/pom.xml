@@ -669,6 +669,22 @@
                 <artifactId>neiko-cloud-kubernetes-client</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <!--neiko kubernetes-->
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-kubernetes</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-kubernetes-modules</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-kubernetes-visual</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <!--neiko extend-->
             <dependency>
                 <groupId>com.schilings</groupId>
@@ -690,7 +706,11 @@
                 <artifactId>neiko-extend-openapi</artifactId>
                 <version>${revision}</version>
             </dependency>
-            
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-modules</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <!--neiko system-->
             <dependency>
                 <groupId>com.schilings</groupId>
@@ -764,16 +784,6 @@
             </dependency>
             <dependency>
                 <groupId>com.schilings</groupId>
-                <artifactId>neiko-auth-server</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.schilings</groupId>
-                <artifactId>neiko-auth-client</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.schilings</groupId>
                 <artifactId>neiko-auth-model</artifactId>
                 <version>${revision}</version>
             </dependency>
@@ -834,7 +844,6 @@
                 <artifactId>neiko-admin-datascope</artifactId>
                 <version>${revision}</version>
             </dependency>
-            
         </dependencies>
     </dependencyManagement>
     

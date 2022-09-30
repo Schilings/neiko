@@ -1,0 +1,8 @@
+metadata:
+  name: ${project.artifactId}
+  
+#metadata:
+#  annotations:
+#    api.service.kubernetes.io/path: /hello
+#spec:
+#  type: LoadBalancer

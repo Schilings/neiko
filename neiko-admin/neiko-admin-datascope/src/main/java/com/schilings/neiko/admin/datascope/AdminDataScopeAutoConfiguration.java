@@ -4,7 +4,6 @@ import com.schilings.neiko.admin.datascope.component.AdminDefaultDataScope;
 import com.schilings.neiko.admin.datascope.component.DefaultUserDataScopeProcessor;
 import com.schilings.neiko.admin.datascope.component.UserDataScopeProcessor;
 import com.schilings.neiko.admin.datascope.listener.DataScopeAttributeSetter;
-import com.schilings.neiko.common.datascope.DataScope;
 import com.schilings.neiko.system.service.SysOrganizationService;
 import com.schilings.neiko.system.service.SysRoleService;
 import com.schilings.neiko.system.service.SysUserService;
