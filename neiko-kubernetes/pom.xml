@@ -13,6 +13,7 @@
     <modules>
         <module>neiko-kubernetes-modules</module>
         <module>neiko-kubernetes-visual</module>
+        <module>neiko-kubernetes-ingress</module>
     </modules>
     
     <profiles>

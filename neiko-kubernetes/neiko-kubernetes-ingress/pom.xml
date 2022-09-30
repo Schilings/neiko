@@ -8,11 +8,6 @@
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>neiko-kubernetes-modules</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>neiko-kubernetes-system</module>
-        <module>neiko-kubernetes-resource</module>
-    </modules>
-
+    <artifactId>neiko-kubernetes-ingress</artifactId>
+    
 </project>
