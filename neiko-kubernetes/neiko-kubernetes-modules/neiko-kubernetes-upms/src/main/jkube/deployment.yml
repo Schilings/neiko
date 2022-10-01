@@ -1,0 +1,23 @@
+spec:
+  replicas: 1
+  template:
+    spec:
+      volumes:
+        - name: config
+          configMap:
+            name: ${project.artifactId}
+            items:
+              - key: application.yaml
+                path: application.yaml
+      containers:
+        - volumeMounts:
+            - name: config
+              mountPath: /deployments/config
+          env:
+            - name: MY_POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+      serviceAccountName: neiko-k8s-sa
+

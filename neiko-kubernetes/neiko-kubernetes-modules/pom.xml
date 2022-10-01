@@ -11,7 +11,7 @@
     <artifactId>neiko-kubernetes-modules</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>neiko-kubernetes-system</module>
+        <module>neiko-kubernetes-upms</module>
         <module>neiko-kubernetes-resource</module>
         <module>neiko-kubernetes-wechat</module>
     </modules>

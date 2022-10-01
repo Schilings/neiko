@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${project.artifactId}
+data:
+  application.yaml: |
+    # spring application properties file
+    dummy:
+      message: Hello World--Change--!systemctl status kubelet.service
+    spring:
+      cloud:
+        sentinel:
+          transport:
+            dashboard: http://sentinel:5003
+          eager: true
+  leader.id.leader: kt-connect-shadow-ryvgx 

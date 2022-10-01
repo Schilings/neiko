@@ -27,6 +27,17 @@
             </properties>
         </profile>
         <profile>
+            <id>docker</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
             <id>kubernetes</id>
             <build>
                 <plugins>
@@ -35,6 +46,8 @@
                         <artifactId>kubernetes-maven-plugin</artifactId>
                         <version>${jkube.version}</version>
                         <configuration>
+                            <dockerHost>https://192.168.140.141:2376</dockerHost>
+                            <certPath>C:\Users\X1\Desktop\Notes\DockerCA\192.168.140.141</certPath>
                             <generator>
                                 <includes>
                                     <include>spring-boot</include>

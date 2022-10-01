@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: neiko-kubernetes-monitor
+data:
+  key: application.yaml |
+  

@@ -1,0 +1,17 @@
+server:
+  port: 5001
+
+spring:
+  main:
+    cloud-platform: kubernetes
+  application:
+    name: @artifactId@
+  security:
+    user:
+      name: admin
+      password: admin
+#  config:
+#    import:
+#      - nacos:application-@profiles.active@.yml
+#      - nacos:${spring.application.name}-@profiles.active@.yml
+

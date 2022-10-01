@@ -26,6 +26,7 @@
         
         
         <spring-boot.version>2.7.1</spring-boot.version>
+        <spring-boot-admin.version>2.7.5</spring-boot-admin.version>
         <spring-security-oauth2.version>2.3.8.RELEASE</spring-security-oauth2.version>
         <springfox.version>3.0.0</springfox.version>
         <swagger.version>1.5.21</swagger.version>
@@ -57,6 +58,8 @@
         
         <sa-token.version>1.30.0</sa-token.version>
         <weixin-java.version>4.4.0</weixin-java.version>
+
+        <xxl-job.version>2.3.1</xxl-job.version>
     </properties>
     
     <distributionManagement>
@@ -136,12 +139,18 @@
                 <scope>import</scope>
             </dependency>
 
+            <!--actable表自动维护-->
             <dependency>
                 <groupId>com.gitee.sunchenbin.mybatis.actable</groupId>
                 <artifactId>mybatis-enhance-actable</artifactId>
                 <version>${mybatis.enhance.actable.version}</version>
             </dependency>
-            
+            <!--监控服务端-->
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-server</artifactId>
+                <version>${spring-boot-admin.version}</version>
+            </dependency>
          
             <!--swagger v3-->
             <dependency>
@@ -439,7 +448,7 @@
                 <version>${netty.version}</version>
             </dependency>
             
-            <!--wejava-->
+            <!--wxjava-->
             <dependency>
                 <groupId>com.github.binarywang</groupId>
                 <artifactId>weixin-java-mp</artifactId>
@@ -454,6 +463,14 @@
                 <groupId>com.github.binarywang</groupId>
                 <artifactId>wx-java-miniapp-spring-boot-starter</artifactId>
                 <version>${weixin-java.version}</version>
+            </dependency>
+
+
+            <!-- xxl-job-core -->
+            <dependency>
+                <groupId>com.xuxueli</groupId>
+                <artifactId>xxl-job-core</artifactId>
+                <version>${xxl-job.version}</version>
             </dependency>
             
             <!--neiko common-->

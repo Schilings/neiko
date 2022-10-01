@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: neiko-k8s-rb
+  namespace: default
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: neiko-k8s-role
+subjects:
+  - kind: ServiceAccount
+    name: neiko-k8s-sa
+    namespace: default

@@ -16,10 +16,3 @@ spec:
                 name: nginx-service
                 port:
                   number: 80
-          - path: /tomcat
-            pathType: Prefix
-            backend:
-              service:
-                name: tomcat-service
-                port:
-                  number: 8080
