@@ -10,9 +10,7 @@
     <version>${revision}</version>
     <modules>
         <module>neiko-common</module>
-<!--        <module>neiko-dependencies</module>-->
         <module>neiko-starters</module>
-        <module>neiko-samples</module>
         <module>neiko-cloud</module>
         <module>neiko-extend</module>
         <module>neiko-admin</module>
@@ -20,7 +18,7 @@
     </modules>
 
     <properties>
-        <revision>0.0.1-SNAPSHOT</revision>
+        <revision>0.1.0-SNAPSHOT</revision>
         <java.version>1.8</java.version>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -275,13 +273,6 @@
                     <skipTests>true</skipTests>
                 </configuration>
             </plugin>
-
-            <!--deploy插件的版本是2.7需要在项目的pom.xml文件中配置上传的仓库信息, 升级到2.8后会使用setting.xml中的配置-->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-deploy-plugin</artifactId>-->
-<!--                <version>${maven-deploy-plugin.version}</version>-->
-<!--            </plugin>-->
         </plugins>
     </build>
 
