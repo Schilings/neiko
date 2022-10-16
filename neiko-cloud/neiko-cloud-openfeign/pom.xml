@@ -12,10 +12,10 @@
     
     <dependencies>
         <!--neiko cloud commons-->
-<!--        <dependency>-->
-<!--            <groupId>com.schilings</groupId>-->
-<!--            <artifactId>neiko-cloud-commons</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-cloud-commons</artifactId>
+        </dependency>
         <!--spring cloud openfeign-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
