@@ -16,19 +16,16 @@
  */
 package com.schilings.neiko.remoting.netty.handler;
 
+import com.schilings.neiko.remoting.netty.common.RemotingUtil;
+import com.schilings.neiko.remoting.protocol.RemotingCommandHelper;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
-import org.apache.rocketmq.logging.InternalLogger;
-import org.apache.rocketmq.logging.InternalLoggerFactory;
-import org.apache.rocketmq.remoting.common.RemotingHelper;
-import org.apache.rocketmq.remoting.common.RemotingUtil;
-import org.apache.rocketmq.remoting.protocol.RemotingCommand;
+
 
 import java.nio.ByteBuffer;
 
 public class NettyDecoder extends LengthFieldBasedFrameDecoder {
-    private static final InternalLogger log = InternalLoggerFactory.getLogger(RemotingHelper.ROCKETMQ_REMOTING);
 
     private static final int FRAME_MAX_LENGTH =
         Integer.parseInt(System.getProperty("com.rocketmq.remoting.frameMaxLength", "16777216"));
@@ -48,9 +45,9 @@ public class NettyDecoder extends LengthFieldBasedFrameDecoder {
 
             ByteBuffer byteBuffer = frame.nioBuffer();
 
-            return RemotingCommand.decode(byteBuffer);
+            return RemotingCommandHelper.decode(byteBuffer);
         } catch (Exception e) {
-            log.error("decode exception, " + RemotingHelper.parseChannelRemoteAddr(ctx.channel()), e);
+            //log.error("decode exception, " + RemotingHelper.parseChannelRemoteAddr(ctx.channel()), e);
             RemotingUtil.closeChannel(ctx.channel());
         } finally {
             if (null != frame) {
