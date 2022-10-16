@@ -16,7 +16,7 @@
  */
 package com.schilings.neiko.remoting.netty.handler;
 
-import com.schilings.neiko.remoting.netty.common.RemotingUtil;
+import com.schilings.neiko.remoting.common.RemotingUtil;
 import com.schilings.neiko.remoting.protocol.RemotingCommandHelper;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

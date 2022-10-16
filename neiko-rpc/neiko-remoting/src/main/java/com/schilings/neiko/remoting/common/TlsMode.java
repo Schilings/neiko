@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.schilings.neiko.remoting.netty.common;
+package com.schilings.neiko.remoting.common;
 
 /**
  * For server, three SSL modes are supported: disabled, permissive and enforcing.

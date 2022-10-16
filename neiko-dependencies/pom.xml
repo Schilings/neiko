@@ -52,7 +52,9 @@
         <javax.servlet.version>4.0.1</javax.servlet.version>
         <java.jwt.version>4.0.0</java.jwt.version>
         <netty.version>4.1.78.Final</netty.version>
-        
+        <mockito.version>3.10.0</mockito.version>
+        <awaitility.version>4.1.0</awaitility.version>
+
         <shiro.redis.version>3.3.1</shiro.redis.version>
         <shiro.spring.boot.starter.version>1.9.1</shiro.spring.boot.starter.version>
         
@@ -247,6 +249,16 @@
                 <version>${springfox.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.awaitility</groupId>
+                <artifactId>awaitility</artifactId>
+                <version>${awaitility.version}</version>
+            </dependency>
             <!--xxl-job-->
             <dependency>
                 <groupId>com.xuxueli</groupId>

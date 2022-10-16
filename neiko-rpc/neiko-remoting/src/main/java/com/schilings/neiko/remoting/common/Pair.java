@@ -14,28 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.schilings.neiko.remoting.netty.common;
+package com.schilings.neiko.remoting.common;
 
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.atomic.AtomicBoolean;
+public class Pair<T1, T2> {
+    private T1 object1;
+    private T2 object2;
 
-public class SemaphoreReleaseOnlyOnce {
-    private final AtomicBoolean released = new AtomicBoolean(false);
-    private final Semaphore semaphore;
-
-    public SemaphoreReleaseOnlyOnce(Semaphore semaphore) {
-        this.semaphore = semaphore;
+    public Pair(T1 object1, T2 object2) {
+        this.object1 = object1;
+        this.object2 = object2;
     }
 
-    public void release() {
-        if (this.semaphore != null) {
-            if (this.released.compareAndSet(false, true)) {
-                this.semaphore.release();
-            }
-        }
+    public T1 getObject1() {
+        return object1;
     }
 
-    public Semaphore getSemaphore() {
-        return semaphore;
+    public void setObject1(T1 object1) {
+        this.object1 = object1;
+    }
+
+    public T2 getObject2() {
+        return object2;
+    }
+
+    public void setObject2(T2 object2) {
+        this.object2 = object2;
     }
 }

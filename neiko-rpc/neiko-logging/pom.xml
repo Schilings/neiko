@@ -9,6 +9,17 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>neiko-logging</artifactId>
-    
 
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>

@@ -14,30 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.schilings.neiko.remoting.netty.common;
 
-public class Pair<T1, T2> {
-    private T1 object1;
-    private T2 object2;
+package com.schilings.neiko.logging.inner;
 
-    public Pair(T1 object1, T2 object2) {
-        this.object1 = object1;
-        this.object2 = object2;
+import org.junit.Assert;
+import org.junit.Test;
+
+public class LevelTest {
+
+    @Test
+    public void levelTest() {
+        Level info = Level.toLevel("info");
+        Level error = Level.toLevel(3);
+        Assert.assertTrue(error != null && info != null);
     }
 
-    public T1 getObject1() {
-        return object1;
-    }
-
-    public void setObject1(T1 object1) {
-        this.object1 = object1;
-    }
-
-    public T2 getObject2() {
-        return object2;
-    }
-
-    public void setObject2(T2 object2) {
-        this.object2 = object2;
+    @Test
+    public void loggerLevel(){
+        Level level = Logger.getRootLogger().getLevel();
+        Assert.assertTrue(level!=null);
     }
 }
