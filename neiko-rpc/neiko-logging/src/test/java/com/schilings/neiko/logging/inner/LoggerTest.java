@@ -17,10 +17,11 @@
 
 package com.schilings.neiko.logging.inner;
 
-import org.apache.rocketmq.logging.BasicLoggerTest;
-import org.apache.rocketmq.logging.InnerLoggerFactory;
-import org.apache.rocketmq.logging.InternalLogger;
-import org.apache.rocketmq.logging.InternalLoggerFactory;
+
+import com.schilings.neiko.logging.BasicLoggerTest;
+import com.schilings.neiko.logging.InnerLoggerFactory;
+import com.schilings.neiko.logging.InternalLogger;
+import com.schilings.neiko.logging.InternalLoggerFactory;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

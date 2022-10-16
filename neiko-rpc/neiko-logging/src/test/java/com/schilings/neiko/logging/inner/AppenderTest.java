@@ -17,7 +17,8 @@
 
 package com.schilings.neiko.logging.inner;
 
-import org.apache.rocketmq.logging.BasicLoggerTest;
+import com.schilings.neiko.logging.BasicLoggerTest;
+
 import org.junit.Assert;
 import org.junit.Test;
 
