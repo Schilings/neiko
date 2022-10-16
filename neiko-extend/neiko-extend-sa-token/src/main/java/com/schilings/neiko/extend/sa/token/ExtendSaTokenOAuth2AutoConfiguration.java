@@ -71,7 +71,6 @@ public class ExtendSaTokenOAuth2AutoConfiguration {
 
 	/**
 	 * Sa-Token-OAuth2 模块
-	 *
 	 * @return
 	 */
 	@Bean
@@ -82,7 +81,6 @@ public class ExtendSaTokenOAuth2AutoConfiguration {
 
 	/**
 	 * 处理权限变更等事件的事件监听器
-	 *
 	 * @return
 	 */
 	@Bean
@@ -93,7 +91,6 @@ public class ExtendSaTokenOAuth2AutoConfiguration {
 
 	/**
 	 * RBAC权限缓存
-	 *
 	 * @return
 	 */
 	@Bean
@@ -104,7 +101,6 @@ public class ExtendSaTokenOAuth2AutoConfiguration {
 
 	/**
 	 * Sa-Token自定义Redis实现Dao
-	 *
 	 * @return
 	 */
 	@Bean

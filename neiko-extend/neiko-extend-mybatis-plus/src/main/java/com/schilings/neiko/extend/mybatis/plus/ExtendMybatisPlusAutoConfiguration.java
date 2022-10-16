@@ -17,16 +17,14 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 
-
 @Slf4j
-@ConditionalOnClass(value = {MybatisPlusAutoConfiguration.class})
+@ConditionalOnClass(value = { MybatisPlusAutoConfiguration.class })
 @AutoConfiguration
 public class ExtendMybatisPlusAutoConfiguration {
 
 	/**
 	 * MybatisPlusInterceptor 插件，默认提供分页插件</br>
 	 * 如需其他MP内置插件，则需自定义该Bean
-	 *
 	 * @return MybatisPlusInterceptor
 	 */
 	@Bean
@@ -39,7 +37,6 @@ public class ExtendMybatisPlusAutoConfiguration {
 
 	/**
 	 * 连表拦截器
-	 *
 	 * @return
 	 */
 	@Bean
@@ -50,11 +47,10 @@ public class ExtendMybatisPlusAutoConfiguration {
 
 	/**
 	 * 拓展方法注入
-	 *
 	 * @return
 	 */
 	@Bean
-	@ConditionalOnMissingBean({DefaultSqlInjector.class, AbstractSqlInjector.class, ISqlInjector.class})
+	@ConditionalOnMissingBean({ DefaultSqlInjector.class, AbstractSqlInjector.class, ISqlInjector.class })
 	public ISqlInjector extendSqlInjector() {
 		return new ExtendSqlInjector();
 	}

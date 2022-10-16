@@ -896,6 +896,24 @@
                 <artifactId>neiko-admin-datascope</artifactId>
                 <version>${revision}</version>
             </dependency>
+            
+            
+            <!--neiko rpc-->
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-rpc</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-remoting</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-logging</artifactId>
+                <version>${revision}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     
