@@ -34,7 +34,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
 public class RemotingHelper {
-    public static final String ROCKETMQ_REMOTING = "RocketmqRemoting";
+    public static final String NEIKO_REMOTING = "NeikoRemoting";
     public static final String DEFAULT_CHARSET = "UTF-8";
 
     //private static final InternalLogger log = InternalLoggerFactory.getLogger(ROCKETMQ_REMOTING);

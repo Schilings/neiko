@@ -18,8 +18,17 @@ package com.schilings.neiko.remoting.netty.config;
 
 public class NettyServerConfig implements Cloneable {
     private int listenPort = 8888;
+    /**
+     * 处理实际业务的线程数
+     */
     private int serverWorkerThreads = 8;
+    /**
+     * 处理回调的线程数
+     */
     private int serverCallbackExecutorThreads = 0;
+    /**
+     * 
+     */
     private int serverSelectorThreads = 3;
     private int serverOnewaySemaphoreValue = 256;
     private int serverAsyncSemaphoreValue = 64;
