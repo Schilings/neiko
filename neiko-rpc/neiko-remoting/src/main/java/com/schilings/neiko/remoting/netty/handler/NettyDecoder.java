@@ -16,6 +16,9 @@
  */
 package com.schilings.neiko.remoting.netty.handler;
 
+import com.schilings.neiko.logging.InternalLogger;
+import com.schilings.neiko.logging.InternalLoggerFactory;
+import com.schilings.neiko.remoting.common.RemotingHelper;
 import com.schilings.neiko.remoting.common.RemotingUtil;
 import com.schilings.neiko.remoting.protocol.RemotingCommandHelper;
 import io.netty.buffer.ByteBuf;
@@ -27,8 +30,10 @@ import java.nio.ByteBuffer;
 
 public class NettyDecoder extends LengthFieldBasedFrameDecoder {
 
+    private static final InternalLogger log = InternalLoggerFactory.getLogger(RemotingHelper.NEIKO_REMOTING);
+    
     private static final int FRAME_MAX_LENGTH =
-        Integer.parseInt(System.getProperty("com.neiko.remoting.frameMaxLength", "16777216"));
+        Integer.parseInt(System.getProperty("com.schilings.neiko.remoting.frameMaxLength", "16777216"));
 
     public NettyDecoder() {
         super(FRAME_MAX_LENGTH, 0, 4, 0, 4);
@@ -47,7 +52,7 @@ public class NettyDecoder extends LengthFieldBasedFrameDecoder {
 
             return RemotingCommandHelper.decode(byteBuffer);
         } catch (Exception e) {
-            //log.error("decode exception, " + RemotingHelper.parseChannelRemoteAddr(ctx.channel()), e);
+            log.error("decode exception, " + RemotingHelper.parseChannelRemoteAddr(ctx.channel()), e);
             RemotingUtil.closeChannel(ctx.channel());
         } finally {
             if (null != frame) {

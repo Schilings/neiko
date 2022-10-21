@@ -16,6 +16,9 @@
  */
 package com.schilings.neiko.remoting.netty.handler;
 
+import com.schilings.neiko.logging.InternalLogger;
+import com.schilings.neiko.logging.InternalLoggerFactory;
+import com.schilings.neiko.remoting.common.RemotingHelper;
 import com.schilings.neiko.remoting.common.RemotingUtil;
 import com.schilings.neiko.remoting.protocol.RemotingCommand;
 import io.netty.buffer.ByteBuf;
@@ -27,8 +30,7 @@ import java.nio.ByteBuffer;
 
 @ChannelHandler.Sharable
 public class NettyEncoder extends MessageToByteEncoder<RemotingCommand> {
-    //private static final InternalLogger log = InternalLoggerFactory.getLogger(RemotingHelper.ROCKETMQ_REMOTING);
-
+    private static final InternalLogger log = InternalLoggerFactory.getLogger(RemotingHelper.NEIKO_REMOTING);
     @Override
     public void encode(ChannelHandlerContext ctx, RemotingCommand remotingCommand, ByteBuf out)
         throws Exception {
@@ -40,9 +42,9 @@ public class NettyEncoder extends MessageToByteEncoder<RemotingCommand> {
                 out.writeBytes(body);
             }
         } catch (Exception e) {
-            //log.error("encode exception, " + RemotingHelper.parseChannelRemoteAddr(ctx.channel()), e);
+            log.error("encode exception, " + RemotingHelper.parseChannelRemoteAddr(ctx.channel()), e);
             if (remotingCommand != null) {
-                //log.error(remotingCommand.toString());
+                log.error(remotingCommand.toString());
             }
             RemotingUtil.closeChannel(ctx.channel());
         }
