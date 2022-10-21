@@ -277,6 +277,7 @@ public abstract class NettyRemotingAbstract {
      */
     public void processResponseCommand(ChannelHandlerContext ctx, RemotingCommand cmd) {
         final int opaque = cmd.getOpaque();
+        //检查缓存，该请求是否真正进行
         final ResponseFuture responseFuture = responseTable.get(opaque);
         if (responseFuture != null) {
             //放入响应结果
@@ -383,6 +384,23 @@ public abstract class NettyRemotingAbstract {
                 executeInvokeCallback(rf);
             } catch (Throwable e) {
                 log.warn("scanResponseTable, operationComplete Exception", e);
+            }
+        }
+    }
+
+    /**
+     * 将指定通道的请求标记为失败并立即调用失败回调
+     * @param channel 已经关闭的频道
+     */
+    protected void failFast(final Channel channel) {
+        Iterator<Map.Entry<Integer, ResponseFuture>> it = responseTable.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<Integer, ResponseFuture> entry = it.next();
+            if (entry.getValue().getProcessChannel() == channel) {
+                Integer opaque = entry.getKey();
+                if (opaque != null) {
+                    requestFail(opaque);
+                }
             }
         }
     }

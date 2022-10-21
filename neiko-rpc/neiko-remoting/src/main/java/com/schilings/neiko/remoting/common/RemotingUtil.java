@@ -16,6 +16,8 @@
  */
 package com.schilings.neiko.remoting.common;
 
+import com.schilings.neiko.logging.InternalLogger;
+import com.schilings.neiko.logging.InternalLoggerFactory;
 import com.schilings.neiko.remoting.netty.config.NettySystemConfig;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -35,7 +37,7 @@ import java.util.Enumeration;
 public class RemotingUtil {
     public static final String OS_NAME = System.getProperty("os.name");
 
-    //private static final InternalLogger log = InternalLoggerFactory.getLogger(RemotingHelper.ROCKETMQ_REMOTING);
+    private static final InternalLogger log = InternalLoggerFactory.getLogger(RemotingHelper.NEIKO_REMOTING);
     private static boolean isLinuxPlatform = false;
     private static boolean isWindowsPlatform = false;
 
@@ -217,7 +219,7 @@ public class RemotingUtil {
         channel.close().addListener(new ChannelFutureListener() {
             @Override
             public void operationComplete(ChannelFuture future) throws Exception {
-                //log.info("closeChannel: close the connection to remote address[{}] result: {}", addrRemote, future.isSuccess());
+                log.info("closeChannel: close the connection to remote address[{}] result: {}", addrRemote, future.isSuccess());
             }
         });
     }

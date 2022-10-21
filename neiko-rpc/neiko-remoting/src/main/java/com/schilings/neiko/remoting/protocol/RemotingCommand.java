@@ -21,6 +21,10 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Schilings
 */
 public class RemotingCommand {
+
+    public static final String SERIALIZE_TYPE_PROPERTY = "neiko.serialize.type";
+    public static final String SERIALIZE_TYPE_ENV = "NEIKO_SERIALIZE_TYPE";
+    public static final String REMOTING_VERSION_KEY = "neiko.remoting.version";
     
     /*
      类属性
@@ -91,7 +95,7 @@ public class RemotingCommand {
         if (configVersion >= 0) {
             cmd.setVersion(configVersion);
         } else {
-            String v = System.getProperty("REMOTING_VERSION_KEY");
+            String v = System.getProperty(REMOTING_VERSION_KEY);
             if (v != null) {
                 int value = Integer.parseInt(v);
                 cmd.setVersion(value);
