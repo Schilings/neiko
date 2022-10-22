@@ -83,7 +83,7 @@ public class RemotingCommandHelper {
     }
 
     /**
-     * 截取头报文部信息长度，前四个字节
+     * 截取头报文部信息长度，前四个字节中的后三个字节
      * @param length
      * @return
      */

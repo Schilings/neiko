@@ -36,6 +36,7 @@ public class RemotingServerTest {
         remotingServer.registerProcessor(REQUEST_COMMAND.ordinal(), new AsyncNettyRequestProcessor() {
             @Override
             public RemotingCommand processRequest(ChannelHandlerContext ctx, RemotingCommand request) {
+                System.out.println(request);
                 request.setRemark("Hi " + ctx.channel().remoteAddress());
                 return request;
             }

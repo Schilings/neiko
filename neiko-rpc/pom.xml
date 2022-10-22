@@ -13,6 +13,8 @@
     <modules>
         <module>neiko-remoting</module>
         <module>neiko-logging</module>
+        <module>neiko-srvutil</module>
+        <module>neiko-store</module>
     </modules>
     
     <dependencies>
