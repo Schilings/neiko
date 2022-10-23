@@ -5,7 +5,7 @@ import com.schilings.neiko.logging.InternalLogger;
 import com.schilings.neiko.logging.InternalLoggerFactory;
 import com.schilings.neiko.store.config.FlushDiskType;
 import com.schilings.neiko.store.util.CLibrary;
-import com.schilings.neiko.store.util.UtilAll;
+import com.schilings.neiko.svrutil.UtilAll;
 import com.sun.jna.NativeLong;
 import com.sun.jna.Pointer;
 import sun.nio.ch.DirectBuffer;
@@ -87,6 +87,11 @@ public class MappedFile extends ReferenceResource{
      * 映射的文件内存块
      */
     private MappedByteBuffer mappedByteBuffer;
+    
+    /**
+     * 以文件存储起始offset作为文件名，通常是20位的整数,相邻的两个文件差就能算出文件大小
+     * 如分片文件保存
+     */
     private long fileFromOffset;
     
     
@@ -201,7 +206,7 @@ public class MappedFile extends ReferenceResource{
 
     public void init(final String fileName, final int fileSize, final TransientStorePool transientStorePool) throws IOException {
         init(fileName, fileSize);
-        //写操作缓冲区
+        //写操作缓冲区 借用
         this.writeBuffer = transientStorePool.borrowBuffer();
         this.transientStorePool = transientStorePool;
     }
@@ -477,8 +482,9 @@ public class MappedFile extends ReferenceResource{
             }
         }
 
-        // All dirty data has been committed to FileChannel.
+        // 所有脏数据都已提交到 FileChannel。
         if (writeBuffer != null && this.transientStorePool != null && this.fileSize == this.committedPosition.get()) {
+            //归还 writeBuffer
             this.transientStorePool.returnBuffer(writeBuffer);
             this.writeBuffer = null;
         }
@@ -489,7 +495,7 @@ public class MappedFile extends ReferenceResource{
     protected void commit0() {
         int writePos = this.wrotePosition.get();
         int lastCommittedPosition = this.committedPosition.get();
-        //
+        //写 > 提交
         if (writePos - lastCommittedPosition > 0) {
             try {
                 ByteBuffer byteBuffer = writeBuffer.slice();

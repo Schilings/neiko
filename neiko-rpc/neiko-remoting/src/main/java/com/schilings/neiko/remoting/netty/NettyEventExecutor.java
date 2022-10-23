@@ -4,7 +4,7 @@ package com.schilings.neiko.remoting.netty;
 import com.schilings.neiko.logging.InternalLogger;
 import com.schilings.neiko.logging.InternalLoggerFactory;
 import com.schilings.neiko.remoting.common.RemotingHelper;
-import com.schilings.neiko.remoting.common.ServiceThread;
+import com.schilings.neiko.svrutil.ServiceThread;
 import com.schilings.neiko.remoting.netty.event.NettyEvent;
 
 import java.util.concurrent.LinkedBlockingQueue;

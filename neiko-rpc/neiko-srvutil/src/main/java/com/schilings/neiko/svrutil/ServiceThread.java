@@ -14,16 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.schilings.neiko.remoting.common;
+package com.schilings.neiko.svrutil;
 
 
-
+import com.schilings.neiko.logging.InternalLogger;
+import com.schilings.neiko.logging.InternalLoggerFactory;
 
 /**
  * Base class for background thread
  */
 public abstract class ServiceThread implements Runnable {
-    //private static final InternalLogger log = InternalLoggerFactory.getLogger(RemotingHelper.ROCKETMQ_REMOTING);
+    private static final InternalLogger log = InternalLoggerFactory.getLogger(ServiceThread.class);
 
     private static final long JOIN_TIME = 90 * 1000;
     protected final Thread thread;

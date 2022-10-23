@@ -19,7 +19,10 @@
             <groupId>com.schilings</groupId>
             <artifactId>neiko-logging</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-srvutil</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>

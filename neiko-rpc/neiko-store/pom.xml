@@ -17,13 +17,8 @@
             <artifactId>neiko-logging</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-validator</groupId>
-            <artifactId>commons-validator</artifactId>
-            <version>1.7</version>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>neiko-srvutil</artifactId>
         </dependency>
         <!--https://blog.csdn.net/ryu7769/article/details/124715918-->
         <dependency>

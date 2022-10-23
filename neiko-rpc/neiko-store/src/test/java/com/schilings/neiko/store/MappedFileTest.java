@@ -20,7 +20,7 @@
  */
 package com.schilings.neiko.store;
 
-import com.schilings.neiko.store.util.UtilAll;
+import com.schilings.neiko.svrutil.UtilAll;
 import org.junit.After;
 import org.junit.Test;
 

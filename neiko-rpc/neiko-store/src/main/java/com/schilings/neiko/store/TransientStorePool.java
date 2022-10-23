@@ -39,6 +39,7 @@ public class TransientStorePool {
     public TransientStorePool() {
         this(5, 1024 * 1024 * 1024);
     }
+    
     public TransientStorePool(int poolSize,int fileSize) {
         this(poolSize, fileSize, true);
     }
@@ -111,6 +112,10 @@ public class TransientStorePool {
             return availableBuffers.size();
         }
         return Integer.MAX_VALUE;
+    }
+
+    public boolean isTransientStorePoolEnable() {
+        return this.transientStorePoolEnable;
     }
     
     

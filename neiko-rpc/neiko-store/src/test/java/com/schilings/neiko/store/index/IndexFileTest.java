@@ -21,7 +21,7 @@
 package com.schilings.neiko.store.index;
 
 
-import com.schilings.neiko.store.util.UtilAll;
+import com.schilings.neiko.svrutil.UtilAll;
 import org.junit.Test;
 
 import java.io.File;
