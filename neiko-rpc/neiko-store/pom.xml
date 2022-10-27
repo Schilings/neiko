@@ -20,6 +20,10 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>neiko-srvutil</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>neiko-remoting</artifactId>
+        </dependency>
         <!--https://blog.csdn.net/ryu7769/article/details/124715918-->
         <dependency>
             <groupId>net.java.dev.jna</groupId>

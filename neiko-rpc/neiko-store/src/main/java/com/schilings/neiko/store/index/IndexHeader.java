@@ -1,38 +1,44 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.schilings.neiko.store.index;
-
 
 import java.nio.ByteBuffer;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class IndexHeader{
-    /**
-     * 索引头部信息数据长度
-     */
+public class IndexHeader {
     public static final int INDEX_HEADER_SIZE = 40;
+    private static int beginTimestampIndex = 0; //开始时间 8个字节
+    private static int endTimestampIndex = 8;  //结束时间 8个字节
+    private static int beginPhyoffsetIndex = 16; //开始偏移量 8个字节
+    private static int endPhyoffsetIndex = 24; //结束偏移量 8个字节
+    private static int hashSlotcountIndex = 32; //hash槽数量 4个字节
+    private static int indexCountIndex = 36; //索引数量 4个字节
     
-    //起始时间
-    private static int beginTimestampIndex = 0;
-    //结束时间
-    private static int endTimestampIndex = 8;
-    //起始偏移量
-    private static int beginPhyoffsetIndex = 16;
-    //结束偏移量
-    private static int endPhyoffsetIndex = 24;
-    //hash槽数量
-    private static int hashSlotcountIndex = 32;
-    //索引数量
-    private static int indexCountIndex = 36;
-
-
+    //Index文件的直接内存
     private final ByteBuffer byteBuffer;
     
     private AtomicLong beginTimestamp = new AtomicLong(0);
     private AtomicLong endTimestamp = new AtomicLong(0);
     private AtomicLong beginPhyOffset = new AtomicLong(0);
     private AtomicLong endPhyOffset = new AtomicLong(0);
+    
+    
     private AtomicInteger hashSlotCount = new AtomicInteger(0);
-
     private AtomicInteger indexCount = new AtomicInteger(1);
 
     public IndexHeader(final ByteBuffer byteBuffer) {
@@ -40,21 +46,25 @@ public class IndexHeader{
     }
 
     /**
-     * 从文件获取索引头信息
+     * byteBuffer --> indexHeader
      */
     public void load() {
         this.beginTimestamp.set(byteBuffer.getLong(beginTimestampIndex));
         this.endTimestamp.set(byteBuffer.getLong(endTimestampIndex));
         this.beginPhyOffset.set(byteBuffer.getLong(beginPhyoffsetIndex));
         this.endPhyOffset.set(byteBuffer.getLong(endPhyoffsetIndex));
+
         this.hashSlotCount.set(byteBuffer.getInt(hashSlotcountIndex));
         this.indexCount.set(byteBuffer.getInt(indexCountIndex));
-
+        
         if (this.indexCount.get() <= 0) {
             this.indexCount.set(1);
         }
     }
 
+    /**
+     * indexHeader --> byteBuffer
+     */
     public void updateByteBuffer() {
         this.byteBuffer.putLong(beginTimestampIndex, this.beginTimestamp.get());
         this.byteBuffer.putLong(endTimestampIndex, this.endTimestamp.get());

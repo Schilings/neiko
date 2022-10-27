@@ -206,7 +206,8 @@ public class MappedFile extends ReferenceResource{
 
     public void init(final String fileName, final int fileSize, final TransientStorePool transientStorePool) throws IOException {
         init(fileName, fileSize);
-        //写操作缓冲区 借用
+        //设置写buffer，采用堆外内存
+        //如果开启了堆外内存，那么将采用此方式创建MappedFile，其相比于mmap的方式，多了一步操作，即会设置一个writeBuffer。
         this.writeBuffer = transientStorePool.borrowBuffer();
         this.transientStorePool = transientStorePool;
     }
@@ -218,18 +219,22 @@ public class MappedFile extends ReferenceResource{
      * @throws IOException
      */
     private void init(final String fileName, final int fileSize) throws IOException {
+        //文件名。长度为20位，左边补零，剩余为起始偏移量，比如00000000000000000000代表了第一个文件，起始偏移量为0
         this.fileName = fileName;
+        //文件大小。默认1G=1073741824
         this.fileSize = fileSize;
+        //构建file对象
         this.file = new File(fileName);
+        //构建文件起始索引，就是取自文件名
         this.fileFromOffset = Long.parseLong(this.file.getName());
         boolean ok = false;
-
+        //确保文件目录存在
         ensureDirOK(this.file.getParent());
 
         try {
-            //读写
+            //构建文件通道fileChannel
             this.fileChannel = new RandomAccessFile(this.file, "rw").getChannel();
-            //
+            //文件完全的映射到虚拟内存，也就是内存映射，即mmap，提升读写性能
             this.mappedByteBuffer = this.fileChannel.map(FileChannel.MapMode.READ_WRITE, 0, fileSize);
             //内存计数
             TOTAL_MAPPED_VIRTUAL_MEMORY.addAndGet(fileSize);
@@ -305,17 +310,21 @@ public class MappedFile extends ReferenceResource{
     }
 
     /**
-     * 内存上锁
+     * 锁定内存
+     * 当实现了文件内存预热之后，虽然短时间不会读取数据不会引发缺页异常，
+     * 但是当内存不足的时候，一部分不常使用的内存还是会被交换到swap空间中，当程序再次读取交换出去的数据的时候会再次产生缺页异常。
      */
     public void mlock() {
         final long beginTime = System.currentTimeMillis();
         final long address = ((DirectBuffer) (this.mappedByteBuffer)).address();
         Pointer pointer = new Pointer(address);
         {
+            //调用系统mlock函数，锁定该文件的Page Cache，防止把预热过的文件被操作系统调到swap空间中。
             int ret = CLibrary.INSTANCE.mlock(pointer, new NativeLong(this.fileSize));
             log.info("mlock {} {} {} ret = {} time consuming = {}", address, this.fileName, this.fileSize, ret, System.currentTimeMillis() - beginTime);
         }
         {
+            //另外还会调用系统madvise函数，再次尝试一次性先将一段数据读入到映射内存区域，这样就减少了缺页异常的产生。
             int ret = CLibrary.INSTANCE.madvise(pointer, new NativeLong(this.fileSize), CLibrary.MADV_WILLNEED);
             log.info("madvise {} {} {} ret = {} time consuming = {}", address, this.fileName, this.fileSize, ret, System.currentTimeMillis() - beginTime);
         }
@@ -333,19 +342,29 @@ public class MappedFile extends ReferenceResource{
     }
 
     /**
+     * 用文件预热，即让操作系统提前分配物理内存空间，防止在写入消息时发生缺页异常才进行分配。
      * 
-     * @param type
-     * @param pages
+     * mmap操作减少了传统IO将磁盘文件数据在操作系统内核地址空间的缓冲区和用户应用程序地址空间的缓冲区之间来回进行拷贝的性能开销，这是它的好处。
+     *
+     * 但是mmap操作对于OS来说只是建立虚拟内存地址至物理地址的映射关系，即将进程使用的虚拟内存地址映射到物理地址上。
+     * 实际上并不会加载任何MappedFile数据至内存中，也并不会分配指定的大小的内存。
+     * 当程序要访问数据时，如果发现这部分数据页并没有实际加载到内存中，则处理器自动触发一个缺页异常，
+     * 进而进入内核空间再分配物理内存，一次分配大小默认4k。
+     * 一个G大小的CommitLog，如果靠着缺页中断来分配实际内存，那么需要触发26w多次缺页中断，这是一笔不小的开销。
+     * 
+     * @param type 消息刷盘类型，默认 FlushDiskType.ASYNC_FLUSH;
+     * @param pages 一页大小，默认4k
      */
     public void warmMappedFile(FlushDiskType type, int pages) {
         long beginTime = System.currentTimeMillis();
-        //分片
+        // 创建一个新的字节缓冲区
         ByteBuffer byteBuffer = this.mappedByteBuffer.slice();
         int flush = 0;
         long time = System.currentTimeMillis();
         for (int i = 0, j = 0; i < this.fileSize; i += MappedFile.OS_PAGE_SIZE, j++) {
+            //每隔4k大小写入一个0
             byteBuffer.put(i, (byte) 0);
-            // 当刷新磁盘类型为同步时 强制刷新
+            //如果是同步刷盘，则每次写入都要强制刷盘
             if (type == FlushDiskType.SYNC_FLUSH) {
                 if ((i / OS_PAGE_SIZE) - (flush / OS_PAGE_SIZE) >= pages) {
                     flush = i;
@@ -355,6 +374,8 @@ public class MappedFile extends ReferenceResource{
             }
 
             // 防止 gc
+            //调用Thread.sleep(0)当前线程主动放弃CPU资源，立即进入就绪状态
+            //防止因为多次循环导致该线程一直抢占着CPU资源不释放，
             if (j % 1000 == 0) {
                 log.info("j={}, costTime={}", j, System.currentTimeMillis() - time);
                 time = System.currentTimeMillis();
@@ -366,14 +387,14 @@ public class MappedFile extends ReferenceResource{
             }
         }
 
-        // 准备加载完成时强制刷新
+        // 准备加载完成时强制刷新 把剩余的数据强制刷新到磁盘中
         if (type == FlushDiskType.SYNC_FLUSH) {
             log.info("mapped file warm-up done, force to disk, mappedFile={}, costTime={}", this.getFileName(), System.currentTimeMillis() - beginTime);
             mappedByteBuffer.force();
         }
         log.info("mapped file warm-up done. mappedFile={}, costTime={}", this.getFileName(), System.currentTimeMillis() - beginTime);
 
-        //上锁
+        //锁定内存
         this.mlock();
     }
 
@@ -428,7 +449,7 @@ public class MappedFile extends ReferenceResource{
 
 
     /**
-     * 刷新写入到磁盘
+     * 刷盘
      * @return 当前刷新的位置
      */
     public int flush(final int flushLeastPages) {

@@ -53,18 +53,21 @@ public class TransientStorePool {
 
     /**
      * 初始化 这是一个沉重的初始化方法
+     * 该方法默认会初始化5个1G大小的堆外内存并且锁定住。这是一个重量级初始化操作，将会延长启动时间。
      */
     public void init() {
+        //默认5个
         for (int i = 0; i < poolSize; i++) {
             //分配直接内存 fileSize
+            //堆外内存就是通过ByteBuffer.allocateDirect方法分配的，这5块内存可以被重复利用。
             ByteBuffer byteBuffer = ByteBuffer.allocateDirect(fileSize);
             //内存地址
             final long address = ((DirectBuffer) byteBuffer).address();
             //本机指针
             Pointer pointer = new Pointer(address);
-            
+            //锁定堆外内存，确保不会被置换到虚拟内存中去
             CLibrary.INSTANCE.mlock(pointer, new NativeLong(fileSize));
-
+            //存入队列中
             availableBuffers.offer(byteBuffer);
         }
     }
