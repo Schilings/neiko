@@ -1,0 +1,113 @@
+spring:
+  security:
+    oauth2:
+      client:
+        #OAuth2ClientProperties
+        registration:
+          google-idp:
+            provider: google
+            client-id: 1002216944447-jppoombh74s21ckm9mfh1d7cm6c72beq.apps.googleusercontent.com
+            client-secret: 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
+            scope: openid, https://www.googleapis.com/auth/userinfo.profile, https://www.googleapis.com/auth/userinfo.email
+            client-name: Sign in with Google
+          github-idp:
+            provider: github
+            client-id: 62f82fe87cdb752da311
+            client-secret: f58fbaff8b392cd8d75a55e8e3cfbb0f85cb5b91
+            scope: user:email, read:user
+            client-name: Sign in with GitHub
+          gitee-idp:
+            provider: gitee
+            client-id: 5313a0dd8c6b109cb7bbb17b7e56d27407a4fd28ff8050f3a906ff30e2d0c50b
+            client-secret: f758aca319e6e6021dbef258d78fa69519ef484f60adb06cac60773a8288706e
+            scope: user_info
+            authorization-grant-type: authorization_code
+            client-name: Sign in with Gitee
+          facebook-idp:
+            provider: facebook
+            client-id: 5825954837481931
+            client-secret: be89168cd86fa2dd3abf5385000968ca
+            scope: public_profile
+            authorization-grant-type: authorization_code
+            client-name: Sign in with FaceBook
+          wechat_web_mp:
+            provider: wechat_web_mp
+            client-id: wxce770cc02d4092e6 #公众号服务号appId
+            client-secret: 5854c8541236153febb15a72150c7f85 #公众号服务号Secret
+            scope: snsapi_base #静默登录snsapi_base 授权登录snsapi_userinfo
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://gf11538.e1.luyouxia.net:26483/login/oauth2/code/{registrationId}"
+            client-name: Sign in with Wechat
+          work_wechat_web_qr:
+            #需要配置企业可信IP 
+            #not allow to access from your ip, hint: [1672926941307412790940736], from ip: 113.101.22.6, more info at https://open.work.weixin.qq.com/devtool/query?e=60020
+            provider: work_wechat_web_qr
+            client-id: wwbac7e8b44646c2c3 #corpId
+            client-secret: XIKtEB1F0UP6LI5v7StExt-XwwSN40JjgrXwtAKgu84 #secret
+            scope: 1000002 #agentId
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://gf11538.e1.luyouxia.net:26483/login/oauth2/code/{registrationId}"
+            client-name: Sign in with WorkWechat
+            
+          # SAS
+          # OAuth2Login
+          sas-oidc-login:
+            provider: sas
+            client-id: messaging-client1
+            client-secret: secret1
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://127.0.0.1:8000/login/oauth2/code/{registrationId}"
+            scope: openid,profile #单纯openid不用consent，如果还有其他权限就需要
+            client-name: Sign in SAS-OIDC
+          # OAuth2Login
+          sas-authorization-code-login: 
+            provider: sas
+            client-id: messaging-client1
+            client-secret: secret1
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://127.0.0.1:8000/login/oauth2/code/{registrationId}"
+            scope: message.read,message.write
+            client-name: Sign in SAS-AUTHORIZATION-CODE
+            
+          # OAuth2Client
+          sas-authorization-code:
+            provider: sas
+            client-id: messaging-client1
+            client-secret: secret1
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://127.0.0.1:8000/authorized"
+            scope: message.read,message.write
+            client-name: SAS-AUTHORIZATION-CODE
+          # OAuth2Client
+          sas-client-credentials:
+              provider: sas
+              client-id: messaging-client1
+              client-secret: secret1
+              authorization-grant-type: client_credentials
+              scope: message.read,message.write
+              client-name: sas-client-credentials
+              
+        provider:
+            sas:
+              # 1.如果是OIDC即scope里含"openid",那么授权要开启OIDC，而且SAS的OIDC提供的UserInfo Endpoint只给OpenId请求用
+              # 即scope带"openid"的请求,OpenId请求获取拿到的Token是OidcIdToken,其UserInfo也只给OidcIdToken用
+              # 对于Spring的OAuth2Login从OidcUserService可以知道OAuth2Login来OIDC登录不一定会去访问UserInfo Endpoint
+              # 需要scope里含有(OidcScopes类) profile、email、address、phone其中一个,才会去委托OAuth2UserService访问UserInfo Endpoint
+              # 但是其实可以手动拿OidcIdToken去访问UserInfo Endpoint (SAS OidcUserInfoAuthenticationProvider)
+              # 不过就是要确保OIDC授权端能解析你的Token,如果只能解析Jwt,那么颁布的OpaqueToken不一定能访问UserInfo Endpoint
+              # 那么Spring OAuth2Login登录的逻辑主要看OidcAuthorizationCodeAuthenticationProvider
+              # 里面这一步OidcIdToken idToken = createOidcToken(clientRegistration, accessTokenResponse);
+              # 限制死了只能Jwt，通过访问Jwk Endpoint获取JWT的算法信息然后结合获取到的AccessToken(JWT类型)，解析OidcToken获取用户信息(即放在claims的)
+              #
+              # 2.如果不是OIDC即scope里不含"openid",那么无论是OpaqueToken还是JWT，都是通过访问UserInfo Endpoint(资源端自定义接口)获取用户信息
+              # 如果你尝试拿这个token去访问OIDC的UserInfo Endpoint，肯定是没有"insufficient_scope"，因为SAS的oidc要求scope有"openid"
+              # 这个UserInfo Endpoint是资源端自定义提供的接口，用于返回数据，再以UserNameAttribute确定Principal的Name
+              # OAuth2LoginAuthenticationProvider
+              
+              #issuer-uri: http://localhost:9000 #可以是OpenID Connect发现端点或RFC 8414定义的OAuth 2.0授权服务器元数据端点
+              user-name-attribute: sub #如果会访问UserInfo Endpoint，那么默认的DefaultOauth2UserService需要找个
+              authorization-uri: http://localhost:9000/oauth2/authorize
+              token-uri: http://localhost:9000/oauth2/token
+              user-info-uri: http://localhost:9000/userinfo
+              jwk-set-uri: http://localhost:9000/oauth2/jwks
+              

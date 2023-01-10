@@ -17,7 +17,6 @@
 
 package com.schilings.neiko.logging;
 
-
 import com.schilings.neiko.logging.inner.Level;
 import com.schilings.neiko.logging.inner.Logger;
 import com.schilings.neiko.logging.inner.LoggingEvent;
@@ -28,40 +27,41 @@ import java.io.*;
 
 public class BasicLoggerTest {
 
-    protected Logger logger = Logger.getLogger("test");
+	protected Logger logger = Logger.getLogger("test");
 
-    protected LoggingEvent loggingEvent;
+	protected LoggingEvent loggingEvent;
 
-    protected String loggingDir = System.getProperty("user.home") + "/logs/rocketmq-test";
+	protected String loggingDir = System.getProperty("user.home") + "/logs/rocketmq-test";
 
-    @Before
-    public void createLoggingEvent() {
-        loggingEvent = new LoggingEvent(Logger.class.getName(), logger, Level.INFO,
-            "junit test error", new RuntimeException("createLogging error"));
-    }
+	@Before
+	public void createLoggingEvent() {
+		loggingEvent = new LoggingEvent(Logger.class.getName(), logger, Level.INFO, "junit test error",
+				new RuntimeException("createLogging error"));
+	}
 
-    public String readFile(String file) throws IOException {
-        StringBuilder stringBuilder = new StringBuilder();
-        FileInputStream fileInputStream = new FileInputStream(file);
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
-        String line = bufferedReader.readLine();
-        while (line != null) {
-            stringBuilder.append(line);
-            stringBuilder.append("\r\n");
-            line = bufferedReader.readLine();
-        }
-        bufferedReader.close();
-        return stringBuilder.toString();
-    }
+	public String readFile(String file) throws IOException {
+		StringBuilder stringBuilder = new StringBuilder();
+		FileInputStream fileInputStream = new FileInputStream(file);
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
+		String line = bufferedReader.readLine();
+		while (line != null) {
+			stringBuilder.append(line);
+			stringBuilder.append("\r\n");
+			line = bufferedReader.readLine();
+		}
+		bufferedReader.close();
+		return stringBuilder.toString();
+	}
 
-    @After
-    public void clean() {
-        File file = new File(loggingDir);
-        if (file.exists()) {
-            File[] files = file.listFiles();
-            for (File file1 : files) {
-                file1.delete();
-            }
-        }
-    }
+	@After
+	public void clean() {
+		File file = new File(loggingDir);
+		if (file.exists()) {
+			File[] files = file.listFiles();
+			for (File file1 : files) {
+				file1.delete();
+			}
+		}
+	}
+
 }

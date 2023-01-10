@@ -25,39 +25,41 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
-
 import java.nio.ByteBuffer;
 
 public class NettyDecoder extends LengthFieldBasedFrameDecoder {
 
-    private static final InternalLogger log = InternalLoggerFactory.getLogger(RemotingHelper.NEIKO_REMOTING);
-    
-    private static final int FRAME_MAX_LENGTH =
-        Integer.parseInt(System.getProperty("com.schilings.neiko.remoting.frameMaxLength", "16777216"));
+	private static final InternalLogger log = InternalLoggerFactory.getLogger(RemotingHelper.NEIKO_REMOTING);
 
-    public NettyDecoder() {
-        super(FRAME_MAX_LENGTH, 0, 4, 0, 4);
-    }
+	private static final int FRAME_MAX_LENGTH = Integer
+			.parseInt(System.getProperty("com.schilings.neiko.remoting.frameMaxLength", "16777216"));
 
-    @Override
-    public Object decode(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
-        ByteBuf frame = null;
-        try {
-            frame = (ByteBuf) super.decode(ctx, in);
-            if (null == frame) {
-                return null;
-            }
-            ByteBuffer byteBuffer = frame.nioBuffer();
-            return RemotingCommandHelper.decode(byteBuffer);
-        } catch (Exception e) {
-            log.error("decode exception, " + RemotingHelper.parseChannelRemoteAddr(ctx.channel()), e);
-            RemotingUtil.closeChannel(ctx.channel());
-        } finally {
-            if (null != frame) {
-                frame.release();
-            }
-        }
+	public NettyDecoder() {
+		super(FRAME_MAX_LENGTH, 0, 4, 0, 4);
+	}
 
-        return null;
-    }
+	@Override
+	public Object decode(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
+		ByteBuf frame = null;
+		try {
+			frame = (ByteBuf) super.decode(ctx, in);
+			if (null == frame) {
+				return null;
+			}
+			ByteBuffer byteBuffer = frame.nioBuffer();
+			return RemotingCommandHelper.decode(byteBuffer);
+		}
+		catch (Exception e) {
+			log.error("decode exception, " + RemotingHelper.parseChannelRemoteAddr(ctx.channel()), e);
+			RemotingUtil.closeChannel(ctx.channel());
+		}
+		finally {
+			if (null != frame) {
+				frame.release();
+			}
+		}
+
+		return null;
+	}
+
 }

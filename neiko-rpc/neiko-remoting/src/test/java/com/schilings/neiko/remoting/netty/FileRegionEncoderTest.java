@@ -34,49 +34,50 @@ import java.util.UUID;
 
 public class FileRegionEncoderTest {
 
-    /**
-     * This unit test case ensures that {@link FileRegionEncoder} indeed wraps {@link FileRegion} to
-     * {@link ByteBuf}.
-     * @throws IOException if there is an error.
-     */
-    @Test
-    public void testEncode() throws IOException {
-        FileRegionEncoder fileRegionEncoder = new FileRegionEncoder();
-        EmbeddedChannel channel = new EmbeddedChannel(fileRegionEncoder);
-        File file = File.createTempFile(UUID.randomUUID().toString(), ".data");
-        file.deleteOnExit();
-        Random random = new Random(System.currentTimeMillis());
-        int dataLength = 1 << 10;
-        byte[] data = new byte[dataLength];
-        random.nextBytes(data);
-        write(file, data);
-        FileRegion fileRegion = new DefaultFileRegion(file, 0, dataLength);
-        Assert.assertEquals(0, fileRegion.transferred());
-        Assert.assertEquals(dataLength, fileRegion.count());
-        Assert.assertTrue(channel.writeOutbound(fileRegion));
-        ByteBuf out = (ByteBuf) channel.readOutbound();
-        byte[] arr = new byte[out.readableBytes()];
-        out.getBytes(0, arr);
-        Assert.assertArrayEquals("Data should be identical", data, arr);
-    }
+	/**
+	 * This unit test case ensures that {@link FileRegionEncoder} indeed wraps
+	 * {@link FileRegion} to {@link ByteBuf}.
+	 * @throws IOException if there is an error.
+	 */
+	@Test
+	public void testEncode() throws IOException {
+		FileRegionEncoder fileRegionEncoder = new FileRegionEncoder();
+		EmbeddedChannel channel = new EmbeddedChannel(fileRegionEncoder);
+		File file = File.createTempFile(UUID.randomUUID().toString(), ".data");
+		file.deleteOnExit();
+		Random random = new Random(System.currentTimeMillis());
+		int dataLength = 1 << 10;
+		byte[] data = new byte[dataLength];
+		random.nextBytes(data);
+		write(file, data);
+		FileRegion fileRegion = new DefaultFileRegion(file, 0, dataLength);
+		Assert.assertEquals(0, fileRegion.transferred());
+		Assert.assertEquals(dataLength, fileRegion.count());
+		Assert.assertTrue(channel.writeOutbound(fileRegion));
+		ByteBuf out = (ByteBuf) channel.readOutbound();
+		byte[] arr = new byte[out.readableBytes()];
+		out.getBytes(0, arr);
+		Assert.assertArrayEquals("Data should be identical", data, arr);
+	}
 
-    /**
-     * Write byte array to the specified file.
-     *
-     * @param file File to write to.
-     * @param data byte array to write.
-     * @throws IOException in case there is an exception.
-     */
-    private static void write(File file, byte[] data) throws IOException {
-        BufferedOutputStream bufferedOutputStream = null;
-        try {
-            bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(file, false));
-            bufferedOutputStream.write(data);
-            bufferedOutputStream.flush();
-        } finally {
-            if (null != bufferedOutputStream) {
-                bufferedOutputStream.close();
-            }
-        }
-    }
+	/**
+	 * Write byte array to the specified file.
+	 * @param file File to write to.
+	 * @param data byte array to write.
+	 * @throws IOException in case there is an exception.
+	 */
+	private static void write(File file, byte[] data) throws IOException {
+		BufferedOutputStream bufferedOutputStream = null;
+		try {
+			bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(file, false));
+			bufferedOutputStream.write(data);
+			bufferedOutputStream.flush();
+		}
+		finally {
+			if (null != bufferedOutputStream) {
+				bufferedOutputStream.close();
+			}
+		}
+	}
+
 }

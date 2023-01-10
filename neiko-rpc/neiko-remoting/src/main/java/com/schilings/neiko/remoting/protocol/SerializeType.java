@@ -18,31 +18,34 @@
 package com.schilings.neiko.remoting.protocol;
 
 /**
- * 
- * <p>body序列化方式</p>
- * 
+ *
+ * <p>
+ * body序列化方式
+ * </p>
+ *
  * @author Schilings
-*/
+ */
 public enum SerializeType {
-    JSON((byte) 0),
-    NEIKO((byte) 1);
 
-    private byte code;
+	JSON((byte) 0), NEIKO((byte) 1);
 
-    SerializeType(byte code) {
-        this.code = code;
-    }
+	private byte code;
 
-    public static SerializeType valueOf(byte code) {
-        for (SerializeType serializeType : SerializeType.values()) {
-            if (serializeType.getCode() == code) {
-                return serializeType;
-            }
-        }
-        return null;
-    }
+	SerializeType(byte code) {
+		this.code = code;
+	}
 
-    public byte getCode() {
-        return code;
-    }
+	public static SerializeType valueOf(byte code) {
+		for (SerializeType serializeType : SerializeType.values()) {
+			if (serializeType.getCode() == code) {
+				return serializeType;
+			}
+		}
+		return null;
+	}
+
+	public byte getCode() {
+		return code;
+	}
+
 }

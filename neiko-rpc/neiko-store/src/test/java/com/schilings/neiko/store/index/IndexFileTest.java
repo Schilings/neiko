@@ -20,7 +20,6 @@
  */
 package com.schilings.neiko.store.index;
 
-
 import com.schilings.neiko.svrutil.UtilAll;
 import org.junit.Test;
 
@@ -31,46 +30,49 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class IndexFileTest {
-    private final int HASH_SLOT_NUM = 100;
-    private final int INDEX_NUM = 400;
 
-    @Test
-    public void testPutKey() throws Exception {
-        String fileName = "E:\\Code\\neiko\\neiko-rpc\\neiko-store\\target\\unit_test_IndexFile\\100";
-        IndexFile indexFile = new IndexFile(fileName, HASH_SLOT_NUM, INDEX_NUM, 0, 0);
-        for (long i = 0; i < (INDEX_NUM - 1); i++) {
-            boolean putResult = indexFile.putKey(Long.toString(i), i, System.currentTimeMillis());
-            assertThat(putResult).isTrue();
-        }
+	private final int HASH_SLOT_NUM = 100;
 
-        // put over index file capacity.
-        boolean putResult = indexFile.putKey(Long.toString(400), 400, System.currentTimeMillis());
-        assertThat(putResult).isFalse();
-        indexFile.destroy(0);
-        File file = new File(fileName);
-        UtilAll.deleteFile(file);
-    }
+	private final int INDEX_NUM = 400;
 
-    @Test
-    public void testSelectPhyOffset() throws Exception {
-        String fileName = "E:\\Code\\neiko\\neiko-rpc\\neiko-store\\target\\unit_test_IndexFile\\200";
-        IndexFile indexFile = new IndexFile(fileName, HASH_SLOT_NUM, INDEX_NUM, 0, 0);
+	@Test
+	public void testPutKey() throws Exception {
+		String fileName = "E:\\Code\\neiko\\neiko-rpc\\neiko-store\\target\\unit_test_IndexFile\\100";
+		IndexFile indexFile = new IndexFile(fileName, HASH_SLOT_NUM, INDEX_NUM, 0, 0);
+		for (long i = 0; i < (INDEX_NUM - 1); i++) {
+			boolean putResult = indexFile.putKey(Long.toString(i), i, System.currentTimeMillis());
+			assertThat(putResult).isTrue();
+		}
 
-        for (long i = 0; i < (INDEX_NUM - 1); i++) {
-            boolean putResult = indexFile.putKey(Long.toString(i), i, System.currentTimeMillis());
-            assertThat(putResult).isTrue();
-        }
+		// put over index file capacity.
+		boolean putResult = indexFile.putKey(Long.toString(400), 400, System.currentTimeMillis());
+		assertThat(putResult).isFalse();
+		indexFile.destroy(0);
+		File file = new File(fileName);
+		UtilAll.deleteFile(file);
+	}
 
-        // put over index file capacity.
-        boolean putResult = indexFile.putKey(Long.toString(400), 400, System.currentTimeMillis());
-        assertThat(putResult).isFalse();
+	@Test
+	public void testSelectPhyOffset() throws Exception {
+		String fileName = "E:\\Code\\neiko\\neiko-rpc\\neiko-store\\target\\unit_test_IndexFile\\200";
+		IndexFile indexFile = new IndexFile(fileName, HASH_SLOT_NUM, INDEX_NUM, 0, 0);
 
-        final List<Long> phyOffsets = new ArrayList<Long>();
-        indexFile.selectPhyOffset(phyOffsets, "60", 10, 0, Long.MAX_VALUE, true);
-        assertThat(phyOffsets).isNotEmpty();
-        assertThat(phyOffsets.size()).isEqualTo(1);
-        indexFile.destroy(0);
-        File file = new File(fileName);
-        UtilAll.deleteFile(file);
-    }
+		for (long i = 0; i < (INDEX_NUM - 1); i++) {
+			boolean putResult = indexFile.putKey(Long.toString(i), i, System.currentTimeMillis());
+			assertThat(putResult).isTrue();
+		}
+
+		// put over index file capacity.
+		boolean putResult = indexFile.putKey(Long.toString(400), 400, System.currentTimeMillis());
+		assertThat(putResult).isFalse();
+
+		final List<Long> phyOffsets = new ArrayList<Long>();
+		indexFile.selectPhyOffset(phyOffsets, "60", 10, 0, Long.MAX_VALUE, true);
+		assertThat(phyOffsets).isNotEmpty();
+		assertThat(phyOffsets.size()).isEqualTo(1);
+		indexFile.destroy(0);
+		File file = new File(fileName);
+		UtilAll.deleteFile(file);
+	}
+
 }

@@ -32,28 +32,29 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class StoreCheckpointTest {
 
-    private final String fileName = "E:\\Code\\neiko\\neiko-rpc\\neiko-store\\target\\checkpoint_test\\0000";
+	private final String fileName = "E:\\Code\\neiko\\neiko-rpc\\neiko-store\\target\\checkpoint_test\\0000";
 
-    @Test
-    public void testWriteAndRead() throws IOException {
-        StoreCheckpoint storeCheckpoint = new StoreCheckpoint(fileName);
-        long physicMsgTimestamp = 0xAABB;
-        long logicsMsgTimestamp = 0xCCDD;
-        storeCheckpoint.setPhysicMsgTimestamp(physicMsgTimestamp);
-        storeCheckpoint.setLogicsMsgTimestamp(logicsMsgTimestamp);
-        storeCheckpoint.flush();
+	@Test
+	public void testWriteAndRead() throws IOException {
+		StoreCheckpoint storeCheckpoint = new StoreCheckpoint(fileName);
+		long physicMsgTimestamp = 0xAABB;
+		long logicsMsgTimestamp = 0xCCDD;
+		storeCheckpoint.setPhysicMsgTimestamp(physicMsgTimestamp);
+		storeCheckpoint.setLogicsMsgTimestamp(logicsMsgTimestamp);
+		storeCheckpoint.flush();
 
-        long diff = physicMsgTimestamp - storeCheckpoint.getMinTimestamp();
-        assertThat(diff).isEqualTo(3000);
-        storeCheckpoint.shutdown();
-        storeCheckpoint = new StoreCheckpoint(fileName);
-        assertThat(storeCheckpoint.getPhysicMsgTimestamp()).isEqualTo(physicMsgTimestamp);
-        assertThat(storeCheckpoint.getLogicsMsgTimestamp()).isEqualTo(logicsMsgTimestamp);
-    }
+		long diff = physicMsgTimestamp - storeCheckpoint.getMinTimestamp();
+		assertThat(diff).isEqualTo(3000);
+		storeCheckpoint.shutdown();
+		storeCheckpoint = new StoreCheckpoint(fileName);
+		assertThat(storeCheckpoint.getPhysicMsgTimestamp()).isEqualTo(physicMsgTimestamp);
+		assertThat(storeCheckpoint.getLogicsMsgTimestamp()).isEqualTo(logicsMsgTimestamp);
+	}
 
-    @After
-    public void destory() {
-        File file = new File(fileName);
-        UtilAll.deleteFile(file);
-    }
+	@After
+	public void destory() {
+		File file = new File(fileName);
+		UtilAll.deleteFile(file);
+	}
+
 }

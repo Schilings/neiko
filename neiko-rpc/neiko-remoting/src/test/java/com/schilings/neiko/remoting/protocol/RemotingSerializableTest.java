@@ -24,140 +24,139 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class RemotingSerializableTest {
-    @Test
-    public void testEncodeAndDecode_HeterogeneousClass() {
-        Sample sample = new Sample();
 
-        byte[] bytes = RemotingSerializable.encode(sample);
-        Sample decodedSample = RemotingSerializable.decode(bytes, Sample.class);
+	@Test
+	public void testEncodeAndDecode_HeterogeneousClass() {
+		Sample sample = new Sample();
 
-        assertThat(decodedSample).isEqualTo(sample);
-    }
+		byte[] bytes = RemotingSerializable.encode(sample);
+		Sample decodedSample = RemotingSerializable.decode(bytes, Sample.class);
 
-    @Test
-    public void testToJson_normalString() {
-        RemotingSerializable serializable = new RemotingSerializable() {
-            private List<String> stringList = Arrays.asList("a", "o", "e", "i", "u", "v");
+		assertThat(decodedSample).isEqualTo(sample);
+	}
 
-            public List<String> getStringList() {
-                return stringList;
-            }
+	@Test
+	public void testToJson_normalString() {
+		RemotingSerializable serializable = new RemotingSerializable() {
+			private List<String> stringList = Arrays.asList("a", "o", "e", "i", "u", "v");
 
-            public void setStringList(List<String> stringList) {
-                this.stringList = stringList;
-            }
-        };
+			public List<String> getStringList() {
+				return stringList;
+			}
 
-        String string = serializable.toJson();
-        System.out.println(string);
-        assertThat(string).isEqualTo("{\"stringList\":[\"a\",\"o\",\"e\",\"i\",\"u\",\"v\"]}");
-    }
+			public void setStringList(List<String> stringList) {
+				this.stringList = stringList;
+			}
+		};
 
-    @Test
-    public void testToJson_prettyString() {
-        RemotingSerializable serializable = new RemotingSerializable() {
-            private List<String> stringList = Arrays.asList("a", "o", "e", "i", "u", "v");
+		String string = serializable.toJson();
+		System.out.println(string);
+		assertThat(string).isEqualTo("{\"stringList\":[\"a\",\"o\",\"e\",\"i\",\"u\",\"v\"]}");
+	}
 
-            public List<String> getStringList() {
-                return stringList;
-            }
+	@Test
+	public void testToJson_prettyString() {
+		RemotingSerializable serializable = new RemotingSerializable() {
+			private List<String> stringList = Arrays.asList("a", "o", "e", "i", "u", "v");
 
-            public void setStringList(List<String> stringList) {
-                this.stringList = stringList;
-            }
-        };
+			public List<String> getStringList() {
+				return stringList;
+			}
 
-        String prettyString = serializable.toJson(true);
-        System.out.println(prettyString);
-        assertThat(prettyString).isEqualTo("{\n" +
-            "\t\"stringList\":[\n" +
-            "\t\t\"a\",\n" +
-            "\t\t\"o\",\n" +
-            "\t\t\"e\",\n" +
-            "\t\t\"i\",\n" +
-            "\t\t\"u\",\n" +
-            "\t\t\"v\"\n" +
-            "\t]\n" +
-            "}");
-    }
+			public void setStringList(List<String> stringList) {
+				this.stringList = stringList;
+			}
+		};
+
+		String prettyString = serializable.toJson(true);
+		System.out.println(prettyString);
+		assertThat(prettyString).isEqualTo("{\n" + "\t\"stringList\":[\n" + "\t\t\"a\",\n" + "\t\t\"o\",\n"
+				+ "\t\t\"e\",\n" + "\t\t\"i\",\n" + "\t\t\"u\",\n" + "\t\t\"v\"\n" + "\t]\n" + "}");
+	}
 
 }
 
 class Sample {
-    private String stringValue = "string";
-    private int intValue = 2333;
-    private Integer integerValue = 666;
-    private double[] doubleArray = new double[] {0.618, 1.618};
-    private List<String> stringList = Arrays.asList("a", "o", "e", "i", "u", "v");
 
-    public String getStringValue() {
-        return stringValue;
-    }
+	private String stringValue = "string";
 
-    public void setStringValue(String stringValue) {
-        this.stringValue = stringValue;
-    }
+	private int intValue = 2333;
 
-    public int getIntValue() {
-        return intValue;
-    }
+	private Integer integerValue = 666;
 
-    public void setIntValue(int intValue) {
-        this.intValue = intValue;
-    }
+	private double[] doubleArray = new double[] { 0.618, 1.618 };
 
-    public Integer getIntegerValue() {
-        return integerValue;
-    }
+	private List<String> stringList = Arrays.asList("a", "o", "e", "i", "u", "v");
 
-    public void setIntegerValue(Integer integerValue) {
-        this.integerValue = integerValue;
-    }
+	public String getStringValue() {
+		return stringValue;
+	}
 
-    public double[] getDoubleArray() {
-        return doubleArray;
-    }
+	public void setStringValue(String stringValue) {
+		this.stringValue = stringValue;
+	}
 
-    public void setDoubleArray(double[] doubleArray) {
-        this.doubleArray = doubleArray;
-    }
+	public int getIntValue() {
+		return intValue;
+	}
 
-    public List<String> getStringList() {
-        return stringList;
-    }
+	public void setIntValue(int intValue) {
+		this.intValue = intValue;
+	}
 
-    public void setStringList(List<String> stringList) {
-        this.stringList = stringList;
-    }
+	public Integer getIntegerValue() {
+		return integerValue;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+	public void setIntegerValue(Integer integerValue) {
+		this.integerValue = integerValue;
+	}
 
-        Sample sample = (Sample) o;
+	public double[] getDoubleArray() {
+		return doubleArray;
+	}
 
-        if (intValue != sample.intValue)
-            return false;
-        if (stringValue != null ? !stringValue.equals(sample.stringValue) : sample.stringValue != null)
-            return false;
-        if (integerValue != null ? !integerValue.equals(sample.integerValue) : sample.integerValue != null)
-            return false;
-        if (!Arrays.equals(doubleArray, sample.doubleArray))
-            return false;
-        return stringList != null ? stringList.equals(sample.stringList) : sample.stringList == null;
+	public void setDoubleArray(double[] doubleArray) {
+		this.doubleArray = doubleArray;
+	}
 
-    }
+	public List<String> getStringList() {
+		return stringList;
+	}
 
-    @Override
-    public int hashCode() {
-        int result = stringValue != null ? stringValue.hashCode() : 0;
-        result = 31 * result + intValue;
-        result = 31 * result + (integerValue != null ? integerValue.hashCode() : 0);
-        result = 31 * result + Arrays.hashCode(doubleArray);
-        result = 31 * result + (stringList != null ? stringList.hashCode() : 0);
-        return result;
-    }
+	public void setStringList(List<String> stringList) {
+		this.stringList = stringList;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		Sample sample = (Sample) o;
+
+		if (intValue != sample.intValue)
+			return false;
+		if (stringValue != null ? !stringValue.equals(sample.stringValue) : sample.stringValue != null)
+			return false;
+		if (integerValue != null ? !integerValue.equals(sample.integerValue) : sample.integerValue != null)
+			return false;
+		if (!Arrays.equals(doubleArray, sample.doubleArray))
+			return false;
+		return stringList != null ? stringList.equals(sample.stringList) : sample.stringList == null;
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = stringValue != null ? stringValue.hashCode() : 0;
+		result = 31 * result + intValue;
+		result = 31 * result + (integerValue != null ? integerValue.hashCode() : 0);
+		result = 31 * result + Arrays.hashCode(doubleArray);
+		result = 31 * result + (stringList != null ? stringList.hashCode() : 0);
+		return result;
+	}
+
 }

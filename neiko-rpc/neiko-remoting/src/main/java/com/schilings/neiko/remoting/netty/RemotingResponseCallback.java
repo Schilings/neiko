@@ -17,15 +17,18 @@
 
 package com.schilings.neiko.remoting.netty;
 
-
 import com.schilings.neiko.remoting.protocol.RemotingCommand;
 
 /**
- * 
- * <p>用于netty写入的远程命令处理后的响应回调</p>
- * 
+ *
+ * <p>
+ * 用于netty写入的远程命令处理后的响应回调
+ * </p>
+ *
  * @author Schilings
-*/
+ */
 public interface RemotingResponseCallback {
-    void callback(RemotingCommand response);
+
+	void callback(RemotingCommand response);
+
 }

@@ -1,80 +1,86 @@
 package com.schilings.neiko.remoting.netty;
 
-
 import com.schilings.neiko.remoting.protocol.RemotingCommand;
 import com.schilings.neiko.remoting.protocol.RemotingCommandHelper;
 import io.netty.channel.Channel;
 
 /**
- * 
- * <p>专注于处理请求的Task</p>
- * 
+ *
+ * <p>
+ * 专注于处理请求的Task
+ * </p>
+ *
  * @author Schilings
-*/
-public class RequestTask implements Runnable{
-    private final Runnable runnable;
-    private final long createTimestamp = System.currentTimeMillis();
-    private final Channel channel;
-    private final RemotingCommand request;
-    private boolean stopRun = false;
+ */
+public class RequestTask implements Runnable {
 
+	private final Runnable runnable;
 
-    public RequestTask(final Runnable runnable, final Channel channel, final RemotingCommand request) {
-        this.runnable = runnable;
-        this.channel = channel;
-        this.request = request;
-    }
+	private final long createTimestamp = System.currentTimeMillis();
 
-    @Override
-    public int hashCode() {
-        int result = runnable != null ? runnable.hashCode() : 0;
-        result = 31 * result + (int) (getCreateTimestamp() ^ (getCreateTimestamp() >>> 32));
-        result = 31 * result + (channel != null ? channel.hashCode() : 0);
-        result = 31 * result + (request != null ? request.hashCode() : 0);
-        result = 31 * result + (isStopRun() ? 1 : 0);
-        return result;
-    }
+	private final Channel channel;
 
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o)
-            return true;
-        if (!(o instanceof RequestTask))
-            return false;
+	private final RemotingCommand request;
 
-        final RequestTask that = (RequestTask) o;
+	private boolean stopRun = false;
 
-        if (getCreateTimestamp() != that.getCreateTimestamp())
-            return false;
-        if (isStopRun() != that.isStopRun())
-            return false;
-        if (channel != null ? !channel.equals(that.channel) : that.channel != null)
-            return false;
-        return request != null ? request.getOpaque() == that.request.getOpaque() : that.request == null;
+	public RequestTask(final Runnable runnable, final Channel channel, final RemotingCommand request) {
+		this.runnable = runnable;
+		this.channel = channel;
+		this.request = request;
+	}
 
-    }
+	@Override
+	public int hashCode() {
+		int result = runnable != null ? runnable.hashCode() : 0;
+		result = 31 * result + (int) (getCreateTimestamp() ^ (getCreateTimestamp() >>> 32));
+		result = 31 * result + (channel != null ? channel.hashCode() : 0);
+		result = 31 * result + (request != null ? request.hashCode() : 0);
+		result = 31 * result + (isStopRun() ? 1 : 0);
+		return result;
+	}
 
-    public long getCreateTimestamp() {
-        return createTimestamp;
-    }
+	@Override
+	public boolean equals(final Object o) {
+		if (this == o)
+			return true;
+		if (!(o instanceof RequestTask))
+			return false;
 
-    public boolean isStopRun() {
-        return stopRun;
-    }
+		final RequestTask that = (RequestTask) o;
 
-    public void setStopRun(final boolean stopRun) {
-        this.stopRun = stopRun;
-    }
+		if (getCreateTimestamp() != that.getCreateTimestamp())
+			return false;
+		if (isStopRun() != that.isStopRun())
+			return false;
+		if (channel != null ? !channel.equals(that.channel) : that.channel != null)
+			return false;
+		return request != null ? request.getOpaque() == that.request.getOpaque() : that.request == null;
 
-    @Override
-    public void run() {
-        if (!this.stopRun)
-            this.runnable.run();
-    }
+	}
 
-    public void returnResponse(int code, String remark) {
-        final RemotingCommand response = RemotingCommandHelper.createResponseCommand(code, remark);
-        response.setOpaque(request.getOpaque());
-        this.channel.writeAndFlush(response);
-    }
+	public long getCreateTimestamp() {
+		return createTimestamp;
+	}
+
+	public boolean isStopRun() {
+		return stopRun;
+	}
+
+	public void setStopRun(final boolean stopRun) {
+		this.stopRun = stopRun;
+	}
+
+	@Override
+	public void run() {
+		if (!this.stopRun)
+			this.runnable.run();
+	}
+
+	public void returnResponse(int code, String remark) {
+		final RemotingCommand response = RemotingCommandHelper.createResponseCommand(code, remark);
+		response.setOpaque(request.getOpaque());
+		this.channel.writeAndFlush(response);
+	}
+
 }

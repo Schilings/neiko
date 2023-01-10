@@ -20,142 +20,153 @@ package com.schilings.neiko.logging.inner;
 import java.io.Serializable;
 
 /**
- * 
- * <p>日志级别</p>
- * <p>{@link java.util.logging.Level}</p>
+ *
+ * <p>
+ * 日志级别
+ * </p>
+ * <p>
+ * {@link java.util.logging.Level}
+ * </p>
+ *
  * @author Schilings
-*/
+ */
 public class Level implements Serializable {
 
-    transient int level;
-    transient String levelStr;
-    transient int syslogEquivalent;
+	transient int level;
 
-    public final static int OFF_INT = Integer.MAX_VALUE;
-    public final static int ERROR_INT = 40000;
-    public final static int WARN_INT = 30000;
-    public final static int INFO_INT = 20000;
-    public final static int DEBUG_INT = 10000;
-    public final static int ALL_INT = Integer.MIN_VALUE;
+	transient String levelStr;
 
+	transient int syslogEquivalent;
 
-    private static final String ALL_NAME = "ALL";
+	public final static int OFF_INT = Integer.MAX_VALUE;
 
-    private static final String DEBUG_NAME = "DEBUG";
+	public final static int ERROR_INT = 40000;
 
-    private static final String INFO_NAME = "INFO";
+	public final static int WARN_INT = 30000;
 
-    private static final String WARN_NAME = "WARN";
+	public final static int INFO_INT = 20000;
 
-    private static final String ERROR_NAME = "ERROR";
+	public final static int DEBUG_INT = 10000;
 
-    private static final String OFF_NAME = "OFF";
+	public final static int ALL_INT = Integer.MIN_VALUE;
 
-    final static public Level OFF = new Level(OFF_INT, OFF_NAME, 0);
+	private static final String ALL_NAME = "ALL";
 
-    final static public Level ERROR = new Level(ERROR_INT, ERROR_NAME, 3);
+	private static final String DEBUG_NAME = "DEBUG";
 
-    final static public Level WARN = new Level(WARN_INT, WARN_NAME, 4);
+	private static final String INFO_NAME = "INFO";
 
-    final static public Level INFO = new Level(INFO_INT, INFO_NAME, 6);
+	private static final String WARN_NAME = "WARN";
 
-    final static public Level DEBUG = new Level(DEBUG_INT, DEBUG_NAME, 7);
+	private static final String ERROR_NAME = "ERROR";
 
-    final static public Level ALL = new Level(ALL_INT, ALL_NAME, 7);
+	private static final String OFF_NAME = "OFF";
 
-    static final long serialVersionUID = 3491141966387921974L;
+	final static public Level OFF = new Level(OFF_INT, OFF_NAME, 0);
 
-    protected Level(int level, String levelStr, int syslogEquivalent) {
-        this.level = level;
-        this.levelStr = levelStr;
-        this.syslogEquivalent = syslogEquivalent;
-    }
+	final static public Level ERROR = new Level(ERROR_INT, ERROR_NAME, 3);
 
-    public static Level toLevel(String sArg) {
-        return toLevel(sArg, Level.DEBUG);
-    }
+	final static public Level WARN = new Level(WARN_INT, WARN_NAME, 4);
 
-    public static Level toLevel(int val) {
-        return toLevel(val, Level.DEBUG);
-    }
+	final static public Level INFO = new Level(INFO_INT, INFO_NAME, 6);
 
-    public static Level toLevel(int val, Level defaultLevel) {
-        switch (val) {
-            case ALL_INT:
-                return ALL;
-            case DEBUG_INT:
-                return Level.DEBUG;
-            case INFO_INT:
-                return Level.INFO;
-            case WARN_INT:
-                return Level.WARN;
-            case ERROR_INT:
-                return Level.ERROR;
-            case OFF_INT:
-                return OFF;
-            default:
-                return defaultLevel;
-        }
-    }
+	final static public Level DEBUG = new Level(DEBUG_INT, DEBUG_NAME, 7);
 
-    public static Level toLevel(String sArg, Level defaultLevel) {
-        if (sArg == null) {
-            return defaultLevel;
-        }
-        String s = sArg.toUpperCase();
+	final static public Level ALL = new Level(ALL_INT, ALL_NAME, 7);
 
-        if (s.equals(ALL_NAME)) {
-            return Level.ALL;
-        }
-        if (s.equals(DEBUG_NAME)) {
-            return Level.DEBUG;
-        }
-        if (s.equals(INFO_NAME)) {
-            return Level.INFO;
-        }
-        if (s.equals(WARN_NAME)) {
-            return Level.WARN;
-        }
-        if (s.equals(ERROR_NAME)) {
-            return Level.ERROR;
-        }
-        if (s.equals(OFF_NAME)) {
-            return Level.OFF;
-        }
-        if (s.equals(INFO_NAME)) {
-            return Level.INFO;
-        }
-        return defaultLevel;
-    }
+	static final long serialVersionUID = 3491141966387921974L;
 
+	protected Level(int level, String levelStr, int syslogEquivalent) {
+		this.level = level;
+		this.levelStr = levelStr;
+		this.syslogEquivalent = syslogEquivalent;
+	}
 
-    public boolean equals(Object o) {
-        if (o instanceof Level) {
-            Level r = (Level) o;
-            return this.level == r.level;
-        } else {
-            return false;
-        }
-    }
+	public static Level toLevel(String sArg) {
+		return toLevel(sArg, Level.DEBUG);
+	}
 
-    @Override
-    public int hashCode() {
-        int result = level;
-        result = 31 * result + (levelStr != null ? levelStr.hashCode() : 0);
-        result = 31 * result + syslogEquivalent;
-        return result;
-    }
+	public static Level toLevel(int val) {
+		return toLevel(val, Level.DEBUG);
+	}
 
-    public boolean isGreaterOrEqual(Level r) {
-        return level >= r.level;
-    }
+	public static Level toLevel(int val, Level defaultLevel) {
+		switch (val) {
+		case ALL_INT:
+			return ALL;
+		case DEBUG_INT:
+			return Level.DEBUG;
+		case INFO_INT:
+			return Level.INFO;
+		case WARN_INT:
+			return Level.WARN;
+		case ERROR_INT:
+			return Level.ERROR;
+		case OFF_INT:
+			return OFF;
+		default:
+			return defaultLevel;
+		}
+	}
 
-    final public String toString() {
-        return levelStr;
-    }
+	public static Level toLevel(String sArg, Level defaultLevel) {
+		if (sArg == null) {
+			return defaultLevel;
+		}
+		String s = sArg.toUpperCase();
 
-    public final int toInt() {
-        return level;
-    }
+		if (s.equals(ALL_NAME)) {
+			return Level.ALL;
+		}
+		if (s.equals(DEBUG_NAME)) {
+			return Level.DEBUG;
+		}
+		if (s.equals(INFO_NAME)) {
+			return Level.INFO;
+		}
+		if (s.equals(WARN_NAME)) {
+			return Level.WARN;
+		}
+		if (s.equals(ERROR_NAME)) {
+			return Level.ERROR;
+		}
+		if (s.equals(OFF_NAME)) {
+			return Level.OFF;
+		}
+		if (s.equals(INFO_NAME)) {
+			return Level.INFO;
+		}
+		return defaultLevel;
+	}
+
+	public boolean equals(Object o) {
+		if (o instanceof Level) {
+			Level r = (Level) o;
+			return this.level == r.level;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public int hashCode() {
+		int result = level;
+		result = 31 * result + (levelStr != null ? levelStr.hashCode() : 0);
+		result = 31 * result + syslogEquivalent;
+		return result;
+	}
+
+	public boolean isGreaterOrEqual(Level r) {
+		return level >= r.level;
+	}
+
+	final public String toString() {
+		return levelStr;
+	}
+
+	public final int toInt() {
+		return level;
+	}
 
 }

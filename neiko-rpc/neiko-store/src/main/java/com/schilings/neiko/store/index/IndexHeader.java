@@ -21,110 +21,121 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class IndexHeader {
-    public static final int INDEX_HEADER_SIZE = 40;
-    private static int beginTimestampIndex = 0; //开始时间 8个字节
-    private static int endTimestampIndex = 8;  //结束时间 8个字节
-    private static int beginPhyoffsetIndex = 16; //开始偏移量 8个字节
-    private static int endPhyoffsetIndex = 24; //结束偏移量 8个字节
-    private static int hashSlotcountIndex = 32; //hash槽数量 4个字节
-    private static int indexCountIndex = 36; //索引数量 4个字节
-    
-    //Index文件的直接内存
-    private final ByteBuffer byteBuffer;
-    
-    private AtomicLong beginTimestamp = new AtomicLong(0);
-    private AtomicLong endTimestamp = new AtomicLong(0);
-    private AtomicLong beginPhyOffset = new AtomicLong(0);
-    private AtomicLong endPhyOffset = new AtomicLong(0);
-    
-    
-    private AtomicInteger hashSlotCount = new AtomicInteger(0);
-    private AtomicInteger indexCount = new AtomicInteger(1);
 
-    public IndexHeader(final ByteBuffer byteBuffer) {
-        this.byteBuffer = byteBuffer;
-    }
+	public static final int INDEX_HEADER_SIZE = 40;
 
-    /**
-     * byteBuffer --> indexHeader
-     */
-    public void load() {
-        this.beginTimestamp.set(byteBuffer.getLong(beginTimestampIndex));
-        this.endTimestamp.set(byteBuffer.getLong(endTimestampIndex));
-        this.beginPhyOffset.set(byteBuffer.getLong(beginPhyoffsetIndex));
-        this.endPhyOffset.set(byteBuffer.getLong(endPhyoffsetIndex));
+	private static int beginTimestampIndex = 0; // 开始时间 8个字节
 
-        this.hashSlotCount.set(byteBuffer.getInt(hashSlotcountIndex));
-        this.indexCount.set(byteBuffer.getInt(indexCountIndex));
-        
-        if (this.indexCount.get() <= 0) {
-            this.indexCount.set(1);
-        }
-    }
+	private static int endTimestampIndex = 8; // 结束时间 8个字节
 
-    /**
-     * indexHeader --> byteBuffer
-     */
-    public void updateByteBuffer() {
-        this.byteBuffer.putLong(beginTimestampIndex, this.beginTimestamp.get());
-        this.byteBuffer.putLong(endTimestampIndex, this.endTimestamp.get());
-        this.byteBuffer.putLong(beginPhyoffsetIndex, this.beginPhyOffset.get());
-        this.byteBuffer.putLong(endPhyoffsetIndex, this.endPhyOffset.get());
-        this.byteBuffer.putInt(hashSlotcountIndex, this.hashSlotCount.get());
-        this.byteBuffer.putInt(indexCountIndex, this.indexCount.get());
-    }
+	private static int beginPhyoffsetIndex = 16; // 开始偏移量 8个字节
 
-    public long getBeginTimestamp() {
-        return beginTimestamp.get();
-    }
+	private static int endPhyoffsetIndex = 24; // 结束偏移量 8个字节
 
-    public void setBeginTimestamp(long beginTimestamp) {
-        this.beginTimestamp.set(beginTimestamp);
-        this.byteBuffer.putLong(beginTimestampIndex, beginTimestamp);
-    }
+	private static int hashSlotcountIndex = 32; // hash槽数量 4个字节
 
-    public long getEndTimestamp() {
-        return endTimestamp.get();
-    }
+	private static int indexCountIndex = 36; // 索引数量 4个字节
 
-    public void setEndTimestamp(long endTimestamp) {
-        this.endTimestamp.set(endTimestamp);
-        this.byteBuffer.putLong(endTimestampIndex, endTimestamp);
-    }
+	// Index文件的直接内存
+	private final ByteBuffer byteBuffer;
 
-    public long getBeginPhyOffset() {
-        return beginPhyOffset.get();
-    }
+	private AtomicLong beginTimestamp = new AtomicLong(0);
 
-    public void setBeginPhyOffset(long beginPhyOffset) {
-        this.beginPhyOffset.set(beginPhyOffset);
-        this.byteBuffer.putLong(beginPhyoffsetIndex, beginPhyOffset);
-    }
+	private AtomicLong endTimestamp = new AtomicLong(0);
 
-    public long getEndPhyOffset() {
-        return endPhyOffset.get();
-    }
+	private AtomicLong beginPhyOffset = new AtomicLong(0);
 
-    public void setEndPhyOffset(long endPhyOffset) {
-        this.endPhyOffset.set(endPhyOffset);
-        this.byteBuffer.putLong(endPhyoffsetIndex, endPhyOffset);
-    }
+	private AtomicLong endPhyOffset = new AtomicLong(0);
 
-    public AtomicInteger getHashSlotCount() {
-        return hashSlotCount;
-    }
+	private AtomicInteger hashSlotCount = new AtomicInteger(0);
 
-    public void incHashSlotCount() {
-        int value = this.hashSlotCount.incrementAndGet();
-        this.byteBuffer.putInt(hashSlotcountIndex, value);
-    }
+	private AtomicInteger indexCount = new AtomicInteger(1);
 
-    public int getIndexCount() {
-        return indexCount.get();
-    }
+	public IndexHeader(final ByteBuffer byteBuffer) {
+		this.byteBuffer = byteBuffer;
+	}
 
-    public void incIndexCount() {
-        int value = this.indexCount.incrementAndGet();
-        this.byteBuffer.putInt(indexCountIndex, value);
-    }
+	/**
+	 * byteBuffer --> indexHeader
+	 */
+	public void load() {
+		this.beginTimestamp.set(byteBuffer.getLong(beginTimestampIndex));
+		this.endTimestamp.set(byteBuffer.getLong(endTimestampIndex));
+		this.beginPhyOffset.set(byteBuffer.getLong(beginPhyoffsetIndex));
+		this.endPhyOffset.set(byteBuffer.getLong(endPhyoffsetIndex));
+
+		this.hashSlotCount.set(byteBuffer.getInt(hashSlotcountIndex));
+		this.indexCount.set(byteBuffer.getInt(indexCountIndex));
+
+		if (this.indexCount.get() <= 0) {
+			this.indexCount.set(1);
+		}
+	}
+
+	/**
+	 * indexHeader --> byteBuffer
+	 */
+	public void updateByteBuffer() {
+		this.byteBuffer.putLong(beginTimestampIndex, this.beginTimestamp.get());
+		this.byteBuffer.putLong(endTimestampIndex, this.endTimestamp.get());
+		this.byteBuffer.putLong(beginPhyoffsetIndex, this.beginPhyOffset.get());
+		this.byteBuffer.putLong(endPhyoffsetIndex, this.endPhyOffset.get());
+		this.byteBuffer.putInt(hashSlotcountIndex, this.hashSlotCount.get());
+		this.byteBuffer.putInt(indexCountIndex, this.indexCount.get());
+	}
+
+	public long getBeginTimestamp() {
+		return beginTimestamp.get();
+	}
+
+	public void setBeginTimestamp(long beginTimestamp) {
+		this.beginTimestamp.set(beginTimestamp);
+		this.byteBuffer.putLong(beginTimestampIndex, beginTimestamp);
+	}
+
+	public long getEndTimestamp() {
+		return endTimestamp.get();
+	}
+
+	public void setEndTimestamp(long endTimestamp) {
+		this.endTimestamp.set(endTimestamp);
+		this.byteBuffer.putLong(endTimestampIndex, endTimestamp);
+	}
+
+	public long getBeginPhyOffset() {
+		return beginPhyOffset.get();
+	}
+
+	public void setBeginPhyOffset(long beginPhyOffset) {
+		this.beginPhyOffset.set(beginPhyOffset);
+		this.byteBuffer.putLong(beginPhyoffsetIndex, beginPhyOffset);
+	}
+
+	public long getEndPhyOffset() {
+		return endPhyOffset.get();
+	}
+
+	public void setEndPhyOffset(long endPhyOffset) {
+		this.endPhyOffset.set(endPhyOffset);
+		this.byteBuffer.putLong(endPhyoffsetIndex, endPhyOffset);
+	}
+
+	public AtomicInteger getHashSlotCount() {
+		return hashSlotCount;
+	}
+
+	public void incHashSlotCount() {
+		int value = this.hashSlotCount.incrementAndGet();
+		this.byteBuffer.putInt(hashSlotcountIndex, value);
+	}
+
+	public int getIndexCount() {
+		return indexCount.get();
+	}
+
+	public void incIndexCount() {
+		int value = this.indexCount.incrementAndGet();
+		this.byteBuffer.putInt(indexCountIndex, value);
+	}
+
 }

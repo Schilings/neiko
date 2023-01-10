@@ -40,6 +40,7 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 		NeikoLambdaQueryWrapper<Object> queryWrapper = WrappersX.lambdaQueryJoin().selectAll(SysUser.class)
 				.selectAs(SysOrganization::getName, SysUserPageVO::getOrganizationName)
 				.leftJoin(SysOrganization.class, SysOrganization::getId, SysUser::getOrganizationId)
+				
 				.eq(SysUser::getDeleted, GlobalConstants.NOT_DELETED_FLAG)
 				.likeIfPresent(SysUser::getUsername, qo.getUsername()).likeIfPresent(SysUser::getEmail, qo.getEmail())
 				.likeIfPresent(SysUser::getPhone, qo.getPhone()).likeIfPresent(SysUser::getNickname, qo.getNickname())

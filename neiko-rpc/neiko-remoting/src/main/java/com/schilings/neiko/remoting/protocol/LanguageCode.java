@@ -18,41 +18,35 @@
 package com.schilings.neiko.remoting.protocol;
 
 /**
- * 
- * <p>编程语言代号</p>
- * 
+ *
+ * <p>
+ * 编程语言代号
+ * </p>
+ *
  * @author Schilings
-*/
+ */
 public enum LanguageCode {
-    JAVA((byte) 0),
-    CPP((byte) 1),
-    DOTNET((byte) 2),
-    PYTHON((byte) 3),
-    DELPHI((byte) 4),
-    ERLANG((byte) 5),
-    RUBY((byte) 6),
-    OTHER((byte) 7),
-    HTTP((byte) 8),
-    GO((byte) 9),
-    PHP((byte) 10),
-    OMS((byte) 11);
 
-    private byte code;
+	JAVA((byte) 0), CPP((byte) 1), DOTNET((byte) 2), PYTHON((byte) 3), DELPHI((byte) 4), ERLANG((byte) 5), RUBY(
+			(byte) 6), OTHER((byte) 7), HTTP((byte) 8), GO((byte) 9), PHP((byte) 10), OMS((byte) 11);
 
-    LanguageCode(byte code) {
-        this.code = code;
-    }
+	private byte code;
 
-    public static LanguageCode valueOf(byte code) {
-        for (LanguageCode languageCode : LanguageCode.values()) {
-            if (languageCode.getCode() == code) {
-                return languageCode;
-            }
-        }
-        return null;
-    }
+	LanguageCode(byte code) {
+		this.code = code;
+	}
 
-    public byte getCode() {
-        return code;
-    }
+	public static LanguageCode valueOf(byte code) {
+		for (LanguageCode languageCode : LanguageCode.values()) {
+			if (languageCode.getCode() == code) {
+				return languageCode;
+			}
+		}
+		return null;
+	}
+
+	public byte getCode() {
+		return code;
+	}
+
 }

@@ -17,12 +17,15 @@
 package com.schilings.neiko.remoting.protocol;
 
 /**
- * 
- * <p>远程命令类型</p>
- * 
+ *
+ * <p>
+ * 远程命令类型
+ * </p>
+ *
  * @author Schilings
-*/
+ */
 public enum RemotingCommandType {
-    REQUEST_COMMAND,
-    RESPONSE_COMMAND;
+
+	REQUEST_COMMAND, RESPONSE_COMMAND;
+
 }

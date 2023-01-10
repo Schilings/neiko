@@ -30,33 +30,34 @@ import java.io.IOException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class MappedFileTest {
-    private final String storeMessage = "Once, there was a chance for me!";
 
-    private final String fileName = "E:\\Code\\neiko\\neiko-rpc\\neiko-store\\target\\unit_test_store\\MappedFileTest\\000";
+	private final String storeMessage = "Once, there was a chance for me!";
 
-    @Test
-    public void testSelectMappedBuffer() throws IOException {
-        MappedFile mappedFile = new MappedFile(fileName, 1024 * 64);
-        boolean result = mappedFile.append(storeMessage.getBytes());
-        assertThat(result).isTrue();
+	private final String fileName = "E:\\Code\\neiko\\neiko-rpc\\neiko-store\\target\\unit_test_store\\MappedFileTest\\000";
 
-        SelectMappedBufferResult selectMappedBufferResult = mappedFile.selectMappedBuffer(0);
-        byte[] data = new byte[storeMessage.length()];
-        selectMappedBufferResult.getByteBuffer().get(data);
-        String readString = new String(data);
-        assertThat(readString).isEqualTo(storeMessage);
-        
+	@Test
+	public void testSelectMappedBuffer() throws IOException {
+		MappedFile mappedFile = new MappedFile(fileName, 1024 * 64);
+		boolean result = mappedFile.append(storeMessage.getBytes());
+		assertThat(result).isTrue();
 
-        mappedFile.shutdown(1000);
-        assertThat(mappedFile.isAvailable()).isFalse();
-        selectMappedBufferResult.release();
-        assertThat(mappedFile.isCleanupOver()).isTrue();
-        assertThat(mappedFile.destroy(1000)).isTrue();
-    }
+		SelectMappedBufferResult selectMappedBufferResult = mappedFile.selectMappedBuffer(0);
+		byte[] data = new byte[storeMessage.length()];
+		selectMappedBufferResult.getByteBuffer().get(data);
+		String readString = new String(data);
+		assertThat(readString).isEqualTo(storeMessage);
 
-    @After
-    public void destory() {
-        File file = new File(fileName);
-        UtilAll.deleteFile(file);
-    }
+		mappedFile.shutdown(1000);
+		assertThat(mappedFile.isAvailable()).isFalse();
+		selectMappedBufferResult.release();
+		assertThat(mappedFile.isCleanupOver()).isTrue();
+		assertThat(mappedFile.destroy(1000)).isTrue();
+	}
+
+	@After
+	public void destory() {
+		File file = new File(fileName);
+		UtilAll.deleteFile(file);
+	}
+
 }

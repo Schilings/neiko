@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <title>OAuth2Login</title>
+</head>
+<script>
+    //1、设置或获取整个url： window.location.href
+    // http://www.jianshu.com/c/bd38bd199ec6?utm_medium=index-collections&utm_source=desktop#name
+    var href = window.location.href;
+    //2、设置或获取 url 的 protocol 协议部分：window.location.protocol
+    // http
+    var protocol = window.location.protocol;
+    //3、设置或获取 url 的主机名：window.location.host
+    // www.jianshu.com
+    var post = window.location.post;
+    //4、设置或获取 url 的端口：window.location.port
+    //空字符(如果采用默认的80端口(update:即使添加了:80)，那么返回值并不是默认的80而是空字符)
+    var port = window.location.port;
+    //5、设置或获取 url 的路径：window.location.pathname
+    //  /c/bd38bd199ec6
+    var pathname = window.location.pathname;
+    //6、设置或获取 url 的参数：window.location.search
+    //  ?utm_medium=index-collections&utm_source=desktop
+    var search = window.location.search;
+    //7、设置或获取 页面的锚点：window.location.hash
+    //  #name
+    var hash = window.location.hash;
+
+    var code = getQueryString("code");
+    var url = "http://localhost:9000/oauth2/token";
+    var obj = {
+        grant_type: 'federated_identity',
+        scope: 'message.read message.write openid',
+        client_id:'messaging-client1',
+        client_secret:'secret1',
+        registrationId:'gitee-idp',
+        federated_identity_code: code};
+    console.log(JSON.stringify(obj));
+    var httpRequest = new XMLHttpRequest();
+    httpRequest.open("POST",url,true);
+    //不是json形式，是表单application/x-www-form-urlencoded
+    httpRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    httpRequest.send('grant_type=federated_identity&scope=message.read message.write openid&client_id=messaging-client1&client_secret=secret1&registrationId=gitee-idp&federated_identity_code=' + code);
+    httpRequest.onreadystatechange = ()=>{
+        if(httpRequest.readyState == 4 && httpRequest.status == 200){
+            var data = JSON.parse(httpRequest.responseText);
+            console.log(data);
+            alert(httpRequest.responseText);
+        }
+    }
+    
+    function getQueryString(name) {
+        var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+        var r = window.location.search.substr(1).match(reg);
+        var context = '';
+        if (r != null) {
+            context = r[2];
+        }
+        reg = null;
+        r = null;
+        return context == null || context == "" || context == "undefined" ? "" : context;
+    }
+    
+</script>
+<body>
+    <form action="http://localhost:9000/oauth2/token" method="post">
+        <table width="600px" border="1px" cellspcing="0">
+            <tbody>
+                <tr height="40px">
+                    <td align="right">grant_type：</td>
+                    <td>
+                        <input type="text" name="grant_type" value="federated_identity">
+                    </td>
+                </tr>
+                <tr height="40px">
+                    <td align="right">scop：</td>
+                    <td>
+                        <input type="text" name="scop" value="message.read message.write openid">
+                    </td>
+                </tr>
+                <tr height="40px">
+                    <td align="right">client_id：</td>
+                    <td>
+                        <input type="text" name="client_id" value="messaging-client1">
+                    </td>
+                </tr>
+                <tr height="40px">
+                    <td align="right">client_secret：</td>
+                    <td>
+                        <input type="text" name="client_secret" value="secret1">
+                    </td>
+                </tr>
+                <tr height="40px">
+                    <td align="right">registrationId：</td>
+                    <td>
+                        <input type="text" name="registrationId" value="gitee-idp">
+                    </td>
+                </tr>                
+                <tr height="40px">
+                    <td align="right">federated_identity_code：</td>
+                    <td>
+                        <input type="text" name="federated_identity_code" value="">
+                    </td>
+                </tr>
+                
+                <tr height="40px">
+                    <td colspan="2" align="center">
+                        <input type="submit" value="提交">
+                        <input type="reset" value="重置">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    
+</body>
+</html>

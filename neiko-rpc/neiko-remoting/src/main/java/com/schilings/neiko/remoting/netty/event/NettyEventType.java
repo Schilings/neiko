@@ -17,8 +17,7 @@
 package com.schilings.neiko.remoting.netty.event;
 
 public enum NettyEventType {
-    CONNECT,
-    CLOSE,
-    IDLE,
-    EXCEPTION
+
+	CONNECT, CLOSE, IDLE, EXCEPTION
+
 }

@@ -16,9 +16,10 @@
  */
 package com.schilings.neiko.remoting.netty;
 
-
 import com.schilings.neiko.remoting.netty.ResponseFuture;
 
 public interface InvokeCallback {
-    void operationComplete(final ResponseFuture responseFuture);
+
+	void operationComplete(final ResponseFuture responseFuture);
+
 }

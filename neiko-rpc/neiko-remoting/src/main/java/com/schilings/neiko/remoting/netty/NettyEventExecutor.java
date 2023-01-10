@@ -1,6 +1,5 @@
 package com.schilings.neiko.remoting.netty;
 
-
 import com.schilings.neiko.logging.InternalLogger;
 import com.schilings.neiko.logging.InternalLoggerFactory;
 import com.schilings.neiko.remoting.common.RemotingHelper;
@@ -11,70 +10,77 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 /**
- * <p>监听NettyEvent的线程，实现业务解耦</p>
+ * <p>
+ * 监听NettyEvent的线程，实现业务解耦
+ * </p>
  *
  * @author Schilings
  */
 public class NettyEventExecutor extends ServiceThread {
 
-    private static final InternalLogger log = InternalLoggerFactory.getLogger(RemotingHelper.NEIKO_REMOTING);
-    private final LinkedBlockingQueue<NettyEvent> eventQueue = new LinkedBlockingQueue<NettyEvent>();
-    private final int maxSize = 10000;
+	private static final InternalLogger log = InternalLoggerFactory.getLogger(RemotingHelper.NEIKO_REMOTING);
 
-    private final NettyRemotingAbstract nettyRemoting;
+	private final LinkedBlockingQueue<NettyEvent> eventQueue = new LinkedBlockingQueue<NettyEvent>();
 
-    public NettyEventExecutor(NettyRemotingAbstract nettyRemoting) {
-        this.nettyRemoting = nettyRemoting;
-    }
+	private final int maxSize = 10000;
 
-    public void putNettyEvent(final NettyEvent event) {
-        int currentSize = this.eventQueue.size();
-        if (currentSize <= maxSize) {
-            this.eventQueue.add(event);
-        } else {
-            log.warn("event queue size [{}] over the limit [{}], so drop this event {}", currentSize, maxSize, event.toString());
-        }
-    }
+	private final NettyRemotingAbstract nettyRemoting;
 
+	public NettyEventExecutor(NettyRemotingAbstract nettyRemoting) {
+		this.nettyRemoting = nettyRemoting;
+	}
 
-    @Override
-    public String getServiceName() {
-        return NettyEventExecutor.class.getSimpleName();
-    }
+	public void putNettyEvent(final NettyEvent event) {
+		int currentSize = this.eventQueue.size();
+		if (currentSize <= maxSize) {
+			this.eventQueue.add(event);
+		}
+		else {
+			log.warn("event queue size [{}] over the limit [{}], so drop this event {}", currentSize, maxSize,
+					event.toString());
+		}
+	}
 
-    @Override
-    public void run() {
-        log.info(this.getServiceName() + " service started");
+	@Override
+	public String getServiceName() {
+		return NettyEventExecutor.class.getSimpleName();
+	}
 
-        final ChannelEventListener listener = this.nettyRemoting.getChannelEventListener();
+	@Override
+	public void run() {
+		log.info(this.getServiceName() + " service started");
 
-        while (!this.isStopped()) {
-            try {
-                NettyEvent event = this.eventQueue.poll(3000, TimeUnit.MILLISECONDS);
-                if (event != null && listener != null) {
-                    switch (event.getType()) {
-                        case IDLE:
-                            listener.onChannelIdle(event.getRemoteAddr(), event.getChannel());
-                            break;
-                        case CLOSE:
-                            listener.onChannelClose(event.getRemoteAddr(), event.getChannel());
-                            break;
-                        case CONNECT:
-                            listener.onChannelConnect(event.getRemoteAddr(), event.getChannel());
-                            break;
-                        case EXCEPTION:
-                            listener.onChannelException(event.getRemoteAddr(), event.getChannel());
-                            break;
-                        default:
-                            break;
+		final ChannelEventListener listener = this.nettyRemoting.getChannelEventListener();
 
-                    }
-                }
-            } catch (Exception e) {
-                log.warn(this.getServiceName() + " service has exception. ", e);
-            }
-        }
+		while (!this.isStopped()) {
+			try {
+				NettyEvent event = this.eventQueue.poll(3000, TimeUnit.MILLISECONDS);
+				if (event != null && listener != null) {
+					switch (event.getType()) {
+					case IDLE:
+						listener.onChannelIdle(event.getRemoteAddr(), event.getChannel());
+						break;
+					case CLOSE:
+						listener.onChannelClose(event.getRemoteAddr(), event.getChannel());
+						break;
+					case CONNECT:
+						listener.onChannelConnect(event.getRemoteAddr(), event.getChannel());
+						break;
+					case EXCEPTION:
+						listener.onChannelException(event.getRemoteAddr(), event.getChannel());
+						break;
+					default:
+						break;
 
-        log.info(this.getServiceName() + " service end");
-    }
+					}
+				}
+			}
+			catch (Exception e) {
+				log.warn(this.getServiceName() + " service has exception. ", e);
+			}
+		}
+
+		log.info(this.getServiceName() + " service end");
+	}
+
 }

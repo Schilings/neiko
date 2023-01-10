@@ -1,0 +1,27 @@
+server:
+  port: 8000
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: ERROR
+    
+
+#spring:
+#  security:
+#    oauth2:
+#      resourceserver:
+#        opaquetoken:
+#          introspection-uri: http://localhost:9000/oauth2/introspect
+#          # 远程令牌自省 客户端验证开启Basic验证
+#          client-id: messaging-client
+#          client-secret: secret
+neiko:
+  security:
+    oauth2:
+      resourceserver:
+        opaquetoken: # 远程令牌自省 客户端验证开启Basic验证
+          introspection-uri: http://localhost:9000/oauth2/introspect
+          client-id: messaging-client
+          client-secret: secret

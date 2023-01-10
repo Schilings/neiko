@@ -17,215 +17,218 @@
 
 package com.schilings.neiko.logging.inner;
 
-
 import java.io.InterruptedIOException;
 import java.util.Enumeration;
 import java.util.Vector;
 
 public abstract class Appender {
 
-    public static final int CODE_WRITE_FAILURE = 1;
-    public static final int CODE_FLUSH_FAILURE = 2;
-    public static final int CODE_CLOSE_FAILURE = 3;
-    public static final int CODE_FILE_OPEN_FAILURE = 4;
+	public static final int CODE_WRITE_FAILURE = 1;
 
-    public final static String LINE_SEP = System.getProperty("line.separator");
+	public static final int CODE_FLUSH_FAILURE = 2;
 
-    boolean firstTime = true;
+	public static final int CODE_CLOSE_FAILURE = 3;
 
-    protected Layout layout;
+	public static final int CODE_FILE_OPEN_FAILURE = 4;
 
-    protected String name;
+	public final static String LINE_SEP = System.getProperty("line.separator");
 
-    protected boolean closed = false;
+	boolean firstTime = true;
 
-    public void activateOptions() {
-    }
+	protected Layout layout;
 
-    abstract protected void append(LoggingEvent event);
+	protected String name;
 
-    /**
-     * GC自救，仅1次
-     */
-    public void finalize() {
-        try {
-            super.finalize();
-        } catch (Throwable throwable) {
-            SysLogger.error("Finalizing appender named [" + name + "]. error", throwable);
-        }
-        if (this.closed) {
-            return;
-        }
+	protected boolean closed = false;
 
-        SysLogger.debug("Finalizing appender named [" + name + "].");
-        close();
-    }
+	public void activateOptions() {
+	}
 
-    public Layout getLayout() {
-        return layout;
-    }
+	abstract protected void append(LoggingEvent event);
 
-    public final String getName() {
-        return this.name;
-    }
+	/**
+	 * GC自救，仅1次
+	 */
+	public void finalize() {
+		try {
+			super.finalize();
+		}
+		catch (Throwable throwable) {
+			SysLogger.error("Finalizing appender named [" + name + "]. error", throwable);
+		}
+		if (this.closed) {
+			return;
+		}
 
-    public synchronized void doAppend(LoggingEvent event) {
-        if (closed) {
-            SysLogger.error("Attempted to append to closed appender named [" + name + "].");
-            return;
-        }
-        this.append(event);
-    }
+		SysLogger.debug("Finalizing appender named [" + name + "].");
+		close();
+	}
 
-    public void setLayout(Layout layout) {
-        this.layout = layout;
-    }
+	public Layout getLayout() {
+		return layout;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public final String getName() {
+		return this.name;
+	}
 
-    public abstract void close();
+	public synchronized void doAppend(LoggingEvent event) {
+		if (closed) {
+			SysLogger.error("Attempted to append to closed appender named [" + name + "].");
+			return;
+		}
+		this.append(event);
+	}
 
-    public void handleError(String message, Exception e, int errorCode) {
-        if (e instanceof InterruptedIOException || e instanceof InterruptedException) {
-            Thread.currentThread().interrupt();
-        }
-        if (firstTime) {
-            SysLogger.error(message + " code:" + errorCode, e);
-            firstTime = false;
-        }
-    }
+	public void setLayout(Layout layout) {
+		this.layout = layout;
+	}
 
-    public void handleError(String message) {
-        if (firstTime) {
-            SysLogger.error(message);
-            firstTime = false;
-        }
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
+	public abstract void close();
 
-    public interface AppenderPipeline {
+	public void handleError(String message, Exception e, int errorCode) {
+		if (e instanceof InterruptedIOException || e instanceof InterruptedException) {
+			Thread.currentThread().interrupt();
+		}
+		if (firstTime) {
+			SysLogger.error(message + " code:" + errorCode, e);
+			firstTime = false;
+		}
+	}
 
-        void addAppender(Appender newAppender);
+	public void handleError(String message) {
+		if (firstTime) {
+			SysLogger.error(message);
+			firstTime = false;
+		}
+	}
 
-        Enumeration getAllAppenders();
+	public interface AppenderPipeline {
 
-        Appender getAppender(String name);
+		void addAppender(Appender newAppender);
 
-        boolean isAttached(Appender appender);
+		Enumeration getAllAppenders();
 
-        void removeAllAppenders();
+		Appender getAppender(String name);
 
-        void removeAppender(Appender appender);
+		boolean isAttached(Appender appender);
 
-        void removeAppender(String name);
-    }
+		void removeAllAppenders();
 
+		void removeAppender(Appender appender);
 
-    public static class AppenderPipelineImpl implements AppenderPipeline {
+		void removeAppender(String name);
 
+	}
 
-        protected Vector<Appender> appenderList;
+	public static class AppenderPipelineImpl implements AppenderPipeline {
 
-        public void addAppender(Appender newAppender) {
-            if (newAppender == null) {
-                return;
-            }
+		protected Vector<Appender> appenderList;
 
-            if (appenderList == null) {
-                appenderList = new Vector<Appender>(1);
-            }
-            if (!appenderList.contains(newAppender)) {
-                appenderList.addElement(newAppender);
-            }
-        }
+		public void addAppender(Appender newAppender) {
+			if (newAppender == null) {
+				return;
+			}
 
-        public int appendLoopOnAppenders(LoggingEvent event) {
-            int size = 0;
-            Appender appender;
+			if (appenderList == null) {
+				appenderList = new Vector<Appender>(1);
+			}
+			if (!appenderList.contains(newAppender)) {
+				appenderList.addElement(newAppender);
+			}
+		}
 
-            if (appenderList != null) {
-                size = appenderList.size();
-                for (int i = 0; i < size; i++) {
-                    appender = appenderList.elementAt(i);
-                    appender.doAppend(event);
-                }
-            }
-            return size;
-        }
+		public int appendLoopOnAppenders(LoggingEvent event) {
+			int size = 0;
+			Appender appender;
 
-        public Enumeration getAllAppenders() {
-            if (appenderList == null) {
-                return null;
-            } else {
-                return appenderList.elements();
-            }
-        }
+			if (appenderList != null) {
+				size = appenderList.size();
+				for (int i = 0; i < size; i++) {
+					appender = appenderList.elementAt(i);
+					appender.doAppend(event);
+				}
+			}
+			return size;
+		}
 
-        public Appender getAppender(String name) {
-            if (appenderList == null || name == null) {
-                return null;
-            }
+		public Enumeration getAllAppenders() {
+			if (appenderList == null) {
+				return null;
+			}
+			else {
+				return appenderList.elements();
+			}
+		}
 
-            int size = appenderList.size();
-            Appender appender;
-            for (int i = 0; i < size; i++) {
-                appender = appenderList.elementAt(i);
-                if (name.equals(appender.getName())) {
-                    return appender;
-                }
-            }
-            return null;
-        }
+		public Appender getAppender(String name) {
+			if (appenderList == null || name == null) {
+				return null;
+			}
 
-        public boolean isAttached(Appender appender) {
-            if (appenderList == null || appender == null) {
-                return false;
-            }
+			int size = appenderList.size();
+			Appender appender;
+			for (int i = 0; i < size; i++) {
+				appender = appenderList.elementAt(i);
+				if (name.equals(appender.getName())) {
+					return appender;
+				}
+			}
+			return null;
+		}
 
-            int size = appenderList.size();
-            Appender a;
-            for (int i = 0; i < size; i++) {
-                a = appenderList.elementAt(i);
-                if (a == appender) {
-                    return true;
-                }
-            }
-            return false;
-        }
+		public boolean isAttached(Appender appender) {
+			if (appenderList == null || appender == null) {
+				return false;
+			}
 
-        public void removeAllAppenders() {
-            if (appenderList != null) {
-                int len = appenderList.size();
-                for (int i = 0; i < len; i++) {
-                    Appender a = appenderList.elementAt(i);
-                    a.close();
-                }
-                appenderList.removeAllElements();
-                appenderList = null;
-            }
-        }
+			int size = appenderList.size();
+			Appender a;
+			for (int i = 0; i < size; i++) {
+				a = appenderList.elementAt(i);
+				if (a == appender) {
+					return true;
+				}
+			}
+			return false;
+		}
 
-        public void removeAppender(Appender appender) {
-            if (appender == null || appenderList == null) {
-                return;
-            }
-            appenderList.removeElement(appender);
-        }
+		public void removeAllAppenders() {
+			if (appenderList != null) {
+				int len = appenderList.size();
+				for (int i = 0; i < len; i++) {
+					Appender a = appenderList.elementAt(i);
+					a.close();
+				}
+				appenderList.removeAllElements();
+				appenderList = null;
+			}
+		}
 
-        public void removeAppender(String name) {
-            if (name == null || appenderList == null) {
-                return;
-            }
-            int size = appenderList.size();
-            for (int i = 0; i < size; i++) {
-                if (name.equals((appenderList.elementAt(i)).getName())) {
-                    appenderList.removeElementAt(i);
-                    break;
-                }
-            }
-        }
+		public void removeAppender(Appender appender) {
+			if (appender == null || appenderList == null) {
+				return;
+			}
+			appenderList.removeElement(appender);
+		}
 
-    }
+		public void removeAppender(String name) {
+			if (name == null || appenderList == null) {
+				return;
+			}
+			int size = appenderList.size();
+			for (int i = 0; i < size; i++) {
+				if (name.equals((appenderList.elementAt(i)).getName())) {
+					appenderList.removeElementAt(i);
+					break;
+				}
+			}
+		}
+
+	}
+
 }

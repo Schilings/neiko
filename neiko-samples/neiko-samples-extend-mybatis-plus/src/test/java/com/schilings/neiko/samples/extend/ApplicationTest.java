@@ -34,6 +34,7 @@ public class ApplicationTest {
 
 	@Test
 	public void getOrderSimple() {
+		
 		List<Preorders> list = preorderMapper.selectJoinList(Preorders.class, AUTO_RESULT_MAP,
 				new NeikoQueryWrapper<Preorders>().setAlias("pre").selectAll(Preorders.class)
 						.leftJoin("gas_station gs ON pre.gas_station_id = gs.id").eq("pre.deleted", "1"));
@@ -43,7 +44,9 @@ public class ApplicationTest {
 	@Test
 	public void test() {
 		List<PreordersGasStationDto> list = preorderMapper.selectJoinList(PreordersGasStationDto.class, AUTO_RESULT_MAP,
-				WrappersX.<Preorders>lambdaQueryJoin().selectAll(Preorders.class).select(GasStation::getBrandCode)
+				WrappersX.<Preorders>lambdaQueryJoin()
+						.selectAll(Preorders.class)
+						.select(GasStation::getBrandCode)
 						.leftJoin(GasStation.class, GasStation::getId, Preorders::getGasStationId)
 						.eqIfPresent(Preorders::getDeleted, "1"));
 		list.forEach(System.out::println);

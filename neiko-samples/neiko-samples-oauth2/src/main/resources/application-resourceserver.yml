@@ -1,0 +1,7 @@
+neiko:
+  security:
+    oauth2:
+      resourceserver:
+        ignore-urls:
+          - /test/**
+          - /oauth2Login

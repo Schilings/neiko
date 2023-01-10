@@ -17,141 +17,152 @@
 package com.schilings.neiko.remoting.netty.config;
 
 public class NettyClientConfig {
-    /**
-     * Worker thread number
-     */
-    private int clientWorkerThreads = NettySystemConfig.clientWorkerSize;
-    private int clientCallbackExecutorThreads = Runtime.getRuntime().availableProcessors();
-    private int clientOnewaySemaphoreValue = NettySystemConfig.CLIENT_ONEWAY_SEMAPHORE_VALUE;
-    private int clientAsyncSemaphoreValue = NettySystemConfig.CLIENT_ASYNC_SEMAPHORE_VALUE;
-    private int connectTimeoutMillis = NettySystemConfig.connectTimeoutMillis;
-    private long channelNotActiveInterval = 1000 * 60;
 
-    /**
-     * IdleStateEvent will be triggered when neither read nor write was performed for
-     * the specified period of this time. Specify {@code 0} to disable
-     */
-    private int clientChannelMaxIdleTimeSeconds = NettySystemConfig.clientChannelMaxIdleTimeSeconds;
+	/**
+	 * Worker thread number
+	 */
+	private int clientWorkerThreads = NettySystemConfig.clientWorkerSize;
 
-    private int clientSocketSndBufSize = NettySystemConfig.socketSndbufSize;
-    private int clientSocketRcvBufSize = NettySystemConfig.socketRcvbufSize;
-    private boolean clientPooledByteBufAllocatorEnable = false;
-    private boolean clientCloseSocketIfTimeout = NettySystemConfig.clientCloseSocketIfTimeout;
+	private int clientCallbackExecutorThreads = Runtime.getRuntime().availableProcessors();
 
-    private boolean useTLS;
+	private int clientOnewaySemaphoreValue = NettySystemConfig.CLIENT_ONEWAY_SEMAPHORE_VALUE;
 
-    private int writeBufferHighWaterMark = NettySystemConfig.writeBufferHighWaterMark;
-    private int writeBufferLowWaterMark = NettySystemConfig.writeBufferLowWaterMark;
+	private int clientAsyncSemaphoreValue = NettySystemConfig.CLIENT_ASYNC_SEMAPHORE_VALUE;
 
-    public boolean isClientCloseSocketIfTimeout() {
-        return clientCloseSocketIfTimeout;
-    }
+	private int connectTimeoutMillis = NettySystemConfig.connectTimeoutMillis;
 
-    public void setClientCloseSocketIfTimeout(final boolean clientCloseSocketIfTimeout) {
-        this.clientCloseSocketIfTimeout = clientCloseSocketIfTimeout;
-    }
+	private long channelNotActiveInterval = 1000 * 60;
 
-    public int getClientWorkerThreads() {
-        return clientWorkerThreads;
-    }
+	/**
+	 * IdleStateEvent will be triggered when neither read nor write was performed for the
+	 * specified period of this time. Specify {@code 0} to disable
+	 */
+	private int clientChannelMaxIdleTimeSeconds = NettySystemConfig.clientChannelMaxIdleTimeSeconds;
 
-    public void setClientWorkerThreads(int clientWorkerThreads) {
-        this.clientWorkerThreads = clientWorkerThreads;
-    }
+	private int clientSocketSndBufSize = NettySystemConfig.socketSndbufSize;
 
-    public int getClientOnewaySemaphoreValue() {
-        return clientOnewaySemaphoreValue;
-    }
+	private int clientSocketRcvBufSize = NettySystemConfig.socketRcvbufSize;
 
-    public void setClientOnewaySemaphoreValue(int clientOnewaySemaphoreValue) {
-        this.clientOnewaySemaphoreValue = clientOnewaySemaphoreValue;
-    }
+	private boolean clientPooledByteBufAllocatorEnable = false;
 
-    public int getConnectTimeoutMillis() {
-        return connectTimeoutMillis;
-    }
+	private boolean clientCloseSocketIfTimeout = NettySystemConfig.clientCloseSocketIfTimeout;
 
-    public void setConnectTimeoutMillis(int connectTimeoutMillis) {
-        this.connectTimeoutMillis = connectTimeoutMillis;
-    }
+	private boolean useTLS;
 
-    public int getClientCallbackExecutorThreads() {
-        return clientCallbackExecutorThreads;
-    }
+	private int writeBufferHighWaterMark = NettySystemConfig.writeBufferHighWaterMark;
 
-    public void setClientCallbackExecutorThreads(int clientCallbackExecutorThreads) {
-        this.clientCallbackExecutorThreads = clientCallbackExecutorThreads;
-    }
+	private int writeBufferLowWaterMark = NettySystemConfig.writeBufferLowWaterMark;
 
-    public long getChannelNotActiveInterval() {
-        return channelNotActiveInterval;
-    }
+	public boolean isClientCloseSocketIfTimeout() {
+		return clientCloseSocketIfTimeout;
+	}
 
-    public void setChannelNotActiveInterval(long channelNotActiveInterval) {
-        this.channelNotActiveInterval = channelNotActiveInterval;
-    }
+	public void setClientCloseSocketIfTimeout(final boolean clientCloseSocketIfTimeout) {
+		this.clientCloseSocketIfTimeout = clientCloseSocketIfTimeout;
+	}
 
-    public int getClientAsyncSemaphoreValue() {
-        return clientAsyncSemaphoreValue;
-    }
+	public int getClientWorkerThreads() {
+		return clientWorkerThreads;
+	}
 
-    public void setClientAsyncSemaphoreValue(int clientAsyncSemaphoreValue) {
-        this.clientAsyncSemaphoreValue = clientAsyncSemaphoreValue;
-    }
+	public void setClientWorkerThreads(int clientWorkerThreads) {
+		this.clientWorkerThreads = clientWorkerThreads;
+	}
 
-    public int getClientChannelMaxIdleTimeSeconds() {
-        return clientChannelMaxIdleTimeSeconds;
-    }
+	public int getClientOnewaySemaphoreValue() {
+		return clientOnewaySemaphoreValue;
+	}
 
-    public void setClientChannelMaxIdleTimeSeconds(int clientChannelMaxIdleTimeSeconds) {
-        this.clientChannelMaxIdleTimeSeconds = clientChannelMaxIdleTimeSeconds;
-    }
+	public void setClientOnewaySemaphoreValue(int clientOnewaySemaphoreValue) {
+		this.clientOnewaySemaphoreValue = clientOnewaySemaphoreValue;
+	}
 
-    public int getClientSocketSndBufSize() {
-        return clientSocketSndBufSize;
-    }
+	public int getConnectTimeoutMillis() {
+		return connectTimeoutMillis;
+	}
 
-    public void setClientSocketSndBufSize(int clientSocketSndBufSize) {
-        this.clientSocketSndBufSize = clientSocketSndBufSize;
-    }
+	public void setConnectTimeoutMillis(int connectTimeoutMillis) {
+		this.connectTimeoutMillis = connectTimeoutMillis;
+	}
 
-    public int getClientSocketRcvBufSize() {
-        return clientSocketRcvBufSize;
-    }
+	public int getClientCallbackExecutorThreads() {
+		return clientCallbackExecutorThreads;
+	}
 
-    public void setClientSocketRcvBufSize(int clientSocketRcvBufSize) {
-        this.clientSocketRcvBufSize = clientSocketRcvBufSize;
-    }
+	public void setClientCallbackExecutorThreads(int clientCallbackExecutorThreads) {
+		this.clientCallbackExecutorThreads = clientCallbackExecutorThreads;
+	}
 
-    public boolean isClientPooledByteBufAllocatorEnable() {
-        return clientPooledByteBufAllocatorEnable;
-    }
+	public long getChannelNotActiveInterval() {
+		return channelNotActiveInterval;
+	}
 
-    public void setClientPooledByteBufAllocatorEnable(boolean clientPooledByteBufAllocatorEnable) {
-        this.clientPooledByteBufAllocatorEnable = clientPooledByteBufAllocatorEnable;
-    }
+	public void setChannelNotActiveInterval(long channelNotActiveInterval) {
+		this.channelNotActiveInterval = channelNotActiveInterval;
+	}
 
-    public boolean isUseTLS() {
-        return useTLS;
-    }
+	public int getClientAsyncSemaphoreValue() {
+		return clientAsyncSemaphoreValue;
+	}
 
-    public void setUseTLS(boolean useTLS) {
-        this.useTLS = useTLS;
-    }
+	public void setClientAsyncSemaphoreValue(int clientAsyncSemaphoreValue) {
+		this.clientAsyncSemaphoreValue = clientAsyncSemaphoreValue;
+	}
 
-    public int getWriteBufferLowWaterMark() {
-        return writeBufferLowWaterMark;
-    }
+	public int getClientChannelMaxIdleTimeSeconds() {
+		return clientChannelMaxIdleTimeSeconds;
+	}
 
-    public void setWriteBufferLowWaterMark(int writeBufferLowWaterMark) {
-        this.writeBufferLowWaterMark = writeBufferLowWaterMark;
-    }
+	public void setClientChannelMaxIdleTimeSeconds(int clientChannelMaxIdleTimeSeconds) {
+		this.clientChannelMaxIdleTimeSeconds = clientChannelMaxIdleTimeSeconds;
+	}
 
-    public int getWriteBufferHighWaterMark() {
-        return writeBufferHighWaterMark;
-    }
+	public int getClientSocketSndBufSize() {
+		return clientSocketSndBufSize;
+	}
 
-    public void setWriteBufferHighWaterMark(int writeBufferHighWaterMark) {
-        this.writeBufferHighWaterMark = writeBufferHighWaterMark;
-    }
+	public void setClientSocketSndBufSize(int clientSocketSndBufSize) {
+		this.clientSocketSndBufSize = clientSocketSndBufSize;
+	}
+
+	public int getClientSocketRcvBufSize() {
+		return clientSocketRcvBufSize;
+	}
+
+	public void setClientSocketRcvBufSize(int clientSocketRcvBufSize) {
+		this.clientSocketRcvBufSize = clientSocketRcvBufSize;
+	}
+
+	public boolean isClientPooledByteBufAllocatorEnable() {
+		return clientPooledByteBufAllocatorEnable;
+	}
+
+	public void setClientPooledByteBufAllocatorEnable(boolean clientPooledByteBufAllocatorEnable) {
+		this.clientPooledByteBufAllocatorEnable = clientPooledByteBufAllocatorEnable;
+	}
+
+	public boolean isUseTLS() {
+		return useTLS;
+	}
+
+	public void setUseTLS(boolean useTLS) {
+		this.useTLS = useTLS;
+	}
+
+	public int getWriteBufferLowWaterMark() {
+		return writeBufferLowWaterMark;
+	}
+
+	public void setWriteBufferLowWaterMark(int writeBufferLowWaterMark) {
+		this.writeBufferLowWaterMark = writeBufferLowWaterMark;
+	}
+
+	public int getWriteBufferHighWaterMark() {
+		return writeBufferHighWaterMark;
+	}
+
+	public void setWriteBufferHighWaterMark(int writeBufferHighWaterMark) {
+		this.writeBufferHighWaterMark = writeBufferHighWaterMark;
+	}
+
 }

@@ -25,6 +25,10 @@
         <module>neiko-samples-starter-datascope</module>
         <module>neiko-samples-admin-service-provider</module>
         <module>neiko-samples-cloud-openfeign</module>
+        <module>neiko-samples-oauth2</module>
+        <module>neiko-samples-oauth2-client</module>
+        <module>neiko-samples-oauth2-resource-server</module>
+        <module>neiko-samples-oauth2-authorization-server</module>
     </modules>
 
 
