@@ -8,10 +8,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
-import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.web.*;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
@@ -40,9 +38,9 @@ public class OAuth2FederatedIdentityAuthenticationConverter implements OAuth2Ext
         MultiValueMap<String, String> parameters = OAuth2EndpointUtils.getParameters(request);
 
         // code (REQUIRED)
-        String code = parameters.getFirst(OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_AUTHENTICATED_CODE);
-        if (StringUtils.hasText(code) && parameters.get(OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_AUTHENTICATED_CODE).size() != 1) {
-            OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST,OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_AUTHENTICATED_CODE,
+        String code = parameters.getFirst(OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_CODE);
+        if (StringUtils.hasText(code) && parameters.get(OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_CODE).size() != 1) {
+            OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST,OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_CODE,
                     OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
         }
         
@@ -70,7 +68,7 @@ public class OAuth2FederatedIdentityAuthenticationConverter implements OAuth2Ext
         parameters.forEach((key, value) -> {
             if (!key.equals(OAuth2ParameterNames.GRANT_TYPE) &&
                     !key.equals(OAuth2ParameterNames.SCOPE) &&
-                    !key.equals(OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_AUTHENTICATED_CODE)) {
+                    !key.equals(OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_CODE)) {
                 additionalParameters.put(key, value.get(0));
             }
         });

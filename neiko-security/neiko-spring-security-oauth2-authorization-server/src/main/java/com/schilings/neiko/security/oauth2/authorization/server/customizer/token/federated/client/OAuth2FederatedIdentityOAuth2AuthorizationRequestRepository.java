@@ -5,9 +5,6 @@ import cn.hutool.core.util.BooleanUtil;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.federated.OAuth2FederatedIdentityConstant;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.OAuth2Error;
-import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.util.StringUtils;
 
@@ -57,7 +54,7 @@ public class OAuth2FederatedIdentityOAuth2AuthorizationRequestRepository impleme
             return false;
         }
         //如果是Federated Request Authorization Request
-        String isFederatedIdentity = authorizationRequest.getAttribute(OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_AUTHORIZATION_REQUEST);
+        String isFederatedIdentity = authorizationRequest.getAttribute(OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_REQUEST);
         if (StringUtils.hasText(isFederatedIdentity) && BooleanUtil.toBoolean(isFederatedIdentity)) {
             return true;
         }

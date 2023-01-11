@@ -83,7 +83,7 @@ public class OAuth2FederatedIdentityAuthenticationProvider implements OAuth2Exte
         
         //校验授权码，通过授权码能拿到OAuth2Authorization，在OAuth2Login会持久化，在这里拿到
         //通常用InMemoryOAuth2AuthorizationService，这个不是直接通过code值来判断的，那我们得走里面的matchesState的方式
-        //不填TokenType : OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_AUTHENTICATED_CODE_TOKEN_TYPE
+        //不填TokenType : OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_CODE_TOKEN_TYPE
         OAuth2Authorization authorization = this.authorizationService.findByToken(
                 federatedIdentityAuthenticationToken.getCode(), null);
         if (authorization == null) {

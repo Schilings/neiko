@@ -8,13 +8,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.client.authentication.OAuth2LoginAuthenticationToken;
 import org.springframework.security.oauth2.core.*;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
-import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.resource.introspection.BadOpaqueTokenException;
@@ -33,21 +33,23 @@ public class SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector implem
     private final OAuth2AuthorizationService authorizationService;
 
     private final RegisteredClientRepository registeredClientRepository;
-
-
+    
 
     @Override
     public OAuth2AuthenticatedPrincipal introspect(String accessTokenValue) {
-        OAuth2Authorization oAuth2Authorization = authorizationService.findByToken(accessTokenValue,
-                OAuth2TokenType.ACCESS_TOKEN);
+        OAuth2Authorization oAuth2Authorization = authorizationService.findByToken(accessTokenValue, OAuth2TokenType.ACCESS_TOKEN);
         if (oAuth2Authorization == null) {
             throw new BadOpaqueTokenException("Invalid access token: " + accessTokenValue);
         }
         
-
         HashMap<String, Object> claims = new HashMap<>();
-        claims.putAll(oAuth2Authorization.getToken(OAuth2AccessToken.class).getClaims());
-        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        
+        OAuth2Authorization.Token<OAuth2AccessToken> token = oAuth2Authorization.getToken(OAuth2AccessToken.class);
+        if (token == null) {
+            return null;
+        }
+        claims.putAll(token.getClaims());
         claims.computeIfPresent(OAuth2TokenIntrospectionClaimNames.SCOPE, (k, v) -> {
             if (v instanceof String) {
                 Collection<String> scopes = Arrays.asList(((String) v).split(" "));
@@ -65,57 +67,62 @@ public class SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector implem
         oAuth2Authorization.getAuthorizedScopes().forEach(scope -> {
             authorities.add(new SimpleGrantedAuthority(AUTHORITY_SCOPE_PREFIX + scope));
         });
-
+        
+        
         AuthorizationGrantType authorizationGrantType = oAuth2Authorization.getAuthorizationGrantType();
+        OAuth2IntrospectionAuthenticatedPrincipal introspectionAuthenticatedPrincipal = null;
         if (AuthorizationGrantType.CLIENT_CREDENTIALS.equals(authorizationGrantType)) {
-            getClientPrincipal(oAuth2Authorization,authorities);
+            introspectionAuthenticatedPrincipal = getClientPrincipal(oAuth2Authorization,claims,authorities);
         }
         if (AuthorizationGrantType.PASSWORD.equals(authorizationGrantType)) {
-            getUserDetailAuthenticatedPrincipal(oAuth2Authorization,authorities);
+            introspectionAuthenticatedPrincipal = getUserDetailAuthenticatedPrincipal(oAuth2Authorization, claims, authorities);
         }
-        
-        if (OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_AUTHENTICATED_CODE_TOKEN_TYPE.equals(authorizationGrantType)) {
-            getOAuth2UserAuthenticatedPrincipal(oAuth2Authorization,authorities);
+        if (OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY.equals(authorizationGrantType)) {
+            introspectionAuthenticatedPrincipal = getOAuth2UserAuthenticatedPrincipal(oAuth2Authorization, claims, authorities);
         }
-        
-        return new OAuth2IntrospectionAuthenticatedPrincipal(claims, authorities);
+
+        return (introspectionAuthenticatedPrincipal != null) ?
+                introspectionAuthenticatedPrincipal : new OAuth2IntrospectionAuthenticatedPrincipal(oAuth2Authorization.getPrincipalName(),claims, authorities);
     }
 
-    private void getOAuth2UserAuthenticatedPrincipal(OAuth2Authorization authorization, Collection<GrantedAuthority> authorities) {
+    private OAuth2IntrospectionAuthenticatedPrincipal getOAuth2UserAuthenticatedPrincipal(OAuth2Authorization authorization, 
+                                                     Map<String, Object> claims, Collection<GrantedAuthority> authorities) {
+        //neiko federated_identity模式传递
         AbstractAuthenticationToken authenticationToken = (AbstractAuthenticationToken) authorization
                 .getAttributes().get(Principal.class.getName());
-        Object principal = authenticationToken.getPrincipal();
-        //添加用户权限
-        if (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authenticationToken.getClass())) {
-            if (principal instanceof UserDetails) {
-                UserDetails userDetails = (UserDetails) principal;
-                authorities.addAll(userDetails.getAuthorities());
+        if (authenticationToken != null && OAuth2AuthenticationToken.class.isAssignableFrom(authenticationToken.getClass())) {
+            Object principal = authenticationToken.getPrincipal();
+            if (principal instanceof OAuth2User) {
+                OAuth2User oAuth2User = (OAuth2User) principal;
+                claims.putAll(authorization.getAttributes());
+                authorities.addAll(oAuth2User.getAuthorities());
+                return new OAuth2IntrospectionAuthenticatedPrincipal(authorization.getPrincipalName(),claims, authorities);
             }
         }
+        return null;
     }
 
 
-    private void getUserDetailAuthenticatedPrincipal(OAuth2Authorization authorization,
-                                                     Collection<GrantedAuthority> authorities) {
+    private OAuth2IntrospectionAuthenticatedPrincipal getUserDetailAuthenticatedPrincipal(OAuth2Authorization authorization,
+                                                     Map<String, Object> claims, Collection<GrantedAuthority> authorities) {
+        //neiko password模式传递
         AbstractAuthenticationToken authenticationToken = (AbstractAuthenticationToken) authorization
                 .getAttributes().get(Principal.class.getName());
-        Object principal = authenticationToken.getPrincipal();
-        //添加用户权限
-        if (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authenticationToken.getClass())) {
+        if (authenticationToken != null && UsernamePasswordAuthenticationToken.class.isAssignableFrom(authenticationToken.getClass())) {
+            Object principal = authenticationToken.getPrincipal();
             if (principal instanceof UserDetails) {
                 UserDetails userDetails = (UserDetails) principal;
+                claims.putAll(authorization.getAttributes());
                 authorities.addAll(userDetails.getAuthorities());
+                return new OAuth2IntrospectionAuthenticatedPrincipal(authorization.getPrincipalName(),claims, authorities);
             }
         }
-
-        
+        return null;
     }
 
-    private void getClientPrincipal(OAuth2Authorization authorization,
-                                    Collection<GrantedAuthority> authorities) {
-        
-        String registeredClientId = authorization.getRegisteredClientId();
-        RegisteredClient registeredClient = registeredClientRepository.findByClientId(registeredClientId);
+    private OAuth2IntrospectionAuthenticatedPrincipal getClientPrincipal(OAuth2Authorization authorization,
+                                    Map<String, Object> claims, Collection<GrantedAuthority> authorities) {
+        return new OAuth2IntrospectionAuthenticatedPrincipal(authorization.getPrincipalName(),claims, authorities);
     }
 
 

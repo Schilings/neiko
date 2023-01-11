@@ -43,7 +43,7 @@ public class OAuth2FederatedIdentityAuthorizationRequestCustomizer implements OA
             }
             builder.attributes((attrs) -> {
                 //这个true，作用在OAuth2FederatedIdentityOAuth2AuthorizationRequestRepository
-                attrs.put(OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_AUTHORIZATION_REQUEST, "true");
+                attrs.put(OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_REQUEST, "true");
                 attrs.put(OAuth2FederatedIdentityConstant.REDIRECT_URI, redirectUri);
                 attrs.put(OAuth2FederatedIdentityConstant.CLIENT_ID,clientId);
             });

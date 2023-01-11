@@ -70,10 +70,10 @@ public class OAuth2FederatedIdentityAuthenticationSuccessHandler implements Auth
         OAuth2AuthorizationRequest authorizationRequest = this.authorizationRequestRepository.removeAuthorizationRequestInTheEnd(request, response);
         //是Federated Request Authorization Request
         if (authorizationRequest == null ||
-                !StringUtils.hasText(authorizationRequest.getAttribute(OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_AUTHORIZATION_REQUEST)) || 
-                !BooleanUtil.toBoolean(authorizationRequest.getAttribute(OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_AUTHORIZATION_REQUEST))) {
+                !StringUtils.hasText(authorizationRequest.getAttribute(OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_REQUEST)) || 
+                !BooleanUtil.toBoolean(authorizationRequest.getAttribute(OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_REQUEST))) {
             OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.INVALID_REQUEST,
-                    "The OAuth2 Federated Request Authorization Request failed to check the " + OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_AUTHORIZATION_REQUEST, "");
+                    "The OAuth2 Federated Request Authorization Request failed to check the " + OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_REQUEST, "");
             throw new OAuth2AuthenticationException(error);
         }
         
@@ -150,7 +150,7 @@ public class OAuth2FederatedIdentityAuthenticationSuccessHandler implements Auth
                 //OAuth2AuthenticationToken
                 .principal(authenticationToken)
                 .authorizationServerContext(AuthorizationServerContextHolder.getContext())
-                .tokenType(OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_AUTHENTICATED_CODE_TOKEN_TYPE)
+                .tokenType(OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_CODE_TOKEN_TYPE)
                 .authorizationGrantType(OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY)
                 //OAuth2AuthenticationToken
                 .authorizationGrant(authenticationToken);

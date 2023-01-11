@@ -11,6 +11,7 @@ import com.schilings.neiko.security.oauth2.authorization.server.config.EnableAut
 
 
 import com.schilings.neiko.security.oauth2.authorization.server.configurer.FormLoginRememberMeConfigurer;
+import com.schilings.neiko.security.oauth2.authorization.server.customizer.authorization.DefaultOAuth2AuthorizationEndpointCustomizer;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.oidc.DefaultOAuth2OidcConfigurerCustomizer;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.federated.OAuth2FederatedIdentityAuthenticationConverter;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.federated.OAuth2FederatedIdentityConstant;
@@ -60,14 +61,17 @@ public class AuthorizationServerConfig {
 			
 			//Form Login
 			http.apply(new FormLoginRememberMeConfigurer(userDetailsService));
-			
-			// Custom Authorization Consent
-			configurer.authorizationEndpoint(authorizationEndpoint -> {
-				authorizationEndpoint.consentPage("/oauth2/consent");
-			});
 		};
 	}
 
+	// Custom Authorization Consent
+	@Bean
+	public DefaultOAuth2AuthorizationEndpointCustomizer authorizationEndpointCustomizer() {
+		DefaultOAuth2AuthorizationEndpointCustomizer customizer = new DefaultOAuth2AuthorizationEndpointCustomizer();
+		customizer.consentPage("/oauth2/consent");
+		return customizer;
+	}
+	
 	// Enable OpenID Connect 1.0
 	@Bean
 	public DefaultOAuth2OidcConfigurerCustomizer oidcConfigurerCustomizer() {

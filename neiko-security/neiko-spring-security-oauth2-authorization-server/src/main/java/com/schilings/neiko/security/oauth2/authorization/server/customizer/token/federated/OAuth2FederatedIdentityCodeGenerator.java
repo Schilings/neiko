@@ -4,8 +4,6 @@ package com.schilings.neiko.security.oauth2.authorization.server.customizer.toke
 import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.keygen.Base64StringKeyGenerator;
 import org.springframework.security.crypto.keygen.StringKeyGenerator;
-import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
-import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationCode;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 
@@ -26,7 +24,7 @@ public class OAuth2FederatedIdentityCodeGenerator implements OAuth2TokenGenerato
     @Override
     public OAuth2FederatedIdentityCode generate(OAuth2TokenContext context) {
         if (context.getTokenType() == null ||
-                !OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_AUTHENTICATED_CODE.equals(context.getTokenType().getValue())) {
+                !OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_CODE.equals(context.getTokenType().getValue())) {
             return null;
         }
         Instant issuedAt = Instant.now();

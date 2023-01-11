@@ -13,14 +13,14 @@ public final class OAuth2FederatedIdentityConstant {
     public static final String EXPIRES_IN = OAuth2ParameterNames.EXPIRES_IN;
     public static final String CLIENT_ID = OAuth2ParameterNames.CLIENT_ID;
     
-    public static final String FEDERATED_IDENTITY_AUTHORIZATION_REQUEST = "federated_identity";
+    public static final String FEDERATED_IDENTITY_REQUEST = "federated_identity";
 
     /**
      * 自定义的令牌类型，用来校验是否登录成功
      */
-    public static final String FEDERATED_IDENTITY_AUTHENTICATED_CODE = "federated_identity_code";
-    public static final OAuth2TokenType FEDERATED_IDENTITY_AUTHENTICATED_CODE_TOKEN_TYPE =
-            new OAuth2TokenType(FEDERATED_IDENTITY_AUTHENTICATED_CODE);
+    public static final String FEDERATED_IDENTITY_CODE = "federated_identity_code";
+    public static final OAuth2TokenType FEDERATED_IDENTITY_CODE_TOKEN_TYPE =
+            new OAuth2TokenType(FEDERATED_IDENTITY_CODE);
 
     /**
      * 自定义的OAuth授权方式
