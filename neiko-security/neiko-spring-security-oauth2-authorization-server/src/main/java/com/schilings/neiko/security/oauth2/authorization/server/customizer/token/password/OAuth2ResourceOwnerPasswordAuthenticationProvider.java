@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
@@ -48,8 +49,9 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider
 	private static final String ERROR_URI = "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2";
 
 	private static final OAuth2TokenType ID_TOKEN_TOKEN_TYPE = new OAuth2TokenType(OidcParameterNames.ID_TOKEN);
-	private static final OAuth2TokenType PASSWORD_TOKEN_TYPE =
-			new OAuth2TokenType(OAuth2ParameterNames.PASSWORD);
+
+	private static final OAuth2TokenType PASSWORD_TOKEN_TYPE = new OAuth2TokenType(OAuth2ParameterNames.PASSWORD);
+
 	private final Log logger = LogFactory.getLog(getClass());
 
 	private final AuthenticationManager authenticationManager;
@@ -80,9 +82,9 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		OAuth2ResourceOwnerPasswordAuthenticationToken resourceOwnerPasswordAuthenticationToken = (OAuth2ResourceOwnerPasswordAuthenticationToken) authentication;
 
-		//已经认证的经过OAuth2ClientAuthenticationFilter认证后的OAuth2ClientAuthenticationToken
-		OAuth2ClientAuthenticationToken clientPrincipal = OAuth2AuthenticationProviderUtils.getAuthenticatedClientElseThrowInvalidClient(
-				resourceOwnerPasswordAuthenticationToken);
+		// 已经认证的经过OAuth2ClientAuthenticationFilter认证后的OAuth2ClientAuthenticationToken
+		OAuth2ClientAuthenticationToken clientPrincipal = OAuth2AuthenticationProviderUtils
+				.getAuthenticatedClientElseThrowInvalidClient(resourceOwnerPasswordAuthenticationToken);
 		RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
 
 		if (this.logger.isTraceEnabled()) {
@@ -93,7 +95,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider
 			throw new OAuth2AuthenticationException(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT);
 		}
 
-		//走UsernamePasswordAuthentication认证模式
+		// 走UsernamePasswordAuthentication认证模式
 		Authentication usernamePasswordAuthentication = getUsernamePasswordAuthentication(
 				resourceOwnerPasswordAuthenticationToken);
 
@@ -101,7 +103,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider
 		Set<String> authorizedScopes = Collections.emptySet();
 		if (!CollectionUtils.isEmpty(resourceOwnerPasswordAuthenticationToken.getScopes())) {
 			for (String requestedScope : resourceOwnerPasswordAuthenticationToken.getScopes()) {
-				//检查请求的scope是否合法
+				// 检查请求的scope是否合法
 				if (!registeredClient.getScopes().contains(requestedScope)) {
 					throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_SCOPE);
 				}
@@ -131,7 +133,8 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider
 				//授权成功给予的scope
                 .authorizedScopes(authorizedScopes)
 				//在这个OAuth2Authorization中存入UsernamePasswordAuthentication
-                .attribute(Principal.class.getName(), usernamePasswordAuthentication);
+                .attribute(Principal.class.getName(), usernamePasswordAuthentication)
+                .attribute(UserDetails.class.getName(), usernamePasswordAuthentication.getPrincipal());
         // @formatter:on
 
 		// ----- Access token -----
@@ -209,7 +212,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider
 			idToken = null;
 		}
 
-		//认证结束，持久化
+		// 认证结束，持久化
 		OAuth2Authorization authorization = authorizationBuilder.build();
 		this.authorizationService.save(authorization);
 		if (logger.isTraceEnabled()) {
@@ -250,7 +253,15 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider
 				username, password);
 		logger.debug("got usernamePasswordAuthenticationToken=" + usernamePasswordAuthenticationToken);
 
-		return this.authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+		Authentication authenticate = null;
+		try {
+			authenticate = this.authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+		} catch (AuthenticationException e) {
+			OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR,
+					e.getMessage(), ERROR_URI);
+			throw new OAuth2AuthenticationException(error);
+		}
+		return authenticate;
 	}
 
 }

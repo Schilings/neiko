@@ -23,18 +23,23 @@
             <groupId>com.schilings</groupId>
             <artifactId>neiko-admin-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.schilings</groupId>
-            <artifactId>neiko-admin-websocket</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.schilings</groupId>
-            <artifactId>neiko-admin-datascope</artifactId>
-        </dependency>
-        <dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.schilings</groupId>-->
+<!--            <artifactId>neiko-admin-websocket</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.schilings</groupId>-->
+<!--            <artifactId>neiko-admin-datascope</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>
             <groupId>com.schilings</groupId>
             <artifactId>neiko-admin-boostrap</artifactId>
-        </dependency>
+        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>com.gitee.sunchenbin.mybatis.actable</groupId>-->
+<!--            <artifactId>mybatis-enhance-actable</artifactId>-->
+<!--        </dependency>-->
 
         <!-- openapi 扩展处理 -->
         <dependency>

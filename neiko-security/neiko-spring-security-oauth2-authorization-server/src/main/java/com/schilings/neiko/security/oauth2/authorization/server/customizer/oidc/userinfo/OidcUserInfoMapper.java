@@ -6,5 +6,5 @@ import org.springframework.security.oauth2.server.authorization.oidc.authenticat
 import java.util.function.Function;
 
 public interface OidcUserInfoMapper extends Function<OidcUserInfoAuthenticationContext, OidcUserInfo> {
-    
+
 }

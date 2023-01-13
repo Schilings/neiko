@@ -37,14 +37,15 @@ import org.springframework.util.CollectionUtils;
 import java.util.List;
 
 /**
- * 
- * <p></p>
- * 
+ *
+ * <p>
+ * </p>
+ *
  * @author Schilings
-*/
+ */
 @RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
-class AuthorizationServerConfigurationAdapter implements SmartInitializingSingleton{
+class AuthorizationServerConfigurationAdapter implements SmartInitializingSingleton {
 
 	private static final Log logger = LogFactory.getLog(AuthorizationServerConfigurationAdapter.class);
 
@@ -68,6 +69,7 @@ class AuthorizationServerConfigurationAdapter implements SmartInitializingSingle
 	@Order(Ordered.HIGHEST_PRECEDENCE)
 	public SecurityFilterChain authorizationServerSecurity() throws Exception {
 		HttpSecurity http = this.httpSecurity;
+		http.setSharedObject(ObjectPostProcessor.class, this.objectPostProcessor);
 		OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = this.authorizationServerConfigurer;
 		// 授权服务器配置customizer
 		sortCustomizers();
@@ -76,7 +78,6 @@ class AuthorizationServerConfigurationAdapter implements SmartInitializingSingle
 		DefaultSecurityFilterChain filterChain = http.build();
 		return filterChain;
 	}
-	
 
 	@Override
 	public void afterSingletonsInstantiated() {
@@ -131,5 +132,5 @@ class AuthorizationServerConfigurationAdapter implements SmartInitializingSingle
 	protected AuthenticationConfiguration getAuthenticationConfiguration() {
 		return authenticationConfiguration;
 	}
-	
+
 }

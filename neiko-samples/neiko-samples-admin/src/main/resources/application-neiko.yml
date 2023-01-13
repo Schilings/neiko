@@ -1,0 +1,71 @@
+neiko:
+  system:
+    administrator:
+      user-id: 0
+      username: schilings
+    password-rule: ''
+  web:
+    pageable:
+      page-parameter-name: page
+      size-parameter-name: size
+      sort-parameter-name: sort
+      max-page-size: 100
+  redis:
+    key-prefix: 'neiko-'
+    null-value: 'N_V'
+    delimiter: ':'
+    thread-count: 10
+    expire-time: 3600
+  websocket:
+    message-distributor: local #使用 redis 做为消息分发器
+  oss:
+    endpoint: http://oss-cn-shenzhen.aliyuncs.com # oss-cn-shenzhen.aliyuncs.com
+    region: oss-cn-shenzhen
+    access-key: LTAI5t75M5VySn4baE63G5Ss
+    access-secret: fDGkh8U9nWaI5euYdCNEU6XUkPHKZP
+    bucket: schilings-ballcat # schilings-ballcat
+    path-style-access: false
+  file:
+    local:
+      # 这个可以不进行配置或者设置 空字符串, 这样文件就会和系统的临时文件放在一起
+      # '/opt/nginx/images'
+      path: 'D:\temp'
+  openapi:
+    info:
+      title: Neiko-Admin Docs
+      description: Neiko 后台管理服务Api文档
+      version: ${project.version}
+      contact:
+        name: Schilings
+        email: 1146830743@qq.com
+        url: https://github.com/Schilings
+    components:
+      security-schemes:
+        oauth2:
+          type: OAUTH2
+          flows:
+            password:
+              token-url: /oauth2/token
+              scope: message.read message.write openid
+    security:
+      - oauth2: []
+      - apiKey: []
+        
+  security:
+    password-secret-key: 'HX19ChxGmts3l/KkHnWmiw=='
+    oauth2:
+      resourceserver:
+        ignore-urls: 
+          - /public/**
+          - /ws/**
+          - /actuator/**
+          - /doc.html
+          - /v2/api-docs/**
+          - /v3/api-docs/**
+          - /swagger-resources/**
+          - /swagger-ui/**
+          - /swagger-ui.html
+          - /webjars/**
+          - /bycdao-ui/**
+          - /favicon.ico
+          - /captcha/**

@@ -2,9 +2,12 @@ package com.schilings.neiko.security.oauth2.authorization.server.customizer.revo
 
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.OAuth2TokenRevocationEndpointConfigurerCustomizer;
 import com.schilings.neiko.security.oauth2.authorization.server.util.OAuth2ConfigurerUtils;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServletServerHttpResponse;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -21,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.function.Function;
 
+@Order(Ordered.LOWEST_PRECEDENCE - 300)
 public class DefaultOAuth2TokenRevocationCustomizer extends OAuth2TokenRevocationEndpointConfigurerCustomizer {
 
 	private final HttpMessageConverter<OAuth2Error> errorHttpResponseConverter = new OAuth2ErrorHttpMessageConverter();
@@ -37,12 +41,13 @@ public class DefaultOAuth2TokenRevocationCustomizer extends OAuth2TokenRevocatio
 
 	@Override
 	public void customize(OAuth2TokenRevocationEndpointConfigurer configurer, HttpSecurity http) {
-
+		ObjectPostProcessor<Object> postProcessor = http.getSharedObject(ObjectPostProcessor.class);
 		OAuth2AuthorizationService authorizationService = OAuth2ConfigurerUtils.getAuthorizationService(http);
 		this.successHandler = this.successHandlerMapping.apply(this.successHandler);
 		this.failureHandler = this.failureHandlerMapping.apply(this.failureHandler);
 		configurer.authenticationProvider(new OAuth2TokenRevocationAuthenticationProvider(authorizationService))
-				.revocationResponseHandler(this.successHandler).errorResponseHandler(this.failureHandler);
+				.revocationResponseHandler(postProcessor.postProcess(this.successHandler))
+				.errorResponseHandler(postProcessor.postProcess(this.failureHandler));
 	}
 
 	public DefaultOAuth2TokenRevocationCustomizer revocationResponseHandler(
@@ -51,9 +56,19 @@ public class DefaultOAuth2TokenRevocationCustomizer extends OAuth2TokenRevocatio
 		return this;
 	}
 
+	public DefaultOAuth2TokenRevocationCustomizer revocationResponseHandler(AuthenticationSuccessHandler handler) {
+		this.successHandler = handler;
+		return this;
+	}
+
 	public DefaultOAuth2TokenRevocationCustomizer errorResponseHandler(
 			Function<AuthenticationFailureHandler, AuthenticationFailureHandler> apply) {
 		this.failureHandlerMapping = apply;
+		return this;
+	}
+
+	public DefaultOAuth2TokenRevocationCustomizer errorResponseHandler(AuthenticationFailureHandler handler) {
+		this.failureHandler = handler;
 		return this;
 	}
 

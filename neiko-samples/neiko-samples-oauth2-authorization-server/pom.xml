@@ -26,7 +26,10 @@
         <dependency>
             <groupId>com.schilings</groupId>
             <artifactId>neiko-spring-security-oauth2-authorization-server</artifactId>
-            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-spring-boot-starter-redis</artifactId>
         </dependency>
     </dependencies>
 

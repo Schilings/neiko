@@ -1,6 +1,5 @@
 package com.schilings.neiko.security.oauth2.client.federated.identity.wechat;
 
-
 import com.schilings.neiko.security.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
@@ -17,94 +16,95 @@ import java.util.LinkedHashMap;
 import java.util.Set;
 
 public class WechatOAuth2AuthorizationRequestResolver implements OAuth2AuthorizationRequestResolver {
-    
-    private static final String REGISTRATION_ID_URI_VARIABLE_NAME = "registrationId";
 
-    public static Set<String> TARGET_CLIENT_REGISTRATION_IDS = new HashSet<>(Arrays.asList(
-            CommonOAuth2Provider.WECHAT_WEB_MP.name().toLowerCase(),
-            CommonOAuth2Provider.WECHAT_WEB_QR.name().toLowerCase()));
+	private static final String REGISTRATION_ID_URI_VARIABLE_NAME = "registrationId";
 
-    private final ClientRegistrationRepository clientRegistrationRepository;
-    
-    private final AntPathRequestMatcher authorizationRequestMatcher;
+	public static Set<String> TARGET_CLIENT_REGISTRATION_IDS = new HashSet<>(
+			Arrays.asList(CommonOAuth2Provider.WECHAT_WEB_MP.name().toLowerCase(),
+					CommonOAuth2Provider.WECHAT_WEB_QR.name().toLowerCase()));
 
-    private final DefaultOAuth2AuthorizationRequestResolver delegate;
-    
-    public WechatOAuth2AuthorizationRequestResolver(ClientRegistrationRepository clientRegistrationRepository,
-                                                    String authorizationRequestBaseUri) {
-        Assert.notNull(clientRegistrationRepository, "clientRegistrationRepository can not be null in HttpSecurity SharedObjects");
-        this.delegate = new DefaultOAuth2AuthorizationRequestResolver(clientRegistrationRepository, authorizationRequestBaseUri);
-        this.delegate.setAuthorizationRequestCustomizer(this::customize);
-        this.clientRegistrationRepository = clientRegistrationRepository;
-        this.authorizationRequestMatcher = new AntPathRequestMatcher(
-                authorizationRequestBaseUri + "/{" + REGISTRATION_ID_URI_VARIABLE_NAME + "}");
-        
-    }
+	private final ClientRegistrationRepository clientRegistrationRepository;
 
-    @Override
-    public OAuth2AuthorizationRequest resolve(HttpServletRequest request) {
-        //只处理WECHAT_WEB_MP、WECHAT_WEB_QR
-        String clientRegistrationId = resolveRegistrationId(request);
-        if (clientRegistrationId == null) {
-            return null;
-        }
-        if (!TARGET_CLIENT_REGISTRATION_IDS.contains(clientRegistrationId)) {
-            return null;
-        }
-        return this.delegate.resolve(request);
-    }
-    
-    @Override
-    public OAuth2AuthorizationRequest resolve(HttpServletRequest request, String clientRegistrationId) {
-        //只处理WECHAT_WEB_MP、WECHAT_WEB_QR
-        if (clientRegistrationId == null) {
-            return null;
-        }
-        if (!TARGET_CLIENT_REGISTRATION_IDS.contains(clientRegistrationId)) {
-            return null;
-        }
-        return this.delegate.resolve(request,clientRegistrationId);
+	private final AntPathRequestMatcher authorizationRequestMatcher;
 
-    }
-    
-    private String resolveRegistrationId(HttpServletRequest request) {
-        if (this.authorizationRequestMatcher.matches(request)) {
-            return this.authorizationRequestMatcher.matcher(request).getVariables()
-                    .get(REGISTRATION_ID_URI_VARIABLE_NAME);
-        }
-        return null;
-    }
+	private final DefaultOAuth2AuthorizationRequestResolver delegate;
 
-    /**
-     * 默认情况下Spring Security会生成授权链接：
-     * {@code https://open.weixin.qq.com/connect/oauth2/authorize?response_type=code
-     * &client_id=wxdf9033184b238e7f
-     * &scope=snsapi_userinfo
-     * &state=5NDiQTMa9ykk7SNQ5-OIJDbIy9RLaEVzv3mdlj8TjuE%3D
-     * &redirect_uri=https%3A%2F%2Fmov-h5-test.felord.cn}
-     * 缺少了微信协议要求的{@code #wechat_redirect}，同时 {@code client_id}应该替换为{@code app_id}
-     *
-     * @param builder the OAuth2AuthorizationRequest.builder
-     */
-    private void customize(OAuth2AuthorizationRequest.Builder builder) {
-        builder.attributes(attributes ->
-                builder.parameters(parameters -> {
-                    //   client_id replace into appid here
-                    LinkedHashMap<String, Object> linkedParameters = new LinkedHashMap<>();
-                    //  k v  must be ordered
-                    parameters.forEach((k, v) -> {
-                        if (OAuth2ParameterNames.CLIENT_ID.equals(k)) {
-                            linkedParameters.put(WechatParameterNames.APP_ID, v);
-                        } else {
-                            linkedParameters.put(k, v);
-                        }
-                    });
-                    parameters.clear();
-                    parameters.putAll(linkedParameters);
-                    builder.authorizationRequestUri(uriBuilder ->
-                            uriBuilder.fragment(WechatParameterNames.WECHAT_REDIRECT)
-                                    .build());
-                }));
-        
-    }
+	public WechatOAuth2AuthorizationRequestResolver(ClientRegistrationRepository clientRegistrationRepository,
+			String authorizationRequestBaseUri) {
+		Assert.notNull(clientRegistrationRepository,
+				"clientRegistrationRepository can not be null in HttpSecurity SharedObjects");
+		this.delegate = new DefaultOAuth2AuthorizationRequestResolver(clientRegistrationRepository,
+				authorizationRequestBaseUri);
+		this.delegate.setAuthorizationRequestCustomizer(this::customize);
+		this.clientRegistrationRepository = clientRegistrationRepository;
+		this.authorizationRequestMatcher = new AntPathRequestMatcher(
+				authorizationRequestBaseUri + "/{" + REGISTRATION_ID_URI_VARIABLE_NAME + "}");
+
+	}
+
+	@Override
+	public OAuth2AuthorizationRequest resolve(HttpServletRequest request) {
+		// 只处理WECHAT_WEB_MP、WECHAT_WEB_QR
+		String clientRegistrationId = resolveRegistrationId(request);
+		if (clientRegistrationId == null) {
+			return null;
+		}
+		if (!TARGET_CLIENT_REGISTRATION_IDS.contains(clientRegistrationId)) {
+			return null;
+		}
+		return this.delegate.resolve(request);
+	}
+
+	@Override
+	public OAuth2AuthorizationRequest resolve(HttpServletRequest request, String clientRegistrationId) {
+		// 只处理WECHAT_WEB_MP、WECHAT_WEB_QR
+		if (clientRegistrationId == null) {
+			return null;
+		}
+		if (!TARGET_CLIENT_REGISTRATION_IDS.contains(clientRegistrationId)) {
+			return null;
+		}
+		return this.delegate.resolve(request, clientRegistrationId);
+
+	}
+
+	private String resolveRegistrationId(HttpServletRequest request) {
+		if (this.authorizationRequestMatcher.matches(request)) {
+			return this.authorizationRequestMatcher.matcher(request).getVariables()
+					.get(REGISTRATION_ID_URI_VARIABLE_NAME);
+		}
+		return null;
+	}
+
+	/**
+	 * 默认情况下Spring Security会生成授权链接：
+	 * {@code https://open.weixin.qq.com/connect/oauth2/authorize?response_type=code
+	 * &client_id=wxdf9033184b238e7f
+	 * &scope=snsapi_userinfo
+	 * &state=5NDiQTMa9ykk7SNQ5-OIJDbIy9RLaEVzv3mdlj8TjuE%3D
+	 * &redirect_uri=https%3A%2F%2Fmov-h5-test.felord.cn}
+	 * 缺少了微信协议要求的{@code #wechat_redirect}，同时 {@code client_id}应该替换为{@code app_id}
+	 * @param builder the OAuth2AuthorizationRequest.builder
+	 */
+	private void customize(OAuth2AuthorizationRequest.Builder builder) {
+		builder.attributes(attributes -> builder.parameters(parameters -> {
+			// client_id replace into appid here
+			LinkedHashMap<String, Object> linkedParameters = new LinkedHashMap<>();
+			// k v must be ordered
+			parameters.forEach((k, v) -> {
+				if (OAuth2ParameterNames.CLIENT_ID.equals(k)) {
+					linkedParameters.put(WechatParameterNames.APP_ID, v);
+				}
+				else {
+					linkedParameters.put(k, v);
+				}
+			});
+			parameters.clear();
+			parameters.putAll(linkedParameters);
+			builder.authorizationRequestUri(
+					uriBuilder -> uriBuilder.fragment(WechatParameterNames.WECHAT_REDIRECT).build());
+		}));
+
+	}
+
 }

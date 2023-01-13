@@ -34,13 +34,11 @@
         <dependency>
             <groupId>com.schilings</groupId>
             <artifactId>neiko-spring-security-oauth2-client</artifactId>
-            <version>${revision}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.schilings</groupId>
-            <artifactId>neiko-security-core</artifactId>
-            <version>${revision}</version>
+            <artifactId>neiko-spring-security-oauth2-core</artifactId>
         </dependency>
     </dependencies>
 

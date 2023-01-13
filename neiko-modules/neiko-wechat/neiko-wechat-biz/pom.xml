@@ -18,10 +18,6 @@
         </dependency>
         <dependency>
             <groupId>com.schilings</groupId>
-            <artifactId>neiko-extend-sa-token</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.schilings</groupId>
             <artifactId>neiko-common-redis</artifactId>
         </dependency>
 

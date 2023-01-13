@@ -165,7 +165,6 @@ public class MessageEventListenerMethodAdapter implements MessageEventListener {
 	 * 初始化这个实例。
 	 * @param applicationContext
 	 * @param evaluator
-	 * @param serializer
 	 * @param redisSerializer
 	 */
 	public void init(ApplicationContext applicationContext, MessageEventExpressionEvaluator evaluator,

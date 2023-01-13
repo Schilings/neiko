@@ -3,10 +3,13 @@ package com.schilings.neiko.security.oauth2.authorization.server.customizer.toke
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.OAuth2TokenEndpointConfigurerCustomizer;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.password.OAuth2ResourceOwnerPasswordAuthenticationConverter;
 import com.schilings.neiko.security.oauth2.authorization.server.util.OAuth2ConfigurerUtils;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -41,13 +44,19 @@ import java.util.Map;
 import java.util.function.Function;
 
 /**
- * 
- * <p>放弃通过注入Bean到容器的打算，会破坏默认配置{@see InitializeAuthenticationProviderManagerConfigurer}</p>
- * <p>例如，AuthenticationProvider的注入会破坏AuthenticationConfiguration的默认配置</p>
- * <p>注入AuthenticationProvider不是一个很理智的想法</p>
- * 
+ * <p>
+ * 放弃通过注入Bean到容器的打算，会破坏默认配置{@see InitializeAuthenticationProviderManagerConfigurer}
+ * </p>
+ * <p>
+ * 例如，AuthenticationProvider的注入会破坏AuthenticationConfiguration的默认配置
+ * </p>
+ * <p>
+ * 注入AuthenticationProvider不是一个很理智的想法
+ * </p>
+ *
  * @author Schilings
-*/
+ */
+@Order(Ordered.LOWEST_PRECEDENCE - 200)
 public class OAuth2TokenEndpointExtensionGrantTypeCustomizer extends OAuth2TokenEndpointConfigurerCustomizer {
 
 	private OAuth2TokenResponseEnhancer oauth2TokenResponseEnhancer = OAuth2AccessTokenAuthenticationToken::getAdditionalParameters;
@@ -72,10 +81,10 @@ public class OAuth2TokenEndpointExtensionGrantTypeCustomizer extends OAuth2Token
 
 	@Override
 	public void customize(OAuth2TokenEndpointConfigurer configurer, HttpSecurity http) {
-
 		OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator = OAuth2ConfigurerUtils.getTokenGenerator(http);
 		OAuth2AuthorizationService authorizationService = OAuth2ConfigurerUtils.getAuthorizationService(http);
-
+		ObjectPostProcessor<Object> postProcessor = http.getSharedObject(ObjectPostProcessor.class);
+		
 		// AuthenticationConverter
 		List<AuthenticationConverter> converters = new ArrayList(Arrays.asList(
 				new OAuth2AuthorizationCodeAuthenticationConverter(), new OAuth2RefreshTokenAuthenticationConverter(),
@@ -94,11 +103,11 @@ public class OAuth2TokenEndpointExtensionGrantTypeCustomizer extends OAuth2Token
 		DelegatingAuthenticationConverter authenticationConverter = new DelegatingAuthenticationConverter(converters);
 		configurer.accessTokenRequestConverter(authenticationConverter);
 		providers.forEach(configurer::authenticationProvider);
-
+		
 		this.successHandler = this.successHandlerMapping.apply(this.successHandler);
 		this.failureHandler = this.failureHandlerMapping.apply(this.failureHandler);
-		configurer.accessTokenResponseHandler(this.successHandler);
-		configurer.errorResponseHandler(this.failureHandler);
+		configurer.accessTokenResponseHandler(postProcessor.postProcess(this.successHandler));
+		configurer.errorResponseHandler(postProcessor.postProcess(this.failureHandler));
 
 	}
 
@@ -111,8 +120,8 @@ public class OAuth2TokenEndpointExtensionGrantTypeCustomizer extends OAuth2Token
 	}
 
 	private void extendAuthenticationProvider(List<AuthenticationProvider> providers,
-			OAuth2AuthorizationService authorizationService, OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator,
-			HttpSecurity http) {
+											  OAuth2AuthorizationService authorizationService, OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator,
+											  HttpSecurity http) {
 		if (providerExpanders != null && !providerExpanders.isEmpty()) {
 			for (AuthenticationProviderExpander expander : providerExpanders) {
 				expander.expand(providers, authorizationService, tokenGenerator, http);
@@ -155,7 +164,7 @@ public class OAuth2TokenEndpointExtensionGrantTypeCustomizer extends OAuth2Token
 	}
 
 	private void sendAccessTokenResponse(HttpServletRequest request, HttpServletResponse response,
-			Authentication authentication) throws IOException {
+										 Authentication authentication) throws IOException {
 
 		OAuth2AccessTokenAuthenticationToken accessTokenAuthentication = (OAuth2AccessTokenAuthenticationToken) authentication;
 
@@ -170,19 +179,19 @@ public class OAuth2TokenEndpointExtensionGrantTypeCustomizer extends OAuth2Token
 		if (refreshToken != null) {
 			builder.refreshToken(refreshToken.getTokenValue());
 		}
-		//Token响应增强，不存储
+		// Token响应增强，不存储
 		Map<String, Object> additionalParameters = oauth2TokenResponseEnhancer.enhance(accessTokenAuthentication);
 		if (!CollectionUtils.isEmpty(additionalParameters)) {
 			builder.additionalParameters(additionalParameters);
 		}
-		
+
 		OAuth2AccessTokenResponse accessTokenResponse = builder.build();
 		ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
 		this.accessTokenHttpResponseConverter.write(accessTokenResponse, null, httpResponse);
 	}
 
 	private void sendErrorResponse(HttpServletRequest request, HttpServletResponse response,
-			AuthenticationException exception) throws IOException {
+								   AuthenticationException exception) throws IOException {
 
 		OAuth2Error error = ((OAuth2AuthenticationException) exception).getError();
 		ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
@@ -190,7 +199,6 @@ public class OAuth2TokenEndpointExtensionGrantTypeCustomizer extends OAuth2Token
 		this.errorHttpResponseConverter.write(error, null, httpResponse);
 	}
 
-	
 	@FunctionalInterface
 	public interface AuthenticationConverterExpander {
 
@@ -202,7 +210,7 @@ public class OAuth2TokenEndpointExtensionGrantTypeCustomizer extends OAuth2Token
 	public interface AuthenticationProviderExpander {
 
 		void expand(List<AuthenticationProvider> providers, OAuth2AuthorizationService authorizationService,
-				OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator, HttpSecurity http);
+					OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator, HttpSecurity http);
 
 	}
 

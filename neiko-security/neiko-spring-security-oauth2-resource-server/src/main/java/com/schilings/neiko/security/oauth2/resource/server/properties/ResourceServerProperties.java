@@ -21,7 +21,6 @@ public class ResourceServerProperties {
 	 * 忽略鉴权的 url 列表
 	 */
 	private List<String> ignoreUrls = new ArrayList<>();
-	
 
 	/**
 	 * 当 sharedStoredToken 为 false 时生效。 主要用于配置远程端点

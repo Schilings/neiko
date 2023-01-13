@@ -233,6 +233,7 @@ public class SecurityUtils {
 	private static final int KEY_SIZE = 1024;
 
 	private static final String PUBLIC_KEY = "public";
+
 	private static final String PRIVATE_KEY = "private";
 
 	public static final String SIGNATURE_ALGORITHM = "SHA256withRSA";
@@ -380,11 +381,11 @@ public class SecurityUtils {
 
 	/**
 	 * 签名
-	 * @param key	私钥
-	 * @param requestData	请求参数
+	 * @param key 私钥
+	 * @param requestData 请求参数
 	 * @return
 	 */
-	public static String sign(String key, String requestData){
+	public static String sign(String key, String requestData) {
 		String signature = null;
 		byte[] signed = null;
 		try {
@@ -396,7 +397,8 @@ public class SecurityUtils {
 			signed = Sign.sign();
 
 			signature = Base64.getEncoder().encodeToString(signed);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -405,12 +407,12 @@ public class SecurityUtils {
 
 	/**
 	 * 验签
-	 * @param key	公钥
-	 * @param requestData	请求参数
-	 * @param signature	签名
+	 * @param key 公钥
+	 * @param requestData 请求参数
+	 * @param signature 签名
 	 * @return
 	 */
-	public static boolean verifySign(String key, String requestData, String signature){
+	public static boolean verifySign(String key, String requestData, String signature) {
 		boolean verifySignSuccess = false;
 		try {
 			PublicKey publicKey = getPublicKeyFromString(key);
@@ -419,13 +421,13 @@ public class SecurityUtils {
 			verifySign.initVerify(publicKey);
 			verifySign.update(requestData.getBytes());
 			verifySignSuccess = verifySign.verify(Base64.getDecoder().decode(signature));
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return verifySignSuccess;
 	}
-	
 
 	// ---------- 获取*钥
 

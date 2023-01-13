@@ -6,8 +6,22 @@ logging:
     org.springframework.web: INFO #filter
     org.springframework.security: TRACE
     org.springframework.security.oauth2: TRACE
+    org.springframework.data.redis: TRACE
+    
 
 spring:
   profiles:
     active: client,resourceserver
+  redis:
+    host: 120.25.221.239
+    password: Schilings11538...
+    port: 6379
+    database: 0
 
+neiko:
+  redis:
+    key-prefix: 'neiko-'
+    null-value: 'N_V'
+    delimiter: ':'
+    thread-count: 10
+    expire-time: 3600

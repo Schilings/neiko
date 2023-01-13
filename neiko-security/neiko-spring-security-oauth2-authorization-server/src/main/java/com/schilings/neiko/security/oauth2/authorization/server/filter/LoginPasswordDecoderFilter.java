@@ -1,9 +1,8 @@
 package com.schilings.neiko.security.oauth2.authorization.server.filter;
 
-
-import com.schilings.neiko.security.ModifyParamMapRequestWrapper;
-import com.schilings.neiko.security.ScopeNames;
-import com.schilings.neiko.security.util.PasswordUtils;
+import com.schilings.neiko.oauth2.core.ModifyParamMapRequestWrapper;
+import com.schilings.neiko.oauth2.core.ScopeNames;
+import com.schilings.neiko.oauth2.util.PasswordUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,13 +26,14 @@ import java.util.Map;
 
 import static com.schilings.neiko.security.oauth2.authorization.server.util.OAuth2AuthenticationProviderUtils.getAuthenticatedClientElseThrowInvalidClient;
 
-
 /**
- * 
- * <p>前端传递过来的加密密码，需要在登陆之前先解密</p>
- * 
+ *
+ * <p>
+ * 前端传递过来的加密密码，需要在登陆之前先解密
+ * </p>
+ *
  * @author Schilings
-*/
+ */
 @Slf4j
 public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 

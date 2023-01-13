@@ -4,7 +4,6 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import software.amazon.awssdk.regions.Region;
 
-
 @Data
 @ConfigurationProperties(prefix = OssProperties.PREFIX)
 public class OssProperties {

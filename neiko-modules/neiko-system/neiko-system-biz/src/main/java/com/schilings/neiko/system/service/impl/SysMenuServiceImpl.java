@@ -3,7 +3,6 @@ package com.schilings.neiko.system.service.impl;
 import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.schilings.neiko.common.core.exception.ServiceException;
-import com.schilings.neiko.common.event.publisher.EventBus;
 
 import com.schilings.neiko.common.model.result.BaseResultCode;
 import com.schilings.neiko.extend.mybatis.plus.service.impl.ExtendServiceImpl;
@@ -28,8 +27,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class SysMenuServiceImpl extends ExtendServiceImpl<SysMenuMapper, SysMenu> implements SysMenuService {
-
-	private final EventBus eventBus;
 
 	private final SysRoleMenuService sysRoleMenuService;
 

@@ -1,1 +1,3 @@
+com.schilings.neiko.autoconfigure.log.AccessLogAutoConfiguration
+com.schilings.neiko.autoconfigure.log.OperationLogAutoConfiguration
 com.schilings.neiko.autoconfigure.log.TraceIdAutoConfiguration

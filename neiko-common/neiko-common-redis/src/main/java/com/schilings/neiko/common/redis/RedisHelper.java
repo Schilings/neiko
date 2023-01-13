@@ -45,9 +45,16 @@ public class RedisHelper {
 
 	public static RedisTemplate<String, Object> objectRedisTemplate() {
 		if (objectRedisTemplate == null) {
-			objectRedisTemplate = SpringUtils.getBean("redisTemplate", RedisTemplate.class);
+			objectRedisTemplate = SpringUtils.getBean("ObjectRedisTemplate", RedisTemplate.class);
 		}
 		return objectRedisTemplate;
+	}
+
+	/*
+	 * send
+	 */
+	public static void convertAndSend(String channel, Object message) {
+		objectRedisTemplate().convertAndSend(channel, message);
 	}
 
 	/*
@@ -57,7 +64,7 @@ public class RedisHelper {
 	/**
 	 * @author lingting 2020-04-29 15:04:39
 	 */
-	public static HashOperations<String, Object, Object> getHash() {
+	public static HashOperations<String, String, String> getHash() {
 		return template.opsForHash();
 	}
 
@@ -383,8 +390,8 @@ public class RedisHelper {
 	 * @author lingting 2020-04-22 17:17:33
 	 */
 	public static String hashGet(String key, String field) {
-		Object o = getHash().get(key, field);
-		return o == null ? null : o.toString();
+		String o = getHash().get(key, field);
+		return o;
 	}
 
 	/**

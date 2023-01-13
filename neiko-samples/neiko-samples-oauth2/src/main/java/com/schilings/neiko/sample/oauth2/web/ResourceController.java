@@ -4,6 +4,7 @@ package com.schilings.neiko.sample.oauth2.web;
 import com.schilings.neiko.security.oauth2.authorization.server.HttpSecurityAware;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/resource")
 public class ResourceController {
 
+    @GetMapping("/0")
+    @PreAuthorize(value = "hasAuthority('ROLE_USER')")
+    public Authentication test0(Authentication authentication) {
+        return authentication;
+    }
+    
     @GetMapping("/1")
     @PreAuthorize(value = "hasAuthority('ROLE_USER')")
     public String test1() {

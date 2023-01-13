@@ -11,10 +11,9 @@ import org.springframework.security.oauth2.server.authorization.config.annotatio
  *
  * @author Schilings
  */
-@FunctionalInterface
+
 public interface OAuth2AuthorizationServerConfigurerCustomizer {
 
 	void customize(OAuth2AuthorizationServerConfigurer oAuth2AuthorizationServerConfigurer, HttpSecurity httpSecurity)
 			throws Exception;
-
 }

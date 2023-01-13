@@ -1,6 +1,8 @@
 package com.schilings.neiko.sample.authorization.server.web;
 
 
+import com.schilings.neiko.sample.authorization.server.event.DemoEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
@@ -28,6 +30,12 @@ public class AuthorizationConsentController {
                                           OAuth2AuthorizationConsentService authorizationConsentService) {
         this.registeredClientRepository = registeredClientRepository;
         this.authorizationConsentService = authorizationConsentService;
+    }
+
+    @EventListener(DemoEvent.class)
+    public void demoEvent(DemoEvent demoEvent) {
+        Object source = demoEvent.getSource();
+        System.out.println(source);
     }
 
     @GetMapping(value = "/oauth2/consent")

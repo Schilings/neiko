@@ -11,7 +11,7 @@ public abstract class ApplicationEventAuthenticationFailureHandler
 
 	private final AuthenticationFailureHandler delegate;
 
-	protected ApplicationEventAuthenticationFailureHandler(AuthenticationFailureHandler delegate) {
+	public ApplicationEventAuthenticationFailureHandler(AuthenticationFailureHandler delegate) {
 		this.delegate = delegate;
 	}
 

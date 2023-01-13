@@ -6,14 +6,24 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 
+import com.schilings.neiko.common.redis.RedisHelper;
+import com.schilings.neiko.sample.authorization.server.event.DefaultApplicationEventAuthenticationFailureHandler;
+import com.schilings.neiko.sample.authorization.server.event.DefaultApplicationEventAuthenticationSuccessHandler;
 import com.schilings.neiko.sample.authorization.server.jose.Jwks;
+import com.schilings.neiko.security.oauth2.authorization.server.NullEventAuthenticationFailureHandler;
+import com.schilings.neiko.security.oauth2.authorization.server.NullEventAuthenticationSuccessHandler;
 import com.schilings.neiko.security.oauth2.authorization.server.OAuth2AuthorizationServerConfigurerCustomizer;
 import com.schilings.neiko.security.oauth2.authorization.server.config.EnableAuthorizationServer;
 import com.schilings.neiko.security.oauth2.authorization.server.configurer.FormLoginRememberMeConfigurer;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.authorization.DefaultOAuth2AuthorizationEndpointCustomizer;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.oidc.DefaultOAuth2OidcConfigurerCustomizer;
+import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.OAuth2TokenEndpointExtensionGrantTypeCustomizer;
+import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.password.OAuth2ResourceOwnerPasswordAuthenticationConverter;
+import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.password.OAuth2ResourceOwnerPasswordAuthenticationProvider;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
@@ -39,12 +49,10 @@ import java.util.UUID;
 @Configuration(proxyBeanMethods = false)
 @EnableAuthorizationServer
 public class AuthorizationServerConfig {
-
+	
 	@Bean
-	public OAuth2AuthorizationServerConfigurerCustomizer authorizationServerConfigurerCustomizer(UserDetailsService userDetailsService) {
-		return (configurer, http) -> {
-			http.apply(new FormLoginRememberMeConfigurer(userDetailsService));
-		};
+	public FormLoginRememberMeConfigurer formLoginRememberMeConfigurer(UserDetailsService userDetailsService) {
+		return new FormLoginRememberMeConfigurer(userDetailsService);
 	}
 
 
@@ -71,7 +79,30 @@ public class AuthorizationServerConfig {
 		});
 		return customizer;
 	}
-	
+
+
+	// Token Endpoint
+	@Bean
+	public OAuth2TokenEndpointExtensionGrantTypeCustomizer extensionGrantTypeCustomizer() {
+		OAuth2TokenEndpointExtensionGrantTypeCustomizer extensionGrantTypeCustomizer = new OAuth2TokenEndpointExtensionGrantTypeCustomizer();
+		// converter
+		extensionGrantTypeCustomizer.converterExpander(((converters, http) -> {
+			converters.add(new OAuth2ResourceOwnerPasswordAuthenticationConverter());
+		}));
+		// provider
+		extensionGrantTypeCustomizer.providerExpander((providers, authorizationService, tokenGenerator, http) -> {
+			// 未build,so 懒加载
+			AuthenticationManager authenticationManager = authentication -> {
+				return http.getSharedObject(AuthenticationManager.class).authenticate(authentication);
+			};
+			providers.add(new OAuth2ResourceOwnerPasswordAuthenticationProvider(authenticationManager,
+					authorizationService, tokenGenerator));
+		});
+		// handler
+		extensionGrantTypeCustomizer.accessTokenResponseHandler(DefaultApplicationEventAuthenticationSuccessHandler::new);
+		extensionGrantTypeCustomizer.errorResponseHandler(DefaultApplicationEventAuthenticationFailureHandler::new);
+		return extensionGrantTypeCustomizer;
+	}
 	
 	
 	
@@ -159,6 +190,7 @@ public class AuthorizationServerConfig {
 	@Bean
 	public OAuth2AuthorizationService authorizationService() {
 		return new InMemoryOAuth2AuthorizationService();
+		//return new RedisOAuth2AuthorizationService();
 	}
 
 	@Bean

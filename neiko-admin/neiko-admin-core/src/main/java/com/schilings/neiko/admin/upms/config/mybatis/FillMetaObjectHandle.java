@@ -1,8 +1,9 @@
 package com.schilings.neiko.admin.upms.config.mybatis;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.schilings.neiko.authorization.common.userdetails.User;
+import com.schilings.neiko.authorization.common.util.SecurityUtils;
 import com.schilings.neiko.common.model.constants.GlobalConstants;
-import com.schilings.neiko.extend.sa.token.core.StpOAuth2UserUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 
@@ -30,10 +31,10 @@ public class FillMetaObjectHandle implements MetaObjectHandler {
 			this.strictInsertFill(metaObject, "createTime", LocalDateTime.class, LocalDateTime.now());
 		}
 		// 创建人
+		User user = SecurityUtils.getUser();
 		if (metaObject.hasSetter("createBy")) {
 			try {
-				this.strictInsertFill(metaObject, "createBy", Long.class,
-						Long.valueOf(StpOAuth2UserUtil.getLoginIdAsString()));
+				this.strictInsertFill(metaObject, "createBy", Long.class, user.getUserId());
 			}
 			catch (Exception e) {
 				this.strictInsertFill(metaObject, "createBy", Long.class, null);
@@ -49,10 +50,10 @@ public class FillMetaObjectHandle implements MetaObjectHandler {
 			this.strictUpdateFill(metaObject, "updateTime", LocalDateTime.class, LocalDateTime.now());
 		}
 		// 修改人
+		User user = SecurityUtils.getUser();
 		if (metaObject.hasSetter("updateBy")) {
 			try {
-				this.strictInsertFill(metaObject, "updateBy", Long.class,
-						Long.valueOf(StpOAuth2UserUtil.getLoginIdAsString()));
+				this.strictInsertFill(metaObject, "updateBy", Long.class, user.getUserId());
 			}
 			catch (Exception e) {
 				this.strictInsertFill(metaObject, "updateBy", Long.class, null);

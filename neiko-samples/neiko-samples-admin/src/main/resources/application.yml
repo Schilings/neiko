@@ -1,106 +1,18 @@
-neiko:
-  auth:
-    open-client: 
-      client-id: 1001
-    enable-aes: false
-    aes-secret-key: 'HX19ChxGmts3l/KkHnWmiw=='
-  system:
-    administrator:
-      user-id: 1
-      username: admin
-    enable-aes: false
-    aes-secret-key: 'HX19ChxGmts3l/KkHnWmiw=='
-    password-rule: ''
-  log:
-    access:
-      ignore-url-patterns: 
-        - /oauth2/**
-        - /ws/**
-        - /**
-  sa-token:
-    sa-token-config:
-      auto-renew: true
-      is-concurrent: true
-      timeout: 3600
-      activity-timeout: 1800
-      token-prefix: 'Bearer'
-    oauth2:
-      authorization-server:
-        login-captcha-enabled: false
-        enforce-json-filter: true
-        sa-oauth2-config: 
-          is-password: true
-      resource-server:
-        enforce-cancel-authenticate: false
-        ignore-urls:
-          - /public/**
-          - /ws/**
-          - /actuator/**
-          - /doc.html
-          - /v2/api-docs/**
-          - /v3/api-docs/**
-          - /swagger-resources/**
-          - /swagger-ui/**
-          - /swagger-ui.html
-          - /webjars/**
-          - /bycdao-ui/**
-          - /favicon.ico
-          - /captcha/**
-  web:
-    pageable:
-      page-parameter-name: page
-      size-parameter-name: size
-      sort-parameter-name: sort
-      max-page-size: 100
-  redis:
-    key-prefix: 'neiko-'
-    null-value: 'N_V'
-    delimiter: ':'
-    thread-count: 10
-    expire-time: 3600
-  websocket:
-    message-distributor: local #使用 redis 做为消息分发器
-  oss:
-    endpoint: oss-cn-shenzhen.aliyuncs.com # oss-cn-shenzhen.aliyuncs.com
-    region: oss-cn-shenzhen
-    access-key: LTAI5t75M5VySn4baE63G5Ss
-    access-secret: fDGkh8U9nWaI5euYdCNEU6XUkPHKZP
-    bucket: schilings-ballcat # schilings-ballcat
-  file:
-    local:
-      # 这个可以不进行配置或者设置 空字符串, 这样文件就会和系统的临时文件放在一起
-      # '/opt/nginx/images'
-      path: 'D:\temp'
-  openapi:
-    info:
-      title: Neiko-Admin Docs
-      description: Neiko 后台管理服务Api文档
-      version: ${project.version}
-    contact:
-      name: Schilings
-      email: 1146830743@qq.com
-      url: https://github.com/Schilings
-    components:
-      security-schemes:
-        apiKey:
-          type: APIKEY
-          in: HEADER
-          name: 'access_token'
-        #oauth2:
-        #  type: OAUTH2
-        #  flows:
-        #    password:
-        #      token-url: /oauth2/token
-        #      scope: system
-    security:
-      - oauth2: []
-      - apiKey: []
-        
 server:
-  port: 8080
-  
+  port: 9000
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO #filter
+    org.springframework.security: TRACE
+    org.springframework.security.oauth2: TRACE
+    org.springframework.data.redis: TRACE
+    
 # spring配置
 spring:
+  profiles:
+    active: neiko
   # redis
   redis:
     host: 120.25.221.239
@@ -134,7 +46,7 @@ spring:
     clean-disabled: true
     baseline-on-migrate: true
     placeholder-replacement: false # 取消占位符检测
-    
+
 # mybatis plus配置
 mybatis-plus:
   mapper-locations:

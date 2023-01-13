@@ -85,7 +85,7 @@ spring:
               client-secret: secret1
               authorization-grant-type: client_credentials
               scope: message.read,message.write
-              client-name: sas-client-credentials
+              client-name: SAS-CLIENT-CREDENTIALS
               
         provider:
             sas:

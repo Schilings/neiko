@@ -16,11 +16,6 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
-        <!--Sa-Token-->
-        <dependency>
-            <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-spring-boot-starter</artifactId>
-        </dependency>
         <!--web-->
         <dependency>
             <groupId>com.schilings</groupId>
@@ -30,11 +25,6 @@
         <dependency>
             <groupId>com.schilings</groupId>
             <artifactId>neiko-spring-boot-starter-redis</artifactId>
-        </dependency>
-        <!--event-->
-        <dependency>
-            <groupId>com.schilings</groupId>
-            <artifactId>neiko-spring-boot-starter-event</artifactId>
         </dependency>
         <!--easyexcel-->
         <dependency>
@@ -47,10 +37,11 @@
             <artifactId>neiko-spring-boot-starter-log</artifactId>
         </dependency>
         
-        <!--neiko-auth-->
+        <!--neiko-authorization-->
         <dependency>
             <groupId>com.schilings</groupId>
-            <artifactId>neiko-auth-api</artifactId>
+            <artifactId>neiko-authorization-api</artifactId>
+            <version>${revision}</version>
         </dependency>
         <!--neiko-system-->
         <dependency>

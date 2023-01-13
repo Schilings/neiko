@@ -1,7 +1,10 @@
 package com.schilings.neiko.security.oauth2.authorization.server.customizer.authorization;
 
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.OAuth2AuthorizationEndpointConfigurerCustomizer;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -24,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+@Order(Ordered.LOWEST_PRECEDENCE - 100)
 public class DefaultOAuth2AuthorizationEndpointCustomizer extends OAuth2AuthorizationEndpointConfigurerCustomizer {
 
 	private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
@@ -46,17 +50,18 @@ public class DefaultOAuth2AuthorizationEndpointCustomizer extends OAuth2Authoriz
 
 	@Override
 	public void customize(OAuth2AuthorizationEndpointConfigurer configurer, HttpSecurity httpSecurity) {
+		ObjectPostProcessor<Object> postProcessor = httpSecurity.getSharedObject(ObjectPostProcessor.class);
 		// custom consent
 		if (StringUtils.hasText(this.consentPage)) {
-			//不然consent路径得不到认证，因为不经过Chain
+			// 不然consent路径得不到认证，因为不经过Chain
 			httpSecurity.requestMatchers().antMatchers(this.consentPage);
 			configurer.consentPage(this.consentPage);
 		}
 		// handler
 		this.authenticationSuccessHandler = this.successHandlerMapping.apply(this.authenticationSuccessHandler);
 		this.authenticationFailureHandler = this.failureHandlerMapping.apply(this.authenticationFailureHandler);
-		configurer.authorizationResponseHandler(this.authenticationSuccessHandler);
-		configurer.errorResponseHandler(this.authenticationFailureHandler);
+		configurer.authorizationResponseHandler(postProcessor.postProcess(this.authenticationSuccessHandler));
+		configurer.errorResponseHandler(postProcessor.postProcess(this.authenticationFailureHandler));
 	}
 
 	public DefaultOAuth2AuthorizationEndpointCustomizer consentPage(String consentPage) {

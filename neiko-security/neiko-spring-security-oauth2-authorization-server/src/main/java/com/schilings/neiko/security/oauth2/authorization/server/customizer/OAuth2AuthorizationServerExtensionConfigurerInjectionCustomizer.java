@@ -11,8 +11,9 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
-@Order(Ordered.LOWEST_PRECEDENCE - 100) //优先级倒数，慢加载
-public class OAuth2AuthorizationServerExtensionConfigurerInjectionCustomizer implements OAuth2AuthorizationServerConfigurerCustomizer {
+@Order(Ordered.LOWEST_PRECEDENCE) // 优先级最低，最慢加载
+public class OAuth2AuthorizationServerExtensionConfigurerInjectionCustomizer
+		implements OAuth2AuthorizationServerConfigurerCustomizer {
 
 	private final List<OAuth2AuthorizationServerExtensionConfigurer> extensionConfigurers;
 
@@ -23,7 +24,7 @@ public class OAuth2AuthorizationServerExtensionConfigurerInjectionCustomizer imp
 
 	@Override
 	public void customize(OAuth2AuthorizationServerConfigurer oAuth2AuthorizationServerConfigurer,
-			HttpSecurity httpSecurity) throws Exception {
+						  HttpSecurity httpSecurity) throws Exception {
 		if (!CollectionUtils.isEmpty(this.extensionConfigurers)) {
 			AnnotationAwareOrderComparator.sort(this.extensionConfigurers);
 			for (OAuth2AuthorizationServerExtensionConfigurer configurer : this.extensionConfigurers) {

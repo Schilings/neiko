@@ -1,6 +1,5 @@
 package com.schilings.neiko.autoconfigure.oss;
 
-
 import com.schilings.neiko.autoconfigure.oss.prefix.DefaultObjectKeyPrefixConverter;
 import com.schilings.neiko.autoconfigure.oss.prefix.ObjectKeyPrefixConverter;
 import org.springframework.boot.autoconfigure.AutoConfiguration;

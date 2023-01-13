@@ -5,7 +5,6 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.schilings.neiko.common.core.exception.ServiceException;
-import com.schilings.neiko.common.event.publisher.EventBus;
 import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;
 import com.schilings.neiko.common.model.enums.BooleanEnum;
@@ -44,8 +43,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AnnouncementServiceImpl extends ExtendServiceImpl<AnnouncementMapper, Announcement>
 		implements AnnouncementService {
-
-	private final EventBus eventBus;
 
 	private final FileService fileService;
 

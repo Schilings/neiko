@@ -1,6 +1,7 @@
 package com.schilings.neiko.log.handler;
 
 import cn.hutool.core.util.URLUtil;
+import com.schilings.neiko.authorization.common.util.SecurityUtils;
 import com.schilings.neiko.common.core.desensitize.DesensitizationHandlerHolder;
 import com.schilings.neiko.common.core.desensitize.enums.RegexDesensitizationTypeEnum;
 import com.schilings.neiko.common.core.desensitize.handler.regex.DefaultRegexDesensitizationHandler;
@@ -9,12 +10,12 @@ import com.schilings.neiko.common.log.constants.LogConstant;
 import com.schilings.neiko.common.log.utils.LogUtils;
 import com.schilings.neiko.common.util.ip.IpUtils;
 import com.schilings.neiko.common.util.json.JsonUtils;
-import com.schilings.neiko.extend.sa.token.holder.RBACAuthorityHolder;
-import com.schilings.neiko.extend.sa.token.oauth2.pojo.UserDetails;
 import com.schilings.neiko.log.model.entity.AccessLog;
 import com.schilings.neiko.log.thread.AccessLogSaveThread;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -95,9 +96,9 @@ public class CustomAccessLogHandler implements AccessLogHandler<AccessLog> {
 		}
 
 		// 如果登陆用户 则记录用户名和用户id
-		Optional.ofNullable(RBACAuthorityHolder.getUserDetails()).ifPresent(x -> {
-			accessLog.setUserId(Long.valueOf(((UserDetails) x).getUserId()));
-			accessLog.setUsername(((UserDetails) x).getUsername());
+		Optional.ofNullable(SecurityUtils.getUser()).ifPresent(x -> {
+			accessLog.setUserId(x.getUserId());
+			accessLog.setUsername(x.getUsername());
 		});
 
 		return accessLog;

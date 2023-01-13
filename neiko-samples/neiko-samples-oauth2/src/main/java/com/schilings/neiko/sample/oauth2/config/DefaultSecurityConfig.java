@@ -12,12 +12,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
-
-
 @EnableWebSecurity(debug = true)
 @Configuration
 public class DefaultSecurityConfig{
-	
 	
 	@Bean
 	public UserDetailsService userDetailsService() {

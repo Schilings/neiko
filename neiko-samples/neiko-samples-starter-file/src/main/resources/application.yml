@@ -1,12 +1,14 @@
 neiko:
   oss:
-    endpoint: oss-cn-shenzhen.aliyuncs.com # oss-cn-shenzhen.aliyuncs.com
+    endpoint: http://oss-cn-shenzhen.aliyuncs.com # oss-cn-shenzhen.aliyuncs.com
     region: oss-cn-shenzhen
     access-key: LTAI5t75M5VySn4baE63G5Ss
     access-secret: fDGkh8U9nWaI5euYdCNEU6XUkPHKZP
     bucket: schilings-ballcat # schilings-ballcat
+    path-style-access: false
   file:
     local:
       # 这个可以不进行配置或者设置 空字符串, 这样文件就会和系统的临时文件放在一起
       # '/opt/nginx/images'
       path: 'C:\Users\X1\Desktop'
+    

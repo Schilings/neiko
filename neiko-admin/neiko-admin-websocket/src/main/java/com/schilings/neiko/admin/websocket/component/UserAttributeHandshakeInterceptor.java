@@ -1,7 +1,8 @@
 package com.schilings.neiko.admin.websocket.component;
 
-import cn.dev33.satoken.oauth2.logic.SaOAuth2Util;
-import com.schilings.neiko.common.security.constant.SecurityConstants;
+import com.schilings.neiko.admin.websocket.constant.AdminWebSocketConstants;
+import com.schilings.neiko.authorization.common.userdetails.User;
+import com.schilings.neiko.authorization.common.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
@@ -33,10 +34,10 @@ public class UserAttributeHandshakeInterceptor implements HandshakeInterceptor {
 			ServletServerHttpRequest serverRequest = (ServletServerHttpRequest) request;
 			accessToken = serverRequest.getServletRequest().getParameter(TOKEN_ATTR_NAME);
 		}
-		// 验证Token
-		Object userId = SaOAuth2Util.getLoginIdByAccessToken(accessToken);
-		attributes.put(TOKEN_ATTR_NAME, accessToken);
-		attributes.put(USER_KEY_ATTR_NAME, userId);
+		// 由于 WebSocket 握手是由 http 升级的，携带 token 已经被 Security 拦截验证了，所以可以直接获取到用户
+		User user = SecurityUtils.getUser();
+		attributes.put(AdminWebSocketConstants.TOKEN_ATTR_NAME, accessToken);
+		attributes.put(AdminWebSocketConstants.USER_KEY_ATTR_NAME, user.getUserId());
 		return true;
 	}
 

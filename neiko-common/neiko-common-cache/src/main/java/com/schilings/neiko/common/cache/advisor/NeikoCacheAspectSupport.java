@@ -19,6 +19,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
@@ -298,7 +299,7 @@ public abstract class NeikoCacheAspectSupport
 		TimeUnit unit = operation.getUnit();
 
 		// 1.==================尝试从缓存获取数据==========================
-		Object cacheResult = get(repository, key, operation.isSync());
+		Object cacheResult = get(repository, key, operation.isSync(), operation.getReturnType());
 		if (cacheResult == NO_RESULT) {
 			return null;
 		}
@@ -354,9 +355,6 @@ public abstract class NeikoCacheAspectSupport
 			CacheOperationContext operationContext) {
 		// 是否删除所有
 		String repository = operation.getCacheRepository();
-		if (operation.isAllEntries()) {
-			clear(repository);
-		}
 		// 删除单个
 		String key = generateKey(operationContext);
 		evict(repository, key);
@@ -366,13 +364,13 @@ public abstract class NeikoCacheAspectSupport
 
 	// 缓存仓库相关的操作=========================
 
-	private Object get(String repository, String key, boolean sync) {
-		return sync ? doSyncGet(repository, key) : doGet(repository, key);
+	private Object get(String repository, String key, boolean sync, Type type) {
+		return sync ? doSyncGet(repository, key, type) : doGet(repository, key, type);
 	}
 
-	protected Object doGet(String repository, String key) {
+	protected Object doGet(String repository, String key, Type type) {
 		try {
-			return cacheManager.get(repository, key);
+			return cacheManager.get(repository, key, type);
 		}
 		catch (Exception exception) {
 			getErrorHandler().handleCacheGetError(exception, key);
@@ -381,9 +379,9 @@ public abstract class NeikoCacheAspectSupport
 		}
 	}
 
-	protected Object doSyncGet(String repository, String key) {
+	protected Object doSyncGet(String repository, String key, Type type) {
 		try {
-			return cacheManager.syncGet(repository, key);
+			return cacheManager.syncGet(repository, key, type);
 		}
 		catch (Exception exception) {
 			getErrorHandler().handleCacheSyncGetError(exception, key);
@@ -449,36 +447,15 @@ public abstract class NeikoCacheAspectSupport
 	}
 
 	protected void evict(String repository, String key) {
-		doEvict(repository, key, true);
+		doEvict(repository, key);
 	}
 
-	protected void doEvict(String repository, String key, boolean immediate) {
+	protected void doEvict(String repository, String key) {
 		try {
-			if (immediate) {
-				cacheManager.evictIfPresent(repository, key);
-			}
-			else {
-				cacheManager.evict(repository, key);
-
-			}
+			cacheManager.evict(repository, key);
 		}
 		catch (Exception exception) {
 			getErrorHandler().handleCacheEvictError(exception, key);
-
-		}
-	}
-
-	protected void clear(String repository) {
-		doClear(repository);
-	}
-
-	protected void doClear(String repository) {
-		try {
-			cacheManager.clear(repository);
-		}
-		catch (RuntimeException exception) {
-			getErrorHandler().handleCacheClearError(exception, repository);
-
 		}
 	}
 

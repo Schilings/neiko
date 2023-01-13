@@ -1,6 +1,5 @@
 package com.schilings.neiko.security.oauth2.client.federated.identity.workwechat;
 
-
 import com.fasterxml.jackson.annotation.JsonAlias;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -8,64 +7,70 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import java.util.*;
 
 public class WorkWechatOAuth2User implements OAuth2User {
-    private Set<GrantedAuthority> authorities;
-    private Integer errcode;
-    private String errmsg;
-    @JsonAlias("OpenId")
-    private String openId;
-    @JsonAlias("UserId")
-    private String userId;
 
-    @Override
-    public Map<String, Object> getAttributes() {
-        //todo 这里放一些有用的额外参数
-        return Collections.emptyMap();
-    }
+	private Set<GrantedAuthority> authorities;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        //todo 微信用户你想赋权的可以在这里或者set方法中实现。
-        return this.authorities;
-    }
+	private Integer errcode;
 
-    @Override
-    public String getName() {
-        return Optional.ofNullable(userId).orElse(openId);
-    }
+	private String errmsg;
 
-    public void setAuthorities(Set<GrantedAuthority> authorities) {
-        this.authorities = authorities;
-    }
+	@JsonAlias("OpenId")
+	private String openId;
 
-    public Integer getErrcode() {
-        return errcode;
-    }
+	@JsonAlias("UserId")
+	private String userId;
 
-    public void setErrcode(Integer errcode) {
-        this.errcode = errcode;
-    }
+	@Override
+	public Map<String, Object> getAttributes() {
+		// todo 这里放一些有用的额外参数
+		return Collections.emptyMap();
+	}
 
-    public String getErrmsg() {
-        return errmsg;
-    }
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// todo 微信用户你想赋权的可以在这里或者set方法中实现。
+		return this.authorities;
+	}
 
-    public void setErrmsg(String errmsg) {
-        this.errmsg = errmsg;
-    }
+	@Override
+	public String getName() {
+		return Optional.ofNullable(userId).orElse(openId);
+	}
 
-    public String getOpenId() {
-        return openId;
-    }
+	public void setAuthorities(Set<GrantedAuthority> authorities) {
+		this.authorities = authorities;
+	}
 
-    public void setOpenId(String openId) {
-        this.openId = openId;
-    }
+	public Integer getErrcode() {
+		return errcode;
+	}
 
-    public String getUserId() {
-        return userId;
-    }
+	public void setErrcode(Integer errcode) {
+		this.errcode = errcode;
+	}
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+	public String getErrmsg() {
+		return errmsg;
+	}
+
+	public void setErrmsg(String errmsg) {
+		this.errmsg = errmsg;
+	}
+
+	public String getOpenId() {
+		return openId;
+	}
+
+	public void setOpenId(String openId) {
+		this.openId = openId;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
 }

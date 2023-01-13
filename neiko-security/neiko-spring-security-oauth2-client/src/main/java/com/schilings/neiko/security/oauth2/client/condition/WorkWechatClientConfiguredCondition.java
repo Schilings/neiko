@@ -1,6 +1,5 @@
 package com.schilings.neiko.security.oauth2.client.condition;
 
-
 import com.schilings.neiko.security.oauth2.client.CommonOAuth2Provider;
 import org.springframework.boot.autoconfigure.condition.ConditionMessage;
 import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
@@ -16,24 +15,28 @@ import java.util.Collections;
 import java.util.Map;
 
 public class WorkWechatClientConfiguredCondition extends SpringBootCondition {
-    private static final Bindable<Map<String, OAuth2ClientProperties.Registration>> STRING_REGISTRATION_MAP = Bindable
-            .mapOf(String.class, OAuth2ClientProperties.Registration.class);
 
-    @Override
-    public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
-        ConditionMessage.Builder message = ConditionMessage.forCondition("WorkWechat OAuth2 Client Configured Condition");
-        Map<String, OAuth2ClientProperties.Registration> registrations = getRegistrations(context.getEnvironment());
-        if (!registrations.isEmpty()) {
-            boolean configured = registrations.containsKey(CommonOAuth2Provider.WORK_WECHAT_WEB_QR.name().toLowerCase());
-            if (configured) {
-                return ConditionOutcome.match(message.foundExactly("registered WorkWechat OAuth2 Client"));
-            }
-        }
-        return ConditionOutcome.noMatch(message.notAvailable("registered clients"));
-    }
+	private static final Bindable<Map<String, OAuth2ClientProperties.Registration>> STRING_REGISTRATION_MAP = Bindable
+			.mapOf(String.class, OAuth2ClientProperties.Registration.class);
 
-    private Map<String, OAuth2ClientProperties.Registration> getRegistrations(Environment environment) {
-        return Binder.get(environment).bind("spring.security.oauth2.client.registration", STRING_REGISTRATION_MAP)
-                .orElse(Collections.emptyMap());
-    }
+	@Override
+	public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
+		ConditionMessage.Builder message = ConditionMessage
+				.forCondition("WorkWechat OAuth2 Client Configured Condition");
+		Map<String, OAuth2ClientProperties.Registration> registrations = getRegistrations(context.getEnvironment());
+		if (!registrations.isEmpty()) {
+			boolean configured = registrations
+					.containsKey(CommonOAuth2Provider.WORK_WECHAT_WEB_QR.name().toLowerCase());
+			if (configured) {
+				return ConditionOutcome.match(message.foundExactly("registered WorkWechat OAuth2 Client"));
+			}
+		}
+		return ConditionOutcome.noMatch(message.notAvailable("registered clients"));
+	}
+
+	private Map<String, OAuth2ClientProperties.Registration> getRegistrations(Environment environment) {
+		return Binder.get(environment).bind("spring.security.oauth2.client.registration", STRING_REGISTRATION_MAP)
+				.orElse(Collections.emptyMap());
+	}
+
 }

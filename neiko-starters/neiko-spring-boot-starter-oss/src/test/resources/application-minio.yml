@@ -1,0 +1,8 @@
+neiko:
+  oss:
+    endpoint: http://oss-cn-shenzhen.aliyuncs.com # oss-cn-shenzhen.aliyuncs.com
+    region: oss-cn-shenzhen
+    access-key: LTAI5t75M5VySn4baE63G5Ss
+    access-secret: fDGkh8U9nWaI5euYdCNEU6XUkPHKZP
+    bucket: schilings-ballcat # schilings-ballcat
+    path-style-access: false

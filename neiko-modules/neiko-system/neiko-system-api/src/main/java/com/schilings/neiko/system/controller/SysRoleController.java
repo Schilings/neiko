@@ -8,8 +8,6 @@ import com.schilings.neiko.common.model.domain.PageResult;
 import com.schilings.neiko.common.model.domain.SelectData;
 import com.schilings.neiko.common.model.result.BaseResultCode;
 import com.schilings.neiko.common.model.result.R;
-import com.schilings.neiko.extend.sa.token.oauth2.annotation.OAuth2CheckPermission;
-import com.schilings.neiko.extend.sa.token.oauth2.annotation.OAuth2CheckScope;
 import com.schilings.neiko.system.constant.SysRoleConst;
 import com.schilings.neiko.system.converter.SysRoleConverter;
 import com.schilings.neiko.system.model.dto.SysRoleUpdateDTO;
@@ -25,6 +23,7 @@ import com.schilings.neiko.system.service.SysUserRoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +31,6 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@OAuth2CheckScope("system")
 @RestController
 @RequestMapping("/system/role")
 @RequiredArgsConstructor
@@ -52,7 +50,7 @@ public class SysRoleController {
 	 */
 	@GetMapping("/page")
 	@Operation(summary = "分页查询系统角色")
-	@OAuth2CheckPermission("system:role:read")
+	@PreAuthorize(value = "hasAuthority('system:role:read')")
 	public R<PageResult<SysRolePageVO>> getRolePage(@Validated PageParam pageParam, SysRoleQO sysRoleQO) {
 		return R.ok(sysRoleService.queryPage(pageParam, sysRoleQO));
 	}
@@ -63,7 +61,7 @@ public class SysRoleController {
 	 * @return 角色信息
 	 */
 	@GetMapping("/{id}")
-	@OAuth2CheckPermission("system:role:read")
+	@PreAuthorize(value = "hasAuthority('system:role:read')")
 	public R<SysRole> getById(@PathVariable("id") Integer id) {
 		return R.ok(sysRoleService.getById(id));
 	}
@@ -75,7 +73,7 @@ public class SysRoleController {
 	 */
 	@CreateOperationLogging(msg = "新增系统角色")
 	@PostMapping
-	@OAuth2CheckPermission("system:role:add")
+	@PreAuthorize(value = "hasAuthority('system:role:add')")
 	@Operation(summary = "新增系统角色", description = "新增系统角色")
 	public R<Boolean> save(@Valid @RequestBody SysRole sysRole) {
 		return R.ok(sysRoleService.save(sysRole));
@@ -88,7 +86,7 @@ public class SysRoleController {
 	 */
 	@UpdateOperationLogging(msg = "修改系统角色")
 	@PutMapping
-	@OAuth2CheckPermission("system:role:edit")
+	@PreAuthorize(value = "hasAuthority('system:role:edit')")
 	@Operation(summary = "修改系统角色", description = "修改系统角色")
 	public R<Boolean> update(@Valid @RequestBody SysRoleUpdateDTO roleUpdateDTO) {
 		SysRole sysRole = SysRoleConverter.INSTANCE.dtoToPo(roleUpdateDTO);
@@ -102,7 +100,7 @@ public class SysRoleController {
 	 */
 	@DeleteMapping("/{id}")
 	@DeleteOperationLogging(msg = "通过id删除系统角色")
-	@OAuth2CheckPermission("system:role:del")
+	@PreAuthorize(value = "hasAuthority('system:role:del')")
 	@Operation(summary = "通过id删除系统角色", description = "通过id删除系统角色")
 	public R<Boolean> removeById(@PathVariable("id") Integer id) {
 		SysRole oldRole = sysRoleService.getById(id);
@@ -129,7 +127,7 @@ public class SysRoleController {
 	 */
 	@PutMapping("/permission/code/{roleCode}")
 	@UpdateOperationLogging(msg = "更新角色权限")
-	@OAuth2CheckPermission("system:role:grant")
+	@PreAuthorize(value = "hasAuthority('system:role:grant')")
 	@Operation(summary = "更新角色权限", description = "更新角色权限")
 	public R<Boolean> savePermissionIds(@PathVariable("roleCode") String roleCode, @RequestBody Long[] permissionIds) {
 		return R.ok(sysRoleMenuService.saveRoleMenus(roleCode, permissionIds));
@@ -153,7 +151,7 @@ public class SysRoleController {
 	 * @return R
 	 */
 	@GetMapping("/user/page")
-	@OAuth2CheckPermission("system:role:grant")
+	@PreAuthorize(value = "hasAuthority('system:role:grant')")
 	@Operation(summary = "查看已授权指定角色的用户列表", description = "查看已授权指定角色的用户列表")
 	public R<PageResult<RoleBindUserVO>> queryUserPageByRoleCode(PageParam pageParam,
 			@Valid RoleBindUserQO roleBindUserQO) {
@@ -165,7 +163,7 @@ public class SysRoleController {
 	 * @return R
 	 */
 	@DeleteMapping("/user")
-	@OAuth2CheckPermission("system:role:grant")
+	@PreAuthorize(value = "hasAuthority('system:role:grant')")
 	@Operation(summary = "解绑与用户绑定关系", description = "解绑与用户绑定关系")
 	public R<Boolean> unbindRoleUser(@RequestParam("userId") Long userId, @RequestParam("roleCode") String roleCode) {
 		return R.ok(sysUserRoleService.unbindRoleUser(userId, roleCode));

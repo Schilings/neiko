@@ -11,7 +11,6 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.schilings.neiko.common.cache.EnableNeikoCaching;
 import com.schilings.neiko.common.cache.components.CacheRepository;
-import com.schilings.neiko.common.cache.configuration.NeikoCachingConfiguration;
 import com.schilings.neiko.common.redis.RedisHelper;
 import com.schilings.neiko.common.redis.config.RedisCacheProperties;
 import com.schilings.neiko.common.redis.config.RedisCachePropertiesHolder;
@@ -21,7 +20,6 @@ import com.schilings.neiko.common.redis.core.prefix.impl.DefaultRedisPrefixConve
 import com.schilings.neiko.common.redis.core.repository.RedisCacheRepository;
 import com.schilings.neiko.common.redis.core.serializer.CacheSerializer;
 import com.schilings.neiko.common.redis.core.serializer.JacksonSerializer;
-import com.schilings.neiko.common.redis.core.serializer.PrefixJdkRedisSerializer;
 import com.schilings.neiko.common.redis.core.serializer.PrefixStringRedisSerializer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -36,15 +34,12 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 import static com.schilings.neiko.common.redis.RedisHelper.*;
 
@@ -101,10 +96,10 @@ public class NeikoRedisAutoConfiguration {
 		return template;
 	}
 
-	@Bean("redisTemplate")
+	@Bean("ObjectRedisTemplate")
 	@ConditionalOnBean(IRedisPrefixConverter.class)
-	@ConditionalOnMissingBean(name = "redisTemplate") // before
-														// =RedisAutoConfiguration.class
+	@ConditionalOnMissingBean(name = "ObjectRedisTemplate") // before =
+															// RedisAutoConfiguration.class
 	public RedisTemplate<String, Object> redisTemplate(IRedisPrefixConverter redisPrefixConverter) {
 		RedisTemplate<String, Object> template = new RedisTemplate<>();
 		template.setConnectionFactory(redisConnectionFactory);

@@ -1,6 +1,5 @@
 package com.schilings.neiko.autoconfigure.oss;
 
-
 import com.schilings.neiko.autoconfigure.oss.prefix.ObjectKeyPrefixConverter;
 import lombok.Getter;
 import org.springframework.util.StringUtils;

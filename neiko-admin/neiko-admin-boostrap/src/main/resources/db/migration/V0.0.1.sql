@@ -1,33 +1,11 @@
 -- ----------------------------
--- Table structure for nk_auth_client
--- ----------------------------
-CREATE TABLE IF NOT EXISTS `nk_auth_client`  (
-  `id` bigint(20) NOT NULL COMMENT '主键ID',
-  `client_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '应用id',
-  `client_secret` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '应用秘钥',
-  `scope` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '应用签约的所有权限, 多个用逗号隔开 ',
-  `allow_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '应用允许授权的所有URL, 多个用逗号隔开 ',
-  `authorized_grant_types` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '应用被授权的授权类型, 多个用逗号隔开 ',
-  `web_server_redirect_uri` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '此客户端在“authorization_code”访问授权期间使用的预定义重定向 URI ',
-  `access_token_timeout` bigint(20) NULL DEFAULT NULL COMMENT '单独配置此Client：Access-Token 保存的时间(单位秒) ',
-  `refresh_token_timeout` bigint(20) NULL DEFAULT NULL COMMENT '单独配置此Client：Refresh-Token 保存的时间(单位秒)',
-  `attributes` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '附加属性值',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of nk_auth_client
--- ----------------------------
-INSERT INTO `nk_auth_client` VALUES (1, '1001', '99109f1b0cf6ae9b4572d99fc8bcc0df', 'server,userinfo,system', '*', 'authorization_code,refresh_token,password,client_credentials,implicit', NULL, NULL, NULL, NULL);
-
--- ----------------------------
 -- Table structure for nk_log_access_log
 -- ----------------------------
 CREATE TABLE IF NOT EXISTS `nk_log_access_log`  (
   `id` bigint(20) NOT NULL COMMENT '主键ID 编号',
   `trace_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '追踪ID',
   `user_id` bigint(20) NULL DEFAULT NULL COMMENT '用户ID',
-  `userAttribute` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户名',
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户名',
   `ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '访问IP地址',
   `user_agent` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户代理',
   `uri` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '请求URI',
@@ -54,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `nk_log_login_log`  (
   `id` bigint(20) NOT NULL COMMENT 'ID 编号',
   `trace_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '追踪ID',
   `client_id` bigint(20) NULL DEFAULT NULL COMMENT '客户端ID',
-  `userAttribute` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户名',
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户名',
   `ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '登陆IP',
   `os` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '操作系统',
   `status` int(11) NULL DEFAULT NULL COMMENT '状态',
@@ -550,7 +528,7 @@ INSERT INTO `nk_sys_role_menu` VALUES (680, 'ROLE_TEST', 990500);
 -- ----------------------------
 CREATE TABLE IF NOT EXISTS `nk_sys_user`  (
   `user_id` bigint(20) NOT NULL COMMENT '主键id',
-  `userAttribute` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '登录账号',
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '登录账号',
   `nickname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '昵称',
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '密码',
   `salt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'md5密码盐',
@@ -573,7 +551,7 @@ CREATE TABLE IF NOT EXISTS `nk_sys_user`  (
 -- Records of nk_sys_user
 -- ----------------------------
 INSERT INTO `nk_sys_user` VALUES (1, 'admin', '超管牛逼', '51f5c2f36d9803ab55d4ba5cee9a3e48', NULL, 'sysuser/1/avatar/20200226/ab6bd5221afe4238ae4987f278758113.jpg', 1, 'chengbohua@foxmail.com', '15800000000', 1, 1, 6, 0, NULL, NULL, '2022-09-17 19:41:16', NULL);
-INSERT INTO `nk_sys_user` VALUES (2, 'test', '测试用户213', '51f5c2f36d9803ab55d4ba5cee9a3e48', NULL, 'sysuser/10/avatar/20201204/002875d468db41239ee02ad99ab14490.jpg', 2, 'magic.xiaohua@gmail.com', '12345678520', 0, 1, 6, 0, NULL, NULL, '2022-09-17 19:41:16', NULL);
+INSERT INTO `nk_sys_user` VALUES (2, 'test', '测试用户213', '51f5c2f36d9803ab55d4ba5cee9a3e48', NULL, 'sysuser/10/avatar/20201204/002875d468db41239ee02ad99ab14490.jpg', 2, 'magic.xiaohua@gmail.com', '12345678520', 1, 1, 6, 0, NULL, NULL, '2022-09-17 19:41:16', NULL);
 
 -- ----------------------------
 -- Table structure for nk_sys_user_role

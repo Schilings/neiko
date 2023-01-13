@@ -1,6 +1,5 @@
 package com.schilings.neiko.autoconfigure.oss.prefix;
 
-
 import com.schilings.neiko.autoconfigure.oss.OssConstants;
 import com.schilings.neiko.autoconfigure.oss.OssProperties;
 import lombok.RequiredArgsConstructor;

@@ -3,23 +3,17 @@ package com.schilings.neiko.sample.oauth2.config;
 
 import com.schilings.neiko.security.oauth2.authorization.server.OAuth2AuthorizationServerConfigurerCustomizer;
 import com.schilings.neiko.security.oauth2.authorization.server.OAuth2AuthorizationServerExtensionConfigurer;
-import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.federated.OAuth2FederatedIdentityConstant;
-import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.federated.client.OAuth2FederatedIdentityAuthenticationSuccessHandler;
-import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.federated.client.OAuth2FederatedIdentityAuthorizationRequestCustomizer;
-import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.federated.client.OAuth2FederatedIdentityOAuth2AuthorizationRequestRepository;
-import com.schilings.neiko.security.oauth2.authorization.server.util.OAuth2ConfigurerUtils;
+import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.federated.client.FederatedIdentityConfigurerConfiguration;
 import com.schilings.neiko.security.oauth2.client.federated.identity.FederatedIdentityConfigurer;
 import com.schilings.neiko.security.oauth2.client.federated.identity.OAuth2UserMerger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.SecurityBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.authentication.OAuth2LoginAuthenticationToken;
-import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -36,8 +30,6 @@ public class OAuth2ClientConfig {
     @Bean
     public OAuth2AuthorizationServerConfigurerCustomizer clientCustomizer() {
         return (configurer,http) -> {
-
-   
             //format:off
             FederatedIdentityConfigurer identityConfigurer = new FederatedIdentityConfigurer(http);
 
@@ -49,16 +41,8 @@ public class OAuth2ClientConfig {
 
             identityConfigurer.oauth2UserMerger(new SimpleOAuth2UserMerger());
             //format:on
-            
             //对授权服务端添加联合登录的支持
-            identityConfigurer.authorizationRequestCustomizer(new OAuth2FederatedIdentityAuthorizationRequestCustomizer());
-            identityConfigurer.authorizationRequestRepository(new OAuth2FederatedIdentityOAuth2AuthorizationRequestRepository());
-            identityConfigurer.successHandler(new OAuth2FederatedIdentityAuthenticationSuccessHandler(
-                    OAuth2ConfigurerUtils.getAuthorizationService(http), 
-                    OAuth2ConfigurerUtils.getRegisteredClientRepository(http)));
-
-            
-            http.requestMatchers().antMatchers(FederatedIdentityConfigurer.FILTER_PROCESSES_URI, FederatedIdentityConfigurer.AUTHORIZATION_REQUEST_PATTERN);
+            FederatedIdentityConfigurerConfiguration.applyDefaultFederatedIdentity(identityConfigurer, http);
             http.apply(identityConfigurer);
         };
     }

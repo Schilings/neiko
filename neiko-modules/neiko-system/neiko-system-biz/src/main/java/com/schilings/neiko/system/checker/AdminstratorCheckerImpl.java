@@ -1,10 +1,12 @@
 package com.schilings.neiko.system.checker;
 
+import com.schilings.neiko.authorization.common.util.SecurityUtils;
 import com.schilings.neiko.common.util.StringUtils;
-import com.schilings.neiko.extend.sa.token.holder.RBACAuthorityHolder;
 import com.schilings.neiko.system.model.entity.SysUser;
 import com.schilings.neiko.system.properties.SystemProperties;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -41,7 +43,7 @@ public class AdminstratorCheckerImpl implements AdminstratorChecker {
 	public boolean hasModifyPermission(SysUser targetUser) {
 		// 如果需要修改的用户是超级管理员，则只能本人修改
 		if (this.isAdminstrator(targetUser)) {
-			return RBACAuthorityHolder.getUserDetails().getUsername().equals(targetUser.getUsername());
+			return SecurityUtils.getUser().getUsername().equals(targetUser.getUsername());
 		}
 		return true;
 	}

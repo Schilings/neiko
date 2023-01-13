@@ -59,7 +59,7 @@
         <jsoup.version>1.15.3</jsoup.version>
         <virtual-currency.version>0.4.2</virtual-currency.version>
         <alipay-sdk.version>4.11.28.ALL</alipay-sdk.version>
-        <software.amazon.awssdk.version>2.17.154</software.amazon.awssdk.version>
+        <software.amazon.awssdk.version>2.18.20</software.amazon.awssdk.version>
         <apache.lang3.version>3.12.0</apache.lang3.version>
         <javax.servlet.version>4.0.1</javax.servlet.version>
         <java.jwt.version>4.0.0</java.jwt.version>
@@ -67,7 +67,7 @@
         <mockito.version>3.10.0</mockito.version>
         <awaitility.version>4.1.0</awaitility.version>
         <rocketmq.version>2.2.0</rocketmq.version>
-        <software.amazon.awssdk-s3-transfer-manager.version>2.18.6-PREVIEW
+        <software.amazon.awssdk-s3-transfer-manager.version>2.18.20-PREVIEW
         </software.amazon.awssdk-s3-transfer-manager.version>
         <shiro.redis.version>3.3.1</shiro.redis.version>
         <shiro.spring.boot.starter.version>1.9.1</shiro.spring.boot.starter.version>
@@ -974,6 +974,38 @@
             <dependency>
                 <groupId>com.schilings</groupId>
                 <artifactId>neiko-srvutil</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            
+            <!--neiko security-->
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-security</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-security-core</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-spring-security-oauth2-core</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-spring-security-oauth2-authorization-server</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-spring-security-oauth2-client</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-spring-security-oauth2-resource-server</artifactId>
                 <version>${revision}</version>
             </dependency>
         </dependencies>

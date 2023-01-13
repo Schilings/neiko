@@ -20,6 +20,7 @@ import java.util.function.Consumer;
 
 /**
  * OSS操作
+ *
  * @date 2022/10/28
  */
 public interface OssTemplate {

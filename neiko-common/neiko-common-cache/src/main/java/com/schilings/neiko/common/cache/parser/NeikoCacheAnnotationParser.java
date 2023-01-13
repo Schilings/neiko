@@ -314,6 +314,9 @@ public class NeikoCacheAnnotationParser implements CacheAnnotationParser, Serial
 		builder.setSync(cacheable.sync());
 		builder.setTtl(cacheable.ttl());
 		builder.setUnit(cacheable.unit());
+		if (ae instanceof Method) {
+			builder.setReturnType(((Method) ae).getGenericReturnType());
+		}
 
 		defaultConfig.applyDefault(builder);
 		CacheableOperation op = builder.build();
@@ -332,7 +335,6 @@ public class NeikoCacheAnnotationParser implements CacheAnnotationParser, Serial
 	 */
 	private CachePutOperation parseCachePutAnnotation(AnnotatedElement ae, DefaultCacheConfig defaultConfig,
 			NeikoCachePut cachePut) {
-
 		CachePutOperation.Builder builder = new CachePutOperation.Builder();
 		builder.setName(ae.toString());
 		builder.setCacheRepository(cachePut.cacheRepository());

@@ -1,6 +1,5 @@
 package com.schilings.neiko.autoconfigure.oss;
 
-
 import com.schilings.neiko.autoconfigure.oss.prefix.ObjectKeyPrefixConverter;
 import lombok.RequiredArgsConstructor;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -12,7 +11,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-
 
 @Deprecated
 @RequiredArgsConstructor
