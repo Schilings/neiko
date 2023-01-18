@@ -9,15 +9,18 @@ import com.schilings.neiko.security.oauth2.authorization.server.customizer.Defau
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.OAuth2AuthorizationServerExtensionConfigurerInjectionCustomizer;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.authorization.DefaultOAuth2AuthorizationEndpointCustomizer;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.introspection.DefaultOAuth2TokenIntrospectionCustomizer;
+import com.schilings.neiko.security.oauth2.authorization.server.customizer.oidc.DefaultOAuth2OidcConfigurerCustomizer;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.revocation.DefaultOAuth2TokenRevocationCustomizer;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.OAuth2TokenEndpointExtensionGrantTypeCustomizer;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.federated.OAuth2FederatedIdentityAuthenticationConverter;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.federated.OAuth2FederatedIdentityAuthenticationProvider;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.password.OAuth2ResourceOwnerPasswordAuthenticationConverter;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.password.OAuth2ResourceOwnerPasswordAuthenticationProvider;
+import com.schilings.neiko.security.oauth2.authorization.server.util.OAuth2ComponentUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -27,6 +30,7 @@ import org.springframework.security.oauth2.server.authorization.settings.Authori
 import java.util.List;
 
 @Configuration(proxyBeanMethods = false)
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConditionalOnBean(AuthorizationServerConfigurationAdapter.class)
 @Import({
 		AuthorizationServerAutoConfiguration.DefaultCustomizerAutoConfiguration.class,
@@ -43,6 +47,11 @@ class AuthorizationServerAutoConfiguration {
 	@ConditionalOnMissingBean
 	public AuthorizationServerSettings authorizationServerSettings() {
 		return AuthorizationServerSettings.builder().build();
+	}
+
+	@Bean
+	public OAuth2ComponentUtils oAuth2ComponentUtils() {
+		return new OAuth2ComponentUtils();
 	}
 
 	
@@ -138,6 +147,16 @@ class AuthorizationServerAutoConfiguration {
 			tokenIntrospectionCustomizer.revocationResponseHandler(NullEventAuthenticationSuccessHandler::new);
 			tokenIntrospectionCustomizer.errorResponseHandler(NullEventAuthenticationFailureHandler::new);
 			return tokenIntrospectionCustomizer;
+		}
+
+		/**
+		 * Enable OpenId Connect
+		 * @return
+		 */
+		@Bean
+		@ConditionalOnMissingBean
+		public DefaultOAuth2OidcConfigurerCustomizer oidcConfigurerCustomizer() {
+			return new DefaultOAuth2OidcConfigurerCustomizer();
 		}
 
 	}

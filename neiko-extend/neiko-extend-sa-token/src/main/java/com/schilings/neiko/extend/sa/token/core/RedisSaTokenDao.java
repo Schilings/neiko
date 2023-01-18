@@ -3,7 +3,6 @@ package com.schilings.neiko.extend.sa.token.core;
 import cn.dev33.satoken.dao.SaTokenDao;
 import cn.dev33.satoken.util.SaFoxUtil;
 import com.schilings.neiko.common.redis.RedisHelper;
-import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +70,7 @@ public class RedisSaTokenDao implements SaTokenDao {
 	 */
 	@Override
 	public long getTimeout(String key) {
-		return RedisHelper.getTemplate().getExpire(key, TimeUnit.SECONDS).longValue();
+		return RedisHelper.getStringRedisTemplate().getExpire(key, TimeUnit.SECONDS).longValue();
 	}
 
 	/**
@@ -145,7 +144,7 @@ public class RedisSaTokenDao implements SaTokenDao {
 	 */
 	@Override
 	public long getObjectTimeout(String key) {
-		return RedisHelper.getTemplate().getExpire(key, TimeUnit.SECONDS).longValue();
+		return RedisHelper.getStringRedisTemplate().getExpire(key, TimeUnit.SECONDS).longValue();
 	}
 
 	/**

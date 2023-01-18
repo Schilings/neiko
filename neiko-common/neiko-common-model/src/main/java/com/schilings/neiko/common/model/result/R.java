@@ -88,7 +88,7 @@ public class R<T> implements Serializable {
 		return new R<T>().setData(data).setCode(code).setMessage(message);
 	}
 
-	public static <T> R<T> result(BaseResultCode resultCode, T data) {
+	public static <T> R<T> result(ResultCode resultCode, T data) {
 		return new R<T>().setData(data).setCode(resultCode.getCode()).setMessage(resultCode.getMessage());
 	}
 

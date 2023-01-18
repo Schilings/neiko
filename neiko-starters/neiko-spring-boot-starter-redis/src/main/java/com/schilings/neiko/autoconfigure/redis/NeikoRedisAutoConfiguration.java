@@ -131,7 +131,7 @@ public class NeikoRedisAutoConfiguration {
 	@Bean
 	@ConditionalOnMissingBean(RedisHelper.class)
 	public RedisHelper redisHelper(StringRedisTemplate template, RedisTemplate<String, Object> redisTemplate) {
-		RedisHelper.setTemplate(template);
+		RedisHelper.setStringRedisTemplate(template);
 		RedisHelper.setObjectRedisTemplate(redisTemplate);
 		return new RedisHelper();
 	}

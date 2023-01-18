@@ -24,6 +24,7 @@ import java.util.Collection;
 import java.util.HashMap;
 
 @RequiredArgsConstructor
+@Deprecated
 public class OidcOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 
 	private static final String AUTHORITY_SCOPE_PREFIX = "SCOPE_";

@@ -953,7 +953,22 @@
                 <artifactId>neiko-admin-datascope</artifactId>
                 <version>${revision}</version>
             </dependency>
-            
+            <!--neiko authorization-->
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-authorization-common</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-authorization-biz</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-authorization-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
             
             <!--neiko rpc-->
             <dependency>

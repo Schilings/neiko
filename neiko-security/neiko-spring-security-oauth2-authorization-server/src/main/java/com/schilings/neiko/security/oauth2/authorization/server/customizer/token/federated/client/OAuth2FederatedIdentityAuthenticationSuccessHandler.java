@@ -26,6 +26,7 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -43,6 +44,8 @@ import java.util.Objects;
 public class OAuth2FederatedIdentityAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
 	private final Log logger = LogFactory.getLog(getClass());
+
+	private SavedRequestAwareAuthenticationSuccessHandler delegate = new SavedRequestAwareAuthenticationSuccessHandler();
 
 	private final OAuth2AuthorizationService authorizationService;
 
@@ -68,12 +71,16 @@ public class OAuth2FederatedIdentityAuthenticationSuccessHandler implements Auth
 		// 在OAuth2LoginAuthenticationFilter本该删除的，被我们留在这里，所以在这里删除
 		OAuth2AuthorizationRequest authorizationRequest = this.authorizationRequestRepository
 				.removeAuthorizationRequestInTheEnd(request, response);
-		// 是Federated Request Authorization Request
-		if (authorizationRequest == null
-				|| !StringUtils.hasText(
-						authorizationRequest.getAttribute(OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_REQUEST))
-				|| !BooleanUtil.toBoolean(authorizationRequest
-						.getAttribute(OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_REQUEST))) {
+		
+		//不是Federated Identity Request
+		if (authorizationRequest == null) {
+			this.delegate.onAuthenticationSuccess(request, response, authentication);
+			return;
+		}
+		
+		// 是Federated Identity Request Authorization Request 要校验一下
+		if (!StringUtils.hasText(authorizationRequest.getAttribute(OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_REQUEST))
+				|| !BooleanUtil.toBoolean(authorizationRequest.getAttribute(OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_REQUEST))) {
 			OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.INVALID_REQUEST,
 					"The OAuth2 Federated Request Authorization Request failed to check the "
 							+ OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_REQUEST,

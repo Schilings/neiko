@@ -23,10 +23,7 @@ public class SecurityUtils {
 		return  SecurityContextHolder.getContext().getAuthentication();
 	}
 	
-	public BearerTokenAuthentication getBearerTokenAuthentication() {
-		//BearerTokenAuthentication
-		return (BearerTokenAuthentication) SecurityContextHolder.getContext().getAuthentication();
-	}
+
 
 	/**
 	 * 获取系统用户Details
@@ -59,7 +56,7 @@ public class SecurityUtils {
 	 * 获取用户详情
 	 */
 	public User getUser() {
-		Authentication authentication = getBearerTokenAuthentication();
+		Authentication authentication = getAuthentication();
 		return getUser(authentication);
 	}
 
@@ -67,7 +64,7 @@ public class SecurityUtils {
 	 * 获取客户端信息
 	 */
 	public ClientPrincipal getClientPrincipal() {
-		Authentication authentication = getBearerTokenAuthentication();
+		Authentication authentication = getAuthentication();
 		if (authentication == null) {
 			return null;
 		}

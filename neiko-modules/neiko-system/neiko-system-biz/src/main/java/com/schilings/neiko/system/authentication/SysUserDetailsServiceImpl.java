@@ -10,6 +10,7 @@ import com.schilings.neiko.system.model.entity.SysUser;
 import com.schilings.neiko.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -20,6 +21,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 
 @Slf4j
@@ -28,7 +30,7 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
 
 	private final SysUserService sysUserService;
 
-	private final UserInfoCoordinator userInfoCoordinator;
+	private final ObjectProvider<List<UserInfoCoordinator>> userInfoCoordinatorProvider;
 	
 
 	@Override
@@ -70,8 +72,9 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
 		attributes.put(UserAttributeNameConstants.PERMISSIONS, permissions);
 
 		// 用户额外属性
-		userInfoCoordinator.coordinateAttribute(userInfoDTO, attributes);
-
+		userInfoCoordinatorProvider.ifAvailable(userInfoCoordinators -> 
+				userInfoCoordinators.forEach(coordinator -> coordinator.coordinateAttribute(userInfoDTO, attributes)));
+		
 		return new User(sysUser.getUserId(), sysUser.getUsername(), sysUser.getPassword(), sysUser.getNickname(),
 				sysUser.getAvatar(), sysUser.getStatus(), sysUser.getOrganizationId(), sysUser.getType(), authorities,
 				attributes);

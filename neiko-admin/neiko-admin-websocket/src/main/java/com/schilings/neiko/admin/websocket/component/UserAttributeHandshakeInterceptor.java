@@ -32,7 +32,7 @@ public class UserAttributeHandshakeInterceptor implements HandshakeInterceptor {
 		// 获得 accessToken
 		if (request instanceof ServletServerHttpRequest) {
 			ServletServerHttpRequest serverRequest = (ServletServerHttpRequest) request;
-			accessToken = serverRequest.getServletRequest().getParameter(TOKEN_ATTR_NAME);
+			accessToken = serverRequest.getServletRequest().getParameter(AdminWebSocketConstants.TOKEN_ATTR_NAME);
 		}
 		// 由于 WebSocket 握手是由 http 升级的，携带 token 已经被 Security 拦截验证了，所以可以直接获取到用户
 		User user = SecurityUtils.getUser();

@@ -48,7 +48,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests(authorize ->
                         authorize
-                                .mvcMatchers("/assets/**", "/webjars/**", "/login").permitAll()
+                                .antMatchers("/assets/**", "/webjars/**", "/login").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .apply(identityConfigurer);

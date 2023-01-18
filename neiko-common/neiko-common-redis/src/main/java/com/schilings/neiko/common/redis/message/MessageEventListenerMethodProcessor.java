@@ -88,7 +88,7 @@ public class MessageEventListenerMethodProcessor
 			// beanFactory.getBean(RedisMessageListenerContainer.class);
 	private RedisMessageListenerContainer listenerContainer;
 
-	@Setter // RedisTemplate template =
+	@Setter // RedisTemplate stringRedisTemplate =
 			// beanFactory.getBean("redisTemplate",RedisTemplate.class);
 	private RedisSerializer redisSerializer;
 

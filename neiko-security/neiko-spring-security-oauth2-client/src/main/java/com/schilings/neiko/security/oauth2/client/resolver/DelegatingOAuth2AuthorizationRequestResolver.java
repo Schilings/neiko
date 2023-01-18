@@ -41,9 +41,8 @@ public class DelegatingOAuth2AuthorizationRequestResolver implements OAuth2Autho
 			authorizationRequest = this.defaultResolver.resolve(request);
 		}
 		if (authorizationRequest != null && this.authorizationRequestCustomizer != null) {
-			OAuth2AuthorizationRequest.Builder builder = OAuth2AuthorizationRequest.from(authorizationRequest);
-			this.authorizationRequestCustomizer.customize(request, builder);
-			return builder.build();
+			this.authorizationRequestCustomizer.customize(request, authorizationRequest);
+			return authorizationRequest;
 		}
 		return authorizationRequest;
 	}
@@ -66,9 +65,8 @@ public class DelegatingOAuth2AuthorizationRequestResolver implements OAuth2Autho
 			authorizationRequest = defaultResolver.resolve(request, registrationId);
 		}
 		if (authorizationRequest != null && this.authorizationRequestCustomizer != null) {
-			OAuth2AuthorizationRequest.Builder builder = OAuth2AuthorizationRequest.from(authorizationRequest);
-			this.authorizationRequestCustomizer.customize(request, builder);
-			return builder.build();
+			this.authorizationRequestCustomizer.customize(request, authorizationRequest);
+			return authorizationRequest;
 		}
 		return authorizationRequest;
 	}

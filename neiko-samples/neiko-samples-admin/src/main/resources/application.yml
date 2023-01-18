@@ -1,18 +1,18 @@
 server:
   port: 9000
 
-logging:
-  level:
-    root: INFO
-    org.springframework.web: INFO #filter
-    org.springframework.security: TRACE
-    org.springframework.security.oauth2: TRACE
-    org.springframework.data.redis: TRACE
+#logging:
+#  level:
+#    root: INFO
+#    org.springframework.web: INFO #filter
+#    org.springframework.security: TRACE
+#    org.springframework.security.oauth2: TRACE
+#    org.springframework.data.redis: TRACE
     
 # spring配置
 spring:
   profiles:
-    active: neiko
+    active: neiko,client
   # redis
   redis:
     host: 120.25.221.239

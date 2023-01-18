@@ -23,14 +23,14 @@
             <groupId>com.schilings</groupId>
             <artifactId>neiko-admin-core</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.schilings</groupId>-->
-<!--            <artifactId>neiko-admin-websocket</artifactId>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.schilings</groupId>-->
-<!--            <artifactId>neiko-admin-datascope</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-admin-websocket</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-admin-datascope</artifactId>
+        </dependency>
 <!--        <dependency>
             <groupId>com.schilings</groupId>
             <artifactId>neiko-admin-boostrap</artifactId>

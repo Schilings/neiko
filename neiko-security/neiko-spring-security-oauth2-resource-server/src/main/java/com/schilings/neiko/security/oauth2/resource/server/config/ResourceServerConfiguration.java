@@ -1,73 +1,100 @@
 package com.schilings.neiko.security.oauth2.resource.server.config;
 
+import com.schilings.neiko.security.oauth2.resource.server.customizer.opaque.SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector;
 import com.schilings.neiko.security.oauth2.resource.server.properties.ResourceServerProperties;
 import com.schilings.neiko.security.oauth2.resource.server.customizer.opaque.SpringRemoteOpaqueTokenIntrospector;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.IssuerUriCondition;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.KeyValueCondition;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.MapPropertySource;
+import org.springframework.core.env.PropertySource;
+import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
+import org.springframework.security.oauth2.core.OAuth2TokenValidator;
+import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
+import org.springframework.security.oauth2.jwt.*;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
+
+import java.util.HashMap;
+import java.util.List;
+
 
 class ResourceServerConfiguration {
 
+	/**
+	 * @see org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerJwtConfiguration
+	 */
 	@Configuration(proxyBeanMethods = false)
 	@ConditionalOnClass(JwtDecoder.class)
 	static class JwtConfiguration {
 
+		private final ResourceServerProperties.Jwt properties;
+
+		JwtConfiguration(ResourceServerProperties properties) {
+			this.properties = properties.getJwt();
+		}
+		
+		
+		
 	}
 
+
+	/**
+	 * @see org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerOpaqueTokenConfiguration
+	 */
 	@Configuration(proxyBeanMethods = false)
 	static class OpaqueTokenConfiguration {
 
+		private final ResourceServerProperties.Opaquetoken properties;
+
+
+		public OpaqueTokenConfiguration(ResourceServerProperties properties) {
+			this.properties = properties.getOpaquetoken();
+		}
+
+		/**
+		 * In case where is Spring Authorization Server,consider the way of Shared Stored without introspection-uri configured
+		 * @param authorizationService
+		 * @param registeredClientRepository
+		 * @return
+		 */
+		@Bean
+		@ConditionalOnClass({OAuth2AuthorizationServerConfigurer.class})
+		@Conditional(SharedStoredCondition.class)
+		@ConditionalOnBean({OAuth2AuthorizationService.class,RegisteredClientRepository.class})
+		@ConditionalOnMissingBean(OpaqueTokenIntrospector.class)
+		public OpaqueTokenIntrospector sharedStoredOpaqueTokenIntrospector(ApplicationContext applicationContext) {
+			OAuth2AuthorizationService authorizationService = applicationContext.getBean(OAuth2AuthorizationService.class);
+			RegisteredClientRepository registeredClientRepository = applicationContext.getBean(RegisteredClientRepository.class);
+			return new SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector(authorizationService, registeredClientRepository);
+		}
+
+		/**
+		 * If introspection-uri configured, then SpringRemoteOpaqueTokenIntrospector injects.
+		 * @return
+		 */
 		@Bean
 		@ConditionalOnMissingBean(OpaqueTokenIntrospector.class)
 		@ConditionalOnProperty(name = "neiko.security.oauth2.resourceserver.opaquetoken.introspection-uri")
-		public SpringRemoteOpaqueTokenIntrospector opaqueTokenIntrospector(ResourceServerProperties properties) {
-			ResourceServerProperties.Opaquetoken opaqueToken = properties.getOpaquetoken();
-			return new SpringRemoteOpaqueTokenIntrospector(opaqueToken.getIntrospectionUri(), opaqueToken.getClientId(),
-					opaqueToken.getClientSecret());
+		public OpaqueTokenIntrospector remoteOpaqueTokenIntrospector() {
+			return new SpringRemoteOpaqueTokenIntrospector(properties.getIntrospectionUri(), properties.getClientId(),
+					properties.getClientSecret());
 		}
-
-		// 没有必要注入为Bean。默认是这个,注入容易造成循环依赖
-		// 而且注入AuthenticationProvider会导致Spring Security的很多默认配置不生效
-		// 例如DaoAuthenticationProvider等等不生效
-		// 但是对单独的资源服务器，OpaqueToken模式是手动new OpaqueTokenAuthenticationProvider的
-		// 如果不配置UserDetailService就不会提供默认的AuthenticationProvider
-		// 这会导致一个
-		// @Bean
-		// @ConditionalOnMissingBean
-		// @ConditionalOnBean(OpaqueTokenIntrospector.class)
-		// public OpaqueTokenAuthenticationProvider
-		// opaqueTokenAuthenticationProvider(OpaqueTokenIntrospector
-		// opaqueTokenIntrospector) {
-		// return new OpaqueTokenAuthenticationProvider(opaqueTokenIntrospector);
-		// }
-
-		// 下面这个是Spring Security Resource Server 的默认自动装配，我们在其后面自动装配
-		// @ConditionalOnMissingBean 所以我们注入不到，因为已经注入
-		// @Bean
-		// @ConditionalOnMissingBean
-		// @ConditionalOnProperty(name =
-		// "spring.security.oauth2.resourceserver.opaquetoken.introspection-uri")
-		// public SpringOpaqueTokenIntrospector
-		// opaqueTokenIntrospector(OAuth2ResourceServerProperties properties) {
-		// OAuth2ResourceServerProperties.Opaquetoken opaqueToken =
-		// properties.getOpaquetoken();
-		// return new SpringOpaqueTokenIntrospector(opaqueToken.getIntrospectionUri(),
-		// opaqueToken.getClientId(),
-		// opaqueToken.getClientSecret());
-		// }
-
-		// public NimbusOpaqueTokenIntrospector
-		// nimbusOpaqueTokenIntrospector(OAuth2ResourceServerProperties properties) {
-		// OAuth2ResourceServerProperties.Opaquetoken opaqueToken =
-		// properties.getOpaquetoken();
-		// return new NimbusOpaqueTokenIntrospector(opaqueToken.getIntrospectionUri(),
-		// opaqueToken.getClientId(),
-		// opaqueToken.getClientSecret());
-		// }
+		
 
 	}
 

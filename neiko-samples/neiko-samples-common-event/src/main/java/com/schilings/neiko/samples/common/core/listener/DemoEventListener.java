@@ -12,10 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 @NeikoEventListener
 public class DemoEventListener extends EventBusSupport {
-
-	// 在事件监听器中@Autowired 直接注入会造成循环依赖 EventPublisher 有 HandlerMapping 有 EventListener 又有
-	// EventPublisher
-	// private EventPublisher eventPublisher;
+	
 
 	@NeikoEventHandler(Event.class)
 	public String demo1(DTO event) {
@@ -24,9 +21,8 @@ public class DemoEventListener extends EventBusSupport {
 	}
 
 	@NeikoEventHandler(Event.class)
-	public String demo2(DTO event) {
+	public void demo2(DTO event) {
 		System.out.println(Thread.currentThread());
-		return "DTo";
 	}
 
 }

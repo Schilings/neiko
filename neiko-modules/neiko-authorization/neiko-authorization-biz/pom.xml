@@ -13,8 +13,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-spring-security-oauth2-client</artifactId>
         </dependency>
         <dependency>
             <groupId>com.schilings</groupId>
@@ -27,7 +27,6 @@
         <dependency>
             <groupId>com.schilings</groupId>
             <artifactId>neiko-authorization-common</artifactId>
-            <version>${revision}</version>
         </dependency>
     </dependencies>
 

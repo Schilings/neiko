@@ -1,13 +1,18 @@
 package com.schilings.neiko.sample.authorization.server.config;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.schilings.neiko.common.redis.RedisHelper;
-import com.schilings.neiko.common.redis.core.serializer.CacheSerializer;
+
+import com.schilings.neiko.security.oauth2.authorization.server.jackson.OAuth2AuthorizationMixin;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ResolvableType;
+import org.springframework.context.expression.AnnotatedElementKey;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.lang.Nullable;
+import org.springframework.security.jackson2.SecurityJackson2Modules;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2RefreshToken;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
@@ -15,9 +20,13 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationCode;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
+import org.springframework.security.oauth2.server.authorization.jackson2.OAuth2AuthorizationServerJackson2Module;
 import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,14 +35,24 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
     public static final String AUTHORIZATIONS_PREFIX = RedisOAuth2AuthorizationService.class.getSimpleName() + ".authorizations";
     public static final String INITIALIZED_AUTHORIZATIONS_PREFIX = RedisOAuth2AuthorizationService.class.getName() + ".initializedAuthorizations";
 
-    @Autowired
-    private CacheSerializer cacheSerializer;
 
+    private final ObjectMapper objectMapper;
 
-    private HashOperations<String, String, Object> getObjectHashOperations() {
-        return RedisHelper.objectRedisTemplate().opsForHash();
+    private final HashMap<TokenKey, String> idTokenMap = new LinkedHashMap<>();
+    
+    public RedisOAuth2AuthorizationService() {
+        objectMapper = new ObjectMapper();
+        ClassLoader classLoader = RedisOAuth2AuthorizationService.class.getClassLoader();
+        List<Module> securityModules = SecurityJackson2Modules.getModules(classLoader);
+        objectMapper.registerModules(securityModules);
+        objectMapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
+        objectMapper.registerModule(new CustomJackson2Module());
     }
 
+    private HashOperations<String, String, String> getHashOperations() {
+        return RedisHelper.getHash();
+    }
+    
     
     private String getAuthorizationsPrefix(String id) {
         return AUTHORIZATIONS_PREFIX + "." + id;
@@ -43,41 +62,60 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
         return INITIALIZED_AUTHORIZATIONS_PREFIX + "." + id;
     }
 
-    private void saveAuthorization(OAuth2Authorization authorization) {
-        getObjectHashOperations().put(getAuthorizationsPrefix("all"),getAuthorizationsPrefix(authorization.getId()), authorization);
+    private void saveAuthorization(OAuth2Authorization authorization) throws JsonProcessingException {
+        getHashOperations().put(getAuthorizationsPrefix("all"), getAuthorizationsPrefix(authorization.getId()), objectMapper.writeValueAsString(authorization));
     }    
-    private void saveInitializedAuthorization(OAuth2Authorization authorization) {
-        getObjectHashOperations().put(getInitializedAuthorizationsPrefix("all"), getInitializedAuthorizationsPrefix(authorization.getId()), authorization);
+    private void saveInitializedAuthorization(OAuth2Authorization authorization) throws JsonProcessingException {
+        getHashOperations().put(
+                getInitializedAuthorizationsPrefix("all"), 
+                getInitializedAuthorizationsPrefix(authorization.getId()), objectMapper.writeValueAsString(authorization));
     }
 
     private void removeAuthorization(OAuth2Authorization authorization){
-        getObjectHashOperations().delete(getAuthorizationsPrefix("all"),getAuthorizationsPrefix(authorization.getId()));
+        getHashOperations().delete(getAuthorizationsPrefix("all"),getAuthorizationsPrefix(authorization.getId()));
     }
     private void removeInitializedAuthorization(OAuth2Authorization authorization)  {
-        getObjectHashOperations().delete(getInitializedAuthorizationsPrefix("all"), getInitializedAuthorizationsPrefix(authorization.getId()));
+        getHashOperations().delete(getInitializedAuthorizationsPrefix("all"), getInitializedAuthorizationsPrefix(authorization.getId()));
     }
 
-    private OAuth2Authorization getAuthorization(String id)  {
-        return (OAuth2Authorization) getObjectHashOperations().get(getAuthorizationsPrefix("all"),getAuthorizationsPrefix(id));
+    private OAuth2Authorization getAuthorization(String id) throws JsonProcessingException {
+        return objectMapper.readValue(getHashOperations().get(getAuthorizationsPrefix("all"), getAuthorizationsPrefix(id)), OAuth2Authorization.class);
     }
+    
+    @SneakyThrows
     private OAuth2Authorization getInitializedAuthorization(String id) {
-        return (OAuth2Authorization) getObjectHashOperations().get(getInitializedAuthorizationsPrefix("all"),getInitializedAuthorizationsPrefix(id));
+        return objectMapper.readValue(getHashOperations().get(getInitializedAuthorizationsPrefix("all"), getInitializedAuthorizationsPrefix(id)), OAuth2Authorization.class);
+
     }
 
-    private List<Object> getAuthorizations()  {
-        return getObjectHashOperations().values(getAuthorizationsPrefix("all"));
+    private List<OAuth2Authorization> getAuthorizations()  {
+        return getHashOperations().values(getAuthorizationsPrefix("all")).stream().map(s -> {
+            try {
+                return objectMapper.readValue(s, OAuth2Authorization.class);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }).collect(Collectors.toList());
     }
     
-    private List<Object> getInitializedAuthorizations() {
-        return getObjectHashOperations().values(getInitializedAuthorizationsPrefix("all"));
+    private List<OAuth2Authorization> getInitializedAuthorizations() {
+        return getHashOperations().values(getInitializedAuthorizationsPrefix("all")).stream().map(s -> {
+            try {
+                return objectMapper.readValue(s, OAuth2Authorization.class);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }).collect(Collectors.toList());
     }
     
     
+    @SneakyThrows
     @Override
     public void save(OAuth2Authorization authorization) {
         Assert.notNull(authorization, "authorization cannot be null");
         if (isComplete(authorization)) {
-            RedisHelper.set("66666", "6666666");
             saveAuthorization(authorization);
         } else {
             saveInitializedAuthorization(authorization);
@@ -95,6 +133,7 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
         }
     }
 
+    @SneakyThrows
     @Override
     public OAuth2Authorization findById(String id) {
         Assert.hasText(id, "id cannot be empty");
@@ -113,17 +152,13 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
     @Override
     public OAuth2Authorization findByToken(String token, OAuth2TokenType tokenType) {
         Assert.hasText(token, "token cannot be empty");
-        List<OAuth2Authorization> authorizations = getAuthorizations().stream().map(a -> {
-            return (OAuth2Authorization) a;
-        }).collect(Collectors.toList());
+        List<OAuth2Authorization> authorizations = getAuthorizations();
         for (OAuth2Authorization authorization : authorizations) {
             if (hasToken(authorization, token, tokenType)) {
                 return authorization;
             }
         }
-        List<OAuth2Authorization> initializedAuthorizations = getInitializedAuthorizations().stream().map(a -> {
-            return (OAuth2Authorization) a;
-        }).collect(Collectors.toList());
+        List<OAuth2Authorization> initializedAuthorizations = getInitializedAuthorizations();
         for (OAuth2Authorization authorization : initializedAuthorizations) {
             if (hasToken(authorization, token, tokenType)) {
                 return authorization;
@@ -176,5 +211,64 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
         OAuth2Authorization.Token<OAuth2RefreshToken> refreshToken =
                 authorization.getToken(OAuth2RefreshToken.class);
         return refreshToken != null && refreshToken.getToken().getTokenValue().equals(token);
+    }
+
+    
+    public static class CustomJackson2Module extends SimpleModule {
+        @Override
+        public void setupModule(SetupContext context) {
+            context.setMixInAnnotations(OAuth2Authorization.class, OAuth2AuthorizationMixin.class);
+
+        }
+    }
+
+
+    public static class TokenKey implements Comparable<TokenKey> {
+        
+        private final String tokenValue;
+        
+        @Nullable
+        private final OAuth2TokenType tokenType;
+
+        public TokenKey(String tokenValue, OAuth2TokenType tokenType) {
+            this.tokenValue = tokenValue;
+            this.tokenType = tokenType;
+        }
+        
+
+        @Override
+        public boolean equals(@Nullable Object other) {
+            if (this == other) {
+                return true;
+            }
+            if (!(other instanceof TokenKey)) {
+                return false;
+            }
+            TokenKey otherKey = (TokenKey) other;
+            return (this.tokenValue.equals(otherKey.tokenValue) &&
+                    ObjectUtils.nullSafeEquals(this.tokenType, otherKey.tokenType));
+        }
+
+        @Override
+        public int hashCode() {
+            return this.tokenValue.hashCode() + (this.tokenType != null ? this.tokenType.hashCode() * 29 : 0);
+        }
+
+        @Override
+        public String toString() {
+            return this.tokenValue + (this.tokenType != null ? " is " + this.tokenType : "");
+        }
+
+        @Override
+        public int compareTo(TokenKey other) {
+            int result = this.tokenValue.compareTo(other.tokenValue);
+            if (result == 0 && this.tokenType != null) {
+                if (other.tokenType == null) {
+                    return 1;
+                }
+                result = this.tokenType.getValue().compareTo(other.tokenType.getValue());
+            }
+            return result;
+        }
     }
 }

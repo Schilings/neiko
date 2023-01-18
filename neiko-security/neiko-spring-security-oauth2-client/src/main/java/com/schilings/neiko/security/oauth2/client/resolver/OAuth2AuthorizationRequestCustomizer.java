@@ -7,6 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 @FunctionalInterface
 public interface OAuth2AuthorizationRequestCustomizer {
 
-	void customize(HttpServletRequest request, OAuth2AuthorizationRequest.Builder builder);
+	void customize(HttpServletRequest request, OAuth2AuthorizationRequest builder);
 
 }

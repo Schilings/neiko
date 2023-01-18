@@ -1,54 +1,54 @@
 package com.schilings.neiko.sample.authorization.server.config;
 
 
+import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-
-import com.schilings.neiko.common.redis.RedisHelper;
 import com.schilings.neiko.sample.authorization.server.event.DefaultApplicationEventAuthenticationFailureHandler;
 import com.schilings.neiko.sample.authorization.server.event.DefaultApplicationEventAuthenticationSuccessHandler;
 import com.schilings.neiko.sample.authorization.server.jose.Jwks;
-import com.schilings.neiko.security.oauth2.authorization.server.NullEventAuthenticationFailureHandler;
-import com.schilings.neiko.security.oauth2.authorization.server.NullEventAuthenticationSuccessHandler;
-import com.schilings.neiko.security.oauth2.authorization.server.OAuth2AuthorizationServerConfigurerCustomizer;
+import com.schilings.neiko.sample.authorization.server.properties.RegisteredClientPropertiesMapper;
 import com.schilings.neiko.security.oauth2.authorization.server.config.EnableAuthorizationServer;
 import com.schilings.neiko.security.oauth2.authorization.server.configurer.FormLoginRememberMeConfigurer;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.authorization.DefaultOAuth2AuthorizationEndpointCustomizer;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.oidc.DefaultOAuth2OidcConfigurerCustomizer;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.OAuth2TokenEndpointExtensionGrantTypeCustomizer;
+import com.schilings.neiko.security.oauth2.authorization.server.customizer.oidc.OidcIdTokenCustomizer;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.password.OAuth2ResourceOwnerPasswordAuthenticationConverter;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.password.OAuth2ResourceOwnerPasswordAuthenticationProvider;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.*;
-import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
+
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 import org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat;
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
+import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
+import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 
 
 import java.util.HashMap;
-import java.util.UUID;
+import java.util.List;
 
 @Configuration(proxyBeanMethods = false)
 @EnableAuthorizationServer
 public class AuthorizationServerConfig {
+	
 	
 	@Bean
 	public FormLoginRememberMeConfigurer formLoginRememberMeConfigurer(UserDetailsService userDetailsService) {
@@ -92,9 +92,7 @@ public class AuthorizationServerConfig {
 		// provider
 		extensionGrantTypeCustomizer.providerExpander((providers, authorizationService, tokenGenerator, http) -> {
 			// 未build,so 懒加载
-			AuthenticationManager authenticationManager = authentication -> {
-				return http.getSharedObject(AuthenticationManager.class).authenticate(authentication);
-			};
+			AuthenticationManager authenticationManager = authentication -> http.getSharedObject(AuthenticationManager.class).authenticate(authentication);
 			providers.add(new OAuth2ResourceOwnerPasswordAuthenticationProvider(authenticationManager,
 					authorizationService, tokenGenerator));
 		});
@@ -112,13 +110,18 @@ public class AuthorizationServerConfig {
 				// 默认端点URI
 				// /oauth2/token可以通过构造函数OAuth2TokenEndpointFilter(AuthenticationManager,
 				// String)覆盖
-				.tokenEndpoint("/oauth2/token").build();
+				.tokenEndpoint("/oauth2/token")
+				.oidcUserInfoEndpoint("/oidc/userinfo")
+				.build();
 	}
 
 	@Bean
-	public RegisteredClientRepository registeredClientRepository() {
-		String registeredClientId1 = UUID.randomUUID().toString();
-		String registeredClientId2 = UUID.randomUUID().toString();
+	public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate, RegisteredClientPropertiesMapper mapper) {
+
+		List<RegisteredClient> registeredClients = mapper.getRegisteredClients();
+
+		String registeredClientId1 = "registeredClientId1";
+		String registeredClientId2 = "registeredClientId2";
 		
 		RegisteredClient registeredClient1 = RegisteredClient.withId(registeredClientId1)
 				.clientId("messaging-client1")
@@ -179,25 +182,29 @@ public class AuthorizationServerConfig {
 				//走OpaqueToken的AccessToken
 				.tokenSettings(TokenSettings.builder().accessTokenFormat(OAuth2TokenFormat.REFERENCE).build())
 				.build();
-		
-		// Save registered client in db as if in-memory
-		InMemoryRegisteredClientRepository registeredClientRepository = new InMemoryRegisteredClientRepository(
-				registeredClient1, registeredClient2);
 
+		registeredClients.add(registeredClient1);
+		registeredClients.add(registeredClient2);
+		JdbcRegisteredClientRepository registeredClientRepository = new JdbcRegisteredClientRepository(jdbcTemplate);
+		registeredClients.forEach(registeredClientRepository::save);
 		return registeredClientRepository;
 	}
 
+
 	@Bean
-	public OAuth2AuthorizationService authorizationService() {
-		return new InMemoryOAuth2AuthorizationService();
+	public OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate,
+														   RegisteredClientRepository registeredClientRepository) {
+		JdbcOAuth2AuthorizationService service = new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository);
+		return service;
 		//return new RedisOAuth2AuthorizationService();
 	}
-
+	
 	@Bean
-	public OAuth2AuthorizationConsentService authorizationConsentService() {
-		return new InMemoryOAuth2AuthorizationConsentService();
+	public OAuth2AuthorizationConsentService authorizationConsentService(JdbcTemplate jdbcTemplate,
+																		 RegisteredClientRepository registeredClientRepository) {
+		return new JdbcOAuth2AuthorizationConsentService(jdbcTemplate, registeredClientRepository);
 	}
-
+	
 
 	/**
 	 * AuthorizationServerJwt
@@ -211,7 +218,11 @@ public class AuthorizationServerConfig {
 			JWKSet jwkSet = new JWKSet(rsaKey);
 			return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
 		}
-		
+
+		@Bean
+		public OAuth2TokenCustomizer<JwtEncodingContext> oidcIdTokenCustomizer() {
+			return new OidcIdTokenCustomizer();
+		}
 	}
 	
 }

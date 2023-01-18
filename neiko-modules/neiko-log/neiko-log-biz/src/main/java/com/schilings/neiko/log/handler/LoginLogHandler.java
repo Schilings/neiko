@@ -2,8 +2,11 @@ package com.schilings.neiko.log.handler;
 
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
+import com.schilings.neiko.authorization.common.constant.UserAttributeNameConstants;
 import com.schilings.neiko.authorization.common.event.OAuth2AccessTokenAuthenticationSuccessEvent;
 import com.schilings.neiko.authorization.common.event.OAuth2TokenRevocationAuthenticationSuccessEvent;
+import com.schilings.neiko.authorization.common.userdetails.User;
+import com.schilings.neiko.authorization.common.util.SecurityUtils;
 import com.schilings.neiko.common.log.constants.LogConstant;
 import com.schilings.neiko.common.log.operation.enums.LogStatusEnum;
 import com.schilings.neiko.common.util.ip.IpUtils;

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 @Configuration(proxyBeanMethods = false)
 public class DefaultSecurityConfig {
     
@@ -22,6 +22,10 @@ public class DefaultSecurityConfig {
         return PasswordUtils.createDelegatingPasswordEncoder();
     }
 
+    /**
+     * 自定义的权限字符串鉴定组件
+     * @return
+     */
     @Bean("per")
     @ConditionalOnMissingBean
     public CustomPermissionEvaluator permissionEvaluator() {

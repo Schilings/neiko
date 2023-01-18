@@ -3,7 +3,7 @@ package com.schilings.neiko.admin.datascope;
 import com.schilings.neiko.admin.datascope.component.AdminDefaultDataScope;
 import com.schilings.neiko.admin.datascope.component.DefaultUserDataScopeProcessor;
 import com.schilings.neiko.admin.datascope.component.UserDataScopeProcessor;
-import com.schilings.neiko.admin.datascope.listener.DataScopeAttributeSetter;
+import com.schilings.neiko.admin.datascope.coordinator.DataScopeUserInfoCoordinator;
 import com.schilings.neiko.system.service.SysOrganizationService;
 import com.schilings.neiko.system.service.SysRoleService;
 import com.schilings.neiko.system.service.SysUserService;
@@ -38,8 +38,8 @@ public class AdminDataScopeAutoConfiguration {
 
 	@Bean
 	@ConditionalOnMissingBean
-	public DataScopeAttributeSetter dataScopeAttributeSetter(UserDataScopeProcessor userDataScopeProcessor) {
-		return new DataScopeAttributeSetter(userDataScopeProcessor);
+	public DataScopeUserInfoCoordinator userInfoCoordinator(UserDataScopeProcessor userDataScopeProcessor) {
+		return new DataScopeUserInfoCoordinator(userDataScopeProcessor);
 	}
 
 }

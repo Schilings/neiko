@@ -9,14 +9,17 @@ import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Field;
+import java.util.HashMap;
 
 public class OAuth2FederatedIdentityAuthorizationRequestCustomizer implements OAuth2AuthorizationRequestCustomizer {
 
 	@Override
-	public void customize(HttpServletRequest request, OAuth2AuthorizationRequest.Builder builder) {
+	public void customize(HttpServletRequest request, OAuth2AuthorizationRequest authorizationRequest) {
 		// 如果携带response_type=code
 		MultiValueMap<String, String> parameters = OAuth2EndpointUtils.getParameters(request);
 		String responseType = request.getParameter(OAuth2FederatedIdentityConstant.RESPONSE_TYPE);
@@ -42,12 +45,16 @@ public class OAuth2FederatedIdentityAuthorizationRequestCustomizer implements OA
 					|| parameters.get(OAuth2FederatedIdentityConstant.CLIENT_ID).size() != 1) {
 				throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2FederatedIdentityConstant.CLIENT_ID);
 			}
-			builder.attributes((attrs) -> {
-				// 这个true，作用在OAuth2FederatedIdentityOAuth2AuthorizationRequestRepository
-				attrs.put(OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_REQUEST, "true");
-				attrs.put(OAuth2FederatedIdentityConstant.REDIRECT_URI, redirectUri);
-				attrs.put(OAuth2FederatedIdentityConstant.CLIENT_ID, clientId);
-			});
+			//attrs.putAll(authorizationRequest.getAdditionalParameters());
+			HashMap<String, Object> attrs = new HashMap<>(authorizationRequest.getAttributes());
+			// 这个true，作用在OAuth2FederatedIdentityOAuth2AuthorizationRequestRepository
+			attrs.put(OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_REQUEST, "true");
+			attrs.put(OAuth2FederatedIdentityConstant.REDIRECT_URI, redirectUri);
+			attrs.put(OAuth2FederatedIdentityConstant.CLIENT_ID, clientId);
+			Field field = ReflectionUtils.findField(OAuth2AuthorizationRequest.class, "attributes");
+			field.setAccessible(true);
+			assert field != null;
+			ReflectionUtils.setField(field, authorizationRequest, attrs);
 		}
 	}
 

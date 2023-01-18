@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 
 @RequiredArgsConstructor
-public class OpaqueOAuth2ResourceServerCustomizer implements OAuth2ResourceServerConfigurerCustomizer {
+public class OpaqueTokenOAuth2ResourceServerCustomizer implements OAuth2ResourceServerConfigurerCustomizer {
 
 	private ApplicationContext context;
 
@@ -21,13 +21,11 @@ public class OpaqueOAuth2ResourceServerCustomizer implements OAuth2ResourceServe
 			// OpaqueToken
 			resourceServerConfigurer.opaqueToken(opaqueToken -> {
 				opaqueToken.introspector(getIntrospector(http));
-				// authenticationManager cannot be null
-				// opaqueToken.authenticationManager(getAuthenticationManager(http));
 			});
 		});
 	}
 
-	public OpaqueOAuth2ResourceServerCustomizer introspector(OpaqueTokenIntrospector introspector) {
+	public OpaqueTokenOAuth2ResourceServerCustomizer introspector(OpaqueTokenIntrospector introspector) {
 		this.introspector = introspector;
 		return this;
 	}

@@ -108,6 +108,6 @@ spring:
               user-name-attribute: sub #如果会访问UserInfo Endpoint，那么默认的DefaultOauth2UserService需要找个
               authorization-uri: http://localhost:9000/oauth2/authorize
               token-uri: http://localhost:9000/oauth2/token
-              user-info-uri: http://localhost:9000/userinfo
+              user-info-uri: http://localhost:9000/userinfo #http://localhost:9000/oidc/userinfo #
               jwk-set-uri: http://localhost:9000/oauth2/jwks
               

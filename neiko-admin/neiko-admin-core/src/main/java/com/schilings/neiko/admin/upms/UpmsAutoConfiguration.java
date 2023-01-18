@@ -9,6 +9,7 @@ import com.schilings.neiko.system.authentication.UserInfoCoordinator;
 import com.schilings.neiko.system.properties.SystemProperties;
 import com.schilings.neiko.system.service.SysUserService;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -19,6 +20,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.core.userdetails.UserDetailsService;
+
+import java.util.List;
 
 
 @MapperScan({ "com.schilings.neiko.**.mapper" })
@@ -57,7 +60,7 @@ public class UpmsAutoConfiguration {
 		@Bean
 		@ConditionalOnMissingBean
 		public UserDetailsService userDetailsService(SysUserService sysUserService,
-													 UserInfoCoordinator userInfoCoordinator) {
+													 ObjectProvider<List<UserInfoCoordinator>> userInfoCoordinator) {
 			return new SysUserDetailsServiceImpl(sysUserService, userInfoCoordinator);
 		}
 

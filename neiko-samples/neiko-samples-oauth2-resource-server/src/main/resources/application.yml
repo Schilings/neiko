@@ -17,6 +17,10 @@ logging:
 #          # 远程令牌自省 客户端验证开启Basic验证
 #          client-id: messaging-client
 #          client-secret: secret
+#        jwt:
+#          issuer-uri: http://localhost:9000
+
+
 neiko:
   security:
     oauth2:
@@ -25,3 +29,13 @@ neiko:
           introspection-uri: http://localhost:9000/oauth2/introspect
           client-id: messaging-client
           client-secret: secret
+        jwt:
+          jwk-set-uri: http://localhost:9000/oauth2/jwks
+          issuer-uri: http://localhost:9000
+          jws-algorithms: 
+            - RS256
+          public-key-location: 'C://1.txt'
+          #audiences: 
+          #  - 1
+          #  - 2
+          

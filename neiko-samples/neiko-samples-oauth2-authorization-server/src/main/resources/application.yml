@@ -17,6 +17,25 @@ spring:
     password: Schilings11538...
     port: 6379
     database: 0
+    
+  datasource:
+    url: jdbc:h2:mem:testdb;;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  sql:
+    init:
+      schema-locations: 
+        - classpath:/org/springframework/security/oauth2/server/authorization/oauth2-authorization-schema.sql
+        - classpath:/org/springframework/security/oauth2/server/authorization/oauth2-authorization-consent-schema.sql
+        - classpath:/org/springframework/security/oauth2/server/authorization/client/oauth2-registered-client-schema.sql
+        - classpath:/database/scripts/schema-h2.sql
+      data-locations: 
+        - classpath:/database/scripts/test-data.sql
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
 
 neiko:
   redis:

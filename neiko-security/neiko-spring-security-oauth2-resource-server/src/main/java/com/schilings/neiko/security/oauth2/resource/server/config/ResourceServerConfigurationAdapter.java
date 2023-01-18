@@ -1,12 +1,8 @@
 package com.schilings.neiko.security.oauth2.resource.server.config;
 
-import com.schilings.neiko.security.oauth2.resource.server.customizer.opaque.OpaqueOAuth2ResourceServerCustomizer;
-import com.schilings.neiko.security.oauth2.resource.server.properties.ResourceServerProperties;
 import com.schilings.neiko.security.oauth2.resource.server.OAuth2ResourceServerConfigurerCustomizer;
-import com.schilings.neiko.security.oauth2.resource.server.customizer.DefaultOAuth2ResourceServerCustomizer;
-import com.schilings.neiko.security.oauth2.resource.server.customizer.jwt.JwtOAuth2ResourceServerCustomizer;
-import com.schilings.neiko.security.oauth2.resource.server.exception.CustomAccessDeniedHandler;
-import com.schilings.neiko.security.oauth2.resource.server.exception.CustomAuthenticationEntryPoint;
+import com.schilings.neiko.security.oauth2.resource.server.exception.DefaultAccessDeniedHandler;
+import com.schilings.neiko.security.oauth2.resource.server.exception.DefaultAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -16,7 +12,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.core.annotation.Order;
@@ -61,39 +56,7 @@ class ResourceServerConfigurationAdapter implements SmartInitializingSingleton {
 		DefaultSecurityFilterChain filterChain = http.build();
 		return filterChain;
 	}
-
-	/**
-	 * BearTokenResolve 允许使用 url 传参，方便 ws 连接 ps: 使用 url 传参不安全，待改进
-	 * @return DefaultBearerTokenResolver
-	 */
-	@Bean
-	@ConditionalOnMissingBean
-	public BearerTokenResolver defaultBearerTokenResolver() {
-		DefaultBearerTokenResolver defaultBearerTokenResolver = new DefaultBearerTokenResolver();
-		defaultBearerTokenResolver.setAllowUriQueryParameter(true);
-		return defaultBearerTokenResolver;
-	}
-
-	/**
-	 * 自定义认证异常处理
-	 * @return AuthenticationEntryPoint
-	 */
-	@Bean
-	@ConditionalOnMissingBean
-	public AuthenticationEntryPoint authenticationEntryPoint() {
-		return new CustomAuthenticationEntryPoint();
-	}
-
-	/**
-	 * 自定义授权异常处理
-	 * @return AuthenticationEntryPoint
-	 */
-	@Bean
-	@ConditionalOnMissingBean
-	public AccessDeniedHandler accessDeniedHandler() {
-		return new CustomAccessDeniedHandler();
-	}
-
+	
 	@Override
 	public void afterSingletonsInstantiated() {
 		checkConfiguration();

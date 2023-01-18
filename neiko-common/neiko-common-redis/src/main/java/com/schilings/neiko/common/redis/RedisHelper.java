@@ -37,7 +37,7 @@ public class RedisHelper {
 
 	@Getter
 	@Setter
-	static StringRedisTemplate template;
+	static StringRedisTemplate stringRedisTemplate;
 
 	@Getter
 	@Setter
@@ -65,30 +65,30 @@ public class RedisHelper {
 	 * @author lingting 2020-04-29 15:04:39
 	 */
 	public static HashOperations<String, String, String> getHash() {
-		return template.opsForHash();
+		return stringRedisTemplate.opsForHash();
 	}
 
 	/**
 	 * @author lingting 2020-04-29 15:04:40
 	 */
 	public static ValueOperations<String, String> getValue() {
-		return template.opsForValue();
+		return stringRedisTemplate.opsForValue();
 	}
 
 	public static ListOperations<String, String> getList() {
-		return template.opsForList();
+		return stringRedisTemplate.opsForList();
 	}
 
 	public static SetOperations<String, String> getSet() {
-		return template.opsForSet();
+		return stringRedisTemplate.opsForSet();
 	}
 
 	public static ZSetOperations<String, String> getZSet() {
-		return template.opsForZSet();
+		return stringRedisTemplate.opsForZSet();
 	}
 
 	public static boolean hasKey(String key) {
-		Boolean b = template.hasKey(key);
+		Boolean b = stringRedisTemplate.hasKey(key);
 		return b != null && b;
 	}
 
@@ -98,7 +98,7 @@ public class RedisHelper {
 	 * @author lingting 2020-07-28 13:28:41
 	 */
 	public static boolean expire(String key, long time) {
-		Boolean b = template.expire(key, time, TimeUnit.SECONDS);
+		Boolean b = stringRedisTemplate.expire(key, time, TimeUnit.SECONDS);
 		return b != null && b;
 	}
 
@@ -109,7 +109,7 @@ public class RedisHelper {
 	 * @author lingting 2020-04-27 15:44:09
 	 */
 	public static Set<String> keys(String pattern) {
-		return template.keys(pattern);
+		return stringRedisTemplate.keys(pattern);
 	}
 
 	/*
@@ -123,7 +123,7 @@ public class RedisHelper {
 	 * @author lingting 2021-02-26 15:22
 	 */
 	public static <T> T execute(RedisCallback<T> action) {
-		return template.execute(action);
+		return stringRedisTemplate.execute(action);
 	}
 
 	@Nullable
@@ -133,20 +133,20 @@ public class RedisHelper {
 
 	@Nullable
 	public static <T> T execute(RedisCallback<T> action, boolean exposeConnection, boolean pipeline) {
-		return template.execute(action, exposeConnection, pipeline);
+		return stringRedisTemplate.execute(action, exposeConnection, pipeline);
 	}
 
 	public static <T> T execute(SessionCallback<T> session) {
-		return template.execute(session);
+		return stringRedisTemplate.execute(session);
 	}
 
 	public static <T> T execute(RedisScript<T> script, List<String> keys, Object... args) {
-		return template.execute(script, keys, args);
+		return stringRedisTemplate.execute(script, keys, args);
 	}
 
 	public static <T> T execute(RedisScript<T> script, RedisSerializer<?> argsSerializer,
 			RedisSerializer<T> resultSerializer, List<String> keys, Object... args) {
-		return template.execute(script, argsSerializer, resultSerializer, keys, args);
+		return stringRedisTemplate.execute(script, argsSerializer, resultSerializer, keys, args);
 	}
 
 	/*
@@ -158,21 +158,21 @@ public class RedisHelper {
 	 * @author lingting 2021-02-26 15:23
 	 */
 	public static List<Object> executePipelined(SessionCallback<?> session) {
-		return template.executePipelined(session);
+		return stringRedisTemplate.executePipelined(session);
 	}
 
 	public static List<Object> executePipelined(SessionCallback<?> session,
 			@Nullable RedisSerializer<?> resultSerializer) {
-		return template.executePipelined(session, resultSerializer);
+		return stringRedisTemplate.executePipelined(session, resultSerializer);
 	}
 
 	public static List<Object> executePipelined(RedisCallback<?> action) {
-		return template.executePipelined(action);
+		return stringRedisTemplate.executePipelined(action);
 	}
 
 	public static List<Object> executePipelined(RedisCallback<?> action,
 			@Nullable RedisSerializer<?> resultSerializer) {
-		return template.executePipelined(action, resultSerializer);
+		return stringRedisTemplate.executePipelined(action, resultSerializer);
 	}
 
 	/*
@@ -212,16 +212,16 @@ public class RedisHelper {
 	 */
 	public static void set(String key, String val, Instant instant) {
 		getValue().set(key, val);
-		getTemplate().expireAt(key, instant);
+		RedisHelper.getStringRedisTemplate().expireAt(key, instant);
 	}
 
 	public static boolean delete(String key) {
-		Boolean b = template.delete(key);
+		Boolean b = stringRedisTemplate.delete(key);
 		return b != null && b;
 	}
 
 	public static long delete(Collection<String> keys) {
-		Long l = template.delete(keys);
+		Long l = stringRedisTemplate.delete(keys);
 		return l == null ? 0 : l;
 	}
 
@@ -524,7 +524,7 @@ public class RedisHelper {
 
 		try {
 			DefaultRedisScript<String> redisScript = new DefaultRedisScript<>(lua, String.class);
-			return template.execute(redisScript, new StringRedisSerializer(), new StringRedisSerializer(), key, arg);
+			return stringRedisTemplate.execute(redisScript, new StringRedisSerializer(), new StringRedisSerializer(), key, arg);
 		}
 		catch (Exception e) {
 			log.error("redis evalLua execute fail:lua[{}]", lua, e);
