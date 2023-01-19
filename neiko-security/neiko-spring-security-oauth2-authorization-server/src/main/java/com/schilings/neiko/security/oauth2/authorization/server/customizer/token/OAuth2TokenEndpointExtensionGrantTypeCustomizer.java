@@ -33,8 +33,8 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.util.CollectionUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -84,7 +84,7 @@ public class OAuth2TokenEndpointExtensionGrantTypeCustomizer extends OAuth2Token
 		OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator = OAuth2ConfigurerUtils.getTokenGenerator(http);
 		OAuth2AuthorizationService authorizationService = OAuth2ConfigurerUtils.getAuthorizationService(http);
 		ObjectPostProcessor<Object> postProcessor = http.getSharedObject(ObjectPostProcessor.class);
-		
+
 		// AuthenticationConverter
 		List<AuthenticationConverter> converters = new ArrayList(Arrays.asList(
 				new OAuth2AuthorizationCodeAuthenticationConverter(), new OAuth2RefreshTokenAuthenticationConverter(),
@@ -103,7 +103,7 @@ public class OAuth2TokenEndpointExtensionGrantTypeCustomizer extends OAuth2Token
 		DelegatingAuthenticationConverter authenticationConverter = new DelegatingAuthenticationConverter(converters);
 		configurer.accessTokenRequestConverter(authenticationConverter);
 		providers.forEach(configurer::authenticationProvider);
-		
+
 		this.successHandler = this.successHandlerMapping.apply(this.successHandler);
 		this.failureHandler = this.failureHandlerMapping.apply(this.failureHandler);
 		configurer.accessTokenResponseHandler(postProcessor.postProcess(this.successHandler));
@@ -120,8 +120,8 @@ public class OAuth2TokenEndpointExtensionGrantTypeCustomizer extends OAuth2Token
 	}
 
 	private void extendAuthenticationProvider(List<AuthenticationProvider> providers,
-											  OAuth2AuthorizationService authorizationService, OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator,
-											  HttpSecurity http) {
+			OAuth2AuthorizationService authorizationService, OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator,
+			HttpSecurity http) {
 		if (providerExpanders != null && !providerExpanders.isEmpty()) {
 			for (AuthenticationProviderExpander expander : providerExpanders) {
 				expander.expand(providers, authorizationService, tokenGenerator, http);
@@ -164,7 +164,7 @@ public class OAuth2TokenEndpointExtensionGrantTypeCustomizer extends OAuth2Token
 	}
 
 	private void sendAccessTokenResponse(HttpServletRequest request, HttpServletResponse response,
-										 Authentication authentication) throws IOException {
+			Authentication authentication) throws IOException {
 
 		OAuth2AccessTokenAuthenticationToken accessTokenAuthentication = (OAuth2AccessTokenAuthenticationToken) authentication;
 
@@ -191,7 +191,7 @@ public class OAuth2TokenEndpointExtensionGrantTypeCustomizer extends OAuth2Token
 	}
 
 	private void sendErrorResponse(HttpServletRequest request, HttpServletResponse response,
-								   AuthenticationException exception) throws IOException {
+			AuthenticationException exception) throws IOException {
 
 		OAuth2Error error = ((OAuth2AuthenticationException) exception).getError();
 		ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
@@ -210,7 +210,7 @@ public class OAuth2TokenEndpointExtensionGrantTypeCustomizer extends OAuth2Token
 	public interface AuthenticationProviderExpander {
 
 		void expand(List<AuthenticationProvider> providers, OAuth2AuthorizationService authorizationService,
-					OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator, HttpSecurity http);
+				OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator, HttpSecurity http);
 
 	}
 

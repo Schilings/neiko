@@ -1,6 +1,5 @@
 package com.schilings.neiko.authorization.server;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,104 +34,88 @@ import java.util.*;
 
 public class JacksonTest {
 
+	private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
-    private static final OAuth2AccessTokenGenerator tokenGenerator = new OAuth2AccessTokenGenerator();
+	private static final OAuth2AccessTokenGenerator tokenGenerator = new OAuth2AccessTokenGenerator();
 
-    private static RegisteredClient registeredClient;
-    private static OAuth2Authorization authorization;
+	private static RegisteredClient registeredClient;
 
-    @BeforeAll
-    public static void init() {
-        List<Module> securityModules = SecurityJackson2Modules.getModules(JacksonTest.class.getClassLoader());
-        objectMapper.registerModules(securityModules);
-        objectMapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
-        objectMapper.registerModule(new CustomJackson2Module());
+	private static OAuth2Authorization authorization;
 
-        registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
-                .clientId("messaging-client2")
-                .clientSecret("{noop}secret2")
-                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
-                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                .authorizationGrantType(AuthorizationGrantType.PASSWORD)
-                .redirectUri("http://127.0.0.1:8000/login/oauth2/code/sas-oidc-login")
-                .redirectUri("http://127.0.0.1:8000/login/oauth2/code/sas-authorization-code-login")
-                .redirectUri("http://127.0.0.1:8000/authorized")
-                .scope(OidcScopes.OPENID) // 'openid',服务端要开启OIDC
-                .scope(OidcScopes.EMAIL) // 针对OIDC请求'openid'的作用域
-                .scope(OidcScopes.PHONE)
-                .scope(OidcScopes.ADDRESS)
-                .scope(OidcScopes.PROFILE)
-                .scope("message.read")
-                .scope("message.write")
-                .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
-                //走OpaqueToken的AccessToken
-                .tokenSettings(TokenSettings.builder().accessTokenFormat(OAuth2TokenFormat.REFERENCE).build())
-                .build();
+	@BeforeAll
+	public static void init() {
+		List<Module> securityModules = SecurityJackson2Modules.getModules(JacksonTest.class.getClassLoader());
+		objectMapper.registerModules(securityModules);
+		objectMapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
+		objectMapper.registerModule(new CustomJackson2Module());
 
-        UserDetails user = User.withUsername("user")
-                .password("password")
-                .roles("USER")
-                .authorities("sys:read")
-                .disabled(false)
-                .accountLocked(false)
-                .accountExpired(false)
-                .build();
+		registeredClient = RegisteredClient.withId(UUID.randomUUID().toString()).clientId("messaging-client2")
+				.clientSecret("{noop}secret2").clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
+				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+				.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+				.authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+				.authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+				.authorizationGrantType(AuthorizationGrantType.PASSWORD)
+				.redirectUri("http://127.0.0.1:8000/login/oauth2/code/sas-oidc-login")
+				.redirectUri("http://127.0.0.1:8000/login/oauth2/code/sas-authorization-code-login")
+				.redirectUri("http://127.0.0.1:8000/authorized").scope(OidcScopes.OPENID) // 'openid',服务端要开启OIDC
+				.scope(OidcScopes.EMAIL) // 针对OIDC请求'openid'的作用域
+				.scope(OidcScopes.PHONE).scope(OidcScopes.ADDRESS).scope(OidcScopes.PROFILE).scope("message.read")
+				.scope("message.write")
+				.clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
+				// 走OpaqueToken的AccessToken
+				.tokenSettings(TokenSettings.builder().accessTokenFormat(OAuth2TokenFormat.REFERENCE).build()).build();
 
-        HashSet<String> scopes = new HashSet<>(Arrays.asList("openid", "email", "phone", "profile"));
+		UserDetails user = User.withUsername("user").password("password").roles("USER").authorities("sys:read")
+				.disabled(false).accountLocked(false).accountExpired(false).build();
 
-        UsernamePasswordAuthenticationToken usernamePasswordAuthentication = UsernamePasswordAuthenticationToken.authenticated(user, user, user.getAuthorities());
+		HashSet<String> scopes = new HashSet<>(Arrays.asList("openid", "email", "phone", "profile"));
 
-        OAuth2ResourceOwnerPasswordAuthenticationToken resourceOwnerPasswordAuthenticationToken = 
-                new OAuth2ResourceOwnerPasswordAuthenticationToken("user", usernamePasswordAuthentication, scopes, null);
+		UsernamePasswordAuthenticationToken usernamePasswordAuthentication = UsernamePasswordAuthenticationToken
+				.authenticated(user, user, user.getAuthorities());
 
-        DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
-                .registeredClient(registeredClient)
-                .principal(usernamePasswordAuthentication)
-                .authorizedScopes(scopes)
-                .authorizationGrantType(AuthorizationGrantType.PASSWORD)
-                .authorizationGrant(resourceOwnerPasswordAuthenticationToken);
+		OAuth2ResourceOwnerPasswordAuthenticationToken resourceOwnerPasswordAuthenticationToken = new OAuth2ResourceOwnerPasswordAuthenticationToken(
+				"user", usernamePasswordAuthentication, scopes, null);
 
+		DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
+				.registeredClient(registeredClient).principal(usernamePasswordAuthentication).authorizedScopes(scopes)
+				.authorizationGrantType(AuthorizationGrantType.PASSWORD)
+				.authorizationGrant(resourceOwnerPasswordAuthenticationToken);
 
-        OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization
-                .withRegisteredClient(registeredClient)
-                .id(UUID.randomUUID().toString())
-                .principalName(usernamePasswordAuthentication.getName())
-                .authorizationGrantType(AuthorizationGrantType.PASSWORD)
-                .authorizedScopes(scopes)
-                .attribute(Principal.class.getName(), usernamePasswordAuthentication)
-                .attribute(UserDetails.class.getName(), usernamePasswordAuthentication.getPrincipal());
+		OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
+				.id(UUID.randomUUID().toString()).principalName(usernamePasswordAuthentication.getName())
+				.authorizationGrantType(AuthorizationGrantType.PASSWORD).authorizedScopes(scopes)
+				.attribute(Principal.class.getName(), usernamePasswordAuthentication)
+				.attribute(UserDetails.class.getName(), usernamePasswordAuthentication.getPrincipal());
 
+		// ----- Access token -----
+		OAuth2TokenContext tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.ACCESS_TOKEN).build();
+		OAuth2Token generatedAccessToken = tokenGenerator.generate(tokenContext);
+		OAuth2AccessToken accessToken = new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER,
+				generatedAccessToken.getTokenValue(), generatedAccessToken.getIssuedAt(),
+				generatedAccessToken.getExpiresAt(), tokenContext.getAuthorizedScopes());
+		authorizationBuilder.accessToken(accessToken);
 
-        // ----- Access token -----
-        OAuth2TokenContext tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.ACCESS_TOKEN).build();
-        OAuth2Token generatedAccessToken = tokenGenerator.generate(tokenContext);
-        OAuth2AccessToken accessToken = new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER,
-                generatedAccessToken.getTokenValue(), generatedAccessToken.getIssuedAt(),
-                generatedAccessToken.getExpiresAt(), tokenContext.getAuthorizedScopes());
-        authorizationBuilder.accessToken(accessToken);
+		authorization = authorizationBuilder.build();
 
-        authorization = authorizationBuilder.build();
-        
-    }
-    
-    @Test
-    public void test() throws JsonProcessingException {
-        String s = objectMapper.writeValueAsString(authorization);
+	}
 
+	@Test
+	public void test() throws JsonProcessingException {
+		String s = objectMapper.writeValueAsString(authorization);
 
-        System.out.println(1);
-        
-    }
+		System.out.println(1);
 
-    public static class CustomJackson2Module extends SimpleModule {
-        @Override
-        public void setupModule(SetupContext context) {
-            context.setMixInAnnotations(OAuth2Authorization.class, OAuth2AuthorizationMixin.class);
+	}
 
-        }
-    }
+	public static class CustomJackson2Module extends SimpleModule {
+
+		@Override
+		public void setupModule(SetupContext context) {
+			context.setMixInAnnotations(OAuth2Authorization.class, OAuth2AuthorizationMixin.class);
+
+		}
+
+	}
+
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -13,6 +14,7 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.jackson2.OAuth2AuthorizationServerJackson2Module;
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 import org.springframework.security.oauth2.server.authorization.settings.ConfigurationSettingNames;
@@ -28,17 +30,19 @@ import java.util.*;
 @Getter
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(RegisteredClientProperties.class)
-@PropertySource("classpath:oauth2-registered-client.properties")
 public class RegisteredClientPropertiesMapper {
 
     private final List<RegisteredClient> registeredClients = new ArrayList<>();
     private ObjectMapper objectMapper = new ObjectMapper();
     private final RegisteredClientProperties properties;
+    private final RegisteredClientRepository registeredClientRepository;
     
     
-    public RegisteredClientPropertiesMapper(RegisteredClientProperties properties) {
+    public RegisteredClientPropertiesMapper(RegisteredClientProperties properties,
+                                            RegisteredClientRepository registeredClientRepository) {
         this.properties = properties;
-        ClassLoader classLoader = JdbcRegisteredClientRepository.class.getClassLoader();
+        this.registeredClientRepository = registeredClientRepository;
+        ClassLoader classLoader = RegisteredClientPropertiesMapper.class.getClassLoader();
         List<Module> securityModules = SecurityJackson2Modules.getModules(classLoader);
         this.objectMapper.registerModules(securityModules);
         this.objectMapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
@@ -52,6 +56,7 @@ public class RegisteredClientPropertiesMapper {
                 registeredClients.add(mapToClient(map));
             }
         }
+        this.registeredClients.forEach(registeredClientRepository::save);
     }
 
 

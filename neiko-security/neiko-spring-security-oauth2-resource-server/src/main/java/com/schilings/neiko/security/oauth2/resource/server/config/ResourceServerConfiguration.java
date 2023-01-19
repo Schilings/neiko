@@ -32,7 +32,6 @@ import org.springframework.security.oauth2.server.resource.introspection.OpaqueT
 import java.util.HashMap;
 import java.util.List;
 
-
 class ResourceServerConfiguration {
 
 	/**
@@ -47,11 +46,8 @@ class ResourceServerConfiguration {
 		JwtConfiguration(ResourceServerProperties properties) {
 			this.properties = properties.getJwt();
 		}
-		
-		
-		
-	}
 
+	}
 
 	/**
 	 * @see org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerOpaqueTokenConfiguration
@@ -61,30 +57,34 @@ class ResourceServerConfiguration {
 
 		private final ResourceServerProperties.Opaquetoken properties;
 
-
 		public OpaqueTokenConfiguration(ResourceServerProperties properties) {
 			this.properties = properties.getOpaquetoken();
 		}
 
 		/**
-		 * In case where is Spring Authorization Server,consider the way of Shared Stored without introspection-uri configured
+		 * In case where is Spring Authorization Server,consider the way of Shared Stored
+		 * without introspection-uri configured
 		 * @param authorizationService
 		 * @param registeredClientRepository
 		 * @return
 		 */
 		@Bean
-		@ConditionalOnClass({OAuth2AuthorizationServerConfigurer.class})
+		@ConditionalOnClass({ OAuth2AuthorizationServerConfigurer.class })
 		@Conditional(SharedStoredCondition.class)
-		@ConditionalOnBean({OAuth2AuthorizationService.class,RegisteredClientRepository.class})
+		@ConditionalOnBean({ OAuth2AuthorizationService.class, RegisteredClientRepository.class })
 		@ConditionalOnMissingBean(OpaqueTokenIntrospector.class)
 		public OpaqueTokenIntrospector sharedStoredOpaqueTokenIntrospector(ApplicationContext applicationContext) {
-			OAuth2AuthorizationService authorizationService = applicationContext.getBean(OAuth2AuthorizationService.class);
-			RegisteredClientRepository registeredClientRepository = applicationContext.getBean(RegisteredClientRepository.class);
-			return new SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector(authorizationService, registeredClientRepository);
+			OAuth2AuthorizationService authorizationService = applicationContext
+					.getBean(OAuth2AuthorizationService.class);
+			RegisteredClientRepository registeredClientRepository = applicationContext
+					.getBean(RegisteredClientRepository.class);
+			return new SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector(authorizationService,
+					registeredClientRepository);
 		}
 
 		/**
-		 * If introspection-uri configured, then SpringRemoteOpaqueTokenIntrospector injects.
+		 * If introspection-uri configured, then SpringRemoteOpaqueTokenIntrospector
+		 * injects.
 		 * @return
 		 */
 		@Bean
@@ -94,7 +94,6 @@ class ResourceServerConfiguration {
 			return new SpringRemoteOpaqueTokenIntrospector(properties.getIntrospectionUri(), properties.getClientId(),
 					properties.getClientSecret());
 		}
-		
 
 	}
 

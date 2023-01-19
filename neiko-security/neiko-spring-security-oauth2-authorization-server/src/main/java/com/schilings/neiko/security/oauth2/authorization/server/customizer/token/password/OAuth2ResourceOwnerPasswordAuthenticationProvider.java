@@ -256,9 +256,9 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider
 		Authentication authenticate = null;
 		try {
 			authenticate = this.authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-		} catch (AuthenticationException e) {
-			OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR,
-					e.getMessage(), ERROR_URI);
+		}
+		catch (AuthenticationException e) {
+			OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR, e.getMessage(), ERROR_URI);
 			throw new OAuth2AuthenticationException(error);
 		}
 		return authenticate;

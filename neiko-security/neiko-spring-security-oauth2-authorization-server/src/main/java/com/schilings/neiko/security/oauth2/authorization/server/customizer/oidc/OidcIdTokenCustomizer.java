@@ -13,20 +13,11 @@ import java.util.*;
 
 public final class OidcIdTokenCustomizer implements OAuth2TokenCustomizer<JwtEncodingContext> {
 
-	private static final Set<String> ID_TOKEN_CLAIMS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
-		IdTokenClaimNames.ISS, 
-		IdTokenClaimNames.SUB,
-		IdTokenClaimNames.AUD, 
-		IdTokenClaimNames.EXP, 
-		IdTokenClaimNames.IAT, 
-		IdTokenClaimNames.AUTH_TIME,
-		IdTokenClaimNames.NONCE, 
-		IdTokenClaimNames.ACR, 
-		IdTokenClaimNames.AMR, 
-		IdTokenClaimNames.AZP,
-		IdTokenClaimNames.AT_HASH, 
-		IdTokenClaimNames.C_HASH
-	)));
+	private static final Set<String> ID_TOKEN_CLAIMS = Collections
+			.unmodifiableSet(new HashSet<>(Arrays.asList(IdTokenClaimNames.ISS, IdTokenClaimNames.SUB,
+					IdTokenClaimNames.AUD, IdTokenClaimNames.EXP, IdTokenClaimNames.IAT, IdTokenClaimNames.AUTH_TIME,
+					IdTokenClaimNames.NONCE, IdTokenClaimNames.ACR, IdTokenClaimNames.AMR, IdTokenClaimNames.AZP,
+					IdTokenClaimNames.AT_HASH, IdTokenClaimNames.C_HASH)));
 
 	@Override
 	public void customize(JwtEncodingContext context) {
@@ -44,7 +35,7 @@ public final class OidcIdTokenCustomizer implements OAuth2TokenCustomizer<JwtEnc
 				existingClaims.putAll(thirdPartyClaims);
 			});
 		}
-		
+
 	}
 
 	private Map<String, Object> extractClaims(Authentication principal) {
@@ -53,10 +44,12 @@ public final class OidcIdTokenCustomizer implements OAuth2TokenCustomizer<JwtEnc
 			OidcUser oidcUser = (OidcUser) principal.getPrincipal();
 			OidcIdToken idToken = oidcUser.getIdToken();
 			claims = idToken.getClaims();
-		} else if (principal.getPrincipal() instanceof OAuth2User) {
+		}
+		else if (principal.getPrincipal() instanceof OAuth2User) {
 			OAuth2User oauth2User = (OAuth2User) principal.getPrincipal();
 			claims = oauth2User.getAttributes();
-		} else {
+		}
+		else {
 			claims = Collections.emptyMap();
 		}
 

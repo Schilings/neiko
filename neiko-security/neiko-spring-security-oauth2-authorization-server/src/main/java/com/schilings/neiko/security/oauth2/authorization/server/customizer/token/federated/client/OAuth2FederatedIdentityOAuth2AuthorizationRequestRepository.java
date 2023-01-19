@@ -7,8 +7,8 @@ import org.springframework.security.oauth2.client.web.HttpSessionOAuth2Authoriza
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.util.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -42,14 +42,15 @@ public class OAuth2FederatedIdentityOAuth2AuthorizationRequestRepository
 	 * @return
 	 */
 	@Override
-	public OAuth2AuthorizationRequest removeAuthorizationRequest(HttpServletRequest request) {
+	public OAuth2AuthorizationRequest removeAuthorizationRequest(HttpServletRequest request,
+			HttpServletResponse response) {
 		OAuth2AuthorizationRequest authorizationRequest = this.loadAuthorizationRequest(request);
 		// 如果存放了我们需要的信息则先不删除
 		if (isFederatedIdentityAuthorizationRequest(request, authorizationRequest)) {
 			return authorizationRequest;
 		}
 		else {
-			return this.authorizationRequestRepository.removeAuthorizationRequest(request);
+			return this.authorizationRequestRepository.removeAuthorizationRequest(request, response);
 		}
 	}
 

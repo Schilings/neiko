@@ -30,7 +30,8 @@ public class DefaultOidcUserInfoMapper implements OidcUserInfoMapper {
 		OAuth2Authorization authorization = authenticationContext.getAuthorization();
 		OidcIdToken idToken = authorization.getToken(OidcIdToken.class).getToken();
 		OAuth2AccessToken accessToken = authenticationContext.getAccessToken();
-		Map<String, Object> scopeRequestedClaims = getClaimsRequestedByScope(idToken.getClaims(), accessToken.getScopes());
+		Map<String, Object> scopeRequestedClaims = getClaimsRequestedByScope(idToken.getClaims(),
+				accessToken.getScopes());
 
 		return new OidcUserInfo(idToken.getClaims());
 	}

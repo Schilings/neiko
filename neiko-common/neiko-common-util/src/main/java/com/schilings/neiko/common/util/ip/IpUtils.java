@@ -1,12 +1,13 @@
 package com.schilings.neiko.common.util.ip;
 
+import cn.hutool.core.net.NetUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * <pre>{@code
@@ -44,7 +45,19 @@ public class IpUtils {
 		if (ArrayUtil.isNotEmpty(otherHeaderNames)) {
 			headers = ArrayUtil.addAll(headers, otherHeaderNames);
 		}
-		return ServletUtil.getClientIPByHeader(request, headers);
+		return getClientIPByHeader(request, headers);
 	}
+	
+	public static String getClientIPByHeader(HttpServletRequest request, String... headerNames) {
+		String ip;
+		for (String header : headerNames) {
+			ip = request.getHeader(header);
+			if (!NetUtil.isUnknown(ip)) {
+				return NetUtil.getMultistageReverseProxyIp(ip);
+			}
+		}
 
+		ip = request.getRemoteAddr();
+		return NetUtil.getMultistageReverseProxyIp(ip);
+	}
 }

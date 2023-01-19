@@ -18,7 +18,7 @@ public class DefaultOAuth2AuthorizationServerCustomizer implements OAuth2Authori
 		RequestMatcher endpointsMatcher = configurer.getEndpointsMatcher();
 		http
 				// 操作RequestMatcherConfigurer，留给其他的Configurer操作空间
-				.requestMatchers().requestMatchers(endpointsMatcher).and()
+				.securityMatchers().requestMatchers(endpointsMatcher).and()
 				.csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher)).apply(configurer);
 		// @formatter:off
 	}

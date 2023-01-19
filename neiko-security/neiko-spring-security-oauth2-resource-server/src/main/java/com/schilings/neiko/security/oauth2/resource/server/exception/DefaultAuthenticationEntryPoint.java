@@ -10,8 +10,8 @@ import org.springframework.security.oauth2.server.resource.BearerTokenError;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.util.StringUtils;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -30,10 +30,10 @@ public class DefaultAuthenticationEntryPoint implements AuthenticationEntryPoint
 
 	@Override
 	public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
-			AuthenticationException authException){
-		
+			AuthenticationException authException) {
+
 		httpServletResponse.setHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
-		httpServletResponse.setCharacterEncoding( StandardCharsets.UTF_8.toString());
+		httpServletResponse.setCharacterEncoding(StandardCharsets.UTF_8.toString());
 		HttpStatus status = HttpStatus.UNAUTHORIZED;
 		Map<String, String> parameters = new LinkedHashMap<>();
 
@@ -58,7 +58,6 @@ public class DefaultAuthenticationEntryPoint implements AuthenticationEntryPoint
 		httpServletResponse.addHeader(HttpHeaders.WWW_AUTHENTICATE, wwwAuthenticate);
 		httpServletResponse.setStatus(status.value());
 	}
-
 
 	private static String computeWWWAuthenticateHeaderValue(Map<String, String> parameters) {
 		StringBuilder wwwAuthenticate = new StringBuilder();

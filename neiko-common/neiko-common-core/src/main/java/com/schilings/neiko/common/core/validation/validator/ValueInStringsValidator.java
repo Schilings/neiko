@@ -3,8 +3,8 @@ package com.schilings.neiko.common.core.validation.validator;
 import com.schilings.neiko.common.core.validation.annotation.ValueInStrings;
 import com.schilings.neiko.common.util.StringUtils;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 /**
  * <pre>{@code

@@ -17,11 +17,12 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,7 +55,7 @@ public class DefaultOAuth2AuthorizationEndpointCustomizer extends OAuth2Authoriz
 		// custom consent
 		if (StringUtils.hasText(this.consentPage)) {
 			// 不然consent路径得不到认证，因为不经过Chain
-			httpSecurity.requestMatchers().antMatchers(this.consentPage);
+			httpSecurity.securityMatchers().requestMatchers(new AntPathRequestMatcher(this.consentPage));
 			configurer.consentPage(this.consentPage);
 		}
 		// handler

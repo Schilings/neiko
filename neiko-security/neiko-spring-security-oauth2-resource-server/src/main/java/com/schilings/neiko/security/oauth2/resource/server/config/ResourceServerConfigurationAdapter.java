@@ -18,6 +18,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver;
@@ -32,7 +33,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableMethodSecurity(prePostEnabled = true)
 class ResourceServerConfigurationAdapter implements SmartInitializingSingleton {
 
 	private static final Log logger = LogFactory.getLog(ResourceServerConfigurationAdapter.class);
@@ -56,7 +57,7 @@ class ResourceServerConfigurationAdapter implements SmartInitializingSingleton {
 		DefaultSecurityFilterChain filterChain = http.build();
 		return filterChain;
 	}
-	
+
 	@Override
 	public void afterSingletonsInstantiated() {
 		checkConfiguration();

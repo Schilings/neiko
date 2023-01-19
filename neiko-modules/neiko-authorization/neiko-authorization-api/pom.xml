@@ -13,7 +13,7 @@
         <dependency>
             <groupId>com.schilings</groupId>
             <artifactId>neiko-authorization-biz</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
+            <version>${revision}</version>
         </dependency>
     </dependencies>
 </project>

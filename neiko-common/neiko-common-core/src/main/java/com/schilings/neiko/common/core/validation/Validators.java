@@ -6,7 +6,7 @@ import com.schilings.neiko.common.util.spring.SpringUtils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import javax.validation.*;
+import jakarta.validation.*;
 import java.util.Set;
 
 /**

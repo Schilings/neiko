@@ -9,8 +9,8 @@ import org.springframework.security.oauth2.server.resource.authentication.Abstra
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -29,7 +29,7 @@ public class DefaultAccessDeniedHandler implements AccessDeniedHandler {
 
 	@Override
 	public void handle(HttpServletRequest request, HttpServletResponse response,
-			AccessDeniedException accessDeniedException){
+			AccessDeniedException accessDeniedException) {
 		response.setHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
 		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
 
@@ -61,4 +61,5 @@ public class DefaultAccessDeniedHandler implements AccessDeniedHandler {
 		}
 		return wwwAuthenticate.toString();
 	}
+
 }

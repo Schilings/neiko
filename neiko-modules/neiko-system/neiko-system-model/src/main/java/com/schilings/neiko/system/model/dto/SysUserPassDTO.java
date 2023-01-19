@@ -5,7 +5,7 @@ import com.schilings.neiko.common.core.desensitize.enums.RegexDesensitizationTyp
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * 用户密码传输DTO，字段序列化时忽略，防止记录

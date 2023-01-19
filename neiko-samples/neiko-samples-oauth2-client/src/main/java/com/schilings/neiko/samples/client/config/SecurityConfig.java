@@ -20,6 +20,7 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,15 +41,15 @@ public class SecurityConfig {
         identityConfigurer.workWechatOAuth2Login();
 
         identityConfigurer.oauth2UserMerger(new SimpleOAuth2UserMerger(userDetailsService));
-        
-        
+
+
         httpSecurity
                 //不然就算登录，没有被这个SecurityFilterChain拦截，也没用
-                .requestMatchers().antMatchers("/**")
+                .securityMatchers().requestMatchers(new AntPathRequestMatcher("/**"))
                 .and()
                 .authorizeHttpRequests(authorize ->
                         authorize
-                                .antMatchers("/assets/**", "/webjars/**", "/login").permitAll()
+                                .requestMatchers("/assets/**", "/webjars/**", "/login").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .apply(identityConfigurer);

@@ -120,8 +120,8 @@ public class OpenApiAutoConfiguration {
 		 * @param objectMapperProvider the object mapper provider
 		 * @return the pageParam open api converter
 		 */
-		@Bean
-		@ConditionalOnMissingBean
+		//@Bean
+		//@ConditionalOnMissingBean
 		PageParamOpenAPIConverter pageParamAPIConverter(ObjectMapperProvider objectMapperProvider) throws IOException {
 
 			Map<String, String> map = new HashMap<>();

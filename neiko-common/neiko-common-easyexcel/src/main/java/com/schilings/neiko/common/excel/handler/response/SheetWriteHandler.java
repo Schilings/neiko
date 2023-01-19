@@ -2,7 +2,7 @@ package com.schilings.neiko.common.excel.handler.response;
 
 import com.schilings.neiko.common.excel.annotation.ResponseExcel;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 public interface SheetWriteHandler {
 

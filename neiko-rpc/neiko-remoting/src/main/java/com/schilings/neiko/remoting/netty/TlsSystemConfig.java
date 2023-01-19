@@ -63,7 +63,7 @@ public class TlsSystemConfig {
 	public static boolean tlsTestModeEnable = Boolean.parseBoolean(System.getProperty(TLS_TEST_MODE_ENABLE, "true"));
 
 	/**
-	 * Indicates the state of the {@link javax.net.ssl.SSLEngine} with respect to client
+	 * Indicates the state of the {@link jakarta.net.ssl.SSLEngine} with respect to client
 	 * authentication. This configuration item really only applies when building the
 	 * server-side {@link SslContext}, and can be set to none, require or optional.
 	 */

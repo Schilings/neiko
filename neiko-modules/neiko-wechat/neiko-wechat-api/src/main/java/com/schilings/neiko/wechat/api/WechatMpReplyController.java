@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.groups.Default;
+import jakarta.validation.groups.Default;
 
 @OAuth2CheckScope("system")
 @RestController

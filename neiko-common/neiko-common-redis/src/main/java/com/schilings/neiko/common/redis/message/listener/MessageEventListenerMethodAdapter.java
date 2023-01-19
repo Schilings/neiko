@@ -202,14 +202,13 @@ public class MessageEventListenerMethodAdapter implements MessageEventListener {
 	private void processMessage(Message message, byte[] pattern) {
 		// 解析参数
 		String channel = new String(pattern);
-		String body = new String(message.getBody());
 		Object data = null;
 		ResolvableType firstType = this.declaredParameterTypes.get(0);
 		if (firstType.isAssignableFrom(Message.class)) {
 			data = message;
 		}
 		else if (firstType.isAssignableFrom(String.class)) {
-			data = body;
+			data = redisSerializer.deserialize(message.getBody());
 		}
 		else {
 			// data = serializer.deserialize(body, firstType.getType());

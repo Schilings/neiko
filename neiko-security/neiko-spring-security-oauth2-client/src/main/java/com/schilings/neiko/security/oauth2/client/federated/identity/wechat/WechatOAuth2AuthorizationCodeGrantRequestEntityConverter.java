@@ -56,8 +56,7 @@ public class WechatOAuth2AuthorizationCodeGrantRequestEntityConverter
 				Collections.singletonList(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")));
 		final MediaType contentType = MediaType.valueOf(MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
 		headers.setContentType(contentType);
-		if (ClientAuthenticationMethod.CLIENT_SECRET_BASIC.equals(clientRegistration.getClientAuthenticationMethod())
-				|| ClientAuthenticationMethod.BASIC.equals(clientRegistration.getClientAuthenticationMethod())) {
+		if (ClientAuthenticationMethod.CLIENT_SECRET_BASIC.equals(clientRegistration.getClientAuthenticationMethod())) {
 			String clientId = encodeClientCredential(clientRegistration.getClientId());
 			String clientSecret = encodeClientCredential(clientRegistration.getClientSecret());
 			headers.setBasicAuth(clientId, clientSecret);

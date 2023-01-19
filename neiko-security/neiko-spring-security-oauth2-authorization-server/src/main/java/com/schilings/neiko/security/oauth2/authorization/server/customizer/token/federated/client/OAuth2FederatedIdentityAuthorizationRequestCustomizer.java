@@ -12,7 +12,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
@@ -45,7 +45,7 @@ public class OAuth2FederatedIdentityAuthorizationRequestCustomizer implements OA
 					|| parameters.get(OAuth2FederatedIdentityConstant.CLIENT_ID).size() != 1) {
 				throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2FederatedIdentityConstant.CLIENT_ID);
 			}
-			//attrs.putAll(authorizationRequest.getAdditionalParameters());
+			// attrs.putAll(authorizationRequest.getAdditionalParameters());
 			HashMap<String, Object> attrs = new HashMap<>(authorizationRequest.getAttributes());
 			// 这个true，作用在OAuth2FederatedIdentityOAuth2AuthorizationRequestRepository
 			attrs.put(OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_REQUEST, "true");

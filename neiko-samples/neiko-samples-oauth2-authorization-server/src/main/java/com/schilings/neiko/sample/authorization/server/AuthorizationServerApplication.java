@@ -11,9 +11,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class AuthorizationServerApplication {
     public static void main(String[] args) {
         ConfigurableApplicationContext applicationContext = SpringApplication.run(AuthorizationServerApplication.class, args);
-
-
         
-
     }
 }

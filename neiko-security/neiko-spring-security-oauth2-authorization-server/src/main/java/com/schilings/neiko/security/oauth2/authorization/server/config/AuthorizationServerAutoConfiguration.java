@@ -32,10 +32,8 @@ import java.util.List;
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConditionalOnBean(AuthorizationServerConfigurationAdapter.class)
-@Import({
-		AuthorizationServerAutoConfiguration.DefaultCustomizerAutoConfiguration.class,
-		AuthorizationServerAutoConfiguration.DefaultExtensionConfigurerAutoConfiguration.class
-})
+@Import({ AuthorizationServerAutoConfiguration.DefaultCustomizerAutoConfiguration.class,
+		AuthorizationServerAutoConfiguration.DefaultExtensionConfigurerAutoConfiguration.class })
 class AuthorizationServerAutoConfiguration {
 
 	@Bean
@@ -54,7 +52,6 @@ class AuthorizationServerAutoConfiguration {
 		return new OAuth2ComponentUtils();
 	}
 
-	
 	/**
 	 * <p>
 	 * </p>
@@ -113,7 +110,8 @@ class AuthorizationServerAutoConfiguration {
 			// provider
 			extensionGrantTypeCustomizer.providerExpander((providers, authorizationService, tokenGenerator, http) -> {
 				// 未build,so 懒加载
-				AuthenticationManager authenticationManager = authentication -> http.getSharedObject(AuthenticationManager.class).authenticate(authentication);
+				AuthenticationManager authenticationManager = authentication -> http
+						.getSharedObject(AuthenticationManager.class).authenticate(authentication);
 				providers.add(new OAuth2ResourceOwnerPasswordAuthenticationProvider(authenticationManager,
 						authorizationService, tokenGenerator));
 			});
@@ -161,7 +159,6 @@ class AuthorizationServerAutoConfiguration {
 
 	}
 
-
 	/**
 	 * <p>
 	 * </p>
@@ -176,6 +173,7 @@ class AuthorizationServerAutoConfiguration {
 		public LastTriggeredAuthenticatedConfigurer lastTriggeredAuthenticatedConfigurer() {
 			return new LastTriggeredAuthenticatedConfigurer();
 		}
+
 	}
-	
+
 }

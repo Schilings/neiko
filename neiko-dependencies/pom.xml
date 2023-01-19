@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     
     <properties>
-        <revision>0.1.0-SNAPSHOT</revision>
+        <revision>1.0.0</revision>
 
         <!-- 插件版本 -->
         
@@ -30,14 +30,14 @@
         <jkube.version>1.9.0</jkube.version>
         <dekorate.version>0.10.5</dekorate.version>
         
-        <spring-cloud.version>2021.0.3</spring-cloud.version>
+        <spring-cloud.version>2022.0.0</spring-cloud.version>
         <spring-cloud-kubernetes.version>2.1.4</spring-cloud-kubernetes.version>
-        <spring-cloud-alibaba.version>2021.0.1.0</spring-cloud-alibaba.version>
+        <spring-cloud-alibaba.version>2022.0.0.0-RC1</spring-cloud-alibaba.version>
 
         <!-- 依赖版本 -->
-        <spring-boot.version>2.7.7</spring-boot.version>
+        <spring-boot.version>3.0.0</spring-boot.version>
         <spring-security-oauth2.version>2.5.2.RELEASE</spring-security-oauth2.version>
-        <spring.authorization.server.version>0.4.0</spring.authorization.server.version>
+        <spring.authorization.server.version>1.0.0</spring.authorization.server.version>
         <springfox.version>3.0.0</springfox.version>
         <swagger.version>1.5.21</swagger.version>
         <io.swagger.v3.version>2.2.7</io.swagger.v3.version>
@@ -47,7 +47,7 @@
         <mapstruct.version>1.5.3.Final</mapstruct.version>
         <hutool.version>5.8.10</hutool.version>
         <fastjson.version>1.2.83</fastjson.version>
-        <mybatis-plus.version>3.5.2</mybatis-plus.version>
+        <mybatis-plus.version>3.5.3</mybatis-plus.version>
         <mybatis.version>3.5.10</mybatis.version>
         <mybatis.enhance.actable.version>1.5.0.RELEASE</mybatis.enhance.actable.version>
         <jsqlparser.version>4.3</jsqlparser.version>
@@ -61,7 +61,8 @@
         <alipay-sdk.version>4.11.28.ALL</alipay-sdk.version>
         <software.amazon.awssdk.version>2.18.20</software.amazon.awssdk.version>
         <apache.lang3.version>3.12.0</apache.lang3.version>
-        <javax.servlet.version>4.0.1</javax.servlet.version>
+        <jakarta.servlet.version>6.0.0</jakarta.servlet.version>
+        <jakarta.validation.version>3.0.2</jakarta.validation.version>
         <java.jwt.version>4.0.0</java.jwt.version>
         <netty.version>4.1.78.Final</netty.version>
         <mockito.version>3.10.0</mockito.version>
@@ -149,6 +150,17 @@
                 <groupId>org.springframework.security.oauth</groupId>
                 <artifactId>spring-security-oauth2</artifactId>
                 <version>${spring-security-oauth2.version}</version>
+            </dependency>
+            <!--jakarta-->
+            <dependency>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>${jakarta.validation.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
+                <version>${jakarta.servlet.version}</version>
             </dependency>
             <!-- bean 转换工具类 -->
             <dependency>

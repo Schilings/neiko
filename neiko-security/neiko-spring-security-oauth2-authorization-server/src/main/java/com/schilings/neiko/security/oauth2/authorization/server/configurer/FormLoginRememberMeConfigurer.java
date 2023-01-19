@@ -7,6 +7,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.util.StringUtils;
 
@@ -34,9 +35,9 @@ public class FormLoginRememberMeConfigurer
 
 		String loginPage = StringUtils.hasText(this.loginPageUrl) ? this.loginPageUrl : DEFAULT_LOGIN_URL;
 		// 操作RequestMatcherConfigurer，留给后面的Configurer操作空间
-		httpSecurity.requestMatchers().antMatchers(loginPage);
+		httpSecurity.securityMatchers().requestMatchers(new AntPathRequestMatcher(loginPage));
 		// 避免嵌套重定向
-		httpSecurity.authorizeRequests().antMatchers(loginPage).permitAll();
+		httpSecurity.authorizeHttpRequests().requestMatchers(loginPage).permitAll();
 
 		// FormLogin
 		// FormLoginConfigurer会装配一个LoginUrlAuthenticationEntryPoint ->
@@ -44,7 +45,8 @@ public class FormLoginRememberMeConfigurer
 		// 一定有一个LoginUrlAuthenticationEntryPoint(loginPage)注入为default的AuthenticationEntryPoint之一
 		if (StringUtils.hasText(this.loginPageUrl)) {
 			httpSecurity.formLogin().loginPage(loginPage);
-		} else {
+		}
+		else {
 			// 设置loginPage(loginPage)会导致不自动生成登录页面，DefaultLoginPageGeneratingFilter不注入
 			httpSecurity.formLogin(Customizer.withDefaults());
 		}
@@ -62,8 +64,7 @@ public class FormLoginRememberMeConfigurer
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		ExceptionHandlingConfigurer<HttpSecurity> exceptionHandling = http
-				.getConfigurer(ExceptionHandlingConfigurer.class);
+		ExceptionHandlingConfigurer<HttpSecurity> exceptionHandling = http.getConfigurer(ExceptionHandlingConfigurer.class);
 		if (exceptionHandling == null) {
 			return;
 		}

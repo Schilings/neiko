@@ -31,7 +31,7 @@ public class ResourceServerProperties {
 	private List<String> ignoreUrls = new ArrayList<>();
 
 	/**
-	 *  主要用于配置远程端点
+	 * 主要用于配置远程端点
 	 */
 	private final Opaquetoken opaquetoken = new Opaquetoken();
 
@@ -43,7 +43,6 @@ public class ResourceServerProperties {
 	@Getter
 	@Setter
 	public static class Opaquetoken {
-		
 
 		/**
 		 * Client id used to authenticate with the token introspection endpoint.
@@ -103,6 +102,7 @@ public class ResourceServerProperties {
 				return StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
 			}
 		}
+
 	}
 
 }

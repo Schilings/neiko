@@ -14,6 +14,8 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 import org.springframework.security.web.access.DelegatingAccessDeniedHandler;
 import org.springframework.security.web.csrf.CsrfException;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import java.util.*;
 
@@ -36,8 +38,9 @@ public class DefaultOAuth2ResourceServerCustomizer implements OAuth2ResourceServ
 		// @formatter:off
         http
                 // 拦截 url 配置
-                .authorizeRequests()
-                    .antMatchers(ArrayUtil.toArray(resourceServerProperties.getIgnoreUrls(), String.class)).permitAll()
+                .authorizeHttpRequests()
+					//如果是spring webmvc环境，默认是MvcRequestMatcher，手动改成AntPathRequestMatcher
+					.requestMatchers(createAntPathRequestMatchers()).permitAll()
                     .anyRequest().authenticated()
 
                 // 关闭 csrf 跨站攻击防护
@@ -62,18 +65,28 @@ public class DefaultOAuth2ResourceServerCustomizer implements OAuth2ResourceServ
 
 	}
 
+	private RequestMatcher[] createAntPathRequestMatchers() {
+		List<RequestMatcher> matchers = new ArrayList<>();
+		for (String pattern : resourceServerProperties.getIgnoreUrls()) {
+			matchers.add(new AntPathRequestMatcher(pattern, null));
+		}
+		return ArrayUtil.toArray(matchers, RequestMatcher.class);
+	}
+
 	private ApplicationContext getApplicationContext(HttpSecurity http) {
 		if (this.context != null) {
 			return this.context;
 		}
-		return http.getSharedObject(ApplicationContext.class);
+		this.context = http.getSharedObject(ApplicationContext.class);
+		return this.context;
 	}
 
 	private BearerTokenResolver getBearerTokenResolver(HttpSecurity http) {
 		if (this.tokenResolver != null) {
 			return this.tokenResolver;
 		}
-		return getApplicationContext(http).getBean(BearerTokenResolver.class);
+		this.tokenResolver = getApplicationContext(http).getBean(BearerTokenResolver.class);
+		return this.tokenResolver;
 	}
 
 	private AuthenticationEntryPoint getAuthenticationEntryPoint(HttpSecurity http) {
@@ -81,7 +94,8 @@ public class DefaultOAuth2ResourceServerCustomizer implements OAuth2ResourceServ
 			return this.authenticationEntryPoint;
 		}
 		// 原本默认为BearerTokenAuthenticationEntryPoint
-		return getApplicationContext(http).getBean(AuthenticationEntryPoint.class);
+		this.authenticationEntryPoint = getApplicationContext(http).getBean(AuthenticationEntryPoint.class);
+		return this.authenticationEntryPoint;
 	}
 
 	private AccessDeniedHandler getAccessDeniedHandler(HttpSecurity http) {

@@ -18,6 +18,10 @@ import java.util.List;
  */
 public abstract class JoinAbstractMethod extends AbstractMethod implements JoinBaseMethod {
 
+	protected JoinAbstractMethod(String methodName) {
+		super(methodName);
+	}
+
 	/**
 	 * EntityWrapper方式获取select where,连表操作不考虑entity查询和逻辑删除
 	 * <p>

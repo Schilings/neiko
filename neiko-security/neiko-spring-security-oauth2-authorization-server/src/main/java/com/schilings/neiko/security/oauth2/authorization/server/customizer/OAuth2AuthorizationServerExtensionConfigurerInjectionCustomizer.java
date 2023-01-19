@@ -24,7 +24,7 @@ public class OAuth2AuthorizationServerExtensionConfigurerInjectionCustomizer
 
 	@Override
 	public void customize(OAuth2AuthorizationServerConfigurer oAuth2AuthorizationServerConfigurer,
-						  HttpSecurity httpSecurity) throws Exception {
+			HttpSecurity httpSecurity) throws Exception {
 		if (!CollectionUtils.isEmpty(this.extensionConfigurers)) {
 			AnnotationAwareOrderComparator.sort(this.extensionConfigurers);
 			for (OAuth2AuthorizationServerExtensionConfigurer configurer : this.extensionConfigurers) {

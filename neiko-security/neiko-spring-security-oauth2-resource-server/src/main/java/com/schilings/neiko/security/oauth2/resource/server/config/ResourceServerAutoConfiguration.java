@@ -1,6 +1,5 @@
 package com.schilings.neiko.security.oauth2.resource.server.config;
 
-
 import com.schilings.neiko.security.oauth2.resource.server.customizer.DefaultOAuth2ResourceServerCustomizer;
 import com.schilings.neiko.security.oauth2.resource.server.customizer.jwt.JwtOAuth2ResourceServerCustomizer;
 import com.schilings.neiko.security.oauth2.resource.server.customizer.opaque.OpaqueTokenOAuth2ResourceServerCustomizer;
@@ -34,11 +33,9 @@ import java.util.List;
 @EnableConfigurationProperties({ ResourceServerProperties.class })
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConditionalOnBean(ResourceServerConfigurationAdapter.class)
-@Import({ 
-		ResourceServerAutoConfiguration.DefaultCustomizerAutoConfiguration.class,
+@Import({ ResourceServerAutoConfiguration.DefaultCustomizerAutoConfiguration.class,
 		ResourceServerConfiguration.OpaqueTokenConfiguration.class,
-		ResourceServerConfiguration.JwtConfiguration.class 
-})
+		ResourceServerConfiguration.JwtConfiguration.class })
 public class ResourceServerAutoConfiguration {
 
 	/**
@@ -73,7 +70,6 @@ public class ResourceServerAutoConfiguration {
 		return new DefaultAccessDeniedHandler();
 	}
 
-	
 	/**
 	 * <p>
 	 * </p>
@@ -85,7 +81,6 @@ public class ResourceServerAutoConfiguration {
 
 		/**
 		 * 如果有自定义JwtEncodder ，那么使用JWT
-		 *
 		 * @return
 		 */
 		@Bean
@@ -94,20 +89,17 @@ public class ResourceServerAutoConfiguration {
 		public JwtOAuth2ResourceServerCustomizer jwtOAuth2ResourceServerCustomizer() {
 			return new JwtOAuth2ResourceServerCustomizer();
 		}
-		
-		
 
 		/**
 		 * 如果没有自定义使用Jwt或者OpaqueToken，那么使用OpaqueToken
 		 * @return
 		 */
 		@Bean
-		@ConditionalOnMissingBean({ JwtOAuth2ResourceServerCustomizer.class, OpaqueTokenOAuth2ResourceServerCustomizer.class })
+		@ConditionalOnMissingBean({ JwtOAuth2ResourceServerCustomizer.class,
+				OpaqueTokenOAuth2ResourceServerCustomizer.class })
 		public OpaqueTokenOAuth2ResourceServerCustomizer opaqueTokenOAuth2ResourceServerCustomizer() {
 			return new OpaqueTokenOAuth2ResourceServerCustomizer();
 		}
-
-
 
 		/**
 		 * 默认的资源服务端定义

@@ -36,7 +36,6 @@ public class OAuth2LoginPasswordDecoderConfigurer
 		this.passwordSecretKey = passwordSecretKey;
 	}
 
-	
 	@Override
 	public void configure(HttpSecurity httpSecurity) throws Exception {
 		// 获取授权服务器配置
@@ -51,7 +50,7 @@ public class OAuth2LoginPasswordDecoderConfigurer
 	}
 
 	protected void registerAuthenticationEntryPoint(HttpSecurity httpSecurity,
-													AuthenticationEntryPoint authenticationEntryPoint) {
+			AuthenticationEntryPoint authenticationEntryPoint) {
 		ExceptionHandlingConfigurer<HttpSecurity> exceptionHandling = httpSecurity
 				.getConfigurer(ExceptionHandlingConfigurer.class);
 		if (exceptionHandling != null) {

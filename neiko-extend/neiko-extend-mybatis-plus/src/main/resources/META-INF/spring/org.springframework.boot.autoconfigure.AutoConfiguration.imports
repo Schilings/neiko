@@ -1,0 +1,2 @@
+com.schilings.neiko.extend.mybatis.plus.ExtendMybatisPlusAutoConfiguration
+com.schilings.neiko.extend.mybatis.plus.core.InterceptorConfig

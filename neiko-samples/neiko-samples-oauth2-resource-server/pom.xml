@@ -23,7 +23,6 @@
         <dependency>
             <groupId>com.schilings</groupId>
             <artifactId>neiko-spring-security-oauth2-resource-server</artifactId>
-            <version>${revision}</version>
         </dependency>
     </dependencies>
 </project>

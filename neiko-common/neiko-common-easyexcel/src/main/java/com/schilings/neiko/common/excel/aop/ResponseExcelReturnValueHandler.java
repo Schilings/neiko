@@ -12,7 +12,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.mvc.method.annotation.HttpHeadersReturnValueHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ViewMethodReturnValueHandler;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**

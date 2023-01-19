@@ -12,12 +12,11 @@ import org.springframework.security.web.*;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.*;
 
 public class OAuth2FederatedIdentityAuthenticationConverter implements OAuth2ExtensionGrantTypeAuthenticationConverter {
-	
 
 	@SneakyThrows
 	@Override
@@ -33,10 +32,8 @@ public class OAuth2FederatedIdentityAuthenticationConverter implements OAuth2Ext
 
 		// code (REQUIRED)
 		String code = parameters.getFirst(OAuth2FederatedIdentityConstant.CODE);
-		if (!StringUtils.hasText(code)
-				|| parameters.get(OAuth2FederatedIdentityConstant.CODE).size() != 1) {
-			OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST,
-					OAuth2FederatedIdentityConstant.CODE,
+		if (!StringUtils.hasText(code) || parameters.get(OAuth2FederatedIdentityConstant.CODE).size() != 1) {
+			OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2FederatedIdentityConstant.CODE,
 					OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
 		}
 

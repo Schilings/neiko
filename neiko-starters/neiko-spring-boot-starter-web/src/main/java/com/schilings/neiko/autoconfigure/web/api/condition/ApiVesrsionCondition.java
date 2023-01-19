@@ -4,7 +4,7 @@ import com.schilings.neiko.common.util.StringUtils;
 import org.springframework.util.Assert;
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 见RequestMappingInfo，这里面有多个RequestCondition实现类，借鉴借鉴

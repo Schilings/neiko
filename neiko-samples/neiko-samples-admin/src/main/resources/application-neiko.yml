@@ -46,16 +46,14 @@ neiko:
           flows:
             password:
               token-url: /oauth2/token
-              scope: message.read message.write openid
-    security:
-      - oauth2: []
-      - apiKey: []
+              scope: message.read message.write openid skip skip_password_decode
         
   security:
-    password-secret-key: 'HX19ChxGmts3l/KkHnWmiw=='
+    #password-secret-key: 'HX19ChxGmts3l/KkHnWmiw=='
     oauth2:
       resourceserver:
         ignore-urls: 
+          - /error/**
           - /public/**
           - /ws/**
           - /actuator/**
@@ -69,3 +67,5 @@ neiko:
           - /bycdao-ui/**
           - /favicon.ico
           - /captcha/**
+          - /h2-console/**
+

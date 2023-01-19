@@ -2,6 +2,11 @@ package com.schilings.neiko.security.oauth2.authorization.server;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -16,4 +21,13 @@ public interface OAuth2AuthorizationServerConfigurerCustomizer {
 
 	void customize(OAuth2AuthorizationServerConfigurer oAuth2AuthorizationServerConfigurer, HttpSecurity httpSecurity)
 			throws Exception;
+
+	default List<RequestMatcher> createAntMatchers(String... patterns) {
+		List<RequestMatcher> matchers = new ArrayList<>(patterns.length);
+		for (String pattern : patterns) {
+			matchers.add(new AntPathRequestMatcher(pattern));
+		}
+		return matchers;
+	}
+	
 }

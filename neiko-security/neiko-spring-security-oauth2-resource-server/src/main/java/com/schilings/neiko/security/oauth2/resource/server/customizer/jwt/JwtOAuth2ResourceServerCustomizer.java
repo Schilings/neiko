@@ -36,7 +36,7 @@ public class JwtOAuth2ResourceServerCustomizer implements OAuth2ResourceServerCo
 		this.context = http.getSharedObject(ApplicationContext.class);
 		return this.context;
 	}
-	
+
 	private JwtDecoder getJwtDecoder(HttpSecurity http) {
 		if (this.jwtDecoder != null) {
 			return this.jwtDecoder;

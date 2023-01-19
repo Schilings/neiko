@@ -82,7 +82,8 @@ public class SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector implem
 		}
 
 		return (introspectionAuthenticatedPrincipal != null) ? introspectionAuthenticatedPrincipal
-				: new OAuth2IntrospectionAuthenticatedPrincipal(oAuth2Authorization.getPrincipalName(), claims, authorities);
+				: new OAuth2IntrospectionAuthenticatedPrincipal(oAuth2Authorization.getPrincipalName(), claims,
+						authorities);
 	}
 
 	private OAuth2IntrospectionAuthenticatedPrincipal getOAuth2UserAuthenticatedPrincipal(
@@ -95,8 +96,8 @@ public class SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector implem
 			Object principal = authenticationToken.getPrincipal();
 			if (principal instanceof OAuth2User) {
 				OAuth2User oAuth2User = (OAuth2User) principal;
-				//OAuth2IntrospectionAuthenticatedPrincipal是BearerTokenAuthentication的Principal
-				//BearerTokenAuthentication会把OAuth2IntrospectionAuthenticatedPrincipal的attributes同步给自己
+				// OAuth2IntrospectionAuthenticatedPrincipal是BearerTokenAuthentication的Principal
+				// BearerTokenAuthentication会把OAuth2IntrospectionAuthenticatedPrincipal的attributes同步给自己
 				claims.putAll(authorization.getAttributes());
 				authorities.addAll(oAuth2User.getAuthorities());
 				return new OAuth2IntrospectionAuthenticatedPrincipal(authorization.getPrincipalName(), claims,

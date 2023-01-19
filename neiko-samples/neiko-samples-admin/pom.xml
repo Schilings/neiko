@@ -13,9 +13,15 @@
     <dependencies>
         
         <!--mysql-->
+<!--        <dependency>-->
+<!--            <groupId>mysql</groupId>-->
+<!--            <artifactId>mysql-connector-java</artifactId>-->
+<!--        </dependency>-->
+        
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
         </dependency>
         
         <!--admin-->
@@ -31,15 +37,7 @@
             <groupId>com.schilings</groupId>
             <artifactId>neiko-admin-datascope</artifactId>
         </dependency>
-<!--        <dependency>
-            <groupId>com.schilings</groupId>
-            <artifactId>neiko-admin-boostrap</artifactId>
-        </dependency>-->
 
-<!--        <dependency>-->
-<!--            <groupId>com.gitee.sunchenbin.mybatis.actable</groupId>-->
-<!--            <artifactId>mybatis-enhance-actable</artifactId>-->
-<!--        </dependency>-->
 
         <!-- openapi 扩展处理 -->
         <dependency>
@@ -57,6 +55,12 @@
             <artifactId>knife4j-springdoc-ui</artifactId>
             <version>3.0.3</version>
         </dependency>
+        <!---->
+<!--        <dependency>-->
+<!--            <groupId>com.github.xiaoymin</groupId>-->
+<!--            <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>-->
+<!--            <version>4.0.0</version>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>

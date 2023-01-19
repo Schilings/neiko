@@ -24,21 +24,7 @@ public class HttpSecurityAwareInitializer implements OAuth2AuthorizationServerIn
 		String[] namesForType = applicationContext.getBeanNamesForType(HttpSecurityAware.class);
 		for (String beanName : namesForType) {
 			Object bean = applicationContext.getBean(beanName);
-			AccessControlContext acc = null;
-			if (System.getSecurityManager() != null) {
-				acc = this.applicationContext.getBeanFactory().getAccessControlContext();
-			}
-
-			if (acc != null) {
-				AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
-					invokeAwareInterfaces(bean);
-					return null;
-				}, acc);
-
-			}
-			else {
-				invokeAwareInterfaces(bean);
-			}
+			invokeAwareInterfaces(bean);
 		}
 	}
 
