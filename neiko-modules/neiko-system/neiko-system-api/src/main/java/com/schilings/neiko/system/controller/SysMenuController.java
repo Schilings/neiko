@@ -55,7 +55,7 @@ public class SysMenuController {
 		if (!(rolesObject instanceof Collection)) {
 			return R.ok(new ArrayList<>());
 		}
-		
+
 		Collection<String> roleCodes = (Collection<String>) rolesObject;
 		if (CollectionUtil.isEmpty(roleCodes)) {
 			return R.ok(new ArrayList<>());

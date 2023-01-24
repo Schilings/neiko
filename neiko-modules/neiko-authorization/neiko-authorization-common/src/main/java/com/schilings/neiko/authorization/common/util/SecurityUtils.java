@@ -1,6 +1,5 @@
 package com.schilings.neiko.authorization.common.util;
 
-
 import com.schilings.neiko.authorization.common.userdetails.ClientPrincipal;
 import com.schilings.neiko.authorization.common.userdetails.User;
 import lombok.experimental.UtilityClass;
@@ -11,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthentication;
 
-
 @UtilityClass
 public class SecurityUtils {
 
@@ -20,10 +18,8 @@ public class SecurityUtils {
 	 */
 
 	public Authentication getAuthentication() {
-		return  SecurityContextHolder.getContext().getAuthentication();
+		return SecurityContextHolder.getContext().getAuthentication();
 	}
-	
-
 
 	/**
 	 * 获取系统用户Details
@@ -36,7 +32,8 @@ public class SecurityUtils {
 			return null;
 		}
 		if (authentication instanceof BearerTokenAuthentication) {
-			//bearerTokenAuthentication.getPrincipal() 是 OAuth2IntrospectionAuthenticatedPrincipal
+			// bearerTokenAuthentication.getPrincipal() 是
+			// OAuth2IntrospectionAuthenticatedPrincipal
 			BearerTokenAuthentication bearerTokenAuthentication = (BearerTokenAuthentication) authentication;
 			Object userDetails = bearerTokenAuthentication.getTokenAttributes().get(UserDetails.class.getName());
 			if (userDetails != null && userDetails instanceof User) {
@@ -46,7 +43,8 @@ public class SecurityUtils {
 			if (oauth2User != null && oauth2User instanceof User) {
 				return (User) oauth2User;
 			}
-		} else if (authentication.getPrincipal() instanceof User) {
+		}
+		else if (authentication.getPrincipal() instanceof User) {
 			return (User) authentication.getPrincipal();
 		}
 		return null;

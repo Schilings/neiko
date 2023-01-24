@@ -16,7 +16,6 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 @Configuration(proxyBeanMethods = false)
 @EnableResourceServer
 public class ResourceServerConfiguration {
-	
 
 	@Bean
 	@ConditionalOnMissingBean

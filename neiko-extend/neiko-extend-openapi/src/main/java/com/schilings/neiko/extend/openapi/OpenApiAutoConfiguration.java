@@ -8,9 +8,10 @@ import com.schilings.neiko.extend.openapi.pageable.PageableRequestClassCreator;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import lombok.RequiredArgsConstructor;
-import org.springdoc.core.SpringDocConfiguration;
-import org.springdoc.core.SpringDocUtils;
+
+import org.springdoc.core.configuration.SpringDocConfiguration;
 import org.springdoc.core.providers.ObjectMapperProvider;
+import org.springdoc.core.utils.SpringDocUtils;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -120,8 +121,8 @@ public class OpenApiAutoConfiguration {
 		 * @param objectMapperProvider the object mapper provider
 		 * @return the pageParam open api converter
 		 */
-		//@Bean
-		//@ConditionalOnMissingBean
+		@Bean
+		@ConditionalOnMissingBean
 		PageParamOpenAPIConverter pageParamAPIConverter(ObjectMapperProvider objectMapperProvider) throws IOException {
 
 			Map<String, String> map = new HashMap<>();

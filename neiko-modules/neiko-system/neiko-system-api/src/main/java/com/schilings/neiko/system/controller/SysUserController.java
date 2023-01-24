@@ -55,7 +55,7 @@ public class SysUserController {
 	private final SysUserRoleService sysUserRoleService;
 
 	private final PasswordHelper passwordHelper;
-	
+
 	/**
 	 * 分页查询用户
 	 * @param pageParam 参数集
@@ -124,7 +124,8 @@ public class SysUserController {
 		if (passwordHelper.validateRule(sysUserDTO.getPass())) {
 			return sysUserService.addSysUser(sysUserDTO) ? R.ok()
 					: R.fail(BaseResultCode.UPDATE_DATABASE_ERROR, "新增系统用户失败");
-		} else {
+		}
+		else {
 			return R.fail(SystemResultCode.BAD_REQUEST, "密码格式不符合规则!");
 		}
 	}
@@ -182,16 +183,17 @@ public class SysUserController {
 			return R.fail(SystemResultCode.BAD_REQUEST, "两次密码输入不一致!");
 		}
 
-		//解密明文密码
+		// 解密明文密码
 		String rawPassword = passwordHelper.decodeAes(pass);
-		//密码规则校验
+		// 密码规则校验
 		if (passwordHelper.validateRule(rawPassword)) {
 			return sysUserService.updatePassword(userId, rawPassword) ? R.ok()
 					: R.fail(BaseResultCode.UPDATE_DATABASE_ERROR, "修改用户密码失败！");
-		} else {
+		}
+		else {
 			return R.fail(SystemResultCode.BAD_REQUEST, "密码格式不符合规则!");
 		}
-	
+
 	}
 
 	/**

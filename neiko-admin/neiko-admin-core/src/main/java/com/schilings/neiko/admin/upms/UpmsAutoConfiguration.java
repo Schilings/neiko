@@ -23,14 +23,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
-
 @MapperScan({ "com.schilings.neiko.**.mapper" })
 @ComponentScan({ "com.schilings.neiko.admin.upms", "com.schilings.neiko.file", "com.schilings.neiko.system",
 		"com.schilings.neiko.log", "com.schilings.neiko.notify", "com.schilings.neiko.authorization" })
 @EnableAsync
 @AutoConfiguration
 @Import(LogConfiguration.class)
-@EnableConfigurationProperties({ SystemProperties.class , SecurityProperties.class })
+@EnableConfigurationProperties({ SystemProperties.class, SecurityProperties.class })
 public class UpmsAutoConfiguration {
 
 	/**
@@ -43,7 +42,6 @@ public class UpmsAutoConfiguration {
 		return new SnowflakeIdGenerator();
 	}
 
-	
 	/**
 	 * 用户详情处理类
 	 *
@@ -60,7 +58,7 @@ public class UpmsAutoConfiguration {
 		@Bean
 		@ConditionalOnMissingBean
 		public UserDetailsService userDetailsService(SysUserService sysUserService,
-													 ObjectProvider<List<UserInfoCoordinator>> userInfoCoordinator) {
+				ObjectProvider<List<UserInfoCoordinator>> userInfoCoordinator) {
 			return new SysUserDetailsServiceImpl(sysUserService, userInfoCoordinator);
 		}
 
@@ -75,5 +73,5 @@ public class UpmsAutoConfiguration {
 		}
 
 	}
-	
+
 }

@@ -1,13 +1,13 @@
 server:
   port: 9000
 
-logging:
-  level:
-    root: INFO
-    org.springframework.web: INFO 
-    org.springframework.security: TRACE
-    org.springframework.security.oauth2: TRACE
-    org.springframework.data.redis: TRACE
+#logging:
+#  level:
+#    root: INFO
+#    org.springframework.web: INFO 
+#    org.springframework.security: TRACE
+#    org.springframework.security.oauth2: TRACE
+#    org.springframework.data.redis: TRACE
 
 # 数据库表结构维护
 #actable:
@@ -51,7 +51,10 @@ springdoc:
 # spring配置
 spring:
   profiles:
-    active: neiko,client,h2
+    active: 
+      - neiko 
+      - client
+      - dev
   # JavaMailSender 邮件发送的配置
   mail:
     #以qq邮箱发送
@@ -68,19 +71,7 @@ spring:
             enable: true
             required: true
     default-encoding: UTF-8
-# redis
-#  data:
-#    redis:
-#      host: 120.25.221.239
-#      database: 0
-#      port: 6379
-#      password: Schilings11538...
-# mysql
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/nk_test?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
-#    username: root
-#    password: WNs11538...
+
 
 
     

@@ -4,6 +4,8 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password: password
+  # 下面的sql初始化只对内嵌数据库有效，看↓方法
+  # DataSourceScriptDatabaseInitializer#isEmbeddedDatabase
   sql:
     init:
       schema-locations:
@@ -18,10 +20,9 @@ spring:
       enabled: true
       path: /h2-console
       settings:
-        trace: true 
+        trace: true
   data:
     redis:
       host: 47.113.200.136
       port: 6379
       database: 15
-      

@@ -42,7 +42,6 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 
-
 import java.util.UUID;
 
 @Configuration(proxyBeanMethods = false)
@@ -50,13 +49,12 @@ import java.util.UUID;
 @EnableAuthorizationServer
 public class AuthorizationServerConfig {
 
-
 	@Bean
 	@ConditionalOnMissingBean
 	public RegisteredClientRepository registeredClientRepository(RegisteredClientPropertiesMapper mapper) {
 		return new InMemoryRegisteredClientRepository(mapper.getRegisteredClients());
 	}
-	
+
 	@Bean
 	@ConditionalOnMissingBean
 	public OAuth2AuthorizationService authorizationService() {
@@ -68,8 +66,7 @@ public class AuthorizationServerConfig {
 	public OAuth2AuthorizationConsentService authorizationConsentService() {
 		return new InMemoryOAuth2AuthorizationConsentService();
 	}
-	
-	
+
 	@Bean
 	@ConditionalOnMissingBean
 	@ConditionalOnProperty(name = "neiko.security.password-secret-key", matchIfMissing = false)
@@ -77,8 +74,6 @@ public class AuthorizationServerConfig {
 		return new OAuth2LoginPasswordDecoderConfigurer(securityProperties.getPasswordSecretKey());
 	}
 
-	
-	
 	@Bean
 	@ConditionalOnMissingBean
 	public OAuth2AuthorizationServerConfigurerCustomizer extensionGrantTypeCustomizer() {
@@ -88,14 +83,15 @@ public class AuthorizationServerConfig {
 			converters.add(new OAuth2FederatedIdentityAuthenticationConverter());
 		}));
 		extensionGrantTypeCustomizer.providerExpander((providers, authorizationService, tokenGenerator, http) -> {
-			AuthenticationManager authenticationManager = authentication -> http.getSharedObject(AuthenticationManager.class).authenticate(authentication);
-			providers.add(new OAuth2ResourceOwnerPasswordAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator));
+			AuthenticationManager authenticationManager = authentication -> http
+					.getSharedObject(AuthenticationManager.class).authenticate(authentication);
+			providers.add(new OAuth2ResourceOwnerPasswordAuthenticationProvider(authenticationManager,
+					authorizationService, tokenGenerator));
 			providers.add(new OAuth2FederatedIdentityAuthenticationProvider(authorizationService, tokenGenerator));
 		});
 		extensionGrantTypeCustomizer.accessTokenResponseHandler(OAuth2AccessTokenAuthenticationSuccessHandler::new);
 		return extensionGrantTypeCustomizer;
 	}
-
 
 	@Bean
 	@ConditionalOnMissingBean
@@ -104,7 +100,6 @@ public class AuthorizationServerConfig {
 		tokenRevocationCustomizer.revocationResponseHandler(OAuth2TokenRevocationAuthenticationSuccessHandler::new);
 		return tokenRevocationCustomizer;
 	}
-
 
 	/**
 	 * AuthorizationServerJwt

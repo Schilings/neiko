@@ -1,6 +1,5 @@
 package com.schilings.neiko.authorization.biz;
 
-
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -12,5 +11,6 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "oauth2.registered")
 public class RegisteredClientProperties {
 
-    private List<Map<String, String>> client = new ArrayList<>();
+	private List<Map<String, String>> client = new ArrayList<>();
+
 }

@@ -11,7 +11,6 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 import java.lang.reflect.Method;
 import java.util.List;
 
-
 @SuppressWarnings("SpellCheckingInspection")
 public final class SpelUtils {
 

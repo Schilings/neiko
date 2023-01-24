@@ -14,8 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class EvenHandlerMethodAdater implements EventHandler {
 
-
-
 	private final HandlerMethod handlerMethod;
 
 	// 方法返回结果
@@ -34,6 +32,7 @@ public class EvenHandlerMethodAdater implements EventHandler {
 		handleInternal(event, handlerMethod);
 
 	}
+
 	public HandlerMethod getHandlerMethod() {
 		return handlerMethod;
 	}

@@ -100,7 +100,7 @@ public class SysRoleMenuServiceImpl extends ExtendServiceImpl<SysRoleMenuMapper,
 	@Override
 	public boolean deleteAllByMenuId(Serializable menuId) {
 		// 删除前查一下，留着发布事件
-		//List<String> roleCodes = this.listRoleCodes(menuId);
+		// List<String> roleCodes = this.listRoleCodes(menuId);
 		boolean deleteSuccess = baseMapper.deleteAllByMenuId(menuId);
 		if (deleteSuccess) {
 			// 发布角色权限更改事件
@@ -132,7 +132,7 @@ public class SysRoleMenuServiceImpl extends ExtendServiceImpl<SysRoleMenuMapper,
 	@Override
 	public boolean updateMenuId(Long originalId, Long menuId) {
 		boolean updateSuccess = baseMapper.updateMenuId(originalId, menuId);
-		//List<String> roleCodes = this.listRoleCodes(menuId);
+		// List<String> roleCodes = this.listRoleCodes(menuId);
 		if (updateSuccess) {
 			// 发布角色权限更改事件
 			return updateSuccess;

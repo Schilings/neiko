@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-
 @Slf4j
 @RequiredArgsConstructor
 public class SysUserDetailsServiceImpl implements UserDetailsService {
@@ -31,7 +30,6 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
 	private final SysUserService sysUserService;
 
 	private final ObjectProvider<List<UserInfoCoordinator>> userInfoCoordinatorProvider;
-	
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -72,9 +70,9 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
 		attributes.put(UserAttributeNameConstants.PERMISSIONS, permissions);
 
 		// 用户额外属性
-		userInfoCoordinatorProvider.ifAvailable(userInfoCoordinators -> 
-				userInfoCoordinators.forEach(coordinator -> coordinator.coordinateAttribute(userInfoDTO, attributes)));
-		
+		userInfoCoordinatorProvider.ifAvailable(userInfoCoordinators -> userInfoCoordinators
+				.forEach(coordinator -> coordinator.coordinateAttribute(userInfoDTO, attributes)));
+
 		return new User(sysUser.getUserId(), sysUser.getUsername(), sysUser.getPassword(), sysUser.getNickname(),
 				sysUser.getAvatar(), sysUser.getStatus(), sysUser.getOrganizationId(), sysUser.getType(), authorities,
 				attributes);

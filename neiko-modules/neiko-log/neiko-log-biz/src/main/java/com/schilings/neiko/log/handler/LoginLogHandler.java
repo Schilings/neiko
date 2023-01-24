@@ -38,12 +38,11 @@ public class LoginLogHandler {
 	@Async
 	@EventListener(OAuth2AccessTokenAuthenticationSuccessEvent.class)
 	public void onAuthenticationSuccessEvent(OAuth2AccessTokenAuthenticationSuccessEvent event) {
-		
+
 		Authentication authentication = (Authentication) event.getSource();
 		LoginLog loginLog = prodLoginLog(authentication).setMsg("登陆成功")
-				//.setClientId()
-				.setStatus(LogStatusEnum.SUCCESS.getValue())
-				.setEventType(LoginEventTypeEnum.LOGIN.getValue());
+				// .setClientId()
+				.setStatus(LogStatusEnum.SUCCESS.getValue()).setEventType(LoginEventTypeEnum.LOGIN.getValue());
 		loginLogService.save(loginLog);
 	}
 
@@ -55,11 +54,10 @@ public class LoginLogHandler {
 	@EventListener(OAuth2TokenRevocationAuthenticationSuccessEvent.class)
 	public void onLogoutSuccessEvent(OAuth2TokenRevocationAuthenticationSuccessEvent event) {
 		Authentication authentication = (Authentication) event.getSource();
-		LoginLog loginLog = prodLoginLog(authentication).setMsg("登出成功").setEventType(LoginEventTypeEnum.LOGOUT.getValue());
+		LoginLog loginLog = prodLoginLog(authentication).setMsg("登出成功")
+				.setEventType(LoginEventTypeEnum.LOGOUT.getValue());
 		loginLogService.save(loginLog);
 	}
-
-
 
 	/**
 	 * 根据Authentication和请求信息产生一个登陆日志

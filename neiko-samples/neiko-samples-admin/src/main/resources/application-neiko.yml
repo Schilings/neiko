@@ -46,7 +46,11 @@ neiko:
           flows:
             password:
               token-url: /oauth2/token
-              scope: message.read message.write openid skip skip_password_decode
+              scopes: 
+                - message.read 
+                - message.write 
+                - openid 
+                - skip skip_password_decode
         
   security:
     #password-secret-key: 'HX19ChxGmts3l/KkHnWmiw=='

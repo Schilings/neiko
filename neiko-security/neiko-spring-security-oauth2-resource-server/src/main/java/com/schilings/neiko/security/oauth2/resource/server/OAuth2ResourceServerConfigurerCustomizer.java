@@ -27,5 +27,5 @@ public interface OAuth2ResourceServerConfigurerCustomizer {
 		}
 		return ArrayUtil.toArray(matchers, RequestMatcher.class);
 	}
-	
+
 }

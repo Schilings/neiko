@@ -26,7 +26,7 @@ public class PasswordHelper {
 	private final Pattern passwordPattern;
 
 	public PasswordHelper(SecurityProperties securityProperties, SystemProperties systemProperties,
-                          PasswordEncoder passwordEncoder) {
+			PasswordEncoder passwordEncoder) {
 		this.securityProperties = securityProperties;
 		this.passwordEncoder = passwordEncoder;
 		String passwordRule = systemProperties.getPasswordRule();

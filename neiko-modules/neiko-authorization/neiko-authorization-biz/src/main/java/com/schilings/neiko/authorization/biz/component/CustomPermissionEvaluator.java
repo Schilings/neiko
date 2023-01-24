@@ -10,7 +10,6 @@ import org.springframework.util.StringUtils;
 
 import java.util.Collection;
 
-
 @Slf4j
 public class CustomPermissionEvaluator {
 

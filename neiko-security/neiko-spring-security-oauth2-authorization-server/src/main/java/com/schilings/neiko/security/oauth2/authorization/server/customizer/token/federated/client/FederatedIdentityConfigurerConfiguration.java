@@ -15,8 +15,7 @@ public class FederatedIdentityConfigurerConfiguration {
 		identityConfigurer.successHandler(new OAuth2FederatedIdentityAuthenticationSuccessHandler(
 				OAuth2ConfigurerUtils.getAuthorizationService(http),
 				OAuth2ConfigurerUtils.getRegisteredClientRepository(http)));
-		http.securityMatchers().requestMatchers(
-				new AntPathRequestMatcher(identityConfigurer.getFilterProccessUri()),
+		http.securityMatchers().requestMatchers(new AntPathRequestMatcher(identityConfigurer.getFilterProccessUri()),
 				new AntPathRequestMatcher(identityConfigurer.getAuthorizationRequestUri()));
 	}
 

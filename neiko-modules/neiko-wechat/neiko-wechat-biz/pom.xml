@@ -30,6 +30,10 @@
             <groupId>com.schilings</groupId>
             <artifactId>neiko-wechat-model</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-authorization-common</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

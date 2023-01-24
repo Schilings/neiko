@@ -1,6 +1,5 @@
 package com.schilings.neiko.common.core.desensitize;
 
-
 import com.schilings.neiko.common.core.evaluator.AbstractExpressionEvaluator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.BeanFactory;

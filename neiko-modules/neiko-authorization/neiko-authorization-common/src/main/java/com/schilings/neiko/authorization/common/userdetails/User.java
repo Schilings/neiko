@@ -66,7 +66,7 @@ public class User implements UserDetails, OAuth2User {
 	private final Map<String, Object> attributes;
 
 	public User(Long userId, String username, String password, String nickname, String avatar, Integer status,
-				Long organizationId, Integer type, Collection<? extends GrantedAuthority> authorities,
+			Long organizationId, Integer type, Collection<? extends GrantedAuthority> authorities,
 			Map<String, Object> attributes) {
 		this.userId = userId;
 		this.username = username;

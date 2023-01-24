@@ -6,10 +6,10 @@ import cn.hutool.crypto.symmetric.AES;
 import com.schilings.neiko.common.security.exception.SecurityException;
 import lombok.experimental.UtilityClass;
 
-import jakarta.crypto.Cipher;
-import jakarta.crypto.KeyGenerator;
-import jakarta.crypto.SecretKey;
-import jakarta.crypto.spec.SecretKeySpec;
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.interfaces.RSAPrivateKey;

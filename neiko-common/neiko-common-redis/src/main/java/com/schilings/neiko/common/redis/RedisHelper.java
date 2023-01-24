@@ -524,7 +524,8 @@ public class RedisHelper {
 
 		try {
 			DefaultRedisScript<String> redisScript = new DefaultRedisScript<>(lua, String.class);
-			return stringRedisTemplate.execute(redisScript, new StringRedisSerializer(), new StringRedisSerializer(), key, arg);
+			return stringRedisTemplate.execute(redisScript, new StringRedisSerializer(), new StringRedisSerializer(),
+					key, arg);
 		}
 		catch (Exception e) {
 			log.error("redis evalLua execute fail:lua[{}]", lua, e);

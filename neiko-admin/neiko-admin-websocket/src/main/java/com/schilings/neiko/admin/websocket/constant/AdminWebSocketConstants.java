@@ -1,6 +1,5 @@
 package com.schilings.neiko.admin.websocket.constant;
 
-
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 
 public final class AdminWebSocketConstants {

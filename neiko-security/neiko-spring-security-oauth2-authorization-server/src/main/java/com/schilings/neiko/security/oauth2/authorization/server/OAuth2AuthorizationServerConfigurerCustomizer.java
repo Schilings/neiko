@@ -29,5 +29,5 @@ public interface OAuth2AuthorizationServerConfigurerCustomizer {
 		}
 		return matchers;
 	}
-	
+
 }

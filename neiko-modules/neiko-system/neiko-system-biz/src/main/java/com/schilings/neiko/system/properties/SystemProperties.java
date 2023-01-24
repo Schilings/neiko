@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 @ConfigurationProperties(prefix = "neiko.system")
 public class SystemProperties {
-	
+
 	/**
 	 * 添加用户校验密码的规则：值为正则表达式，当为空时，不对密码规则进行校验
 	 */

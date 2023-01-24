@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * 操作日志配置
-
+ *
  */
 @Data
 @ConfigurationProperties(prefix = OperationLogProperties.PREFIX)

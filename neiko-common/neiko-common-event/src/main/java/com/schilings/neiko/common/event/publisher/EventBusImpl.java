@@ -71,12 +71,13 @@ public class EventBusImpl extends AbstractEventBus {
 			List<EventHandler> eventHandlers = handlers.stream().filter(handler -> {
 				if (handler instanceof EvenHandlerMethodAdater) {
 					EvenHandlerMethodAdater methodAdater = (EvenHandlerMethodAdater) handler;
-					boolean isVoid = methodAdater.getHandlerMethod().getMethod().getReturnType().getSimpleName().equals(StringUtils.lowerCase(Void.class.getSimpleName()));
+					boolean isVoid = methodAdater.getHandlerMethod().getMethod().getReturnType().getSimpleName()
+							.equals(StringUtils.lowerCase(Void.class.getSimpleName()));
 					return !isVoid;
 				}
 				return false;
 			}).collect(Collectors.toList());
-			if (eventHandlers.size() >= 2 ) {
+			if (eventHandlers.size() >= 2) {
 				throw new EventRequestException("The handler for event request can not be more than 2.");
 			}
 			EvenHandlerMethodAdater adater = null;
@@ -85,7 +86,7 @@ public class EventBusImpl extends AbstractEventBus {
 				adater.handle(o);
 				return adater.getResult();
 			}
-		
+
 		}
 		throw new EventRequestException("The handler for event request can not return result.");
 	}

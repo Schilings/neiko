@@ -1,6 +1,5 @@
 package com.schilings.neiko.samples.admin.federated;
 
-
 import com.schilings.neiko.security.oauth2.client.federated.identity.OAuth2UserMerger;
 import com.schilings.neiko.security.oauth2.client.federated.identity.wechat.WechatOAuth2User;
 import com.schilings.neiko.security.oauth2.client.federated.identity.workwechat.WorkWechatOAuth2User;
@@ -25,46 +24,50 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class DefaultOAuth2UserMerger implements OAuth2UserMerger {
 
-    private final UserDetailsService userDetailsService;
-    
-    
-    @Override
-    public OAuth2User merge(OAuth2LoginAuthenticationToken authenticationToken) {
-        if (authenticationToken.getPrincipal() instanceof DefaultOAuth2User) {
-            Collection<GrantedAuthority> authorities = new ArrayList<>();
-            Map<String, Object> attributes = new HashMap<>();
-            String userNameAttributeName = authenticationToken.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
+	private final UserDetailsService userDetailsService;
 
-            DefaultOAuth2User defaultOAuth2User = (DefaultOAuth2User) authenticationToken.getPrincipal();
+	@Override
+	public OAuth2User merge(OAuth2LoginAuthenticationToken authenticationToken) {
+		if (authenticationToken.getPrincipal() instanceof DefaultOAuth2User) {
+			Collection<GrantedAuthority> authorities = new ArrayList<>();
+			Map<String, Object> attributes = new HashMap<>();
+			String userNameAttributeName = authenticationToken.getClientRegistration().getProviderDetails()
+					.getUserInfoEndpoint().getUserNameAttributeName();
 
-            UserDetails userDetails = null;
-            try {
-                userDetails = userDetailsService.loadUserByUsername(defaultOAuth2User.getName());
-            } catch (UsernameNotFoundException e) {
-                //TODO 保存
-            }
-            
-            authorities.addAll(defaultOAuth2User.getAuthorities());
-            authorities.add(new SimpleGrantedAuthority("SCOPE_" + "message.read"));
-            authorities.add(new SimpleGrantedAuthority("SCOPE_" + "message.write"));
-            if (userDetails != null) {
-                authorities.addAll(userDetails.getAuthorities());
-            }
-            
-            attributes.putAll(defaultOAuth2User.getAttributes());
-            
-            return new DefaultOAuth2User(authorities, attributes, userNameAttributeName);
+			DefaultOAuth2User defaultOAuth2User = (DefaultOAuth2User) authenticationToken.getPrincipal();
 
-        } else if (authenticationToken.getPrincipal() instanceof DefaultOidcUser){
-            DefaultOidcUser defaultOAuth2User = (DefaultOidcUser) authenticationToken.getPrincipal();
-            return defaultOAuth2User;
+			UserDetails userDetails = null;
+			try {
+				userDetails = userDetailsService.loadUserByUsername(defaultOAuth2User.getName());
+			}
+			catch (UsernameNotFoundException e) {
+				// TODO 保存
+			}
 
-        } else if (authenticationToken.getPrincipal() instanceof WechatOAuth2User) {
+			authorities.addAll(defaultOAuth2User.getAuthorities());
+			authorities.add(new SimpleGrantedAuthority("SCOPE_" + "message.read"));
+			authorities.add(new SimpleGrantedAuthority("SCOPE_" + "message.write"));
+			if (userDetails != null) {
+				authorities.addAll(userDetails.getAuthorities());
+			}
 
-            
-        } else if (authenticationToken.getPrincipal() instanceof WorkWechatOAuth2User) {
-            
-        }
-        return authenticationToken.getPrincipal();
-    }
+			attributes.putAll(defaultOAuth2User.getAttributes());
+
+			return new DefaultOAuth2User(authorities, attributes, userNameAttributeName);
+
+		}
+		else if (authenticationToken.getPrincipal() instanceof DefaultOidcUser) {
+			DefaultOidcUser defaultOAuth2User = (DefaultOidcUser) authenticationToken.getPrincipal();
+			return defaultOAuth2User;
+
+		}
+		else if (authenticationToken.getPrincipal() instanceof WechatOAuth2User) {
+
+		}
+		else if (authenticationToken.getPrincipal() instanceof WorkWechatOAuth2User) {
+
+		}
+		return authenticationToken.getPrincipal();
+	}
+
 }

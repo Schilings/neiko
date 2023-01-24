@@ -116,15 +116,17 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 		Set<String> permissions = null;
 		if (adminstratorChecker.isAdminstrator(sysUser)) {
 			menus = new HashSet<>(sysMenuService.list());
-			permissions = menus.stream().map(SysMenu::getPermission).filter(StrUtil::isNotEmpty).collect(Collectors.toSet());
-		} else {
+			permissions = menus.stream().map(SysMenu::getPermission).filter(StrUtil::isNotEmpty)
+					.collect(Collectors.toSet());
+		}
+		else {
 			menus = new HashSet<>();
 			permissions = new HashSet<>();
 			for (String roleCode : roleCodes) {
 				List<SysMenu> sysMenuList = sysRoleMenuService.listMenus(roleCode);
 				menus.addAll(sysMenuList);
-				Set<String> permissionList = sysMenuList.stream().map(SysMenu::getPermission).filter(StrUtil::isNotEmpty)
-						.collect(Collectors.toSet());
+				Set<String> permissionList = sysMenuList.stream().map(SysMenu::getPermission)
+						.filter(StrUtil::isNotEmpty).collect(Collectors.toSet());
 				permissions.addAll(permissionList);
 			}
 		}

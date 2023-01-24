@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.schilings.neiko.autoconfigure.shiro.DefaultJWTAutoConfiguration

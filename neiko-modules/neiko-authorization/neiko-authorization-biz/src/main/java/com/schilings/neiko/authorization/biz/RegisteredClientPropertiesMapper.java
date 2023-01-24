@@ -1,6 +1,5 @@
 package com.schilings.neiko.authorization.biz;
 
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,48 +31,50 @@ import java.util.*;
 @EnableConfigurationProperties(RegisteredClientProperties.class)
 public class RegisteredClientPropertiesMapper {
 
-    private final List<RegisteredClient> registeredClients = new ArrayList<>();
-    private ObjectMapper objectMapper = new ObjectMapper();
-    private final RegisteredClientProperties properties;
-    private final RegisteredClientRepository registeredClientRepository;
-    
-    
-    public RegisteredClientPropertiesMapper(RegisteredClientProperties properties,
-                                            RegisteredClientRepository registeredClientRepository) {
-        this.properties = properties;
-        this.registeredClientRepository = registeredClientRepository;
-        ClassLoader classLoader = RegisteredClientPropertiesMapper.class.getClassLoader();
-        List<Module> securityModules = SecurityJackson2Modules.getModules(classLoader);
-        this.objectMapper.registerModules(securityModules);
-        this.objectMapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
-        
-        init();
-    }
+	private final List<RegisteredClient> registeredClients = new ArrayList<>();
 
-    public void init() {
-        if (!CollectionUtils.isEmpty(properties.getClient())) {
-            for (Map<String, String> map : properties.getClient()) {
-                registeredClients.add(mapToClient(map));
-            }
-        }
-        this.registeredClients.forEach(registeredClientRepository::save);
-    }
+	private ObjectMapper objectMapper = new ObjectMapper();
 
+	private final RegisteredClientProperties properties;
 
-    public Map<String, String> clientToMap(RegisteredClient client) {
+	private final RegisteredClientRepository registeredClientRepository;
 
-        return Collections.emptyMap();
-    }
+	public RegisteredClientPropertiesMapper(RegisteredClientProperties properties,
+			RegisteredClientRepository registeredClientRepository) {
+		this.properties = properties;
+		this.registeredClientRepository = registeredClientRepository;
+		ClassLoader classLoader = RegisteredClientPropertiesMapper.class.getClassLoader();
+		List<Module> securityModules = SecurityJackson2Modules.getModules(classLoader);
+		this.objectMapper.registerModules(securityModules);
+		this.objectMapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
 
-    public RegisteredClient mapToClient(Map<String, String> map) {
-        String clientIdIssuedAt = map.get("clientIdIssuedAt");
-        String clientSecretExpiresAt = map.get("clientSecretExpiresAt");
-        Set<String> clientAuthenticationMethods = StringUtils.commaDelimitedListToSet(map.get("clientAuthenticationMethod"));
-        Set<String> authorizationGrantTypes = StringUtils.commaDelimitedListToSet(map.get("authorizationGrantType"));
-        Set<String> redirectUris = StringUtils.commaDelimitedListToSet(map.get("redirectUri"));
-        Set<String> clientScopes = StringUtils.commaDelimitedListToSet(map.get("scope"));
+		init();
+	}
 
-        // @formatter:off
+	public void init() {
+		if (!CollectionUtils.isEmpty(properties.getClient())) {
+			for (Map<String, String> map : properties.getClient()) {
+				registeredClients.add(mapToClient(map));
+			}
+		}
+		this.registeredClients.forEach(registeredClientRepository::save);
+	}
+
+	public Map<String, String> clientToMap(RegisteredClient client) {
+
+		return Collections.emptyMap();
+	}
+
+	public RegisteredClient mapToClient(Map<String, String> map) {
+		String clientIdIssuedAt = map.get("clientIdIssuedAt");
+		String clientSecretExpiresAt = map.get("clientSecretExpiresAt");
+		Set<String> clientAuthenticationMethods = StringUtils
+				.commaDelimitedListToSet(map.get("clientAuthenticationMethod"));
+		Set<String> authorizationGrantTypes = StringUtils.commaDelimitedListToSet(map.get("authorizationGrantType"));
+		Set<String> redirectUris = StringUtils.commaDelimitedListToSet(map.get("redirectUri"));
+		Set<String> clientScopes = StringUtils.commaDelimitedListToSet(map.get("scope"));
+
+		// @formatter:off
         RegisteredClient.Builder builder = RegisteredClient.withId(map.get("id"))
                 .clientId(map.get("clientId"))
                 .clientIdIssuedAt(clientIdIssuedAt != null ? Instant.parse(clientIdIssuedAt) : null)
@@ -90,65 +91,76 @@ public class RegisteredClientPropertiesMapper {
                 .scopes((scopes) -> scopes.addAll(clientScopes));
         // @formatter:on
 
-        String clientSettings = map.get("clientSettings");
-        if (StringUtils.hasText(clientSettings)) {
-            builder.clientSettings(ClientSettings.withSettings(parseMap(clientSettings)).build());
-        } else {
-            builder.clientSettings(ClientSettings.builder().build());
-        }
+		String clientSettings = map.get("clientSettings");
+		if (StringUtils.hasText(clientSettings)) {
+			builder.clientSettings(ClientSettings.withSettings(parseMap(clientSettings)).build());
+		}
+		else {
+			builder.clientSettings(ClientSettings.builder().build());
+		}
 
-        String tokenSettings = map.get("tokenSettings");
-        if (StringUtils.hasText(tokenSettings)) {
-            Map<String, Object> tokenSettingsMap = parseMap(tokenSettings);
-            TokenSettings.Builder tokenSettingsBuilder = TokenSettings.withSettings(tokenSettingsMap);
-            if (!tokenSettingsMap.containsKey(ConfigurationSettingNames.Token.ACCESS_TOKEN_FORMAT)) {
-                tokenSettingsBuilder.accessTokenFormat(OAuth2TokenFormat.SELF_CONTAINED);
-            }
-            builder.tokenSettings(tokenSettingsBuilder.build());
-        } else {
-            builder.tokenSettings(TokenSettings.builder().build());
-        }
-        return builder.build();
-    }
+		String tokenSettings = map.get("tokenSettings");
+		if (StringUtils.hasText(tokenSettings)) {
+			Map<String, Object> tokenSettingsMap = parseMap(tokenSettings);
+			TokenSettings.Builder tokenSettingsBuilder = TokenSettings.withSettings(tokenSettingsMap);
+			if (!tokenSettingsMap.containsKey(ConfigurationSettingNames.Token.ACCESS_TOKEN_FORMAT)) {
+				tokenSettingsBuilder.accessTokenFormat(OAuth2TokenFormat.SELF_CONTAINED);
+			}
+			builder.tokenSettings(tokenSettingsBuilder.build());
+		}
+		else {
+			builder.tokenSettings(TokenSettings.builder().build());
+		}
+		return builder.build();
+	}
 
+	public final void setObjectMapper(ObjectMapper objectMapper) {
+		Assert.notNull(objectMapper, "objectMapper cannot be null");
+		this.objectMapper = objectMapper;
+	}
 
-    public final void setObjectMapper(ObjectMapper objectMapper) {
-        Assert.notNull(objectMapper, "objectMapper cannot be null");
-        this.objectMapper = objectMapper;
-    }
+	protected final ObjectMapper getObjectMapper() {
+		return this.objectMapper;
+	}
 
-    protected final ObjectMapper getObjectMapper() {
-        return this.objectMapper;
-    }
+	private Map<String, Object> parseMap(String data) {
+		try {
+			return this.objectMapper.readValue(data, new TypeReference<Map<String, Object>>() {
+			});
+		}
+		catch (Exception ex) {
+			throw new IllegalArgumentException(ex.getMessage(), ex);
+		}
+	}
 
-    private Map<String, Object> parseMap(String data) {
-        try {
-            return this.objectMapper.readValue(data, new TypeReference<Map<String, Object>>() {
-            });
-        } catch (Exception ex) {
-            throw new IllegalArgumentException(ex.getMessage(), ex);
-        }
-    }
+	private static AuthorizationGrantType resolveAuthorizationGrantType(String authorizationGrantType) {
+		if (AuthorizationGrantType.AUTHORIZATION_CODE.getValue().equals(authorizationGrantType)) {
+			return AuthorizationGrantType.AUTHORIZATION_CODE;
+		}
+		else if (AuthorizationGrantType.CLIENT_CREDENTIALS.getValue().equals(authorizationGrantType)) {
+			return AuthorizationGrantType.CLIENT_CREDENTIALS;
+		}
+		else if (AuthorizationGrantType.REFRESH_TOKEN.getValue().equals(authorizationGrantType)) {
+			return AuthorizationGrantType.REFRESH_TOKEN;
+		}
+		return new AuthorizationGrantType(authorizationGrantType); // Custom authorization
+																	// grant type
+	}
 
-    private static AuthorizationGrantType resolveAuthorizationGrantType(String authorizationGrantType) {
-        if (AuthorizationGrantType.AUTHORIZATION_CODE.getValue().equals(authorizationGrantType)) {
-            return AuthorizationGrantType.AUTHORIZATION_CODE;
-        } else if (AuthorizationGrantType.CLIENT_CREDENTIALS.getValue().equals(authorizationGrantType)) {
-            return AuthorizationGrantType.CLIENT_CREDENTIALS;
-        } else if (AuthorizationGrantType.REFRESH_TOKEN.getValue().equals(authorizationGrantType)) {
-            return AuthorizationGrantType.REFRESH_TOKEN;
-        }
-        return new AuthorizationGrantType(authorizationGrantType);        // Custom authorization grant type
-    }
+	private static ClientAuthenticationMethod resolveClientAuthenticationMethod(String clientAuthenticationMethod) {
+		if (ClientAuthenticationMethod.CLIENT_SECRET_BASIC.getValue().equals(clientAuthenticationMethod)) {
+			return ClientAuthenticationMethod.CLIENT_SECRET_BASIC;
+		}
+		else if (ClientAuthenticationMethod.CLIENT_SECRET_POST.getValue().equals(clientAuthenticationMethod)) {
+			return ClientAuthenticationMethod.CLIENT_SECRET_POST;
+		}
+		else if (ClientAuthenticationMethod.NONE.getValue().equals(clientAuthenticationMethod)) {
+			return ClientAuthenticationMethod.NONE;
+		}
+		return new ClientAuthenticationMethod(clientAuthenticationMethod); // Custom
+																			// client
+																			// authentication
+																			// method
+	}
 
-    private static ClientAuthenticationMethod resolveClientAuthenticationMethod(String clientAuthenticationMethod) {
-        if (ClientAuthenticationMethod.CLIENT_SECRET_BASIC.getValue().equals(clientAuthenticationMethod)) {
-            return ClientAuthenticationMethod.CLIENT_SECRET_BASIC;
-        } else if (ClientAuthenticationMethod.CLIENT_SECRET_POST.getValue().equals(clientAuthenticationMethod)) {
-            return ClientAuthenticationMethod.CLIENT_SECRET_POST;
-        } else if (ClientAuthenticationMethod.NONE.getValue().equals(clientAuthenticationMethod)) {
-            return ClientAuthenticationMethod.NONE;
-        }
-        return new ClientAuthenticationMethod(clientAuthenticationMethod);        // Custom client authentication method
-    }
 }

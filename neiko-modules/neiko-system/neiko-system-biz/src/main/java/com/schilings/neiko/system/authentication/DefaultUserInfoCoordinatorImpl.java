@@ -1,6 +1,5 @@
 package com.schilings.neiko.system.authentication;
 
-
 import com.schilings.neiko.system.model.dto.UserInfoDTO;
 
 import java.util.Map;

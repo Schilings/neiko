@@ -1,6 +1,6 @@
 package com.schilings.neiko.extend.openapi;
 
-import org.springdoc.core.Constants;
+import org.springdoc.core.utils.Constants;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.core.env.ConfigurableEnvironment;

@@ -23,5 +23,5 @@ public abstract class OAuth2AuthorizationEndpointConfigurerCustomizer
 	}
 
 	public abstract void customize(OAuth2AuthorizationEndpointConfigurer configurer, HttpSecurity httpSecurity);
-	
+
 }

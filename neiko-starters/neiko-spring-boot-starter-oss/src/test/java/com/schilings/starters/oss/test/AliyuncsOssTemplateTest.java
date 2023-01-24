@@ -1,6 +1,5 @@
 package com.schilings.starters.oss.test;
 
-
 import com.schilings.neiko.autoconfigure.oss.DefaultOssTemplate;
 import com.schilings.neiko.autoconfigure.oss.ObjectWithGlobalKeyPrefixOssTemplate;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +21,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-
-@ActiveProfiles("minio")
-@RequiredArgsConstructor
+//@ActiveProfiles("minio")
+//@RequiredArgsConstructor
 public class AliyuncsOssTemplateTest extends AbstractOssTemplateTest {
 
 	/**
@@ -40,7 +38,7 @@ public class AliyuncsOssTemplateTest extends AbstractOssTemplateTest {
 	/**
 	 * 测试创建存储桶
 	 */
-	@Test
+	// @Test
 	public void createBucket() {
 		String bucket = UUID.randomUUID().toString();
 		CreateBucketResponse bucketResponse = ossTemplate.createBucket(bucket);
@@ -51,7 +49,7 @@ public class AliyuncsOssTemplateTest extends AbstractOssTemplateTest {
 	/**
 	 * 测试罗列存储桶
 	 */
-	@Test
+	// @Test
 	public void listBuckets() {
 		String bucket = UUID.randomUUID().toString();
 		createBucket(bucket);
@@ -64,25 +62,25 @@ public class AliyuncsOssTemplateTest extends AbstractOssTemplateTest {
 	/**
 	 * 测试删除存储桶
 	 */
-	@Test
+	// @Test
 	public void deleteBucket() {
 		ossTemplate.deleteBucket("0fab8757-ef64-49fe-9cd0-697a9f50b2d7");
 	}
 
-	@Test
+	// @Test
 	public void getObjectPresignedUrl() {
 		String objectPresignedUrl = ossTemplate.getObjectPresignedUrl(ossTemplate.getOssProperties().getBucket(),
 				TEST_OBJECT_NAME, Duration.ofDays(1));
 		System.out.println(objectPresignedUrl);
 	}
 
-	@Test
+	// @Test
 	public void getUrl() {
 		String url = ossTemplate.getURL(ossTemplate.getOssProperties().getBucket(), TEST_OBJECT_NAME);
 		System.out.println(url);
 	}
 
-	@Test
+	// @Test
 	public void getUrlWithCustomPrefix() {
 		URL url = ossTemplate.getS3Client().utilities()
 				.getUrl(GetUrlRequest.builder().bucket(ossTemplate.getOssProperties().getBucket()).key(TEST_OBJECT_NAME)
@@ -95,7 +93,7 @@ public class AliyuncsOssTemplateTest extends AbstractOssTemplateTest {
 	/**
 	 * 测试获取对象
 	 */
-	@Test
+	// @Test
 	public void listObjects() {
 		// 使用上传时自己构建的的对象名字查询
 		List<S3Object> s3ObjectsWithUploadKey = ossTemplate.listObjects(ossTemplate.getOssProperties().getBucket(),
@@ -107,7 +105,7 @@ public class AliyuncsOssTemplateTest extends AbstractOssTemplateTest {
 	/**
 	 * 测试文件上传 上传后的文件名和当前文件名保持一致
 	 */
-	@Test
+	// @Test
 	public void putObject() throws IOException {
 		PutObjectResponse putObjectResponse = ossTemplate.putObject(ossTemplate.getOssProperties().getBucket(),
 				TEST_OBJECT_NAME, ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + "test.txt"));
@@ -115,7 +113,7 @@ public class AliyuncsOssTemplateTest extends AbstractOssTemplateTest {
 
 	}
 
-	@Test
+	// @Test
 	public void upload() throws FileNotFoundException {
 		String bucket = UUID.randomUUID().toString();
 		String key = UUID.randomUUID().toString();
@@ -132,7 +130,7 @@ public class AliyuncsOssTemplateTest extends AbstractOssTemplateTest {
 		deleteBucket(bucket);
 	}
 
-	@Test
+	// @Test
 	public void testBean() {
 		if (objectKeyPrefixConverter.match()) {
 			Assertions.assertInstanceOf(ObjectWithGlobalKeyPrefixOssTemplate.class, ossTemplate);

@@ -1,6 +1,5 @@
 package com.schilings.neiko.admin.datascope.coordinator;
 
-
 import com.schilings.neiko.admin.datascope.component.UserDataScope;
 import com.schilings.neiko.admin.datascope.component.UserDataScopeProcessor;
 
@@ -15,12 +14,13 @@ import java.util.Map;
 public class DataScopeUserInfoCoordinator implements UserInfoCoordinator {
 
 	private final UserDataScopeProcessor dataScopeProcessor;
-	
+
 	@Override
 	public Map<String, Object> coordinateAttribute(UserInfoDTO userInfoDTO, Map<String, Object> attribute) {
-		UserDataScope userDataScope =
-				dataScopeProcessor.mergeScopeType(userInfoDTO.getSysUser().getUserId(),userInfoDTO.getRoleCodes());
+		UserDataScope userDataScope = dataScopeProcessor.mergeScopeType(userInfoDTO.getSysUser().getUserId(),
+				userInfoDTO.getRoleCodes());
 		attribute.put(UserAttributeNameConstants.USER_DATA_SCOPE, userDataScope);
 		return attribute;
 	}
+
 }

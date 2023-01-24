@@ -90,7 +90,8 @@ public class SysUserRoleServiceImpl extends ExtendServiceImpl<SysUserRoleMapper,
 	public boolean deleteByUserId(Long userId) {
 		boolean deleteSuccess = baseMapper.deleteAllByUserId(userId);
 		if (deleteSuccess) {
-			// eventPublisher.publishEvent(new RoleAuthorityChangedEvent(Arrays.asList(userId.toString())));
+			// eventPublisher.publishEvent(new
+			// RoleAuthorityChangedEvent(Arrays.asList(userId.toString())));
 		}
 		return deleteSuccess;
 	}
@@ -110,7 +111,8 @@ public class SysUserRoleServiceImpl extends ExtendServiceImpl<SysUserRoleMapper,
 		else {
 			boolean deleteSuccess = baseMapper.deleteUserRole(userId, roleCode);
 			if (deleteSuccess) {
-				// eventPublisher.publishEvent(new RoleAuthorityChangedEvent(Arrays.asList(userId.toString())));
+				// eventPublisher.publishEvent(new
+				// RoleAuthorityChangedEvent(Arrays.asList(userId.toString())));
 			}
 			return deleteSuccess;
 		}
@@ -135,13 +137,15 @@ public class SysUserRoleServiceImpl extends ExtendServiceImpl<SysUserRoleMapper,
 		}
 		// 没有的新授权的角色直接返回
 		if (CollectionUtil.isEmpty(roleCodes)) {
-			// eventPublisher.publishEvent(new RoleAuthorityChangedEvent(Arrays.asList(userId.toString())));
+			// eventPublisher.publishEvent(new
+			// RoleAuthorityChangedEvent(Arrays.asList(userId.toString())));
 			return true;
 		}
 		// 保存新的用户角色关联关系
 		boolean addSuccess = addUserRoles(userId, roleCodes);
 		if (addSuccess) {
-			// eventPublisher.publishEvent(new RoleAuthorityChangedEvent(Arrays.asList(userId.toString())));
+			// eventPublisher.publishEvent(new
+			// RoleAuthorityChangedEvent(Arrays.asList(userId.toString())));
 		}
 		return addSuccess;
 	}
@@ -161,7 +165,8 @@ public class SysUserRoleServiceImpl extends ExtendServiceImpl<SysUserRoleMapper,
 			log.error("[addUserRoles] 插入用户角色关联关系失败，userId：{}，roleCodes：{}", userId, roleCodes);
 			return new ServiceException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "插入用户角色关联关系失败");
 		});
-		// eventPublisher.publishEvent(new RoleAuthorityChangedEvent(Arrays.asList(userId.toString())));
+		// eventPublisher.publishEvent(new
+		// RoleAuthorityChangedEvent(Arrays.asList(userId.toString())));
 		return insertSuccess;
 	}
 

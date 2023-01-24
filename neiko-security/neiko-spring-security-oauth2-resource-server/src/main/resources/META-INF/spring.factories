@@ -1,4 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.schilings.neiko.security.oauth2.resource.server.config.ResourceServerAutoConfiguration
-
-

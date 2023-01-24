@@ -47,7 +47,7 @@ public class IpUtils {
 		}
 		return getClientIPByHeader(request, headers);
 	}
-	
+
 	public static String getClientIPByHeader(HttpServletRequest request, String... headerNames) {
 		String ip;
 		for (String header : headerNames) {
@@ -60,4 +60,5 @@ public class IpUtils {
 		ip = request.getRemoteAddr();
 		return NetUtil.getMultistageReverseProxyIp(ip);
 	}
+
 }

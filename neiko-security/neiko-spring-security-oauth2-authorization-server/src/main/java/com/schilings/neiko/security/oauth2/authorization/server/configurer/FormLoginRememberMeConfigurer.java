@@ -64,7 +64,8 @@ public class FormLoginRememberMeConfigurer
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		ExceptionHandlingConfigurer<HttpSecurity> exceptionHandling = http.getConfigurer(ExceptionHandlingConfigurer.class);
+		ExceptionHandlingConfigurer<HttpSecurity> exceptionHandling = http
+				.getConfigurer(ExceptionHandlingConfigurer.class);
 		if (exceptionHandling == null) {
 			return;
 		}
