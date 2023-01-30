@@ -33,6 +33,8 @@ public interface SysUserService extends ExtendService<SysUser> {
 	 */
 	SysUser getByUsername(String username);
 
+	SysUser getOAuth2UserIfUnkonw(String username, String email, String phone);
+
 	/**
 	 * 获取用户详情信息
 	 * @param user SysUser

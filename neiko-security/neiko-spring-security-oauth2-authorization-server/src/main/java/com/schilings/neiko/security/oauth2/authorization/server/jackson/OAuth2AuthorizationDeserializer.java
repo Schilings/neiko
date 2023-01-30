@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.schilings.neiko.security.oauth2.authorization.server.util.OAuth2ComponentUtils;
+import com.schilings.neiko.security.oauth2.authorization.server.util.OAuth2AuthorizationServerComponentUtils;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2RefreshToken;
@@ -37,7 +37,7 @@ public class OAuth2AuthorizationDeserializer extends JsonDeserializer<OAuth2Auth
 	private OAuth2Authorization deserialize(JsonParser parser, ObjectMapper mapper, JsonNode root)
 			throws JsonParseException {
 
-		RegisteredClient client = OAuth2ComponentUtils.getRegisteredClientRepository()
+		RegisteredClient client = OAuth2AuthorizationServerComponentUtils.getRegisteredClientRepository()
 				.findById(JsonNodeUtils.findStringValue(root, "registeredClientId"));
 		OAuth2Authorization.Builder builder = getBuilder(parser, client);
 		String id = JsonNodeUtils.findStringValue(root, "id");

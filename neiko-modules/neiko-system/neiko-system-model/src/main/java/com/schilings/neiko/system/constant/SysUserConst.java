@@ -25,6 +25,27 @@ public final class SysUserConst {
 
 	}
 
+	@Getter
+	@AllArgsConstructor
+	public enum Sex {
+
+		/**
+		 * 默认未知
+		 */
+		UNKONW(0),
+		/**
+		 * 男
+		 */
+		MALE(1),
+		/**
+		 * 女
+		 */
+		FEMALE(2);
+
+		private final Integer value;
+
+	}
+
 	/**
 	 * 用户类型，1系统用户，2平台用户
 	 */

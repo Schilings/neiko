@@ -5,8 +5,11 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.List;
+
+import static cn.hutool.core.date.DatePattern.NORM_DATETIME_PATTERN;
 
 /**
  *
@@ -67,9 +70,11 @@ public class SysUserQO {
 	private Integer type;
 
 	@Parameter(description = "开始时间")
+	@DateTimeFormat(pattern = NORM_DATETIME_PATTERN)
 	private String startTime;
 
 	@Parameter(description = "结束时间")
+	@DateTimeFormat(pattern = NORM_DATETIME_PATTERN)
 	private String endTime;
 
 }

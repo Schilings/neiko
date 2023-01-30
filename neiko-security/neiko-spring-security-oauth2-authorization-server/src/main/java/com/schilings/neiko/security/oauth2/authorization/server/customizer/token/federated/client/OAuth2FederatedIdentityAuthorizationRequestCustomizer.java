@@ -2,6 +2,7 @@ package com.schilings.neiko.security.oauth2.authorization.server.customizer.toke
 
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.federated.OAuth2FederatedIdentityConstant;
 import com.schilings.neiko.security.oauth2.authorization.server.util.OAuth2EndpointUtils;
+import com.schilings.neiko.security.oauth2.authorization.server.util.OAuth2ParameterValidator;
 import com.schilings.neiko.security.oauth2.client.resolver.OAuth2AuthorizationRequestCustomizer;
 import org.springframework.security.oauth2.core.OAuth2AuthorizationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
@@ -34,8 +35,9 @@ public class OAuth2FederatedIdentityAuthorizationRequestCustomizer implements OA
 
 			// redirect_uri (REQUIRED)
 			String redirectUri = parameters.getFirst(OAuth2FederatedIdentityConstant.REDIRECT_URI);
-			if (!StringUtils.hasText(redirectUri)
-					|| parameters.get(OAuth2FederatedIdentityConstant.REDIRECT_URI).size() != 1) {
+			//检验redirect_uri规则
+			OAuth2ParameterValidator.validateRedirectUri(redirectUri, null);
+			if (parameters.get(OAuth2FederatedIdentityConstant.REDIRECT_URI).size() != 1) {
 				throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2FederatedIdentityConstant.REDIRECT_URI);
 			}
 
@@ -52,8 +54,8 @@ public class OAuth2FederatedIdentityAuthorizationRequestCustomizer implements OA
 			attrs.put(OAuth2FederatedIdentityConstant.REDIRECT_URI, redirectUri);
 			attrs.put(OAuth2FederatedIdentityConstant.CLIENT_ID, clientId);
 			Field field = ReflectionUtils.findField(OAuth2AuthorizationRequest.class, "attributes");
-			field.setAccessible(true);
 			assert field != null;
+			ReflectionUtils.makeAccessible(field);
 			ReflectionUtils.setField(field, authorizationRequest, attrs);
 		}
 	}

@@ -57,7 +57,7 @@ public class SysDictController {
 	 * @param dictHashCode 字典标识
 	 * @return 同类型字典
 	 */
-	@PostMapping("/invalid-hash")
+	@PostMapping("/invalidHash")
 	public R<List<String>> invalidDictHash(@RequestBody Map<String, String> dictHashCode) {
 		return R.ok(sysDictManager.invalidDictHash(dictHashCode));
 	}
@@ -70,7 +70,7 @@ public class SysDictController {
 	 */
 	@GetMapping("/page")
 	@PreAuthorize(value = "hasAuthority('system:dict:read')")
-	@Operation(summary = "分页查询", description = "分页查询")
+	@Operation(summary = "分页查询", description = "分页查询字典")
 	public R<PageResult<SysDictPageVO>> getSysDictPage(@Validated PageParam pageParam, SysDictQO sysDictQO) {
 		return R.ok(sysDictManager.dictPage(pageParam, sysDictQO));
 	}
@@ -124,7 +124,7 @@ public class SysDictController {
 	 */
 	@GetMapping("/item/page")
 	@PreAuthorize(value = "hasAuthority('system:dict:read')")
-	@Operation(summary = "分页查询", description = "分页查询")
+	@Operation(summary = "分页查询", description = "分页查询字典项")
 	public R<PageResult<SysDictItemPageVO>> getSysDictItemPage(PageParam pageParam,
 			@RequestParam("dictCode") String dictCode) {
 		return R.ok(sysDictManager.dictItemPage(pageParam, dictCode));

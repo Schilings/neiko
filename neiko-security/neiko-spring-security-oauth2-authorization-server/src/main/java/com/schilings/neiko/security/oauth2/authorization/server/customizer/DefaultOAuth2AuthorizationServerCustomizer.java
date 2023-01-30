@@ -5,6 +5,7 @@ import com.schilings.neiko.security.oauth2.authorization.server.OAuth2Authorizat
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
@@ -13,7 +14,6 @@ public class DefaultOAuth2AuthorizationServerCustomizer implements OAuth2Authori
 
 	@Override
 	public void customize(OAuth2AuthorizationServerConfigurer configurer, HttpSecurity http) throws Exception {
-
 		// @formatter:on
 		RequestMatcher endpointsMatcher = configurer.getEndpointsMatcher();
 		http
@@ -21,5 +21,7 @@ public class DefaultOAuth2AuthorizationServerCustomizer implements OAuth2Authori
 				.securityMatchers().requestMatchers(endpointsMatcher).and()
 				.csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher)).apply(configurer);
 		// @formatter:off
+
+
 	}
 }

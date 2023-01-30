@@ -94,7 +94,7 @@ public class SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector implem
 		if (authenticationToken != null
 				&& OAuth2AuthenticationToken.class.isAssignableFrom(authenticationToken.getClass())) {
 			Object principal = authenticationToken.getPrincipal();
-			if (principal instanceof OAuth2User) {
+			if (principal != null) {
 				OAuth2User oAuth2User = (OAuth2User) principal;
 				// OAuth2IntrospectionAuthenticatedPrincipal是BearerTokenAuthentication的Principal
 				// BearerTokenAuthentication会把OAuth2IntrospectionAuthenticatedPrincipal的attributes同步给自己
@@ -115,7 +115,7 @@ public class SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector implem
 		if (authenticationToken != null
 				&& UsernamePasswordAuthenticationToken.class.isAssignableFrom(authenticationToken.getClass())) {
 			Object principal = authenticationToken.getPrincipal();
-			if (principal instanceof UserDetails) {
+			if (principal != null) {
 				UserDetails userDetails = (UserDetails) principal;
 				claims.putAll(authorization.getAttributes());
 				authorities.addAll(userDetails.getAuthorities());

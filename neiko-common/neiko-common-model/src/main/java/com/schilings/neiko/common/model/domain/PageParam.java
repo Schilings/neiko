@@ -48,7 +48,7 @@ public class PageParam {
 	 * sort=field2,desc
 	 * </p>
 	 */
-	@Schema(title = "排序规则", defaultValue = "field1,asc")
+	@Schema(title = "排序规则", defaultValue = "field1,asc", example = "createTime,desc")
 	@Valid
 	private List<Sort> sort = new ArrayList<>();
 

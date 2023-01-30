@@ -28,6 +28,10 @@
             <groupId>com.schilings</groupId>
             <artifactId>neiko-authorization-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-extend-mybatis-plus</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

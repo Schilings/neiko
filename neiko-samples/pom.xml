@@ -27,6 +27,7 @@
         <module>neiko-samples-oauth2-client</module>
         <module>neiko-samples-oauth2-resource-server</module>
         <module>neiko-samples-oauth2-authorization-server</module>
+        <module>neiko-samples-authorization</module>
     </modules>
 
 

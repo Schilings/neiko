@@ -9,11 +9,18 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>neiko-authorization-api</artifactId>
+    
     <dependencies>
         <dependency>
             <groupId>com.schilings</groupId>
             <artifactId>neiko-authorization-biz</artifactId>
-            <version>${revision}</version>
+        </dependency>
+        <!--neiko log-->
+        <dependency>
+            <groupId>com.schilings</groupId>
+            <artifactId>neiko-common-log</artifactId>
         </dependency>
     </dependencies>
+    
+    
 </project>

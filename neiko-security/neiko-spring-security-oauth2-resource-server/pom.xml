@@ -26,7 +26,6 @@
         <dependency>
             <groupId>com.schilings</groupId>
             <artifactId>neiko-spring-security-oauth2-authorization-server</artifactId>
-            <version>${revision}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

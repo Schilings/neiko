@@ -4,7 +4,7 @@ import com.schilings.neiko.admin.datascope.component.UserDataScope;
 import com.schilings.neiko.admin.datascope.component.UserDataScopeProcessor;
 
 import com.schilings.neiko.authorization.common.constant.UserAttributeNameConstants;
-import com.schilings.neiko.system.authentication.UserInfoCoordinator;
+import com.schilings.neiko.admin.upms.authentication.UserInfoCoordinator;
 import com.schilings.neiko.system.model.dto.UserInfoDTO;
 import lombok.RequiredArgsConstructor;
 

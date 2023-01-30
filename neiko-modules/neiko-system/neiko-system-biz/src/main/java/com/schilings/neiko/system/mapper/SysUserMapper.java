@@ -64,6 +64,8 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 		return SqlHelper.retBool(i);
 	}
 
+
+
 	/**
 	 * 根据用户名查询用户
 	 * @param username 用户名
@@ -71,9 +73,24 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 	 */
 	default SysUser selectByUsername(String username) {
 		return this.selectOne(WrappersX.<SysUser>lambdaQueryX()
-				.eq(SysUser::getDeleted, GlobalConstants.NOT_DELETED_FLAG).eq(SysUser::getUsername, username));
+				.eq(SysUser::getUsername, username));
 	}
 
+	/**
+	 * 根据 用户名 邮箱 电话 查询用户
+	 * @param username 用户名
+	 * @return 系统用户
+	 */
+	default SysUser selectByUsernameOrEmailOrPhone(String username, String email, String phone) {
+		return this.selectOne(WrappersX.<SysUser>lambdaQueryX()
+				.eq(SysUser::getUsername, username)
+				.or()
+				.eq(SysUser::getEmail, email)
+				.or()
+				.eq(SysUser::getPhone, phone)
+		);
+	}
+	
 	/**
 	 * 更新指定用户的密码
 	 * @param userId 用户
@@ -142,5 +159,6 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 		return this.selectJoinList(SelectData.class, AUTO_RESULT_MAP, queryWrapper);
 
 	}
+
 
 }

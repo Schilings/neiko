@@ -86,6 +86,16 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	}
 
 	/**
+	 * 查询用户
+	 * @param username 用户名
+	 * @return 系统用户
+	 */
+	@Override
+	public SysUser getOAuth2UserIfUnkonw(String username, String email, String phone) {
+		return baseMapper.selectByUsernameOrEmailOrPhone(username, email, phone);
+	}
+
+	/**
 	 * 获取用户详情信息
 	 * @param sysUser
 	 * @return UserInfoDTO
@@ -142,6 +152,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	 * @return boolean
 	 */
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public boolean addSysUser(SysUserDTO sysUserDto) {
 		SysUser sysUser = SysUserConverter.INSTANCE.dtoToPo(sysUserDto);
 		sysUser.setType(SysUserConst.Type.SYSTEM.getValue());
@@ -253,6 +264,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	 * @return 更新成功：true
 	 */
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public boolean updateUserStatusBatch(Collection<Long> userIds, Integer status) {
 
 		List<SysUser> userList = baseMapper.listByUserIds(userIds);

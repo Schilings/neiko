@@ -45,7 +45,7 @@ mybatis-plus:
 springdoc:
   swagger-ui:
     enabled: true
-    urls: #由于 knife4j 对于规范支持的不全面，无法直接使用单文档源数据，所以必须进行分组或者 urls 的指定。
+    urls: 
       - { name: 'sample', url: '/v3/api-docs' }
   
 # spring配置
@@ -53,8 +53,10 @@ spring:
   profiles:
     active: 
       - neiko 
-      - client
-      - dev
+      - prod
+  config:
+    import: 
+      - optional:file:E:\Code\neiko-all-version\1.0.0\neiko\database\oauth2\oauth2-client-registration.yml
   # JavaMailSender 邮件发送的配置
   mail:
     #以qq邮箱发送
@@ -71,7 +73,7 @@ spring:
             enable: true
             required: true
     default-encoding: UTF-8
-
-
-
-    
+  
+  
+  
+  

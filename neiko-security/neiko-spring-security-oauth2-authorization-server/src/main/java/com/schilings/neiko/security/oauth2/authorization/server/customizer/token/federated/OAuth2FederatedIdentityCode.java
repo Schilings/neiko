@@ -15,6 +15,8 @@ import java.time.Instant;
  * @author Schilings
  */
 public class OAuth2FederatedIdentityCode extends AbstractOAuth2Token {
+	
+	
 
 	public OAuth2FederatedIdentityCode(String tokenValue, Instant issuedAt, Instant expiresAt) {
 		super(tokenValue, issuedAt, expiresAt);

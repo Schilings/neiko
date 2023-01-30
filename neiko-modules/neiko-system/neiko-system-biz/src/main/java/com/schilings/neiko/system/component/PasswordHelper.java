@@ -2,9 +2,9 @@ package com.schilings.neiko.system.component;
 
 import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.crypto.CryptoException;
-import com.schilings.neiko.authorization.common.properties.SecurityProperties;
+import com.schilings.neiko.security.properties.SecurityProperties;
 import com.schilings.neiko.common.core.exception.ServiceException;
-import com.schilings.neiko.oauth2.util.PasswordUtils;
+import com.schilings.neiko.security.util.PasswordUtils;
 import com.schilings.neiko.system.properties.SystemProperties;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

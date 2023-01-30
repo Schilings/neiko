@@ -1,5 +1,6 @@
 package com.schilings.neiko.security.oauth2.resource.server.config;
 
+import com.schilings.neiko.security.oauth2.resource.server.customizer.jwt.DefaultJwtAuthenticationConverter;
 import com.schilings.neiko.security.oauth2.resource.server.customizer.opaque.SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector;
 import com.schilings.neiko.security.oauth2.resource.server.properties.ResourceServerProperties;
 import com.schilings.neiko.security.oauth2.resource.server.customizer.opaque.SpringRemoteOpaqueTokenIntrospector;
@@ -27,6 +28,7 @@ import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 
 import java.util.HashMap;
@@ -45,6 +47,16 @@ class ResourceServerConfiguration {
 
 		JwtConfiguration(ResourceServerProperties properties) {
 			this.properties = properties.getJwt();
+		}
+
+		/**
+		 * Process the authenticated Jwt into local AuthenticationToken
+		 * @return
+		 */
+		@Bean
+		@ConditionalOnMissingBean(JwtAuthenticationConverter.class)
+		public DefaultJwtAuthenticationConverter defaultJwtAuthenticationConverter() {
+			return new DefaultJwtAuthenticationConverter();
 		}
 
 	}

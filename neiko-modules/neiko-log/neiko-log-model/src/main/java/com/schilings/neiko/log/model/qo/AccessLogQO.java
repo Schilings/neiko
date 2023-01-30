@@ -35,7 +35,7 @@ public class AccessLogQO {
 	 * 用户ID
 	 */
 	@Parameter(description = "用户ID")
-	private Integer userId;
+	private Long userId;
 
 	/**
 	 * 访问IP地址

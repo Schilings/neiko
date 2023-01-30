@@ -1,7 +1,7 @@
 package com.schilings.neiko.sample.authorization.server.event;
 
 
-import com.schilings.neiko.security.oauth2.authorization.server.ApplicationEventAuthenticationFailureHandler;
+import com.schilings.neiko.security.oauth2.authorization.server.handler.ApplicationEventAuthenticationFailureHandler;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 

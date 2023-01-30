@@ -102,8 +102,8 @@ public class OAuth2FederatedIdentityAuthenticationSuccessHandler implements Auth
 		}
 
 		// redirect_uri,检验RegisteredClient是否有该redirect_uri
-		if (!registeredClient.getRedirectUris()
-				.contains((String) authorizationRequest.getAttribute(OAuth2FederatedIdentityConstant.REDIRECT_URI))) {
+		String redirectUri = authorizationRequest.getAttribute(OAuth2FederatedIdentityConstant.REDIRECT_URI);
+		if (!registeredClient.getRedirectUris().contains(redirectUri)) {
 			OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.INVALID_REDIRECT_URI, "The redirect_uri is invalid.",
 					"");
 			throw new OAuth2AuthenticationException(error);
@@ -127,7 +127,9 @@ public class OAuth2FederatedIdentityAuthenticationSuccessHandler implements Auth
 				authorizationRequest)
 						// 这个的目的看OAuth2FederatedIdentityAuthenticationProvider注释
 						.attribute(OAuth2ParameterNames.STATE, federatedIdentityCode.getTokenValue())
-						.token(federatedIdentityCode).build();
+						.attribute(OAuth2FederatedIdentityCode.class.getName(), federatedIdentityCode)
+						.token(federatedIdentityCode)
+				.build();
 		this.authorizationService.save(authorization);
 
 		if (this.logger.isTraceEnabled()) {

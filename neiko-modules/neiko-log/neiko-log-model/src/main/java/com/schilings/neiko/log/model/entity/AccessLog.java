@@ -1,5 +1,7 @@
 package com.schilings.neiko.log.model.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.gitee.sunchenbin.mybatis.actable.annotation.Column;
@@ -138,5 +140,6 @@ public class AccessLog {
 	@Column(comment = "创建时间")
 	@Schema(title = "创建时间")
 	private LocalDateTime createTime;
+
 
 }

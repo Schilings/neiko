@@ -1,1 +1,1 @@
-com.schilings.neiko.security.oauth2.authorization.server.config.AuthorizationServerAutoConfiguration
+com.schilings.neiko.security.oauth2.authorization.server.autoconfigure.AuthorizationServerAutoConfiguration

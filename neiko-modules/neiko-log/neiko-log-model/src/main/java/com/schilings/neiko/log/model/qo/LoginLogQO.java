@@ -36,7 +36,7 @@ public class LoginLogQO {
 	 * 客户端ID
 	 */
 	@Parameter(description = "客户端ID")
-	private Long clientId;
+	private String clientId;
 
 	/**
 	 * 用户名

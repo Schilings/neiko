@@ -1,10 +1,14 @@
 package com.schilings.neiko.log.model.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.schilings.neiko.log.enums.LoginEventTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+
+import static cn.hutool.core.date.DatePattern.NORM_DATETIME_PATTERN;
 
 /**
  *
@@ -36,7 +40,7 @@ public class LoginLogPageVO {
 	 * 客户端ID
 	 */
 	@Schema(title = "客户端ID")
-	private Long clienId;
+	private String clienId;
 
 	/**
 	 * 用户名
@@ -91,12 +95,14 @@ public class LoginLogPageVO {
 	 * 登录/登出时间
 	 */
 	@Schema(title = "登录/登出时间")
+	@JsonFormat(pattern = NORM_DATETIME_PATTERN, timezone = "GMT+8")
 	private LocalDateTime loginTime;
 
 	/**
 	 * 创建时间
 	 */
 	@Schema(title = "创建时间")
+	@JsonFormat(pattern = NORM_DATETIME_PATTERN, timezone = "GMT+8")
 	private LocalDateTime createTime;
 
 }

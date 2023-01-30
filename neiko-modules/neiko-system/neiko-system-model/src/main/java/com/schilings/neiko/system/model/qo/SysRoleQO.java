@@ -4,6 +4,9 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import static cn.hutool.core.date.DatePattern.NORM_DATETIME_PATTERN;
 
 /**
  *
@@ -27,9 +30,11 @@ public class SysRoleQO {
 	private String code;
 
 	@Parameter(description = "开始时间")
+	@DateTimeFormat(pattern = NORM_DATETIME_PATTERN)
 	private String startTime;
 
 	@Parameter(description = "结束时间")
+	@DateTimeFormat(pattern = NORM_DATETIME_PATTERN)
 	private String endTime;
 
 }

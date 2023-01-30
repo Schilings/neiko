@@ -42,9 +42,18 @@
     console.log(JSON.stringify(obj));
     var httpRequest = new XMLHttpRequest();
     httpRequest.open("POST",url,true);
+    
+    
     //不是json形式，是表单application/x-www-form-urlencoded
     httpRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    httpRequest.send('grant_type=federated_identity&scope=message.read message.write openid&client_id=messaging-client1&client_secret=secret1&registrationId=gitee-idp&code=' + code);
+    httpRequest.send(
+        'grant_type=' + obj.grant_type +
+        '&scope=' + obj.scope +
+        '&client_id=' + obj.client_id +
+        '&client_secret=' + obj.client_secret +
+        '&registrationId=' + obj.registrationId +
+        '&code=' + code
+    );
     httpRequest.onreadystatechange = ()=>{
         if(httpRequest.readyState == 4 && httpRequest.status == 200){
             var data = JSON.parse(httpRequest.responseText);

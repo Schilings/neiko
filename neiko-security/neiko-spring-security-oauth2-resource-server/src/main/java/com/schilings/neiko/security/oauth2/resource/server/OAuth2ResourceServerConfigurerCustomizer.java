@@ -20,12 +20,16 @@ public interface OAuth2ResourceServerConfigurerCustomizer {
 
 	void customize(HttpSecurity httpSecurity) throws Exception;
 
-	default RequestMatcher[] createAntMatchers(String... patterns) {
+	default List<RequestMatcher> createAntMatcherList(String... patterns) {
 		List<RequestMatcher> matchers = new ArrayList<>(patterns.length);
 		for (String pattern : patterns) {
 			matchers.add(new AntPathRequestMatcher(pattern));
 		}
-		return ArrayUtil.toArray(matchers, RequestMatcher.class);
+		return matchers;
+	}
+
+	default RequestMatcher[] createAntMatcherArray(String... patterns) {
+		return ArrayUtil.toArray(createAntMatcherList(patterns), RequestMatcher.class);
 	}
 
 }

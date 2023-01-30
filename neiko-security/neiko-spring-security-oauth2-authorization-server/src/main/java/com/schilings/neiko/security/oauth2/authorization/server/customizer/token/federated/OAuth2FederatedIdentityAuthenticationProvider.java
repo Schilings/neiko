@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.core.*;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.core.oidc.endpoint.OidcParameterNames;
@@ -85,10 +86,10 @@ public class OAuth2FederatedIdentityAuthenticationProvider implements OAuth2Exte
 
 		// 校验授权码，通过授权码能拿到OAuth2Authorization，在OAuth2Login会持久化，在这里拿到
 		// 通常用InMemoryOAuth2AuthorizationService，这个不是直接通过code值来判断的，那我们得走里面的matchesState的方式
-		// 不填TokenType :
+		// new OAuth2TokenType(OAuth2ParameterNames.STATE)
 		// OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_CODE_TOKEN_TYPE
 		OAuth2Authorization authorization = this.authorizationService
-				.findByToken(federatedIdentityAuthenticationToken.getCode(), null);
+				.findByToken(federatedIdentityAuthenticationToken.getCode(), new OAuth2TokenType(OAuth2ParameterNames.STATE));
 		if (authorization == null) {
 			throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_GRANT);
 		}
@@ -123,6 +124,10 @@ public class OAuth2FederatedIdentityAuthenticationProvider implements OAuth2Exte
 		// 校验授权码FederatedIdentityCode.Token是否还有效
 		OAuth2Authorization.Token<OAuth2FederatedIdentityCode> federatedIdentityCodeToken = authorization
 				.getToken(OAuth2FederatedIdentityCode.class);
+		if (federatedIdentityCodeToken == null) {
+			OAuth2FederatedIdentityCode code = authorization.getAttribute(OAuth2FederatedIdentityCode.class.getName());
+			federatedIdentityCodeToken = OAuth2Authorization.from(authorization).token(code).build().getToken(OAuth2FederatedIdentityCode.class);
+		}
 		if (!federatedIdentityCodeToken.isActive()) {
 			throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_GRANT);
 		}

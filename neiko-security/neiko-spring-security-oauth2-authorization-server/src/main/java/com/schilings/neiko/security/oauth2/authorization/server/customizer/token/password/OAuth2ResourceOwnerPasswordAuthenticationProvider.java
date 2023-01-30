@@ -129,9 +129,9 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider
 		// @formatter:off
         OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
                 .principalName(usernamePasswordAuthentication.getName())
-                .authorizationGrantType(AuthorizationGrantType.PASSWORD)
 				//授权成功给予的scope
                 .authorizedScopes(authorizedScopes)
+				.authorizationGrantType(AuthorizationGrantType.PASSWORD)
 				//在这个OAuth2Authorization中存入UsernamePasswordAuthentication
                 .attribute(Principal.class.getName(), usernamePasswordAuthentication)
                 .attribute(UserDetails.class.getName(), usernamePasswordAuthentication.getPrincipal());

@@ -76,7 +76,7 @@ public class SysUserController {
 	@GetMapping("/{userId}")
 	@PreAuthorize(value = "hasAuthority('system:user:read')")
 	@Operation(summary = "获取指定用户的基本信息")
-	public R<SysUserInfo> getSysUserInfo(@PathVariable("userId") Integer userId) {
+	public R<SysUserInfo> getSysUserInfo(@PathVariable("userId") Long userId) {
 		SysUser sysUser = sysUserService.getById(userId);
 		if (sysUser == null) {
 			return R.ok();

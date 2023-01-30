@@ -1,11 +1,14 @@
 package com.schilings.neiko.security.oauth2.authorization.server.customizer.authorization;
 
+import com.schilings.neiko.security.oauth2.authorization.server.component.OAuth2SecurityContextRepository;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.OAuth2AuthorizationEndpointConfigurerCustomizer;
+import com.schilings.neiko.security.oauth2.authorization.server.util.OAuth2ConfigurerUtils;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
@@ -13,10 +16,12 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AuthorizationCodeRequestAuthenticationException;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AuthorizationCodeRequestAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationEndpointConfigurer;
+import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -42,33 +47,47 @@ public class DefaultOAuth2AuthorizationEndpointCustomizer extends OAuth2Authoriz
 
 	private Function<AuthenticationFailureHandler, AuthenticationFailureHandler> failureHandlerMapping = (
 			failureHandler) -> failureHandler;
-
+	
 	private String consentPage;
-
-	public DefaultOAuth2AuthorizationEndpointCustomizer() {
-
-	}
+	
+	private boolean stateless = false;
+	
 
 	@Override
-	public void customize(OAuth2AuthorizationEndpointConfigurer configurer, HttpSecurity httpSecurity) {
+	public void customize(OAuth2AuthorizationServerConfigurer configurer, HttpSecurity httpSecurity) throws Exception {
 		ObjectPostProcessor<Object> postProcessor = httpSecurity.getSharedObject(ObjectPostProcessor.class);
-		// custom consent
-		if (StringUtils.hasText(this.consentPage)) {
-			// 不然consent路径得不到认证，因为不经过Chain
-			httpSecurity.securityMatchers().requestMatchers(new AntPathRequestMatcher(this.consentPage));
-			configurer.consentPage(this.consentPage);
+		// 使用无状态登录时，需要配合自定义的 SecurityContextRepository
+		if (this.stateless) {
+			httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+			httpSecurity
+					.securityContext(security -> security.securityContextRepository(
+							new OAuth2SecurityContextRepository(OAuth2ConfigurerUtils.getAuthorizationService(httpSecurity))));
 		}
-		// handler
-		this.authenticationSuccessHandler = this.successHandlerMapping.apply(this.authenticationSuccessHandler);
-		this.authenticationFailureHandler = this.failureHandlerMapping.apply(this.authenticationFailureHandler);
-		configurer.authorizationResponseHandler(postProcessor.postProcess(this.authenticationSuccessHandler));
-		configurer.errorResponseHandler(postProcessor.postProcess(this.authenticationFailureHandler));
+		configurer.authorizationEndpoint(authorizationEndpoint -> {
+			// custom consent 设置 OAuth2 Consent 地址
+			if (StringUtils.hasText(this.consentPage)) {
+				// 不然consent路径得不到认证，因为不经过Chain
+				httpSecurity.securityMatchers().requestMatchers(new AntPathRequestMatcher(this.consentPage));
+				authorizationEndpoint.consentPage(this.consentPage);
+			}
+			// handler
+			this.authenticationSuccessHandler = this.successHandlerMapping.apply(this.authenticationSuccessHandler);
+			this.authenticationFailureHandler = this.failureHandlerMapping.apply(this.authenticationFailureHandler);
+			authorizationEndpoint.authorizationResponseHandler(postProcessor.postProcess(this.authenticationSuccessHandler));
+			authorizationEndpoint.errorResponseHandler(postProcessor.postProcess(this.authenticationFailureHandler));
+		});
 	}
 
 	public DefaultOAuth2AuthorizationEndpointCustomizer consentPage(String consentPage) {
 		this.consentPage = consentPage;
 		return this;
 	}
+
+	public DefaultOAuth2AuthorizationEndpointCustomizer stateless(boolean stateless) {
+		this.stateless = stateless;
+		return this;
+	}
+	
 
 	public DefaultOAuth2AuthorizationEndpointCustomizer authorizationResponseHandler(
 			Function<AuthenticationSuccessHandler, AuthenticationSuccessHandler> apply) {

@@ -1,8 +1,6 @@
 package com.schilings.neiko.authorization.common.constant;
 
-/**
- * @author hccake
- */
+
 public final class UserInfoFiledNameConstants {
 
 	private UserInfoFiledNameConstants() {

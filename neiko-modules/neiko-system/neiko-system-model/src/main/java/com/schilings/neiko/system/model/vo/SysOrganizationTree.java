@@ -3,10 +3,13 @@ package com.schilings.neiko.system.model.vo;
 import com.schilings.neiko.common.util.tree.TreeNode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static cn.hutool.core.date.DatePattern.NORM_DATETIME_PATTERN;
 
 /**
  * 组织架构
@@ -65,12 +68,14 @@ public class SysOrganizationTree implements TreeNode<Long> {
 	 * 创建时间
 	 */
 	@Schema(title = "创建时间")
+	@DateTimeFormat(pattern = NORM_DATETIME_PATTERN)
 	private LocalDateTime createTime;
 
 	/**
 	 * 更新时间
 	 */
 	@Schema(title = "更新时间")
+	@DateTimeFormat(pattern = NORM_DATETIME_PATTERN)
 	private LocalDateTime updateTime;
 
 	/**

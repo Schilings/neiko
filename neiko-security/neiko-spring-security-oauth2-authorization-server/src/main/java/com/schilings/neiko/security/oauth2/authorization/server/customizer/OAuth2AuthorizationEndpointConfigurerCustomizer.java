@@ -17,11 +17,5 @@ public abstract class OAuth2AuthorizationEndpointConfigurerCustomizer
 
 	protected final Log logger = LogFactory.getLog(getClass());
 
-	@Override
-	public void customize(OAuth2AuthorizationServerConfigurer configurer, HttpSecurity httpSecurity) {
-		configurer.authorizationEndpoint(authorizationEndpoint -> customize(authorizationEndpoint, httpSecurity));
-	}
-
-	public abstract void customize(OAuth2AuthorizationEndpointConfigurer configurer, HttpSecurity httpSecurity);
 
 }

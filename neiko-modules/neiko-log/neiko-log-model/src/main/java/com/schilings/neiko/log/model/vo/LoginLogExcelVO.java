@@ -1,11 +1,15 @@
 package com.schilings.neiko.log.model.vo;
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.schilings.neiko.log.enums.LoginEventTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+
+import static cn.hutool.core.date.DatePattern.NORM_DATETIME_PATTERN;
 
 /**
  *
@@ -38,7 +42,7 @@ public class LoginLogExcelVO {
 	 */
 	@Schema(title = "客户端ID")
 	@ExcelProperty({ "客户端ID" })
-	private Long clienId;
+	private String clienId;
 
 	/**
 	 * 用户名
@@ -102,6 +106,7 @@ public class LoginLogExcelVO {
 	 */
 	@Schema(title = "登录/登出时间")
 	@ExcelProperty({ "登录/登出时间" })
+	@JsonFormat(pattern = NORM_DATETIME_PATTERN, timezone = "GMT+8")
 	private LocalDateTime loginTime;
 
 	/**
@@ -109,6 +114,7 @@ public class LoginLogExcelVO {
 	 */
 	@Schema(title = "创建时间")
 	@ExcelProperty({ "创建时间" })
+	@JsonFormat(pattern = NORM_DATETIME_PATTERN, timezone = "GMT+8")
 	private LocalDateTime createTime;
 
 }

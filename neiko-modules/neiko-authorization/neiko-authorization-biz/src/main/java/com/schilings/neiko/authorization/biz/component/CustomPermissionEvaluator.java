@@ -28,7 +28,13 @@ public class CustomPermissionEvaluator {
 		}
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 		return authorities.stream().map(GrantedAuthority::getAuthority).filter(StringUtils::hasText)
-				.anyMatch(x -> PatternMatchUtils.simpleMatch(permission, x));
+				//1. a:b 下所有权限都可以pass
+				//requirePermission = a:b:* ,yourPermission = a:b:c ---> pass
+				//requirePermission = a:b:* ,yourPermission = a:b:d ---> pass
+				//2. a:b:c权限都可以pass
+				//requirePermission = a:b:c ,yourPermission = a:b:c ---> pass
+				//requirePermission = a:b:c ,yourPermission = a:b:* ---> pass
+				.anyMatch(x -> PatternMatchUtils.simpleMatch(permission, x) ||  PatternMatchUtils.simpleMatch(x, permission));
 	}
 
 }

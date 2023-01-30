@@ -19,7 +19,7 @@ public abstract class LogicDeletedBaseEntity extends BaseEntity {
 	/**
 	 * 逻辑删除标识，已删除: 删除时间戳，未删除: 0
 	 */
-	@TableLogic
+	@TableLogic//作用于select与delete,值可无、会自动获取全局配置
 	@TableField(fill = FieldFill.INSERT)
 	@Schema(title = "已删除: 删除时间戳，未删除: 0")
 	private Long deleted;

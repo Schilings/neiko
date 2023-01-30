@@ -6,30 +6,23 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.schilings.neiko.sample.oauth2.jose.Jwks;
-import com.schilings.neiko.security.oauth2.authorization.server.config.EnableAuthorizationServer;
+import com.schilings.neiko.security.oauth2.authorization.server.autoconfigure.EnableAuthorizationServer;
 
 
-import com.schilings.neiko.security.oauth2.authorization.server.configurer.FormLoginRememberMeConfigurer;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.authorization.DefaultOAuth2AuthorizationEndpointCustomizer;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.oidc.DefaultOAuth2OidcConfigurerCustomizer;
-import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.OAuth2TokenEndpointExtensionGrantTypeCustomizer;
+import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.DefaultOAuth2TokenEndpointConfigurerCustomizer;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.federated.OAuth2FederatedIdentityAuthenticationConverter;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.federated.OAuth2FederatedIdentityAuthenticationProvider;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.federated.OAuth2FederatedIdentityConstant;
-import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.password.OAuth2ResourceOwnerPasswordAuthenticationConverter;
-import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.password.OAuth2ResourceOwnerPasswordAuthenticationProvider;
+import com.schilings.neiko.security.oauth2.authorization.server.util.OAuth2ConfigurerUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
-import org.springframework.security.oauth2.server.authorization.InMemoryOAuth2AuthorizationConsentService;
-import org.springframework.security.oauth2.server.authorization.InMemoryOAuth2AuthorizationService;
-import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
-import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.*;
 import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
@@ -44,12 +37,6 @@ import java.util.UUID;
 @EnableAuthorizationServer
 public class AuthorizationServerConfig {
 	
-	// Form Login Remember Me
-	@Bean
-	public FormLoginRememberMeConfigurer formLoginRememberMeConfigurer(UserDetailsService userDetailsService) {
-		return new FormLoginRememberMeConfigurer(userDetailsService);
-	}
-
 	// Custom Authorization Consent
 	@Bean
 	public DefaultOAuth2AuthorizationEndpointCustomizer authorizationEndpointCustomizer() {
@@ -66,19 +53,15 @@ public class AuthorizationServerConfig {
 
 	// Token Endpoint
 	@Bean
-	public OAuth2TokenEndpointExtensionGrantTypeCustomizer extensionGrantTypeCustomizer() {
-		OAuth2TokenEndpointExtensionGrantTypeCustomizer extensionGrantTypeCustomizer = new OAuth2TokenEndpointExtensionGrantTypeCustomizer();
+	public DefaultOAuth2TokenEndpointConfigurerCustomizer extensionGrantTypeCustomizer() {
+		DefaultOAuth2TokenEndpointConfigurerCustomizer extensionGrantTypeCustomizer = new DefaultOAuth2TokenEndpointConfigurerCustomizer();
 		// converter
 		extensionGrantTypeCustomizer.converterExpander(((converters, http) -> {
-			converters.add(new OAuth2ResourceOwnerPasswordAuthenticationConverter());
 			converters.add(new OAuth2FederatedIdentityAuthenticationConverter());
 		}));
 		// provider
-		extensionGrantTypeCustomizer.providerExpander((providers, authorizationService, tokenGenerator, http) -> {
-			// 未build,so 懒加载
-			AuthenticationManager authenticationManager = authentication -> http.getSharedObject(AuthenticationManager.class).authenticate(authentication);
-			providers.add(new OAuth2ResourceOwnerPasswordAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator));
-			providers.add(new OAuth2FederatedIdentityAuthenticationProvider(authorizationService, tokenGenerator));
+		extensionGrantTypeCustomizer.providerExpander((providers, http) -> {
+			providers.add(new OAuth2FederatedIdentityAuthenticationProvider(OAuth2ConfigurerUtils.getAuthorizationService(http), OAuth2ConfigurerUtils.getTokenGenerator(http)));
 		});
 		return extensionGrantTypeCustomizer;
 	}
@@ -161,7 +144,8 @@ public class AuthorizationServerConfig {
 
 		return registeredClientRepository;
 	}
-
+	
+	
 	@Bean
 	public OAuth2AuthorizationService authorizationService() {
 		return new InMemoryOAuth2AuthorizationService();

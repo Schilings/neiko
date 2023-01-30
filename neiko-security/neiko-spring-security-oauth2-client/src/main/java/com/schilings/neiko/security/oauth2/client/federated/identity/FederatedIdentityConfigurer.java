@@ -163,7 +163,7 @@ public final class FederatedIdentityConfigurer
 	}
 
 	public FederatedIdentityConfigurer wechatOAuth2Login() {
-		String baseUri = this.authorizationRequestUri.replace("/{registrationId}", "");
+		String baseUri = this.authorizationRequestUri.replace("/{" + REGISTRATION_ID_URI_VARIABLE_NAME + "}", "");
 		this.authorizationRequestResolver(
 				new WechatOAuth2AuthorizationRequestResolver(this.clientRegistrationRepository, baseUri));
 		this.accessTokenResponseClient(new WechatOAuth2AccessTokenResponseClient());
@@ -172,7 +172,7 @@ public final class FederatedIdentityConfigurer
 	}
 
 	public FederatedIdentityConfigurer workWechatOAuth2Login() {
-		String baseUri = this.authorizationRequestUri.replace("/{registrationId}", "");
+		String baseUri = this.authorizationRequestUri.replace("/{" + REGISTRATION_ID_URI_VARIABLE_NAME + "}", "");
 		this.authorizationRequestResolver(
 				new WorkWechatOAuth2AuthorizationRequestResolver(this.clientRegistrationRepository, baseUri));
 		this.accessTokenResponseClient(new WorkWechatOAuth2AccessTokenResponseClient());
@@ -182,7 +182,7 @@ public final class FederatedIdentityConfigurer
 
 	@Override
 	public void init(HttpSecurity http) throws Exception {
-		String baseUri = this.authorizationRequestUri.replace("/{registrationId}", "");
+		String baseUri = this.authorizationRequestUri.replace("/{" + REGISTRATION_ID_URI_VARIABLE_NAME + "}", "");
 
 		// requestMatcher
 		// http.requestMatchers().antMatchers(this.authorizationRequestUri,
@@ -279,11 +279,12 @@ public final class FederatedIdentityConfigurer
 		// 放在configure方法(init之后)进行该操作，确保OAuth2LoginConfigurer在此之前已经存在
 		OAuth2LoginConfigurer oAuth2LoginConfigurer = httpSecurity.getConfigurer(OAuth2LoginConfigurer.class);
 		Field field = ReflectionUtils.findField(OAuth2LoginConfigurer.class, "authFilter");
-		field.setAccessible(true);
+		assert field != null;
+		ReflectionUtils.makeAccessible(field);
 		OAuth2LoginAuthenticationFilter authFilter = ((OAuth2LoginAuthenticationFilter) ReflectionUtils.getField(field,
 				oAuth2LoginConfigurer));
+		assert authFilter != null;
 		authFilter.setAuthenticationResultConverter(this.auth2AuthenticationResultConverter);
-
 		// authFilter.setContinueChainBeforeSuccessfulAuthentication(true);
 
 	}

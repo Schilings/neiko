@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ResourceController {
 
     @GetMapping("/1")
-    @PreAuthorize(value = "hasAuthority('ROLE_USER')")
+    @PreAuthorize(value = "hasAuthority('SCOPE_ROLE_USER')")
     public String test1() {
         return "1111";
     }
@@ -27,10 +27,15 @@ public class ResourceController {
         return "3333";
     }
     
-    @PreAuthorize(value = "hasAuthority('none')")
+    @PreAuthorize(value = "hasAuthority('SCOPE_ROLE_ADMIN')")
     @GetMapping("/4")
     public String test4() {
         return "4444";
+    }
+    
+    @GetMapping("/5")
+    public String test5() {
+        return "55555";
     }
     
 }

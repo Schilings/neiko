@@ -1,6 +1,6 @@
 package com.schilings.neiko.sample.authorization.server.event;
 
-import com.schilings.neiko.security.oauth2.authorization.server.ApplicationEventAuthenticationSuccessHandler;
+import com.schilings.neiko.security.oauth2.authorization.server.handler.ApplicationEventAuthenticationSuccessHandler;
 import org.springframework.security.core.Authentication;
 
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;

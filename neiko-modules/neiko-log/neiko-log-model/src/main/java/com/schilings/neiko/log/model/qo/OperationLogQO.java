@@ -33,7 +33,7 @@ public class OperationLogQO {
 	 * 用户ID
 	 */
 	@Parameter(description = "用户ID")
-	private Integer userId;
+	private Long userId;
 
 	/**
 	 * 日志消息

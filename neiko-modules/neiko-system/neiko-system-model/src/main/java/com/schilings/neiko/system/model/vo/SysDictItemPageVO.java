@@ -2,11 +2,15 @@ package com.schilings.neiko.system.model.vo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.Map;
+
+import static cn.hutool.core.date.DatePattern.NORM_DATETIME_PATTERN;
 
 /**
  *
@@ -75,12 +79,14 @@ public class SysDictItemPageVO {
 	 * 创建时间
 	 */
 	@Schema(title = "创建时间")
+	@JsonFormat(pattern = NORM_DATETIME_PATTERN, timezone = "GMT+8")
 	private LocalDateTime createTime;
 
 	/**
 	 * 更新时间
 	 */
 	@Schema(title = "更新时间")
+	@JsonFormat(pattern = NORM_DATETIME_PATTERN, timezone = "GMT+8")
 	private LocalDateTime updateTime;
 
 }

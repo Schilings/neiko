@@ -100,4 +100,11 @@ public class SysUserDTO {
 	@Schema(title = "角色标识列表")
 	private List<String> roleCodes;
 
+	/**
+	 * 用户类型
+	 */
+	@ValueInInts(message = "用户类型(1:系统用户， 2：客户用户)", value = {1, 2}, allowNull = true)
+	@Schema(title = "用户类型")
+	private Integer type;
+
 }

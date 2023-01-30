@@ -30,6 +30,24 @@ neiko:
       # 这个可以不进行配置或者设置 空字符串, 这样文件就会和系统的临时文件放在一起
       # '/opt/nginx/images'
       path: 'D:\temp'
+  log:
+    access:
+      ignore-url-patterns:
+        - /error/**
+        - /public/**
+        - /ws/**
+        - /actuator/**
+        - /doc.html
+        - /v2/api-docs/**
+        - /v3/api-docs/**
+        - /swagger-resources/**
+        - /swagger-ui/**
+        - /swagger-ui.html
+        - /webjars/**
+        - /bycdao-ui/**
+        - /favicon.ico
+        - /captcha/**
+        - /h2-console/**
   openapi:
     info:
       title: Neiko-Admin Docs
@@ -50,7 +68,7 @@ neiko:
                 - message.read 
                 - message.write 
                 - openid 
-                - skip skip_password_decode
+                - skip_password_decode
         
   security:
     #password-secret-key: 'HX19ChxGmts3l/KkHnWmiw=='
@@ -72,4 +90,5 @@ neiko:
           - /favicon.ico
           - /captcha/**
           - /h2-console/**
+
 

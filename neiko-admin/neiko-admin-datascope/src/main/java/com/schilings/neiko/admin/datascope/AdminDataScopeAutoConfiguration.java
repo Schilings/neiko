@@ -4,6 +4,7 @@ import com.schilings.neiko.admin.datascope.component.AdminDefaultDataScope;
 import com.schilings.neiko.admin.datascope.component.DefaultUserDataScopeProcessor;
 import com.schilings.neiko.admin.datascope.component.UserDataScopeProcessor;
 import com.schilings.neiko.admin.datascope.coordinator.DataScopeUserInfoCoordinator;
+import com.schilings.neiko.admin.datascope.jackson.DataScopeJackson2Module;
 import com.schilings.neiko.system.service.SysOrganizationService;
 import com.schilings.neiko.system.service.SysRoleService;
 import com.schilings.neiko.system.service.SysUserService;
@@ -22,6 +23,11 @@ import org.springframework.context.annotation.Bean;
 @AutoConfiguration
 @RequiredArgsConstructor
 public class AdminDataScopeAutoConfiguration {
+
+	@Bean
+	public DataScopeJackson2Module dataScopeJackson2Module() {
+		return new DataScopeJackson2Module();
+	} 
 
 	@Bean
 	@ConditionalOnMissingBean

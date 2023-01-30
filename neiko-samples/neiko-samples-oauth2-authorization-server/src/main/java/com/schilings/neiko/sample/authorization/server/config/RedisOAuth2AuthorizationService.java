@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.schilings.neiko.common.redis.RedisHelper;
 
+import com.schilings.neiko.security.oauth2.authorization.server.jackson.AuthorizationServerJackson2Module;
 import com.schilings.neiko.security.oauth2.authorization.server.jackson.OAuth2AuthorizationMixin;
 import lombok.SneakyThrows;
 import org.springframework.context.expression.AnnotatedElementKey;
@@ -46,7 +47,11 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
         List<Module> securityModules = SecurityJackson2Modules.getModules(classLoader);
         objectMapper.registerModules(securityModules);
         objectMapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
-        objectMapper.registerModule(new CustomJackson2Module());
+        objectMapper.registerModule(new AuthorizationServerJackson2Module());
+    }
+
+    public RedisOAuth2AuthorizationService(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
     }
 
     private HashOperations<String, String, String> getHashOperations() {
@@ -214,15 +219,6 @@ public class RedisOAuth2AuthorizationService implements OAuth2AuthorizationServi
     }
 
     
-    public static class CustomJackson2Module extends SimpleModule {
-        @Override
-        public void setupModule(SetupContext context) {
-            context.setMixInAnnotations(OAuth2Authorization.class, OAuth2AuthorizationMixin.class);
-
-        }
-    }
-
-
     public static class TokenKey implements Comparable<TokenKey> {
         
         private final String tokenValue;
