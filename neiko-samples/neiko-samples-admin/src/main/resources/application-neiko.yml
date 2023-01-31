@@ -64,15 +64,21 @@ neiko:
           flows:
             password:
               token-url: /oauth2/token
-              scopes: 
-                - message.read 
-                - message.write 
-                - openid 
-                - skip_password_decode
+              scopes:
+                message.read: scope1
+                message.write: scope2
+                openid: 获取OIDC ID TOKEN
+                skip_password_decode: 跳过密码加密解密处理
+                skip_captcha: 跳过验证码
+                authority_info: 附带权限信息
         
   security:
     #password-secret-key: 'HX19ChxGmts3l/KkHnWmiw=='
     oauth2:
+      authorizationserver:
+        form-login-enabled: true
+        login-page-enabled: true
+        login-captcha-enabled: false
       resourceserver:
         ignore-urls: 
           - /error/**

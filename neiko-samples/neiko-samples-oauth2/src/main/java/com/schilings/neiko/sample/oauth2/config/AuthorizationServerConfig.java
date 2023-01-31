@@ -6,6 +6,7 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.schilings.neiko.sample.oauth2.jose.Jwks;
+import com.schilings.neiko.sample.oauth2.properties.RegisteredClientPropertiesMapper;
 import com.schilings.neiko.security.oauth2.authorization.server.autoconfigure.EnableAuthorizationServer;
 
 
@@ -37,19 +38,6 @@ import java.util.UUID;
 @EnableAuthorizationServer
 public class AuthorizationServerConfig {
 	
-	// Custom Authorization Consent
-	@Bean
-	public DefaultOAuth2AuthorizationEndpointCustomizer authorizationEndpointCustomizer() {
-		DefaultOAuth2AuthorizationEndpointCustomizer customizer = new DefaultOAuth2AuthorizationEndpointCustomizer();
-		customizer.consentPage("/oauth2/consent");
-		return customizer;
-	}
-	
-	// Enable OpenID Connect 1.0
-	@Bean
-	public DefaultOAuth2OidcConfigurerCustomizer oidcConfigurerCustomizer() {
-		return new DefaultOAuth2OidcConfigurerCustomizer();
-	}
 
 	// Token Endpoint
 	@Bean
@@ -75,8 +63,8 @@ public class AuthorizationServerConfig {
 		String registeredClientId2 = UUID.randomUUID().toString();
 
 		RegisteredClient registeredClient1 = RegisteredClient.withId(registeredClientId1)
-				.clientId("messaging-client1")
-				.clientSecret("{noop}secret1")
+				.clientId("messaging-client111")
+				.clientSecret("{noop}secret111")
 				// 这里是CLIENT_SECRET_POST,方便调试，客户端认证，直接在post请求中传client_id和client_secret
 				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
 				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
@@ -113,8 +101,8 @@ public class AuthorizationServerConfig {
 
 		//不同的客户端 id clientId clienSecret 都不能一样
 		RegisteredClient registeredClient2 = RegisteredClient.withId(registeredClientId2)
-				.clientId("messaging-client2")
-				.clientSecret("{noop}secret2")
+				.clientId("messaging-client2222")
+				.clientSecret("{noop}secret2222")
 				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
 				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
 				.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)

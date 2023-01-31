@@ -15,8 +15,6 @@ import com.schilings.neiko.authorization.biz.jose.Jwks;
 import com.schilings.neiko.authorization.biz.service.AuthorizationConsentService;
 import com.schilings.neiko.authorization.biz.service.AuthorizationService;
 import com.schilings.neiko.authorization.biz.service.OAuth2RegisteredClientService;
-import com.schilings.neiko.authorization.biz.tokencustomizer.JwtOAuth2TokenCustomizer;
-import com.schilings.neiko.authorization.biz.tokencustomizer.OpaqueTokenOAuth2TokenCustomizer;
 import com.schilings.neiko.authorization.common.jackson2.NeikoAuthorizationJackson2Module;
 import com.schilings.neiko.security.oauth2.authorization.server.OAuth2AuthorizationServerConfigurerCustomizer;
 import com.schilings.neiko.security.oauth2.authorization.server.autoconfigure.EnableAuthorizationServer;
@@ -50,21 +48,6 @@ import java.util.ArrayList;
 @EnableAuthorizationServer
 public class AuthorizationServerConfiguration {
 
-	/**
-	 * In processing of Token Generator,customize Jwt
-	 */
-	@Bean
-	public JwtOAuth2TokenCustomizer jwtOAuth2TokenCustomizer() {
-		return new JwtOAuth2TokenCustomizer();
-	}
-
-	/**
-	 * In processing of Token Generator,customize OpaqueToken
-	 */
-	@Bean
-	public OpaqueTokenOAuth2TokenCustomizer oAuth2TokenCustomizer() {
-		return new OpaqueTokenOAuth2TokenCustomizer();
-	}
 
 	
 	/**

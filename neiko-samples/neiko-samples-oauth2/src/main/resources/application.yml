@@ -8,6 +8,34 @@ logging:
     org.springframework.security.oauth2: TRACE
 
 spring:
-  profiles:
-    active: client,resourceserver
+  config:
+    import:
+      - optional:file:E:\Code\neiko-all-version\1.0.0\neiko\database\oauth2\oauth2-client-registration.yml
+
+neiko:
+  security:
+    oauth2:
+      authorizationserver:
+        form-login-enabled: true
+        login-page-enabled: true
+        consent-page: /oauth2/consent
+      resourceserver:
+        ignore-urls:
+          - /test/**
+          - /oauth2Login
+          - /error/**
+          - /public/**
+          - /ws/**
+          - /actuator/**
+          - /doc.html
+          - /v2/api-docs/**
+          - /v3/api-docs/**
+          - /swagger-resources/**
+          - /swagger-ui/**
+          - /swagger-ui.html
+          - /webjars/**
+          - /bycdao-ui/**
+          - /favicon.ico
+          - /captcha/**
+          - /h2-console/**
 

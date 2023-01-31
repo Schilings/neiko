@@ -19,6 +19,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration(proxyBeanMethods = false)
 class DefaultExtensionConfigurerAutoConfiguration {
 
+    /**
+     * 希望最后触发的configurer
+     * @return
+     */
     @Bean
     @ConditionalOnMissingBean
     public LastTriggeredAuthenticatedConfigurer lastTriggeredAuthenticatedConfigurer() {
