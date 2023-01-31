@@ -1,0 +1,88 @@
+neiko:
+  system:
+    administrator:
+      user-id: 0
+      username: schilings
+    password-rule: ''
+  oss:
+    endpoint: http://oss-cn-shenzhen.aliyuncs.com # oss-cn-shenzhen.aliyuncs.com
+    region: oss-cn-shenzhen
+    access-key: LTAI5t75M5VySn4baE63G5Ss
+    access-secret: fDGkh8U9nWaI5euYdCNEU6XUkPHKZP
+    bucket: schilings-ballcat # schilings-ballcat
+    path-style-access: false
+  file:
+    local:
+      # 这个可以不进行配置或者设置 空字符串, 这样文件就会和系统的临时文件放在一起
+      # '/opt/nginx/images'
+      path: 'D:\temp'
+      
+  openapi:
+    info:
+      title: Neiko-System Docs
+      description: Neiko 系统服务Api文档
+      version: ${project.version}
+      contact:
+        name: Schilings
+        email: 1146830743@qq.com
+        url: https://github.com/Schilings
+    cors-config:
+      enabled: true
+      allow-credentials: true
+      allowed-origin-patterns: '*'
+      allowed-methods: '*'
+      allowed-origins: '*'
+      allowed-headers: '*'
+      url-pattern: /**
+      max-age: 3600
+    components:
+      security-schemes:
+        oauth2:
+          type: OAUTH2
+          flows:
+            password:
+              token-url: http://localhost:9000/oauth2/token
+              scopes:
+                message.read: scope1
+                message.write: scope2
+                openid: 获取OIDC ID TOKEN
+                skip_password_decode: 跳过密码加密解密处理
+                skip_captcha: 跳过验证码
+                authority_info: 附带权限信息
+
+  security:
+    oauth2:
+      resourceserver:
+        opaquetoken: # 远程令牌自省 客户端验证开启Basic验证
+          introspection-uri: http://localhost:9000/oauth2/introspect
+          client-id: demo
+          client-secret: demo
+        jwt:
+          jwk-set-uri: http://localhost:9000/oauth2/jwks
+          issuer-uri: http://localhost:9000
+          jws-algorithms:
+            - RS256
+          public-key-location: 'C://1.txt'
+          #audiences: 
+          #  - 1
+          #  - 2
+        
+        ignore-urls:
+          - /error/**
+          - /public/**
+          - /ws/**
+          - /actuator/**
+          - /doc.html
+          - /v2/api-docs/**
+          - /v3/api-docs/**
+          - /swagger-resources/**
+          - /swagger-ui/**
+          - /swagger-ui.html
+          - /webjars/**
+          - /bycdao-ui/**
+          - /favicon.ico
+          - /captcha/**
+          - /h2-console/**
+
+
+

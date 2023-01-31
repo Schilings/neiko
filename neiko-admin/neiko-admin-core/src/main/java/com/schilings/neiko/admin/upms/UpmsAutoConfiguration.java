@@ -2,7 +2,6 @@ package com.schilings.neiko.admin.upms;
 
 import com.schilings.neiko.admin.upms.log.LogConfiguration;
 import com.schilings.neiko.admin.upms.authentication.UserDetailsServiceConfiguration;
-import com.schilings.neiko.security.properties.SecurityProperties;
 import com.schilings.neiko.common.core.snowflake.SnowflakeIdGenerator;
 import com.schilings.neiko.system.properties.SystemProperties;
 import org.mybatis.spring.annotation.MapperScan;

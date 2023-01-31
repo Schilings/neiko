@@ -16,6 +16,8 @@ import static org.springframework.security.oauth2.core.endpoint.OAuth2ParameterN
 
 public final class OAuth2ParameterValidator {
 
+    private static final String ERROR_URI = "https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.2.1";
+
     public static void validateRedirectUri(String requestedRedirectUri,RegisteredClient registeredClient) {
         if (StringUtils.hasText(requestedRedirectUri)) {
             // ***** redirect_uri is available in authorization request

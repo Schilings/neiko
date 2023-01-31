@@ -6,6 +6,7 @@ import com.schilings.neiko.security.properties.SecurityProperties;
 import com.schilings.neiko.common.core.exception.ServiceException;
 import com.schilings.neiko.security.util.PasswordUtils;
 import com.schilings.neiko.system.properties.SystemProperties;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -26,9 +27,9 @@ public class PasswordHelper {
 	private final Pattern passwordPattern;
 
 	public PasswordHelper(SecurityProperties securityProperties, SystemProperties systemProperties,
-			PasswordEncoder passwordEncoder) {
+			ObjectProvider<PasswordEncoder> passwordEncoder) {
 		this.securityProperties = securityProperties;
-		this.passwordEncoder = passwordEncoder;
+		this.passwordEncoder = passwordEncoder.getIfAvailable(PasswordUtils::createDelegatingPasswordEncoder);
 		String passwordRule = systemProperties.getPasswordRule();
 		this.passwordPattern = CharSequenceUtil.isEmpty(passwordRule) ? null : Pattern.compile(passwordRule);
 	}
