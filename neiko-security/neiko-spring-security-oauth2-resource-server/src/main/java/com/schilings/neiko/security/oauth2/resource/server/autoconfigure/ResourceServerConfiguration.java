@@ -1,6 +1,7 @@
 package com.schilings.neiko.security.oauth2.resource.server.autoconfigure;
 
 import com.schilings.neiko.security.oauth2.resource.server.customizer.jwt.DefaultJwtAuthenticationConverter;
+import com.schilings.neiko.security.oauth2.resource.server.customizer.opaque.DefaultOpaqueTokenAuthenticationConverter;
 import com.schilings.neiko.security.oauth2.resource.server.customizer.opaque.SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector;
 import com.schilings.neiko.security.oauth2.resource.server.properties.ResourceServerProperties;
 import com.schilings.neiko.security.oauth2.resource.server.customizer.opaque.SpringRemoteOpaqueTokenIntrospector;
@@ -17,6 +18,7 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 
 class ResourceServerConfiguration {
@@ -59,10 +61,19 @@ class ResourceServerConfiguration {
 		}
 
 		/**
+		 * Process the authenticated OpaqueToken into local AuthenticationToken
+		 * @return
+		 */
+		@Bean
+		@ConditionalOnMissingBean(OpaqueTokenAuthenticationConverter.class)
+		public DefaultOpaqueTokenAuthenticationConverter defaultOpaqueTokenAuthenticationConverter() {
+			return new DefaultOpaqueTokenAuthenticationConverter();
+		}
+
+		/**
 		 * In case where is Spring Authorization Server,consider the way of Shared Stored
 		 * without introspection-uri configured
-		 * @param authorizationService
-		 * @param registeredClientRepository
+		 * @param applicationContext
 		 * @return
 		 */
 		@Bean

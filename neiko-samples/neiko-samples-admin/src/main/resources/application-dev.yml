@@ -12,9 +12,9 @@ spring:
   sql:
     init:
       schema-locations:
-        - file:E:\Code\neiko-all-version\1.0.0\neiko\database\scripts\neiko-schema.sql
+        - file:E:\Code\neiko-all-version\1.0.0\neiko\database\scripts\all\neiko-schema.sql
       data-locations:
-        - file:E:\Code\neiko-all-version\1.0.0\neiko\database\scripts\neiko-data.sql
+        - file:E:\Code\neiko-all-version\1.0.0\neiko\database\scripts\all\neiko-data.sql
   h2:
     console:
       enabled: true

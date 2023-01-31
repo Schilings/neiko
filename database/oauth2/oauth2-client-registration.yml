@@ -14,7 +14,7 @@ spring:
             provider: github
             client-id: 62f82fe87cdb752da311
             client-secret: f58fbaff8b392cd8d75a55e8e3cfbb0f85cb5b91
-            scope: user:email, read:user
+            scope: user:email,read:user
             client-name: Sign in with GitHub
           gitee-idp:
             provider: gitee

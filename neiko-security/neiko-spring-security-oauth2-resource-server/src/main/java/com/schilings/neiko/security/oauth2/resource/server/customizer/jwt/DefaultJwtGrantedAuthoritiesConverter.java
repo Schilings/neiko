@@ -1,6 +1,7 @@
 package com.schilings.neiko.security.oauth2.resource.server.customizer.jwt;
 
 
+import com.schilings.neiko.security.oauth2.core.ScopeNames;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.core.convert.converter.Converter;
@@ -42,8 +43,12 @@ public class DefaultJwtGrantedAuthoritiesConverter implements Converter<Jwt, Col
     public Collection<GrantedAuthority> convert(Jwt jwt) {
         Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         for (String authority : getAuthorities(jwt)) {
-            //本来向更改不直接加前缀的，但是放弃了，别扭
             grantedAuthorities.add(new SimpleGrantedAuthority(this.authorityPrefix + authority));
+            
+        }
+        //增加对ScopeNames.AUTHORITY_INFO的处理
+        for (String authority : getAuthorityInfo(jwt)) {
+            grantedAuthorities.add(new SimpleGrantedAuthority(authority));
         }
         return grantedAuthorities;
     }
@@ -51,7 +56,7 @@ public class DefaultJwtGrantedAuthoritiesConverter implements Converter<Jwt, Col
     /**
      * Sets the prefix to use for {@link GrantedAuthority authorities} mapped by this
      * converter. Defaults to
-     * {@link JwtGrantedAuthoritiesConverter#DEFAULT_AUTHORITY_PREFIX}.
+     * {@link DefaultJwtGrantedAuthoritiesConverter#DEFAULT_AUTHORITY_PREFIX}.
      * @param authorityPrefix The authority prefix
      * @since 5.2
      */
@@ -94,6 +99,23 @@ public class DefaultJwtGrantedAuthoritiesConverter implements Converter<Jwt, Col
             this.logger.trace(LogMessage.format("Looking for scopes in claim %s", claimName));
         }
         Object authorities = jwt.getClaim(claimName);
+        if (authorities instanceof String) {
+            if (StringUtils.hasText((String) authorities)) {
+                return Arrays.asList(((String) authorities).split(" "));
+            }
+            return Collections.emptyList();
+        }
+        if (authorities instanceof Collection) {
+            return castAuthoritiesToCollection(authorities);
+        }
+        return Collections.emptyList();
+    }
+
+    private Collection<String> getAuthorityInfo(Jwt jwt) {
+        if (this.logger.isTraceEnabled()) {
+            this.logger.trace(LogMessage.format("Looking for %s in claim %s", ScopeNames.AUTHORITY_INFO, ScopeNames.AUTHORITY_INFO));
+        }
+        Object authorities = jwt.getClaim(ScopeNames.AUTHORITY_INFO);
         if (authorities instanceof String) {
             if (StringUtils.hasText((String) authorities)) {
                 return Arrays.asList(((String) authorities).split(" "));

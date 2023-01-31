@@ -31,7 +31,7 @@ public class DefaultSecurityConfig implements HttpSecurityAware {
 	public UserDetailsService userDetailsService() {
 		return username -> {
 			return User.withDefaultPasswordEncoder().username(username).password("123456")
-					.authorities("ROLE_USER","ROLE_ADMIN","neiko:*:*")
+					.authorities("ROLE_USER")//,"ROLE_ADMIN","neiko:*:*"
 					.build();
 		};
 	}

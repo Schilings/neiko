@@ -37,14 +37,9 @@ public class DefaultJwtEncodingContextConsumer implements JwtEncodingContextCons
             if (!AuthorizationGrantType.PASSWORD.equals(authorizationGrantType)) {
                 return;
             }
-            Set<String> scopes = extractAuthorities(context.getPrincipal());
+            Set<String> authorities = extractAuthorities(context.getPrincipal());
             context.getClaims().claims(existingClaims->{
-                existingClaims.computeIfPresent(OAuth2ParameterNames.SCOPE, (k, v) -> {
-                    scopes.addAll((Collection<? extends String>) v);
-                    return scopes;
-                });
-                //可能没有scope,正常要求scope=authority_info，不会有scope没有的情况
-                existingClaims.put(OAuth2ParameterNames.SCOPE, scopes);
+                existingClaims.put(ScopeNames.AUTHORITY_INFO, authorities);
             });   
         }
     }

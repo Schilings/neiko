@@ -55,21 +55,13 @@ public class CustomUserDetailServiceImpl implements UserDetailsService {
                 .passwordEncoder(passwordEncoder::encode)
                 .accountExpired(false).accountLocked(false).disabled(false).credentialsExpired(false)
                 .authorities(
-                        "ROLE_USER",
-                        "ROLE_ADMIN",
-                        "ROLE_CUSTOMER",
-                        "authorization:*:*",
-                        "sys:user:*",
-                        "sys:user:add",
-                        "sys:user:edit",
-                        "sys:user:del",
-                        "sys:user:read",
-                        "sys:menu:*",
-                        "sys:organization:*",
-                        "sys:role:*",
-                        "sys:log:*",
-                        "sys:notify:*",
-                        "sys:file:*"
+                        "ROLE_USER", "ROLE_ADMIN", "ROLE_CUSTOMER", 
+                        "system:user:read", "system:user:edit", "system:user:del", "system:user:add",
+                        "system:menu:read", "system:menu:edit", "system:menu:del", "system:menu:add",
+                        "system:role:read", "system:role:edit", "system:role:del", "system:role:add",
+                        "system:organization:read", "system:organization:edit", "system:organization:del", "system:organization:add",
+                        "system:config:read", "system:config:edit", "system:config:del", "system:config:add",
+                        "system:dict:read", "system:dict:edit", "system:dict:del", "system:dict:add"
                 )
                 .build();
     }

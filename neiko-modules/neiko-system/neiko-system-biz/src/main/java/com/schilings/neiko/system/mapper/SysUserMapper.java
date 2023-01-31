@@ -77,6 +77,19 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 	}
 
 	/**
+	 * 根据用户名和用户类型查询用户
+	 *
+	 * @param username 用户名
+	 * @param userType  用户类型
+	 * @return 系统用户
+	 */
+	default SysUser selectByUsernameAndType(String username, Integer userType) {
+		return this.selectOne(WrappersX.<SysUser>lambdaQueryX()
+				.eq(SysUser::getUsername, username)
+				.eq(SysUser::getType, userType));
+	}
+
+	/**
 	 * 根据 用户名 邮箱 电话 查询用户
 	 * @param username 用户名
 	 * @return 系统用户
@@ -159,6 +172,5 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 		return this.selectJoinList(SelectData.class, AUTO_RESULT_MAP, queryWrapper);
 
 	}
-
-
+	
 }

@@ -86,6 +86,18 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	}
 
 	/**
+	 * 根据用户名和用户类型查询用户
+	 *
+	 * @param username 用户名
+	 * @param userType  用户类型
+	 * @return 系统用户
+	 */
+	@Override
+	public SysUser getByUsernameAndType(String username, Integer userType) {
+		return baseMapper.selectByUsernameAndType(username, userType);
+	}
+
+	/**
 	 * 查询用户
 	 * @param username 用户名
 	 * @return 系统用户

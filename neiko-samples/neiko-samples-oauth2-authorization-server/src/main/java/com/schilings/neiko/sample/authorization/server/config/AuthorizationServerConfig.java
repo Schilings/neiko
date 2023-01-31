@@ -9,8 +9,6 @@ import com.nimbusds.jose.proc.SecurityContext;
 import com.schilings.neiko.sample.authorization.server.event.DefaultApplicationEventAuthenticationFailureHandler;
 import com.schilings.neiko.sample.authorization.server.event.DefaultApplicationEventAuthenticationSuccessHandler;
 import com.schilings.neiko.sample.authorization.server.jose.Jwks;
-import com.schilings.neiko.sample.authorization.server.tokencustomizer.JwtOAuth2TokenCustomizer;
-import com.schilings.neiko.sample.authorization.server.tokencustomizer.OpaqueTokenOAuth2TokenCustomizer;
 import com.schilings.neiko.security.oauth2.authorization.server.autoconfigure.EnableAuthorizationServer;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.oidc.DefaultOAuth2OidcConfigurerCustomizer;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.token.DefaultOAuth2TokenEndpointConfigurerCustomizer;
@@ -43,16 +41,6 @@ import java.util.List;
 @Configuration(proxyBeanMethods = false)
 @EnableAuthorizationServer
 public class AuthorizationServerConfig {
-
-
-	@Bean
-	public OAuth2TokenCustomizer<JwtEncodingContext> jwtOAuth2TokenCustomizer() {
-		return new JwtOAuth2TokenCustomizer();
-	}
-	@Bean
-	public OAuth2TokenCustomizer<OAuth2TokenClaimsContext> opaqueOAuth2TokenCustomizer() {
-		return new OpaqueTokenOAuth2TokenCustomizer();
-	}
 	
 	
 	// Enable OpenID Connect 1.0

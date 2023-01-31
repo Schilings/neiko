@@ -15,16 +15,15 @@ public class JwtOAuth2ResourceServerCustomizer implements OAuth2ResourceServerCo
 
 	private JwtDecoder jwtDecoder;
 
-	private Converter<Jwt, ? extends AbstractAuthenticationToken> jwtAuthenticationConverter;
+	private Converter<Jwt, ? extends AbstractAuthenticationToken> authenticationConverter;
 
 	@Override
 	public void customize(HttpSecurity http) throws Exception {
-		// TODO
 		http.oauth2ResourceServer(resourceServerConfigurer -> {
 			// Jwt
 			resourceServerConfigurer.jwt(jwt -> {
 				jwt.decoder(getJwtDecoder(http));
-				jwt.jwtAuthenticationConverter(getJwtAuthenticationConverter(http));
+				jwt.jwtAuthenticationConverter(getAuthenticationConverter(http));
 			});
 		});
 	}
@@ -46,16 +45,16 @@ public class JwtOAuth2ResourceServerCustomizer implements OAuth2ResourceServerCo
 		return this.jwtDecoder;
 	}
 
-	private Converter<Jwt, ? extends AbstractAuthenticationToken> getJwtAuthenticationConverter(HttpSecurity http) {
-		if (this.jwtAuthenticationConverter == null) {
+	private Converter<Jwt, ? extends AbstractAuthenticationToken> getAuthenticationConverter(HttpSecurity http) {
+		if (this.authenticationConverter == null) {
 			if (getApplicationContext(http).getBeanNamesForType(JwtAuthenticationConverter.class).length > 0) {
-				this.jwtAuthenticationConverter = getApplicationContext(http).getBean(JwtAuthenticationConverter.class);
+				this.authenticationConverter = getApplicationContext(http).getBean(JwtAuthenticationConverter.class);
 			}
 			else {
-				this.jwtAuthenticationConverter = new JwtAuthenticationConverter();
+				this.authenticationConverter = new DefaultJwtAuthenticationConverter();
 			}
 		}
-		return this.jwtAuthenticationConverter;
+		return this.authenticationConverter;
 	}
 
 }
