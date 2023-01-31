@@ -1,0 +1,49 @@
+server:
+  port: 9000
+
+#logging:
+#  level:
+#    root: INFO
+#    org.springframework.web: INFO 
+#    org.springframework.security: TRACE
+#    org.springframework.security.oauth2: TRACE
+#    org.springframework.data.redis: TRACE
+
+# mybatis plus配置
+mybatis-plus:
+#  configuration:
+#    #控制台打印sql
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations:
+    - classpath*:/mapper/**/*Mapper.xml
+  global-config:
+    banner: false
+    db-config:
+      #id-type: auto
+      insert-strategy: not_empty
+      update-strategy: not_empty
+      logic-delete-value: "NOW()" # 逻辑已删除值(使用当前时间标识)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+  
+
+
+## OPEN API接口文档
+springdoc:
+  swagger-ui:
+    enabled: true
+    urls: 
+      - { name: 'sample', url: '/v3/api-docs' }
+  
+# spring配置
+spring:
+  profiles:
+    active: 
+      - neiko 
+      - dev
+  config:
+    import:
+      - optional:file:E:\Code\neiko-all-version\1.0.0\neiko\database\oauth2\oauth2-client-registration.yml
+
+
+
+    
