@@ -61,8 +61,7 @@ import java.util.function.Function;
 @Order(Ordered.LOWEST_PRECEDENCE - 200)
 public class DefaultOAuth2TokenEndpointConfigurerCustomizer extends OAuth2TokenEndpointConfigurerCustomizer {
 
-	private OAuth2TokenResponseEnhancer oauth2TokenResponseEnhancer = 
-			OAuth2AccessTokenAuthenticationToken::getAdditionalParameters;
+	private OAuth2TokenResponseEnhancer oauth2TokenResponseEnhancer = OAuth2AccessTokenAuthenticationToken::getAdditionalParameters;
 
 	private List<AuthenticationConverterExpander> converterExpanders;
 
@@ -76,15 +75,13 @@ public class DefaultOAuth2TokenEndpointConfigurerCustomizer extends OAuth2TokenE
 
 	private AuthenticationFailureHandler failureHandler = this::sendErrorResponse;
 
-	private Function<AuthenticationSuccessHandler, AuthenticationSuccessHandler> successHandlerMapping = 
-			successHandler -> successHandler;
+	private Function<AuthenticationSuccessHandler, AuthenticationSuccessHandler> successHandlerMapping = successHandler -> successHandler;
 
-	private Function<AuthenticationFailureHandler, AuthenticationFailureHandler> failureHandlerMapping = 
-			failureHandler -> failureHandler;
+	private Function<AuthenticationFailureHandler, AuthenticationFailureHandler> failureHandlerMapping = failureHandler -> failureHandler;
 
 	@Override
 	public void customize(OAuth2TokenEndpointConfigurer configurer, HttpSecurity http) {
-		//DelegatingOAuth2TokenGenerator
+		// DelegatingOAuth2TokenGenerator
 		OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator = OAuth2ConfigurerUtils.getTokenGenerator(http);
 		OAuth2AuthorizationService authorizationService = OAuth2ConfigurerUtils.getAuthorizationService(http);
 		ObjectPostProcessor<Object> postProcessor = http.getSharedObject(ObjectPostProcessor.class);
@@ -102,8 +99,9 @@ public class DefaultOAuth2TokenEndpointConfigurerCustomizer extends OAuth2TokenE
 				Arrays.asList(new OAuth2AuthorizationCodeAuthenticationProvider(authorizationService, tokenGenerator),
 						new OAuth2RefreshTokenAuthenticationProvider(authorizationService, tokenGenerator),
 						new OAuth2ClientCredentialsAuthenticationProvider(authorizationService, tokenGenerator),
-						new OAuth2ResourceOwnerPasswordAuthenticationProvider(authenticationManager, authorizationService, tokenGenerator)));
-		
+						new OAuth2ResourceOwnerPasswordAuthenticationProvider(authenticationManager,
+								authorizationService, tokenGenerator)));
+
 		extendAuthenticationConverter(converters, http);
 		extendAuthenticationProvider(providers, authorizationService, tokenGenerator, http);
 

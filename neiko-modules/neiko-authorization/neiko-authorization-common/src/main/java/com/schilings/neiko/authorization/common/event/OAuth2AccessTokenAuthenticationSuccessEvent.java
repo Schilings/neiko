@@ -11,22 +11,26 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 
- * <p>AccessToken颁布成功事件，即成功登录事件</p>
- * 
+ *
+ * <p>
+ * AccessToken颁布成功事件，即成功登录事件
+ * </p>
+ *
  * @author Schilings
-*/
+ */
 public class OAuth2AccessTokenAuthenticationSuccessEvent extends OAuth2AuthenticationEvent {
 
 	public OAuth2AccessTokenAuthenticationSuccessEvent(Authentication authentication) {
 		super(authentication);
 	}
 
-	public OAuth2AccessTokenAuthenticationSuccessEvent(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+	public OAuth2AccessTokenAuthenticationSuccessEvent(HttpServletRequest request, HttpServletResponse response,
+			Authentication authentication) {
 		super(request, response, authentication);
 	}
 
-	public OAuth2AccessTokenAuthenticationSuccessEvent(HttpServletRequest request, HttpServletResponse response, Authentication authentication, Map<String, Object> attributes) {
+	public OAuth2AccessTokenAuthenticationSuccessEvent(HttpServletRequest request, HttpServletResponse response,
+			Authentication authentication, Map<String, Object> attributes) {
 		super(request, response, authentication, attributes);
 	}
 
@@ -37,4 +41,5 @@ public class OAuth2AccessTokenAuthenticationSuccessEvent extends OAuth2Authentic
 	public Set<String> getScope() {
 		return getAttribute(OAuth2ParameterNames.SCOPE);
 	}
+
 }

@@ -6,6 +6,6 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 @FunctionalInterface
 public interface WechatUserService {
 
-    OAuth2User loadUser(WechatOAuth2User user, String userNameAttributeName);
-    
+	OAuth2User loadUser(WechatOAuth2User user, String userNameAttributeName);
+
 }

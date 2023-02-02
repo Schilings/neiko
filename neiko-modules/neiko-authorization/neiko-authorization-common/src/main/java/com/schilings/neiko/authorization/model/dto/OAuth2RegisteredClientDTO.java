@@ -14,49 +14,48 @@ import java.util.Set;
 
 import static cn.hutool.core.date.DatePattern.NORM_DATETIME_PATTERN;
 
-
 @Data
 @Schema(title = "授权服务端客户端基本信息DTO")
 public class OAuth2RegisteredClientDTO {
 
-    @NotNull(message = "id不能为空",groups = UpdateGroup.class)
-    @Schema(title = "ID")
-    private Long id;
-    
-    @NotEmpty(message = "clientId不能为空")
-    @Schema(title = "客户端id")
-    private String clientId;
-    
-    @Schema(title = "clientId生效时间")
-    private String clientIdIssuedAt;
-    
-    @NotEmpty(message = "clientSecret不能为空")
-    @Schema(title = "客户端secret")
-    private String clientSecret;
-    
-    @Schema(title = "clientSecret失效时间")
-    private String clientSecretExpiresAt;
-    
-    @NotEmpty(message = "客户端名称不能为空")
-    @Schema(title = "客户端名称")
-    private String clientName;
-    
-    @NotEmpty(message = "授权方式不能为空")
-    @Schema(title = "客户端支持的授权方式")
-    private Set<String> clientAuthenticationMethods;
-    
-    @NotEmpty(message = "授权方式不能为空")
-    @Schema(title = "客户端支持的授权方式")
-    private Set<String> authorizationGrantTypes;
-    
-    @Schema(title = "客户端配置的回调地址")
-    private Set<String> redirectUris;
-    
-    @Schema(title = "客户端支持的作用域")
-    private Set<String> scopes;
+	@NotNull(message = "id不能为空", groups = UpdateGroup.class)
+	@Schema(title = "ID")
+	private Long id;
 
-    
-    private OAuth2ClientSettingsDTO clientSettings;
-    private OAuth2TokenSettingsDTO tokenSettings;
-    
+	@NotEmpty(message = "clientId不能为空")
+	@Schema(title = "客户端id")
+	private String clientId;
+
+	@Schema(title = "clientId生效时间")
+	private String clientIdIssuedAt;
+
+	@NotEmpty(message = "clientSecret不能为空")
+	@Schema(title = "客户端secret")
+	private String clientSecret;
+
+	@Schema(title = "clientSecret失效时间")
+	private String clientSecretExpiresAt;
+
+	@NotEmpty(message = "客户端名称不能为空")
+	@Schema(title = "客户端名称")
+	private String clientName;
+
+	@NotEmpty(message = "授权方式不能为空")
+	@Schema(title = "客户端支持的授权方式")
+	private Set<String> clientAuthenticationMethods;
+
+	@NotEmpty(message = "授权方式不能为空")
+	@Schema(title = "客户端支持的授权方式")
+	private Set<String> authorizationGrantTypes;
+
+	@Schema(title = "客户端配置的回调地址")
+	private Set<String> redirectUris;
+
+	@Schema(title = "客户端支持的作用域")
+	private Set<String> scopes;
+
+	private OAuth2ClientSettingsDTO clientSettings;
+
+	private OAuth2TokenSettingsDTO tokenSettings;
+
 }

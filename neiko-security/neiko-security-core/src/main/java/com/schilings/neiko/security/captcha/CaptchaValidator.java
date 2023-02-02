@@ -1,6 +1,5 @@
 package com.schilings.neiko.security.captcha;
 
-
 import jakarta.servlet.http.HttpServletRequest;
 
 /**

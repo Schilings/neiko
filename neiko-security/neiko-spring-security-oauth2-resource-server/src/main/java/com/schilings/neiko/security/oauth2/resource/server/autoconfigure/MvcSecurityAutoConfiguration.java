@@ -1,7 +1,5 @@
 package com.schilings.neiko.security.oauth2.resource.server.autoconfigure;
 
-
-
 import com.schilings.neiko.security.oauth2.resource.server.web.SecurityExceptionResolver;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -17,18 +15,18 @@ import org.springframework.util.ClassUtils;
 @ConditionalOnBean(ResourceServerConfigurationAdapter.class)
 public class MvcSecurityAutoConfiguration {
 
-    private static final String HANDLER_MAPPING_INTROSPECTOR = "org.springframework.web.servlet.handler.HandlerMappingIntrospector";
+	private static final String HANDLER_MAPPING_INTROSPECTOR = "org.springframework.web.servlet.handler.HandlerMappingIntrospector";
 
-    private static final boolean mvcPresent;
-    static {
-        mvcPresent = ClassUtils.isPresent(HANDLER_MAPPING_INTROSPECTOR,
-                AbstractRequestMatcherRegistry.class.getClassLoader());
-    }
+	private static final boolean mvcPresent;
+	static {
+		mvcPresent = ClassUtils.isPresent(HANDLER_MAPPING_INTROSPECTOR,
+				AbstractRequestMatcherRegistry.class.getClassLoader());
+	}
 
-    @Bean
-    @ConditionalOnBean(AccessDeniedHandler.class)
-    public SecurityExceptionResolver securityExceptionResolver(AccessDeniedHandler accessDeniedHandler) {
-        return new SecurityExceptionResolver(accessDeniedHandler);
-    }
-    
+	@Bean
+	@ConditionalOnBean(AccessDeniedHandler.class)
+	public SecurityExceptionResolver securityExceptionResolver(AccessDeniedHandler accessDeniedHandler) {
+		return new SecurityExceptionResolver(accessDeniedHandler);
+	}
+
 }

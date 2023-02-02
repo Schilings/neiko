@@ -20,17 +20,19 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public interface OAuth2RegisteredClientService extends ExtendService<OAuth2RegisteredClient> {
-    PageResult<OAuth2RegisteredClientPageVO> queryPage(PageParam pageParam, OAuth2RegisteredClientQO qo);
 
-    OAuth2RegisteredClient getByClientId(String clienId);
+	PageResult<OAuth2RegisteredClientPageVO> queryPage(PageParam pageParam, OAuth2RegisteredClientQO qo);
 
-    OAuth2RegisteredClientInfo getClientInfoById(Long id);
+	OAuth2RegisteredClient getByClientId(String clienId);
 
-    OAuth2RegisteredClientInfo getClientInfoByClientId(String clientId);
+	OAuth2RegisteredClientInfo getClientInfoById(Long id);
 
-    OAuth2RegisteredClientInfo getClientInfo(OAuth2RegisteredClientQO qo);
-    
-    boolean saveRegisteredClient(OAuth2RegisteredClientDTO dto);
-    
-    boolean updateRegisteredClient(OAuth2RegisteredClientDTO dto);
+	OAuth2RegisteredClientInfo getClientInfoByClientId(String clientId);
+
+	OAuth2RegisteredClientInfo getClientInfo(OAuth2RegisteredClientQO qo);
+
+	boolean saveRegisteredClient(OAuth2RegisteredClientDTO dto);
+
+	boolean updateRegisteredClient(OAuth2RegisteredClientDTO dto);
+
 }

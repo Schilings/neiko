@@ -141,5 +141,4 @@ public class AccessLog {
 	@Schema(title = "创建时间")
 	private LocalDateTime createTime;
 
-
 }

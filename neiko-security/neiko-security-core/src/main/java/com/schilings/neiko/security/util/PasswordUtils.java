@@ -30,8 +30,8 @@ public final class PasswordUtils {
 	 */
 	public static PasswordEncoder createDelegatingPasswordEncoder() {
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-		DelegatingPasswordEncoder delegatingPasswordEncoder = 
-				(DelegatingPasswordEncoder) PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		DelegatingPasswordEncoder delegatingPasswordEncoder = (DelegatingPasswordEncoder) PasswordEncoderFactories
+				.createDelegatingPasswordEncoder();
 		// 设置默认的密码解析器，以便兼容历史版本的密码
 		delegatingPasswordEncoder.setDefaultPasswordEncoderForMatches(bCryptPasswordEncoder);
 		return delegatingPasswordEncoder;

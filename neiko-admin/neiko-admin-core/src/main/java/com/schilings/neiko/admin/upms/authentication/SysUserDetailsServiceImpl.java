@@ -32,7 +32,9 @@ import java.util.*;
 public class SysUserDetailsServiceImpl implements UserDetailsService {
 
 	private static final String USER_INFO = "user_info";
+
 	private static final String SYSTEM_USER_INFO = SysUserConst.Type.SYSTEM.name().toLowerCase() + "_" + USER_INFO;
+
 	private static final String CUSTOMER_USER_INFO = SysUserConst.Type.CUSTOMER.name().toLowerCase() + "_" + USER_INFO;
 
 	private final SysUserService sysUserService;
@@ -44,18 +46,20 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
 		SysUser sysUser = null;
 		OAuth2ClientAuthenticationToken authenticatedClient = getAuthenticatedClient();
 		if (authenticatedClient != null) {
-			//根据scope返回不同类型的用户
+			// 根据scope返回不同类型的用户
 			Set<String> scopes = getScopes();
-			//如果同时有，是否拒绝该请求?
+			// 如果同时有，是否拒绝该请求?
 			if (scopes.contains(SYSTEM_USER_INFO)) {
 				sysUser = sysUserService.getByUsernameAndType(username, SysUserConst.Type.SYSTEM.getValue());
-			} else if (scopes.contains(CUSTOMER_USER_INFO)) {
+			}
+			else if (scopes.contains(CUSTOMER_USER_INFO)) {
 				sysUser = sysUserService.getByUsernameAndType(username, SysUserConst.Type.CUSTOMER.getValue());
 			}
-			//没有携带就查无用户
-			
-		}else {
-			//不是OAuth2 Password 走全部用户逻辑
+			// 没有携带就查无用户
+
+		}
+		else {
+			// 不是OAuth2 Password 走全部用户逻辑
 			sysUser = sysUserService.getByUsername(username);
 		}
 		if (sysUser == null) {
@@ -120,9 +124,9 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
 	}
 
 	private Set<String> getScopes() {
-		//如果是OAuth2 密码登录 
+		// 如果是OAuth2 密码登录
 		MultiValueMap<String, String> parameters = OAuth2EndpointUtils.getParameters(WebUtils.getRequest());
-		// scope 
+		// scope
 		String scope = parameters.getFirst(OAuth2ParameterNames.SCOPE);
 		if (!StringUtils.hasText(scope)) {
 			return Collections.emptySet();
@@ -133,4 +137,5 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
 		}
 		return requestedScopes;
 	}
+
 }

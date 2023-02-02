@@ -5,4 +5,5 @@ import org.springframework.security.oauth2.server.authorization.token.JwtEncodin
 import java.util.function.Consumer;
 
 public interface JwtEncodingContextConsumer extends Consumer<JwtEncodingContext> {
+
 }

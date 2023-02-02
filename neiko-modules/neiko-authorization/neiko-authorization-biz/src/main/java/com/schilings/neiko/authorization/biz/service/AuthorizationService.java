@@ -8,16 +8,18 @@ import com.schilings.neiko.common.model.domain.PageResult;
 import com.schilings.neiko.extend.mybatis.plus.service.ExtendService;
 
 public interface AuthorizationService extends ExtendService<Authorization> {
-    PageResult<AuthorizationPageVO> queryPage(PageParam pageParam, AuthorizationQO qo);
 
-    Authorization getByState(String state);
+	PageResult<AuthorizationPageVO> queryPage(PageParam pageParam, AuthorizationQO qo);
 
-    Authorization getByAuthorizationCode(String authorizationCodeValue);
+	Authorization getByState(String state);
 
-    Authorization getByAccessToken(String accessTokenValue);
+	Authorization getByAuthorizationCode(String authorizationCodeValue);
 
-    Authorization getByRefreshToken(String refreshTokenValue);
+	Authorization getByAccessToken(String accessTokenValue);
 
-    Authorization getIfUnkonwTokenType(String state, String authorizationCodeValue,
-                                       String accessTokenValue, String refreshTokenValue);
+	Authorization getByRefreshToken(String refreshTokenValue);
+
+	Authorization getIfUnkonwTokenType(String state, String authorizationCodeValue, String accessTokenValue,
+			String refreshTokenValue);
+
 }

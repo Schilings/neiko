@@ -1,6 +1,5 @@
 package com.schilings.neiko.authorization.common.constant;
 
-
 public final class TokenAttributeNameConstants {
 
 	private TokenAttributeNameConstants() {

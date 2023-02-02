@@ -34,7 +34,8 @@ public class OpaqueTokenOAuth2ResourceServerCustomizer implements OAuth2Resource
 		return this;
 	}
 
-	public OpaqueTokenOAuth2ResourceServerCustomizer authenticationConverter(OpaqueTokenAuthenticationConverter authenticationConverter) {
+	public OpaqueTokenOAuth2ResourceServerCustomizer authenticationConverter(
+			OpaqueTokenAuthenticationConverter authenticationConverter) {
 		this.authenticationConverter = authenticationConverter;
 		return this;
 	}
@@ -54,6 +55,7 @@ public class OpaqueTokenOAuth2ResourceServerCustomizer implements OAuth2Resource
 		this.introspector = getApplicationContext(http).getBean(OpaqueTokenIntrospector.class);
 		return this.introspector;
 	}
+
 	private OpaqueTokenAuthenticationConverter getAuthenticationConverter(HttpSecurity http) {
 		if (this.authenticationConverter != null) {
 			return this.authenticationConverter;

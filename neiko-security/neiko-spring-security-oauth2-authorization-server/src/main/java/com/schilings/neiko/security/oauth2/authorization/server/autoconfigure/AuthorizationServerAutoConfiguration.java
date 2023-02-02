@@ -24,9 +24,8 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConditionalOnBean(AuthorizationServerConfigurationAdapter.class)
-@EnableConfigurationProperties({OAuth2AuthorizationServerProperties.class,SecurityProperties.class})
-@Import({DefaultCustomizerAutoConfiguration.class,
-		DefaultExtensionConfigurerAutoConfiguration.class })
+@EnableConfigurationProperties({ OAuth2AuthorizationServerProperties.class, SecurityProperties.class })
+@Import({ DefaultCustomizerAutoConfiguration.class, DefaultExtensionConfigurerAutoConfiguration.class })
 public class AuthorizationServerAutoConfiguration {
 
 	@Bean
@@ -44,7 +43,8 @@ public class AuthorizationServerAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnBean(value = JwtEncodingContextConsumer.class)
-	public OAuth2TokenCustomizer<JwtEncodingContext> jwtOAuth2TokenCustomizer(ObjectProvider<JwtEncodingContextConsumer> consumerObjectProvider) {
+	public OAuth2TokenCustomizer<JwtEncodingContext> jwtOAuth2TokenCustomizer(
+			ObjectProvider<JwtEncodingContextConsumer> consumerObjectProvider) {
 		return new DelegatingJwtOAuth2TokenCustomizer(consumerObjectProvider.stream().toList());
 	}
 
@@ -53,26 +53,25 @@ public class AuthorizationServerAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnBean(value = OAuth2TokenClaimsContextConsumer.class)
-	public OAuth2TokenCustomizer<OAuth2TokenClaimsContext> opaqueTokenOAuth2TokenCustomizer(ObjectProvider<OAuth2TokenClaimsContextConsumer> consumerObjectProvider) {
+	public OAuth2TokenCustomizer<OAuth2TokenClaimsContext> opaqueTokenOAuth2TokenCustomizer(
+			ObjectProvider<OAuth2TokenClaimsContextConsumer> consumerObjectProvider) {
 		return new DelegatingOpaqueTokenOAuth2TokenCustomizer(consumerObjectProvider.stream().toList());
 	}
-	
 
 	@Bean
 	public HttpSecurityAwareInitializer httpSecurityAwareInitializer() {
 		return new HttpSecurityAwareInitializer();
 	}
-	
+
 	@Bean
 	public OAuth2AuthorizationServerComponentUtils oAuth2ComponentUtils() {
 		return OAuth2AuthorizationServerComponentUtils.getInstance();
 	}
-	
+
 	@Bean
 	@ConditionalOnMissingBean
 	public AuthorizationServerSettings authorizationServerSettings() {
 		return AuthorizationServerSettings.builder().build();
 	}
-	
 
 }

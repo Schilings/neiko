@@ -13,28 +13,31 @@ import com.schilings.neiko.extend.mybatis.plus.wrapper.WrappersX;
 import com.schilings.neiko.extend.mybatis.plus.wrapper.query.LambdaQueryWrapperX;
 
 public interface OAuth2RegisteredClientMapper extends ExtendMapper<OAuth2RegisteredClient> {
-        
-    default PageResult<OAuth2RegisteredClientPageVO> queryPage(PageParam pageParam, OAuth2RegisteredClientQO qo) {
-        IPage<OAuth2RegisteredClient> page = this.prodPage(pageParam);
-        LambdaQueryWrapperX<OAuth2RegisteredClient> queryWrapper = WrappersX.<OAuth2RegisteredClient>lambdaQueryX()
-                .eqIfPresent(OAuth2RegisteredClient::getClientId, qo.getClientId())
-                .likeIfPresent(OAuth2RegisteredClient::getClientName, qo.getClientName())
-                .likeIfPresent(OAuth2RegisteredClient::getClientAuthenticationMethods, qo.getClientAuthenticationMethod())
-                .likeIfPresent(OAuth2RegisteredClient::getAuthorizationGrantTypes, qo.getAuthorizationGrantType())
-                .likeIfPresent(OAuth2RegisteredClient::getScopes, qo.getScope())
-                .betweenIfPresent(OAuth2RegisteredClient::getCreateTime, qo.getStartTime(), qo.getEndTime());
-        IPage<OAuth2RegisteredClientPageVO> iPage = this.selectPage(page, queryWrapper)
-                .convert(OAuth2RegisteredClientConverter.INSTANCE::poToPageVo);
-        return this.prodPage(iPage);
-    }
 
-    default OAuth2RegisteredClient queryOne(OAuth2RegisteredClientQO qo) {
-        LambdaQueryWrapperX<OAuth2RegisteredClient> queryWrapper = WrappersX.<OAuth2RegisteredClient>lambdaQueryX()
-                .eqIfPresent(OAuth2RegisteredClient::getClientId, qo.getClientId())
-                .likeIfPresent(OAuth2RegisteredClient::getClientName, qo.getClientName())
-                .likeIfPresent(OAuth2RegisteredClient::getClientAuthenticationMethods, qo.getClientAuthenticationMethod())
-                .likeIfPresent(OAuth2RegisteredClient::getAuthorizationGrantTypes, qo.getAuthorizationGrantType())
-                .likeIfPresent(OAuth2RegisteredClient::getScopes, qo.getScope());
-        return this.selectOne(queryWrapper);
-    }
+	default PageResult<OAuth2RegisteredClientPageVO> queryPage(PageParam pageParam, OAuth2RegisteredClientQO qo) {
+		IPage<OAuth2RegisteredClient> page = this.prodPage(pageParam);
+		LambdaQueryWrapperX<OAuth2RegisteredClient> queryWrapper = WrappersX.<OAuth2RegisteredClient>lambdaQueryX()
+				.eqIfPresent(OAuth2RegisteredClient::getClientId, qo.getClientId())
+				.likeIfPresent(OAuth2RegisteredClient::getClientName, qo.getClientName())
+				.likeIfPresent(OAuth2RegisteredClient::getClientAuthenticationMethods,
+						qo.getClientAuthenticationMethod())
+				.likeIfPresent(OAuth2RegisteredClient::getAuthorizationGrantTypes, qo.getAuthorizationGrantType())
+				.likeIfPresent(OAuth2RegisteredClient::getScopes, qo.getScope())
+				.betweenIfPresent(OAuth2RegisteredClient::getCreateTime, qo.getStartTime(), qo.getEndTime());
+		IPage<OAuth2RegisteredClientPageVO> iPage = this.selectPage(page, queryWrapper)
+				.convert(OAuth2RegisteredClientConverter.INSTANCE::poToPageVo);
+		return this.prodPage(iPage);
+	}
+
+	default OAuth2RegisteredClient queryOne(OAuth2RegisteredClientQO qo) {
+		LambdaQueryWrapperX<OAuth2RegisteredClient> queryWrapper = WrappersX.<OAuth2RegisteredClient>lambdaQueryX()
+				.eqIfPresent(OAuth2RegisteredClient::getClientId, qo.getClientId())
+				.likeIfPresent(OAuth2RegisteredClient::getClientName, qo.getClientName())
+				.likeIfPresent(OAuth2RegisteredClient::getClientAuthenticationMethods,
+						qo.getClientAuthenticationMethod())
+				.likeIfPresent(OAuth2RegisteredClient::getAuthorizationGrantTypes, qo.getAuthorizationGrantType())
+				.likeIfPresent(OAuth2RegisteredClient::getScopes, qo.getScope());
+		return this.selectOne(queryWrapper);
+	}
+
 }

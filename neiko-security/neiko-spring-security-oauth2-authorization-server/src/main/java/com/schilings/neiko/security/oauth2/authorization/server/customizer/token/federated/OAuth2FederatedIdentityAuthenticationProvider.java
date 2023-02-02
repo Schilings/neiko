@@ -88,8 +88,8 @@ public class OAuth2FederatedIdentityAuthenticationProvider implements OAuth2Exte
 		// 通常用InMemoryOAuth2AuthorizationService，这个不是直接通过code值来判断的，那我们得走里面的matchesState的方式
 		// new OAuth2TokenType(OAuth2ParameterNames.STATE)
 		// OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY_CODE_TOKEN_TYPE
-		OAuth2Authorization authorization = this.authorizationService
-				.findByToken(federatedIdentityAuthenticationToken.getCode(), new OAuth2TokenType(OAuth2ParameterNames.STATE));
+		OAuth2Authorization authorization = this.authorizationService.findByToken(
+				federatedIdentityAuthenticationToken.getCode(), new OAuth2TokenType(OAuth2ParameterNames.STATE));
 		if (authorization == null) {
 			throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_GRANT);
 		}
@@ -126,7 +126,8 @@ public class OAuth2FederatedIdentityAuthenticationProvider implements OAuth2Exte
 				.getToken(OAuth2FederatedIdentityCode.class);
 		if (federatedIdentityCodeToken == null) {
 			OAuth2FederatedIdentityCode code = authorization.getAttribute(OAuth2FederatedIdentityCode.class.getName());
-			federatedIdentityCodeToken = OAuth2Authorization.from(authorization).token(code).build().getToken(OAuth2FederatedIdentityCode.class);
+			federatedIdentityCodeToken = OAuth2Authorization.from(authorization).token(code).build()
+					.getToken(OAuth2FederatedIdentityCode.class);
 		}
 		if (!federatedIdentityCodeToken.isActive()) {
 			throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_GRANT);

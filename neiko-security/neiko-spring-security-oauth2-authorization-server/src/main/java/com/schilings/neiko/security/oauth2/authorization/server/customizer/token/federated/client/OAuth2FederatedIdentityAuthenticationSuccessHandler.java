@@ -128,8 +128,7 @@ public class OAuth2FederatedIdentityAuthenticationSuccessHandler implements Auth
 						// 这个的目的看OAuth2FederatedIdentityAuthenticationProvider注释
 						.attribute(OAuth2ParameterNames.STATE, federatedIdentityCode.getTokenValue())
 						.attribute(OAuth2FederatedIdentityCode.class.getName(), federatedIdentityCode)
-						.token(federatedIdentityCode)
-				.build();
+						.token(federatedIdentityCode).build();
 		this.authorizationService.save(authorization);
 
 		if (this.logger.isTraceEnabled()) {

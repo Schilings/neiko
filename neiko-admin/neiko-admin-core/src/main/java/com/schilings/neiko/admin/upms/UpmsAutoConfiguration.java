@@ -13,18 +13,17 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
 
-@MapperScan({"com.schilings.neiko.**.mapper"})
-@ComponentScan({"com.schilings.neiko.admin.upms", "com.schilings.neiko.file", "com.schilings.neiko.system",
-		"com.schilings.neiko.log", "com.schilings.neiko.notify", "com.schilings.neiko.authorization"})
+@MapperScan({ "com.schilings.neiko.**.mapper" })
+@ComponentScan({ "com.schilings.neiko.admin.upms", "com.schilings.neiko.file", "com.schilings.neiko.system",
+		"com.schilings.neiko.log", "com.schilings.neiko.notify", "com.schilings.neiko.authorization" })
 @EnableAsync
 @AutoConfiguration
-@Import({LogConfiguration.class, UserDetailsServiceConfiguration.class})
-@EnableConfigurationProperties({SystemProperties.class})
+@Import({ LogConfiguration.class, UserDetailsServiceConfiguration.class })
+@EnableConfigurationProperties({ SystemProperties.class })
 public class UpmsAutoConfiguration {
 
 	/**
 	 * 雪花ID生成器
-	 *
 	 * @return
 	 */
 	@Bean
@@ -32,6 +31,5 @@ public class UpmsAutoConfiguration {
 	public SnowflakeIdGenerator snowflakeIdGenerator() {
 		return new SnowflakeIdGenerator();
 	}
-
 
 }

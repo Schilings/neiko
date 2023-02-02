@@ -15,14 +15,15 @@ import com.schilings.neiko.extend.mybatis.plus.wrapper.query.LambdaQueryWrapperX
 
 public interface AuthorizationConsentMapper extends ExtendMapper<AuthorizationConsent> {
 
+	default PageResult<AuthorizationConsentPageVO> queryPage(PageParam pageParam, AuthorizationConsentQO qo) {
+		IPage<AuthorizationConsent> page = this.prodPage(pageParam);
+		LambdaQueryWrapperX<AuthorizationConsent> queryWrapper = WrappersX.lambdaQueryX(AuthorizationConsent.class)
+				.eqIfPresent(AuthorizationConsent::getRegisteredClientId, qo.getRegisteredClientId())
+				.likeIfPresent(AuthorizationConsent::getPrincipalName, qo.getPrincipalName())
+				.betweenIfPresent(AuthorizationConsent::getCreateTime, qo.getStartTime(), qo.getEndTime());
+		IPage<AuthorizationConsentPageVO> iPage = this.selectPage(page, queryWrapper)
+				.convert(AuthorizationConsentConverter.INSTANCE::poToPageVo);
+		return this.prodPage(iPage);
+	}
 
-    default PageResult<AuthorizationConsentPageVO> queryPage(PageParam pageParam, AuthorizationConsentQO qo) {
-        IPage<AuthorizationConsent> page = this.prodPage(pageParam);
-        LambdaQueryWrapperX<AuthorizationConsent> queryWrapper = WrappersX.lambdaQueryX(AuthorizationConsent.class)
-                .eqIfPresent(AuthorizationConsent::getRegisteredClientId, qo.getRegisteredClientId())
-                .likeIfPresent(AuthorizationConsent::getPrincipalName, qo.getPrincipalName())
-                .betweenIfPresent(AuthorizationConsent::getCreateTime, qo.getStartTime(), qo.getEndTime());
-        IPage<AuthorizationConsentPageVO> iPage = this.selectPage(page, queryWrapper).convert(AuthorizationConsentConverter.INSTANCE::poToPageVo);
-        return this.prodPage(iPage);
-    }
 }

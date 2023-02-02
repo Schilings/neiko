@@ -48,8 +48,6 @@ import java.util.ArrayList;
 @EnableAuthorizationServer
 public class AuthorizationServerConfiguration {
 
-
-	
 	/**
 	 * Token Endpoint拓展授权方式
 	 * @return
@@ -61,7 +59,9 @@ public class AuthorizationServerConfiguration {
 			converters.add(new OAuth2FederatedIdentityAuthenticationConverter());
 		}));
 		extensionGrantTypeCustomizer.providerExpander((providers, http) -> {
-			providers.add(new OAuth2FederatedIdentityAuthenticationProvider(OAuth2ConfigurerUtils.getAuthorizationService(http), OAuth2ConfigurerUtils.getTokenGenerator(http)));
+			providers.add(new OAuth2FederatedIdentityAuthenticationProvider(
+					OAuth2ConfigurerUtils.getAuthorizationService(http),
+					OAuth2ConfigurerUtils.getTokenGenerator(http)));
 		});
 		extensionGrantTypeCustomizer.accessTokenResponseHandler(OAuth2AccessTokenAuthenticationSuccessHandler::new);
 		return extensionGrantTypeCustomizer;
@@ -77,8 +77,6 @@ public class AuthorizationServerConfiguration {
 		tokenRevocationCustomizer.revocationResponseHandler(OAuth2TokenRevocationAuthenticationSuccessHandler::new);
 		return tokenRevocationCustomizer;
 	}
-	
-	
 
 	/**
 	 * 自定义Authorization Server添加联合登录的支持
@@ -87,13 +85,15 @@ public class AuthorizationServerConfiguration {
 	 */
 	@Configuration
 	static class AuthorizationServerFederatedIdentityConfig {
+
 		@Bean
 		@ConditionalOnMissingBean
 		public OAuth2UserMerger oAuth2UserMerger(ObjectProvider<WechatUserService> wechatUserServices,
-												 ObjectProvider<WorkWechatUserService> workWechatUserServices,
-												 ObjectProvider<OidcUserService> oidcUserServices,
-												 ObjectProvider<OAuth2UserService> oAuth2UserServices) {
-			return new DefaultOAuth2UserMerger(wechatUserServices, workWechatUserServices, oidcUserServices, oAuth2UserServices);
+				ObjectProvider<WorkWechatUserService> workWechatUserServices,
+				ObjectProvider<OidcUserService> oidcUserServices,
+				ObjectProvider<OAuth2UserService> oAuth2UserServices) {
+			return new DefaultOAuth2UserMerger(wechatUserServices, workWechatUserServices, oidcUserServices,
+					oAuth2UserServices);
 		}
 
 		@Bean
@@ -103,13 +103,15 @@ public class AuthorizationServerConfiguration {
 				ObjectPostProcessor postProcessor = http.getSharedObject(ObjectPostProcessor.class);
 				FederatedIdentityConfigurer federatedIdentityConfigurer = new FederatedIdentityConfigurer(http);
 				// 对授权服务端添加联合登录的支持
-				FederatedIdentityConfigurerConfiguration.applyDefaultFederatedIdentity(federatedIdentityConfigurer, http);
+				FederatedIdentityConfigurerConfiguration.applyDefaultFederatedIdentity(federatedIdentityConfigurer,
+						http);
 				// format:off
 				http.apply(federatedIdentityConfigurer).wechatOAuth2Login().workWechatOAuth2Login()
 						.oauth2UserMerger(oAuth2UserMerger);
 				// format:on
 			};
 		}
+
 	}
 
 	/**
@@ -125,10 +127,10 @@ public class AuthorizationServerConfiguration {
 		 */
 		@Bean
 		@ConditionalOnMissingBean
-		public RegisteredClientRepository customRegisteredClientRepository(OAuth2RegisteredClientService registeredClientService) {
+		public RegisteredClientRepository customRegisteredClientRepository(
+				OAuth2RegisteredClientService registeredClientService) {
 			return new CustomRegisteredClientRepository(registeredClientService);
 		}
-
 
 		/**
 		 * OAuth2AuthorizationConsentService
@@ -137,36 +139,37 @@ public class AuthorizationServerConfiguration {
 		@Bean
 		@ConditionalOnMissingBean
 		public OAuth2AuthorizationConsentService authorizationConsentService(AuthorizationConsentService consentService,
-																			 RegisteredClientRepository registeredClientRepository) {
+				RegisteredClientRepository registeredClientRepository) {
 			return new CustomOAuth2AuthorizationConsentService(consentService, registeredClientRepository);
 		}
 
-
 		/**
 		 * OAuth2AuthorizationService
-		 *
 		 * @return
 		 */
 		@Bean
 		@ConditionalOnMissingBean
 		public OAuth2AuthorizationService authorizationService(AuthorizationService authorizationService,
-															   RegisteredClientRepository registeredClientRepository,
-															   //Jackson2ObjectMapperBuilder是Scope("prototype")
-															   Jackson2ObjectMapperBuilder objectMapperBuilder) {
+				RegisteredClientRepository registeredClientRepository,
+				// Jackson2ObjectMapperBuilder是Scope("prototype")
+				Jackson2ObjectMapperBuilder objectMapperBuilder) {
 			ClassLoader classLoader = CustomOAuth2AuthorizationService.class.getClassLoader();
 			ArrayList<Module> modules = new ArrayList<>();
-			//Spring Authorization Server,这个里面有限制SecurityJackson2Modules.enableDefaultTyping(context.getOwner());
+			// Spring Authorization
+			// Server,这个里面有限制SecurityJackson2Modules.enableDefaultTyping(context.getOwner());
 			modules.add(new OAuth2AuthorizationServerJackson2Module());
-			//Neiko Authorization Server
+			// Neiko Authorization Server
 			modules.add(new AuthorizationServerJackson2Module());
-			//Neiko Authorization Module
+			// Neiko Authorization Module
 			modules.add(new NeikoAuthorizationJackson2Module());
-			//Spring Security
+			// Spring Security
 			modules.addAll(SecurityJackson2Modules.getModules(classLoader));
 			objectMapperBuilder.modules(modules::addAll);
 			objectMapperBuilder.modules(modules);
-			return new CustomOAuth2AuthorizationService(authorizationService, registeredClientRepository, objectMapperBuilder.build());
+			return new CustomOAuth2AuthorizationService(authorizationService, registeredClientRepository,
+					objectMapperBuilder.build());
 		}
+
 	}
 
 	/**

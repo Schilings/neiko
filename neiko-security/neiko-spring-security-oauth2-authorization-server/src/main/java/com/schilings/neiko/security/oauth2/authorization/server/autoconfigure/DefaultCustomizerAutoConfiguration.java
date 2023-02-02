@@ -1,6 +1,5 @@
 package com.schilings.neiko.security.oauth2.authorization.server.autoconfigure;
 
-
 import com.schilings.neiko.security.oauth2.authorization.server.OAuth2AuthorizationServerExtensionConfigurer;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.*;
 import com.schilings.neiko.security.oauth2.authorization.server.customizer.authorization.DefaultOAuth2AuthorizationEndpointCustomizer;
@@ -33,110 +32,106 @@ import java.util.List;
 @RequiredArgsConstructor
 class DefaultCustomizerAutoConfiguration {
 
-    private final OAuth2AuthorizationServerProperties authorizationServerProperties;
+	private final OAuth2AuthorizationServerProperties authorizationServerProperties;
 
+	/**
+	 * 表单登陆支持
+	 * @return FormLoginConfigurerCustomizer
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	@ConditionalOnProperty(prefix = OAuth2AuthorizationServerProperties.PREFIX, name = "form-login-enabled",
+			havingValue = "true")
+	public FormLoginRememberMeConfigurerCustomizer formLoginRememberMeConfigurerCustomizer(
+			UserDetailsService userDetailsService) {
+		FormLoginRememberMeConfigurerCustomizer customizer = new FormLoginRememberMeConfigurerCustomizer(
+				userDetailsService);
+		customizer.enabled(authorizationServerProperties.isLoginPageEnabled())
+				.loginPage(authorizationServerProperties.getLoginPage());
+		return customizer;
+	}
 
-    /**
-     * 表单登陆支持
-     *
-     * @return FormLoginConfigurerCustomizer
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    @ConditionalOnProperty(prefix = OAuth2AuthorizationServerProperties.PREFIX, name = "form-login-enabled",
-            havingValue = "true")
-    public FormLoginRememberMeConfigurerCustomizer formLoginRememberMeConfigurerCustomizer(UserDetailsService userDetailsService) {
-        FormLoginRememberMeConfigurerCustomizer customizer = new FormLoginRememberMeConfigurerCustomizer(userDetailsService);
-        customizer.enabled(authorizationServerProperties.isLoginPageEnabled())
-                .loginPage(authorizationServerProperties.getLoginPage());
-        return customizer;
-    }
+	/**
+	 * Custom Configurer Injection
+	 * @param configurers
+	 * @return
+	 */
+	@Bean
+	public OAuth2AuthorizationServerExtensionConfigurerInjectionCustomizer extensionConfigurerInjectionCustomizer(
+			@Autowired(required = false) List<OAuth2AuthorizationServerExtensionConfigurer> configurers) {
+		return new OAuth2AuthorizationServerExtensionConfigurerInjectionCustomizer(configurers);
+	}
 
+	/**
+	 * Default Configuration
+	 * @return
+	 */
+	@Bean
+	@ConditionalOnMissingBean(DefaultOAuth2AuthorizationServerCustomizer.class)
+	public DefaultOAuth2AuthorizationServerCustomizer defaultOAuth2AuthorizationServerCustomizer() {
+		return new DefaultOAuth2AuthorizationServerCustomizer();
+	}
 
-    /**
-     * Custom Configurer Injection
-     *
-     * @param configurers
-     * @return
-     */
-    @Bean
-    public OAuth2AuthorizationServerExtensionConfigurerInjectionCustomizer extensionConfigurerInjectionCustomizer(
-            @Autowired(required = false) List<OAuth2AuthorizationServerExtensionConfigurer> configurers) {
-        return new OAuth2AuthorizationServerExtensionConfigurerInjectionCustomizer(configurers);
-    }
+	/**
+	 * Authorization Endpoint
+	 * @return
+	 */
+	@Bean
+	@ConditionalOnMissingBean({ OAuth2AuthorizationEndpointConfigurerCustomizer.class,
+			DefaultOAuth2AuthorizationEndpointCustomizer.class })
+	public DefaultOAuth2AuthorizationEndpointCustomizer defaultAuthorizationEndpointCustomizer() {
+		DefaultOAuth2AuthorizationEndpointCustomizer authorizationCustomizer = new DefaultOAuth2AuthorizationEndpointCustomizer();
+		authorizationCustomizer.consentPage(authorizationServerProperties.getConsentPage());
+		authorizationCustomizer.stateless(authorizationServerProperties.isStateless());
+		return authorizationCustomizer;
+	}
 
-    /**
-     * Default Configuration
-     *
-     * @return
-     */
-    @Bean
-    @ConditionalOnMissingBean(DefaultOAuth2AuthorizationServerCustomizer.class)
-    public DefaultOAuth2AuthorizationServerCustomizer defaultOAuth2AuthorizationServerCustomizer() {
-        return new DefaultOAuth2AuthorizationServerCustomizer();
-    }
+	/**
+	 * Token Endpoint
+	 * @return
+	 */
+	@Bean
+	@ConditionalOnMissingBean({ OAuth2TokenEndpointConfigurerCustomizer.class,
+			DefaultOAuth2TokenEndpointConfigurerCustomizer.class })
+	public DefaultOAuth2TokenEndpointConfigurerCustomizer extensionGrantTypeCustomizer() {
+		DefaultOAuth2TokenEndpointConfigurerCustomizer extensionGrantTypeCustomizer = new DefaultOAuth2TokenEndpointConfigurerCustomizer();
+		extensionGrantTypeCustomizer.accessTokenResponseHandler(NullEventAuthenticationSuccessHandler::new);
+		extensionGrantTypeCustomizer.errorResponseHandler(NullEventAuthenticationFailureHandler::new);
+		return extensionGrantTypeCustomizer;
+	}
 
-    /**
-     * Authorization Endpoint
-     *
-     * @return
-     */
-    @Bean
-    @ConditionalOnMissingBean({OAuth2AuthorizationEndpointConfigurerCustomizer.class, DefaultOAuth2AuthorizationEndpointCustomizer.class})
-    public DefaultOAuth2AuthorizationEndpointCustomizer defaultAuthorizationEndpointCustomizer() {
-        DefaultOAuth2AuthorizationEndpointCustomizer authorizationCustomizer = new DefaultOAuth2AuthorizationEndpointCustomizer();
-        authorizationCustomizer.consentPage(authorizationServerProperties.getConsentPage());
-        authorizationCustomizer.stateless(authorizationServerProperties.isStateless());
-        return authorizationCustomizer;
-    }
+	/**
+	 * Token Revocation Endpoint
+	 * @return
+	 */
+	@Bean
+	@ConditionalOnMissingBean({ OAuth2TokenRevocationEndpointConfigurerCustomizer.class,
+			DefaultOAuth2TokenRevocationCustomizer.class })
+	public DefaultOAuth2TokenRevocationCustomizer defaultTokenRevocationCustomizer() {
+		DefaultOAuth2TokenRevocationCustomizer tokenRevocationCustomizer = new DefaultOAuth2TokenRevocationCustomizer();
+		return tokenRevocationCustomizer;
+	}
 
-    /**
-     * Token Endpoint
-     *
-     * @return
-     */
-    @Bean
-    @ConditionalOnMissingBean({OAuth2TokenEndpointConfigurerCustomizer.class, DefaultOAuth2TokenEndpointConfigurerCustomizer.class})
-    public DefaultOAuth2TokenEndpointConfigurerCustomizer extensionGrantTypeCustomizer() {
-        DefaultOAuth2TokenEndpointConfigurerCustomizer extensionGrantTypeCustomizer = new DefaultOAuth2TokenEndpointConfigurerCustomizer();
-        extensionGrantTypeCustomizer.accessTokenResponseHandler(NullEventAuthenticationSuccessHandler::new);
-        extensionGrantTypeCustomizer.errorResponseHandler(NullEventAuthenticationFailureHandler::new);
-        return extensionGrantTypeCustomizer;
-    }
+	/**
+	 * Token Introspection Endpoint
+	 * @return
+	 */
+	@Bean
+	@ConditionalOnMissingBean({ OAuth2TokenIntrospectionEndpointConfigurerCustomizer.class,
+			DefaultOAuth2TokenIntrospectionCustomizer.class })
+	public DefaultOAuth2TokenIntrospectionCustomizer defaultOAuth2TokenIntrospectionCustomizer() {
+		DefaultOAuth2TokenIntrospectionCustomizer tokenIntrospectionCustomizer = new DefaultOAuth2TokenIntrospectionCustomizer();
+		return tokenIntrospectionCustomizer;
+	}
 
-    /**
-     * Token Revocation Endpoint
-     *
-     * @return
-     */
-    @Bean
-    @ConditionalOnMissingBean({OAuth2TokenRevocationEndpointConfigurerCustomizer.class, DefaultOAuth2TokenRevocationCustomizer.class})
-    public DefaultOAuth2TokenRevocationCustomizer defaultTokenRevocationCustomizer() {
-        DefaultOAuth2TokenRevocationCustomizer tokenRevocationCustomizer = new DefaultOAuth2TokenRevocationCustomizer();
-        return tokenRevocationCustomizer;
-    }
-
-    /**
-     * Token Introspection Endpoint
-     *
-     * @return
-     */
-    @Bean
-    @ConditionalOnMissingBean({OAuth2TokenIntrospectionEndpointConfigurerCustomizer.class, DefaultOAuth2TokenIntrospectionCustomizer.class})
-    public DefaultOAuth2TokenIntrospectionCustomizer defaultOAuth2TokenIntrospectionCustomizer() {
-        DefaultOAuth2TokenIntrospectionCustomizer tokenIntrospectionCustomizer = new DefaultOAuth2TokenIntrospectionCustomizer();
-        return tokenIntrospectionCustomizer;
-    }
-
-    /**
-     * Enable OpenId Connect
-     *
-     * @return
-     */
-    @Bean
-    @ConditionalOnMissingBean({DefaultOAuth2OidcConfigurerCustomizer.class})
-    public DefaultOAuth2OidcConfigurerCustomizer oidcConfigurerCustomizer() {
-        return new DefaultOAuth2OidcConfigurerCustomizer();
-    }
+	/**
+	 * Enable OpenId Connect
+	 * @return
+	 */
+	@Bean
+	@ConditionalOnMissingBean({ DefaultOAuth2OidcConfigurerCustomizer.class })
+	public DefaultOAuth2OidcConfigurerCustomizer oidcConfigurerCustomizer() {
+		return new DefaultOAuth2OidcConfigurerCustomizer();
+	}
 
 }

@@ -28,7 +28,6 @@ import java.util.List;
 @AutoConfiguration(before = OAuth2ClientAutoConfiguration.class)
 public class OAuth2ClientRegistrationRepositoryConfiguration {
 
-	
 	@Bean
 	@Conditional(ClientsConfiguredCondition.class)
 	@ConditionalOnMissingBean(ClientRegistrationRepository.class)
@@ -50,5 +49,5 @@ public class OAuth2ClientRegistrationRepositoryConfiguration {
 	public ClientRegistrationRepository emptyClientRegistrationRepository() {
 		return registrationId -> null;
 	}
-	
+
 }

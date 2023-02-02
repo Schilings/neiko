@@ -21,25 +21,24 @@ import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.Map;
 
-public final class OAuth2AuthorizationServerComponentUtils 
+public final class OAuth2AuthorizationServerComponentUtils
 		implements BeanFactoryPostProcessor, ApplicationContextAware, HttpSecurityAware {
-	
-	private static final OAuth2AuthorizationServerComponentUtils INSTANCE = 
-			new OAuth2AuthorizationServerComponentUtils();
-	
+
+	private static final OAuth2AuthorizationServerComponentUtils INSTANCE = new OAuth2AuthorizationServerComponentUtils();
+
 	private static ConfigurableListableBeanFactory beanFactory;
 
 	private static ApplicationContext applicationContext;
 
 	private static HttpSecurity httpSecurity;
-	
+
 	private OAuth2AuthorizationServerComponentUtils() {
 	}
 
 	public static OAuth2AuthorizationServerComponentUtils getInstance() {
 		return INSTANCE;
 	}
-	
+
 	public static RegisteredClientRepository getRegisteredClientRepository() {
 		return OAuth2ConfigurerUtils.getRegisteredClientRepository(getHttpSecurity());
 	}
@@ -51,7 +50,7 @@ public final class OAuth2AuthorizationServerComponentUtils
 	public void setApplicationContext(ApplicationContext applicationContext) {
 		OAuth2AuthorizationServerComponentUtils.applicationContext = applicationContext;
 	}
-	
+
 	public void setHttpSecurity(HttpSecurity http) {
 		OAuth2AuthorizationServerComponentUtils.httpSecurity = http;
 	}
@@ -59,7 +58,7 @@ public final class OAuth2AuthorizationServerComponentUtils
 	public static ApplicationContext getApplicationContext() {
 		return applicationContext;
 	}
-	
+
 	public static HttpSecurity getHttpSecurity() {
 		return httpSecurity;
 	}
@@ -163,6 +162,5 @@ public final class OAuth2AuthorizationServerComponentUtils
 			applicationContext.publishEvent(event);
 		}
 	}
-
 
 }

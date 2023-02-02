@@ -6,7 +6,6 @@ import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 import org.springframework.util.Assert;
 
-
 /**
  * Resolving
  * <a href="https://tools.ietf.org/html/rfc6750#section-1.2" target="_blank">Bearer
@@ -28,7 +27,6 @@ public class CookieBearerTokenResolver implements BearerTokenResolver {
 		this.cookieName = cookieName;
 	}
 
-
 	@Override
 	public String resolve(HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
@@ -44,4 +42,5 @@ public class CookieBearerTokenResolver implements BearerTokenResolver {
 
 		return null;
 	}
+
 }

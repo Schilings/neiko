@@ -24,11 +24,9 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-
 import java.io.IOException;
 
 import static com.schilings.neiko.security.oauth2.authorization.server.util.OAuth2AuthenticationProviderUtils.getAuthenticatedClientElseThrowInvalidClient;
-
 
 @RequiredArgsConstructor
 public class LoginCaptchaFilter extends OncePerRequestFilter {
@@ -40,7 +38,6 @@ public class LoginCaptchaFilter extends OncePerRequestFilter {
 	private final CaptchaValidator captchaValidator;
 
 	private final OAuth2ErrorHttpMessageConverter errorHttpResponseConverter = new OAuth2ErrorHttpMessageConverter();
-
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -74,12 +71,13 @@ public class LoginCaptchaFilter extends OncePerRequestFilter {
 			filterChain.doFilter(request, response);
 		}
 		else {
-			sendErrorResponse(request, response,captchaValidateResult);
+			sendErrorResponse(request, response, captchaValidateResult);
 		}
 
 	}
 
-	private void sendErrorResponse(HttpServletRequest request, HttpServletResponse response, CaptchaValidateResult captchaValidateResult) throws IOException {
+	private void sendErrorResponse(HttpServletRequest request, HttpServletResponse response,
+			CaptchaValidateResult captchaValidateResult) throws IOException {
 
 		OAuth2Error error = new OAuth2Error(CAPTCHA_CODE_ERROR, captchaValidateResult.getMessage(), "");
 		ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);

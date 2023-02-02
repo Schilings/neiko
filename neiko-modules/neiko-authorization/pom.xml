@@ -14,6 +14,7 @@
         <module>neiko-authorization-biz</module>
         <module>neiko-authorization-api</module>
         <module>neiko-authorization-common</module>
+        <module>neiko-authorization-remote</module>
     </modules>
 
 

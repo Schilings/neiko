@@ -38,8 +38,8 @@ public class LoginLogHandler {
 	@Async
 	@EventListener(OAuth2AccessTokenAuthenticationSuccessEvent.class)
 	public void onAuthenticationSuccessEvent(OAuth2AccessTokenAuthenticationSuccessEvent event) {
-		LoginLog loginLog = prodLoginLog(event).setMsg("登陆成功")
-				.setStatus(LogStatusEnum.SUCCESS.getValue()).setEventType(LoginEventTypeEnum.LOGIN.getValue());
+		LoginLog loginLog = prodLoginLog(event).setMsg("登陆成功").setStatus(LogStatusEnum.SUCCESS.getValue())
+				.setEventType(LoginEventTypeEnum.LOGIN.getValue());
 		loginLogService.save(loginLog);
 	}
 
@@ -50,8 +50,7 @@ public class LoginLogHandler {
 	@Async
 	@EventListener(OAuth2TokenRevocationAuthenticationSuccessEvent.class)
 	public void onLogoutSuccessEvent(OAuth2TokenRevocationAuthenticationSuccessEvent event) {
-		LoginLog loginLog = prodLogoutLog(event).setMsg("登出成功")
-				.setEventType(LoginEventTypeEnum.LOGOUT.getValue());
+		LoginLog loginLog = prodLogoutLog(event).setMsg("登出成功").setEventType(LoginEventTypeEnum.LOGOUT.getValue());
 		loginLogService.save(loginLog);
 	}
 
@@ -62,12 +61,12 @@ public class LoginLogHandler {
 	 */
 	private LoginLog prodLoginLog(OAuth2AccessTokenAuthenticationSuccessEvent event) {
 		// 获取 Request
-		//HttpServletRequest request = WebUtils.getRequest();
+		// HttpServletRequest request = WebUtils.getRequest();
 		Authentication authentication = event.getAuthentication();
-		LoginLog loginLog = new LoginLog().setLoginTime(LocalDateTime.now()).setIp(IpUtils.getIpAddr(event.getRequest()))
-				.setStatus(LogStatusEnum.SUCCESS.getValue()).setTraceId(MDC.get(LogConstant.TRACE_ID))
-				.setUsername(authentication.getName());
-		//clientId
+		LoginLog loginLog = new LoginLog().setLoginTime(LocalDateTime.now())
+				.setIp(IpUtils.getIpAddr(event.getRequest())).setStatus(LogStatusEnum.SUCCESS.getValue())
+				.setTraceId(MDC.get(LogConstant.TRACE_ID)).setUsername(authentication.getName());
+		// clientId
 		loginLog.setClientId(event.getClientId());
 		UserAgent ua = UserAgentUtil.parse(event.getRequest().getHeader("user-agent"));
 		if (ua != null) {
@@ -75,14 +74,14 @@ public class LoginLogHandler {
 		}
 		return loginLog;
 	}
-	
+
 	private LoginLog prodLogoutLog(OAuth2TokenRevocationAuthenticationSuccessEvent event) {
 		// 获取 Request
-		//HttpServletRequest request = WebUtils.getRequest();
+		// HttpServletRequest request = WebUtils.getRequest();
 		Authentication authentication = event.getAuthentication();
-		LoginLog loginLog = new LoginLog().setLoginTime(LocalDateTime.now()).setIp(IpUtils.getIpAddr(event.getRequest()))
-				.setStatus(LogStatusEnum.SUCCESS.getValue()).setTraceId(MDC.get(LogConstant.TRACE_ID))
-				.setUsername(authentication.getName());
+		LoginLog loginLog = new LoginLog().setLoginTime(LocalDateTime.now())
+				.setIp(IpUtils.getIpAddr(event.getRequest())).setStatus(LogStatusEnum.SUCCESS.getValue())
+				.setTraceId(MDC.get(LogConstant.TRACE_ID)).setUsername(authentication.getName());
 		// 根据 ua 获取浏览器和操作系统
 		UserAgent ua = UserAgentUtil.parse(event.getRequest().getHeader("user-agent"));
 		if (ua != null) {
@@ -90,4 +89,5 @@ public class LoginLogHandler {
 		}
 		return loginLog;
 	}
+
 }

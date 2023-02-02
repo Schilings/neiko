@@ -106,8 +106,8 @@ public class PasswordDecoderFilter extends OncePerRequestFilter {
 		filterChain.doFilter(new ModifyParamMapRequestWrapper(request, parameterMap), response);
 	}
 
-	private void sendErrorResponse(HttpServletRequest request, HttpServletResponse response,
-								   Exception exception) throws IOException {
+	private void sendErrorResponse(HttpServletRequest request, HttpServletResponse response, Exception exception)
+			throws IOException {
 
 		OAuth2Error error = new OAuth2Error(PASSWORD_DECODE_AES_ERROR);
 		ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);

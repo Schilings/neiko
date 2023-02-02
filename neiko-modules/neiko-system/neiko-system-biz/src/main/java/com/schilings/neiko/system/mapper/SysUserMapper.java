@@ -64,29 +64,24 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 		return SqlHelper.retBool(i);
 	}
 
-
-
 	/**
 	 * 根据用户名查询用户
 	 * @param username 用户名
 	 * @return 系统用户
 	 */
 	default SysUser selectByUsername(String username) {
-		return this.selectOne(WrappersX.<SysUser>lambdaQueryX()
-				.eq(SysUser::getUsername, username));
+		return this.selectOne(WrappersX.<SysUser>lambdaQueryX().eq(SysUser::getUsername, username));
 	}
 
 	/**
 	 * 根据用户名和用户类型查询用户
-	 *
 	 * @param username 用户名
-	 * @param userType  用户类型
+	 * @param userType 用户类型
 	 * @return 系统用户
 	 */
 	default SysUser selectByUsernameAndType(String username, Integer userType) {
-		return this.selectOne(WrappersX.<SysUser>lambdaQueryX()
-				.eq(SysUser::getUsername, username)
-				.eq(SysUser::getType, userType));
+		return this.selectOne(
+				WrappersX.<SysUser>lambdaQueryX().eq(SysUser::getUsername, username).eq(SysUser::getType, userType));
 	}
 
 	/**
@@ -95,15 +90,10 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 	 * @return 系统用户
 	 */
 	default SysUser selectByUsernameOrEmailOrPhone(String username, String email, String phone) {
-		return this.selectOne(WrappersX.<SysUser>lambdaQueryX()
-				.eq(SysUser::getUsername, username)
-				.or()
-				.eq(SysUser::getEmail, email)
-				.or()
-				.eq(SysUser::getPhone, phone)
-		);
+		return this.selectOne(WrappersX.<SysUser>lambdaQueryX().eq(SysUser::getUsername, username).or()
+				.eq(SysUser::getEmail, email).or().eq(SysUser::getPhone, phone));
 	}
-	
+
 	/**
 	 * 更新指定用户的密码
 	 * @param userId 用户
@@ -172,5 +162,5 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 		return this.selectJoinList(SelectData.class, AUTO_RESULT_MAP, queryWrapper);
 
 	}
-	
+
 }

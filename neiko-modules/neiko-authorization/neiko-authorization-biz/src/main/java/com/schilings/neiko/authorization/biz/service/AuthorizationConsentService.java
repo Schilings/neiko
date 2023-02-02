@@ -1,6 +1,5 @@
 package com.schilings.neiko.authorization.biz.service;
 
-
 import com.schilings.neiko.authorization.model.dto.AuthorizationConsentDTO;
 import com.schilings.neiko.authorization.model.entity.AuthorizationConsent;
 import com.schilings.neiko.authorization.model.qo.AuthorizationConsentQO;
@@ -19,15 +18,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 public interface AuthorizationConsentService extends ExtendService<AuthorizationConsent> {
-    PageResult<AuthorizationConsentPageVO> queryPage(PageParam pageParam, AuthorizationConsentQO qo);
-    
 
-    boolean saveOrUpdateAuthorizationConsent(AuthorizationConsentDTO dto);
+	PageResult<AuthorizationConsentPageVO> queryPage(PageParam pageParam, AuthorizationConsentQO qo);
 
-    boolean deleteByRegisteredClientIdAndPrincipalName(String registeredClientId, String principalName);
+	boolean saveOrUpdateAuthorizationConsent(AuthorizationConsentDTO dto);
 
-    AuthorizationConsent getByRegisteredClientIdAndPrincipalName(String registeredClientId, String principalName);
-    
+	boolean deleteByRegisteredClientIdAndPrincipalName(String registeredClientId, String principalName);
+
+	AuthorizationConsent getByRegisteredClientIdAndPrincipalName(String registeredClientId, String principalName);
+
 }
-
-

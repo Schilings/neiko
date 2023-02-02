@@ -5,6 +5,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 @FunctionalInterface
 public interface OidcUserService {
-    
-    OAuth2User loadUser(OidcUser oidcUser, String userNameAttributeName);
+
+	OAuth2User loadUser(OidcUser oidcUser, String userNameAttributeName);
+
 }

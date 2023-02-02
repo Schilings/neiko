@@ -1,6 +1,5 @@
 package com.schilings.neiko.security.oauth2.resource.server.web;
 
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,22 +22,21 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class SecurityExceptionResolver {
 
-    private final AccessDeniedHandler accessDeniedHandler;
+	private final AccessDeniedHandler accessDeniedHandler;
 
-    /**
-     * 处理拒绝访问异常,兼容spring webmvc的处理
-     *
-     * @param exception
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
-     */
-    @ExceptionHandler(value = AccessDeniedException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    public void handlerAccessDeniedException(AccessDeniedException exception, HttpServletRequest request,
-                                             HttpServletResponse response) throws ServletException, IOException {
-        accessDeniedHandler.handle(request, response, exception);
-    }
+	/**
+	 * 处理拒绝访问异常,兼容spring webmvc的处理
+	 * @param exception
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	@ExceptionHandler(value = AccessDeniedException.class)
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	public void handlerAccessDeniedException(AccessDeniedException exception, HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		accessDeniedHandler.handle(request, response, exception);
+	}
 
 }

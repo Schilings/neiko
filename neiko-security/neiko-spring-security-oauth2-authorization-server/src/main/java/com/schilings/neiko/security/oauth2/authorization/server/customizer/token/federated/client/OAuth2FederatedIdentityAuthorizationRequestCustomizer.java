@@ -35,7 +35,7 @@ public class OAuth2FederatedIdentityAuthorizationRequestCustomizer implements OA
 
 			// redirect_uri (REQUIRED)
 			String redirectUri = parameters.getFirst(OAuth2FederatedIdentityConstant.REDIRECT_URI);
-			//检验redirect_uri规则
+			// 检验redirect_uri规则
 			OAuth2ParameterValidator.validateRedirectUri(redirectUri, null);
 			if (parameters.get(OAuth2FederatedIdentityConstant.REDIRECT_URI).size() != 1) {
 				throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2FederatedIdentityConstant.REDIRECT_URI);

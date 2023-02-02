@@ -1,6 +1,5 @@
 package com.schilings.neiko.admin.upms.authentication;
 
-
 import com.schilings.neiko.authorization.biz.federated.OAuth2UserService;
 import com.schilings.neiko.system.service.SysUserService;
 import org.springframework.beans.factory.ObjectProvider;
@@ -19,36 +18,36 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @ConditionalOnMissingBean(UserDetailsService.class)
 public class UserDetailsServiceConfiguration {
 
-    /**
-     * UserDetail处理类
-     * @return SysUserDetailsServiceImpl
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    public UserDetailsService userDetailsService(SysUserService sysUserService,
-                                                 ObjectProvider<UserInfoCoordinator> userInfoCoordinators) {
-        return new SysUserDetailsServiceImpl(sysUserService, userInfoCoordinators);
-    }
+	/**
+	 * UserDetail处理类
+	 * @return SysUserDetailsServiceImpl
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	public UserDetailsService userDetailsService(SysUserService sysUserService,
+			ObjectProvider<UserInfoCoordinator> userInfoCoordinators) {
+		return new SysUserDetailsServiceImpl(sysUserService, userInfoCoordinators);
+	}
 
-    /**
-     * OAuth2User处理类
-     * @return SysUserDetailsServiceImpl
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    public OAuth2UserService oAuth2UserService(SysUserService sysUserService,
-                                                ObjectProvider<UserInfoCoordinator> userInfoCoordinators) {
-        return new SysOAuth2UserServiceImpl(sysUserService, userInfoCoordinators);
-    }
+	/**
+	 * OAuth2User处理类
+	 * @return SysUserDetailsServiceImpl
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	public OAuth2UserService oAuth2UserService(SysUserService sysUserService,
+			ObjectProvider<UserInfoCoordinator> userInfoCoordinators) {
+		return new SysOAuth2UserServiceImpl(sysUserService, userInfoCoordinators);
+	}
 
-    /**
-     * 用户信息协调者
-     * @return UserInfoCoordinator
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    public UserInfoCoordinator userInfoCoordinator() {
-        return new DefaultUserInfoCoordinatorImpl();
-    }
+	/**
+	 * 用户信息协调者
+	 * @return UserInfoCoordinator
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	public UserInfoCoordinator userInfoCoordinator() {
+		return new DefaultUserInfoCoordinatorImpl();
+	}
 
 }

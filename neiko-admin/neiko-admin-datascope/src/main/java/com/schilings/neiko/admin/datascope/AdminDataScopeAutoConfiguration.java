@@ -27,7 +27,7 @@ public class AdminDataScopeAutoConfiguration {
 	@Bean
 	public DataScopeJackson2Module dataScopeJackson2Module() {
 		return new DataScopeJackson2Module();
-	} 
+	}
 
 	@Bean
 	@ConditionalOnMissingBean

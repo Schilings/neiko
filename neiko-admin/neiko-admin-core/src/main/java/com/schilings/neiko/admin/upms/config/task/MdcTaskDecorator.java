@@ -31,9 +31,9 @@ public class MdcTaskDecorator implements TaskDecorator {
 	public Runnable decorate(Runnable runnable) {
 		try {
 			Map<String, String> copyOfContextMap = MDC.getCopyOfContextMap();
-			
+
 			ServletRequestAttributes requestAttributes = WebUtils.getServletRequestAttributes();
-			//延迟Servlet的生命周期，防止Request回收(Request.recycle())
+			// 延迟Servlet的生命周期，防止Request回收(Request.recycle())
 			AsyncContext asyncContext = requestAttributes.getRequest().startAsync();
 			return () -> {
 				// 现在：@Async线程上下文！

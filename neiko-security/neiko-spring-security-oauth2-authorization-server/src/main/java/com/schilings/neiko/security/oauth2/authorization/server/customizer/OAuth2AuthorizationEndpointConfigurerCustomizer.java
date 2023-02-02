@@ -17,5 +17,4 @@ public abstract class OAuth2AuthorizationEndpointConfigurerCustomizer
 
 	protected final Log logger = LogFactory.getLog(getClass());
 
-
 }

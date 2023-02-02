@@ -1,6 +1,5 @@
 package com.schilings.neiko.authorization.model.qo;
 
-
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -18,17 +17,18 @@ import static cn.hutool.core.date.DatePattern.NORM_DATETIME_PATTERN;
 @Accessors(chain = true)
 public class AuthorizationConsentQO {
 
-    @Parameter(description = "客户端clientId")
-    private String registeredClientId;
+	@Parameter(description = "客户端clientId")
+	private String registeredClientId;
 
-    @Parameter(description = "主体")
-    private String principalName;
+	@Parameter(description = "主体")
+	private String principalName;
 
-    @Parameter(description = "开始时间")
-    @DateTimeFormat(pattern = NORM_DATETIME_PATTERN)
-    private String startTime;
+	@Parameter(description = "开始时间")
+	@DateTimeFormat(pattern = NORM_DATETIME_PATTERN)
+	private String startTime;
 
-    @Parameter(description = "结束时间")
-    @DateTimeFormat(pattern = NORM_DATETIME_PATTERN)
-    private String endTime;
+	@Parameter(description = "结束时间")
+	@DateTimeFormat(pattern = NORM_DATETIME_PATTERN)
+	private String endTime;
+
 }

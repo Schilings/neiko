@@ -20,12 +20,11 @@ public class OAuth2AuthorizationServerProperties {
 	 */
 	private boolean loginCaptchaEnabled = true;
 
-
 	/**
 	 * 开启表单登录
 	 */
 	private boolean formLoginEnabled = false;
-	
+
 	/**
 	 * 开启服务端登录页
 	 */

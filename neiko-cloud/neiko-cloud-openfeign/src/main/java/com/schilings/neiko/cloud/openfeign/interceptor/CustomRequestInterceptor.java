@@ -37,7 +37,7 @@ public class CustomRequestInterceptor implements RequestInterceptor {
 	 * @param requestTemplate
 	 */
 	@Override
-	public void apply(RequestTemplate requestTemplate)  {
+	public void apply(RequestTemplate requestTemplate) {
 		requestTemplate.header("X-Auth", "currentToken");
 	}
 

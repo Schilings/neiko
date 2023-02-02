@@ -17,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.List;
 
 /**
- * 
+ *
  * 授权管理器配置类
  *
  */
@@ -30,14 +30,13 @@ public class AuthenticationManagerAutoConfiguration {
 	private final List<AuthenticationProvider> authenticationProviders;
 
 	/**
-	 * 显式注入授权管理器，password 模式时必须要提供
-	 * 防止AuthenticationProvider的Bean破坏原本的默认配置
+	 * 显式注入授权管理器，password 模式时必须要提供 防止AuthenticationProvider的Bean破坏原本的默认配置
 	 */
 	@Bean
-	public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, 
-													   ObjectProvider<PasswordEncoder> passwordEncoderProvider, 
-													   AuthenticationConfiguration authenticationConfiguration,
-													   ApplicationContext applicationContext) throws Exception {
+	public AuthenticationManager authenticationManager(UserDetailsService userDetailsService,
+			ObjectProvider<PasswordEncoder> passwordEncoderProvider,
+			AuthenticationConfiguration authenticationConfiguration, ApplicationContext applicationContext)
+			throws Exception {
 
 		AuthenticationManagerBuilder authBuilder = applicationContext.getBean(AuthenticationManagerBuilder.class);
 
@@ -47,8 +46,8 @@ public class AuthenticationManagerAutoConfiguration {
 		}
 		// 注册 DaoAuthenticationProvider
 		if (userDetailsService != null) {
-			authBuilder.userDetailsService(userDetailsService)
-					.passwordEncoder(passwordEncoderProvider.getIfAvailable(PasswordUtils::createDelegatingPasswordEncoder));
+			authBuilder.userDetailsService(userDetailsService).passwordEncoder(
+					passwordEncoderProvider.getIfAvailable(PasswordUtils::createDelegatingPasswordEncoder));
 		}
 		return authenticationConfiguration.getAuthenticationManager();
 	}

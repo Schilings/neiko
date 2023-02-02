@@ -1,7 +1,5 @@
 package com.schilings.neiko.authorization.controller;
 
-
-
 import com.schilings.neiko.authorization.biz.service.AuthorizationService;
 import com.schilings.neiko.authorization.model.qo.AuthorizationQO;
 import com.schilings.neiko.authorization.model.vo.AuthorizationPageVO;
@@ -26,22 +24,19 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "授权服务端授权信息管理模块")
 public class AuthorizationController {
 
-    private final AuthorizationService authorizationService;
+	private final AuthorizationService authorizationService;
 
-    /**
-     * 分页查询
-     * @param pageParam 参数集
-     * @return 用户集合
-     */
-    @GetMapping("/authorizationPage")
-    @PreAuthorize("@per.hasPermission('authorization:authorization:read')")
-    @Operation(summary = "分页查询授权信息")
-    public R<PageResult<AuthorizationPageVO>> getAuthorizationConsentPage(@Validated PageParam pageParam, AuthorizationQO qo) {
-        return R.ok(authorizationService.queryPage(pageParam, qo));
-    }
+	/**
+	 * 分页查询
+	 * @param pageParam 参数集
+	 * @return 用户集合
+	 */
+	@GetMapping("/authorizationPage")
+	@PreAuthorize("@per.hasPermission('authorization:authorization:read')")
+	@Operation(summary = "分页查询授权信息")
+	public R<PageResult<AuthorizationPageVO>> getAuthorizationConsentPage(@Validated PageParam pageParam,
+			AuthorizationQO qo) {
+		return R.ok(authorizationService.queryPage(pageParam, qo));
+	}
 
-    
-    
-    
-    
 }

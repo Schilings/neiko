@@ -47,11 +47,10 @@ public class DefaultOAuth2AuthorizationEndpointCustomizer extends OAuth2Authoriz
 
 	private Function<AuthenticationFailureHandler, AuthenticationFailureHandler> failureHandlerMapping = (
 			failureHandler) -> failureHandler;
-	
+
 	private String consentPage;
-	
+
 	private boolean stateless = false;
-	
 
 	@Override
 	public void customize(OAuth2AuthorizationServerConfigurer configurer, HttpSecurity httpSecurity) throws Exception {
@@ -59,9 +58,8 @@ public class DefaultOAuth2AuthorizationEndpointCustomizer extends OAuth2Authoriz
 		// 使用无状态登录时，需要配合自定义的 SecurityContextRepository
 		if (this.stateless) {
 			httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-			httpSecurity
-					.securityContext(security -> security.securityContextRepository(
-							new OAuth2SecurityContextRepository(OAuth2ConfigurerUtils.getAuthorizationService(httpSecurity))));
+			httpSecurity.securityContext(security -> security.securityContextRepository(
+					new OAuth2SecurityContextRepository(OAuth2ConfigurerUtils.getAuthorizationService(httpSecurity))));
 		}
 		configurer.authorizationEndpoint(authorizationEndpoint -> {
 			// custom consent 设置 OAuth2 Consent 地址
@@ -73,7 +71,8 @@ public class DefaultOAuth2AuthorizationEndpointCustomizer extends OAuth2Authoriz
 			// handler
 			this.authenticationSuccessHandler = this.successHandlerMapping.apply(this.authenticationSuccessHandler);
 			this.authenticationFailureHandler = this.failureHandlerMapping.apply(this.authenticationFailureHandler);
-			authorizationEndpoint.authorizationResponseHandler(postProcessor.postProcess(this.authenticationSuccessHandler));
+			authorizationEndpoint
+					.authorizationResponseHandler(postProcessor.postProcess(this.authenticationSuccessHandler));
 			authorizationEndpoint.errorResponseHandler(postProcessor.postProcess(this.authenticationFailureHandler));
 		});
 	}
@@ -87,7 +86,6 @@ public class DefaultOAuth2AuthorizationEndpointCustomizer extends OAuth2Authoriz
 		this.stateless = stateless;
 		return this;
 	}
-	
 
 	public DefaultOAuth2AuthorizationEndpointCustomizer authorizationResponseHandler(
 			Function<AuthenticationSuccessHandler, AuthenticationSuccessHandler> apply) {

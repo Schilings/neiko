@@ -5,4 +5,5 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 import java.util.function.Consumer;
 
 public interface OAuth2TokenClaimsContextConsumer extends Consumer<OAuth2TokenClaimsContext> {
+
 }

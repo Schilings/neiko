@@ -87,9 +87,8 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 
 	/**
 	 * 根据用户名和用户类型查询用户
-	 *
 	 * @param username 用户名
-	 * @param userType  用户类型
+	 * @param userType 用户类型
 	 * @return 系统用户
 	 */
 	@Override

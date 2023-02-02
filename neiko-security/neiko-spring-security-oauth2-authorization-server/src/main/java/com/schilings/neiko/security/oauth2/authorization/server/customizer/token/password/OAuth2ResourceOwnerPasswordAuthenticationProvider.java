@@ -94,7 +94,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider
 		if (!registeredClient.getAuthorizationGrantTypes().contains(AuthorizationGrantType.PASSWORD)) {
 			throw new OAuth2AuthenticationException(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT);
 		}
-		
+
 		// Default to configured scopes
 		Set<String> authorizedScopes = Collections.emptySet();
 		if (!CollectionUtils.isEmpty(resourceOwnerPasswordAuthenticationToken.getScopes())) {
@@ -110,7 +110,6 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider
 		// 走UsernamePasswordAuthentication认证模式
 		Authentication usernamePasswordAuthentication = getUsernamePasswordAuthentication(
 				resourceOwnerPasswordAuthenticationToken);
-
 
 		if (this.logger.isTraceEnabled()) {
 			this.logger.trace("Validated token request parameters");

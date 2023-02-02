@@ -47,7 +47,6 @@ public class CustomUserDetailServiceImpl implements UserDetailsService {
             }
             
             //可以根据scope返回不同类型的用户
-            System.out.println(requestedScopes);
             
         }
 
@@ -56,6 +55,7 @@ public class CustomUserDetailServiceImpl implements UserDetailsService {
                 .accountExpired(false).accountLocked(false).disabled(false).credentialsExpired(false)
                 .authorities(
                         "ROLE_USER", "ROLE_ADMIN", "ROLE_CUSTOMER", 
+                        "authorization:*:*",
                         "system:user:read", "system:user:edit", "system:user:del", "system:user:add",
                         "system:menu:read", "system:menu:edit", "system:menu:del", "system:menu:add",
                         "system:role:read", "system:role:edit", "system:role:del", "system:role:add",

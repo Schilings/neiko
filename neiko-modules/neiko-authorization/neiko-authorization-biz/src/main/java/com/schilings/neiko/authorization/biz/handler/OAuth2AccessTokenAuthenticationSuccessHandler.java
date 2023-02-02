@@ -27,16 +27,18 @@ public class OAuth2AccessTokenAuthenticationSuccessHandler extends ApplicationEv
 		publishEvent(request, response, authentication);
 	}
 
-	public void publishEvent(HttpServletRequest request, HttpServletResponse response,Authentication authentication) {
+	public void publishEvent(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 		OAuth2AccessTokenAuthenticationSuccessEvent event = null;
 		if (authentication instanceof OAuth2AccessTokenAuthenticationToken) {
 			OAuth2AccessTokenAuthenticationToken accessTokenAuthentication = (OAuth2AccessTokenAuthenticationToken) authentication;
 			Map<String, Object> attributes = new HashMap<>(accessTokenAuthentication.getAdditionalParameters());
-			attributes.put(OAuth2ParameterNames.CLIENT_ID, accessTokenAuthentication.getRegisteredClient().getClientId());
+			attributes.put(OAuth2ParameterNames.CLIENT_ID,
+					accessTokenAuthentication.getRegisteredClient().getClientId());
 			attributes.put(OAuth2ParameterNames.SCOPE, accessTokenAuthentication.getAccessToken().getScopes());
-			//attributes.put(OAuth2ParameterNames.GRANT_TYPE, "");
-			event = new OAuth2AccessTokenAuthenticationSuccessEvent(request, response, authentication,attributes);
-		} else {
+			// attributes.put(OAuth2ParameterNames.GRANT_TYPE, "");
+			event = new OAuth2AccessTokenAuthenticationSuccessEvent(request, response, authentication, attributes);
+		}
+		else {
 			event = new OAuth2AccessTokenAuthenticationSuccessEvent(request, response, authentication);
 		}
 		getApplicationEventPublisher().publishEvent(event);

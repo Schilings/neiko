@@ -36,16 +36,16 @@ public class OAuth2TokenRevocationAuthenticationSuccessHandler extends Applicati
 		response.getWriter().flush();
 	}
 
-
-	public void publishEvent(HttpServletRequest request, HttpServletResponse response,Authentication authentication) {
+	public void publishEvent(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 		OAuth2TokenRevocationAuthenticationSuccessEvent event = null;
 		if (authentication instanceof OAuth2TokenRevocationAuthenticationToken) {
 			OAuth2TokenRevocationAuthenticationToken tokenRevocationAuthentication = (OAuth2TokenRevocationAuthenticationToken) authentication;
 			Map<String, Object> attributes = new HashMap<>();
 			attributes.put(OAuth2ParameterNames.TOKEN, tokenRevocationAuthentication.getToken());
-			//attributes.put(OAuth2ParameterNames.GRANT_TYPE, "");
-			event = new OAuth2TokenRevocationAuthenticationSuccessEvent(request, response, authentication,attributes);
-		} else {
+			// attributes.put(OAuth2ParameterNames.GRANT_TYPE, "");
+			event = new OAuth2TokenRevocationAuthenticationSuccessEvent(request, response, authentication, attributes);
+		}
+		else {
 			event = new OAuth2TokenRevocationAuthenticationSuccessEvent(request, response, authentication);
 		}
 		getApplicationEventPublisher().publishEvent(event);

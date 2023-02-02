@@ -1,6 +1,5 @@
 package com.schilings.neiko.security.oauth2.authorization.server.jackson;
 
-
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
@@ -9,13 +8,14 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 
 public class AuthorizationServerJackson2Module extends SimpleModule {
 
-    public AuthorizationServerJackson2Module() {
-        super(AuthorizationServerJackson2Module.class.getName(), new Version(1, 0, 0, null, null, null));
-    }
-    @Override
-    public void setupModule(SetupContext context) {
-        context.setMixInAnnotations(OAuth2Authorization.class, OAuth2AuthorizationMixin.class);
-        context.setMixInAnnotations(OAuth2FederatedIdentityCode.class, OAuth2FederatedIdentityCodeMixin.class);
-    }
-    
+	public AuthorizationServerJackson2Module() {
+		super(AuthorizationServerJackson2Module.class.getName(), new Version(1, 0, 0, null, null, null));
+	}
+
+	@Override
+	public void setupModule(SetupContext context) {
+		context.setMixInAnnotations(OAuth2Authorization.class, OAuth2AuthorizationMixin.class);
+		context.setMixInAnnotations(OAuth2FederatedIdentityCode.class, OAuth2FederatedIdentityCodeMixin.class);
+	}
+
 }

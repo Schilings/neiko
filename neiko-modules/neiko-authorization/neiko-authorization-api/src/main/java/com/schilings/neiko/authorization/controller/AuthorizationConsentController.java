@@ -1,6 +1,5 @@
 package com.schilings.neiko.authorization.controller;
 
-
 import com.schilings.neiko.authorization.biz.service.AuthorizationConsentService;
 import com.schilings.neiko.authorization.model.qo.AuthorizationConsentQO;
 import com.schilings.neiko.authorization.model.vo.AuthorizationConsentPageVO;
@@ -23,22 +22,19 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "授权服务端授权用户同意信息管理模块")
 public class AuthorizationConsentController {
 
-    private final AuthorizationConsentService authorizationConsentService;
+	private final AuthorizationConsentService authorizationConsentService;
 
-    /**
-     * 分页查询
-     * @param pageParam 参数集
-     * @return 用户集合
-     */
-    @GetMapping("/authorizationConsentPage")
-    @PreAuthorize("@per.hasPermission('authorization:authorizationConsent:read')")
-    @Operation(summary = "分页查询授权用户同意信息")
-    public R<PageResult<AuthorizationConsentPageVO>> getAuthorizationConsentPage(@Validated PageParam pageParam, AuthorizationConsentQO qo) {
-        return R.ok(authorizationConsentService.queryPage(pageParam, qo));
-    }
+	/**
+	 * 分页查询
+	 * @param pageParam 参数集
+	 * @return 用户集合
+	 */
+	@GetMapping("/authorizationConsentPage")
+	@PreAuthorize("@per.hasPermission('authorization:authorizationConsent:read')")
+	@Operation(summary = "分页查询授权用户同意信息")
+	public R<PageResult<AuthorizationConsentPageVO>> getAuthorizationConsentPage(@Validated PageParam pageParam,
+			AuthorizationConsentQO qo) {
+		return R.ok(authorizationConsentService.queryPage(pageParam, qo));
+	}
 
-    
-    
-    
-    
 }
