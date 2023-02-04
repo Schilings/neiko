@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.security.oauth2.core.OAuth2TokenIntrospectionClaimNames;
 import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthentication;
+import org.springframework.security.oauth2.server.resource.introspection.OAuth2IntrospectionAuthenticatedPrincipal;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenAuthenticationConverter;
 import org.springframework.util.StringUtils;
 
@@ -28,20 +29,22 @@ public class DefaultOpaqueTokenAuthenticationConverter implements OpaqueTokenAut
 		OAuth2AccessToken accessToken = new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER, introspectedToken,
 				iat, exp);
 
-		// 增加对ScopeNames.AUTHORITY_INFO的处理
+		// 增加对ScopeNames.authority_info_claim的处理
 		Set<GrantedAuthority> authorities = new HashSet<>(authenticatedPrincipal.getAuthorities());
-		for (String authority : getAuthorityInfo(authenticatedPrincipal)) {
+		for (String authority : getAuthorityClaim(authenticatedPrincipal)) {
 			authorities.add(new SimpleGrantedAuthority(authority));
 		}
-		return new BearerTokenAuthentication(authenticatedPrincipal, accessToken, authorities);
+		OAuth2AuthenticatedPrincipal newPrincipal = new OAuth2IntrospectionAuthenticatedPrincipal(
+				authenticatedPrincipal.getName(), authenticatedPrincipal.getAttributes(), authorities);
+		return new BearerTokenAuthentication(newPrincipal, accessToken, authorities);
 	}
 
-	private Collection<String> getAuthorityInfo(OAuth2AuthenticatedPrincipal authenticatedPrincipal) {
+	private Collection<String> getAuthorityClaim(OAuth2AuthenticatedPrincipal authenticatedPrincipal) {
 		if (this.logger.isTraceEnabled()) {
-			this.logger.trace(LogMessage.format("Looking for %s in attribute %s", ScopeNames.AUTHORITY_INFO,
-					ScopeNames.AUTHORITY_INFO));
+			this.logger.trace(LogMessage.format("Looking for %s in attribute %s", ScopeNames.AUTHORITY_INFO_CLAIM,
+					ScopeNames.AUTHORITY_INFO_CLAIM));
 		}
-		Object authorities = authenticatedPrincipal.getAttribute(ScopeNames.AUTHORITY_INFO);
+		Object authorities = authenticatedPrincipal.getAttribute(ScopeNames.AUTHORITY_INFO_CLAIM);
 		if (authorities instanceof String) {
 			if (StringUtils.hasText((String) authorities)) {
 				return Arrays.asList(((String) authorities).split(" "));

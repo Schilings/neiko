@@ -77,7 +77,7 @@ public class SysDictManager {
 	 * @param id 字典id
 	 */
 	@Transactional(rollbackFor = Exception.class)
-	public void removeDictById(Integer id) {
+	public void removeDictById(Long id) {
 		// 查询现有数据
 		SysDict dict = sysDictService.getById(id);
 		// 字典标识

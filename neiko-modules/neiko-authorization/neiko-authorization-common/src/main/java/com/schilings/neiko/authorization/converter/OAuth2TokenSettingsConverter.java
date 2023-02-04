@@ -24,8 +24,7 @@ public interface OAuth2TokenSettingsConverter {
 			@Mapping(target = "authorizationCodeTimeToLive",
 					expression = "java(stringSecondToDuration(tokenSettings.getAuthorizationCodeTimeToLive()))"),
 			@Mapping(target = "reuseRefreshTokens",
-					expression = "java(intToBool(tokenSettings.getReuseRefreshTokens()))")
-	})
+					expression = "java(intToBool(tokenSettings.getReuseRefreshTokens()))") })
 	OAuth2TokenSettingsVO poToVo(OAuth2TokenSettings tokenSettings);
 
 	OAuth2TokenSettings dtoToPo(OAuth2TokenSettingsDTO dto);

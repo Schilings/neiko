@@ -29,13 +29,13 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 public class AuthorizationServerAutoConfiguration {
 
 	@Bean
-	public DefaultJwtEncodingContextConsumer defaultJwtEncodingContextConsumer() {
-		return new DefaultJwtEncodingContextConsumer();
+	public AuthorityClaimJwtEncodingContextConsumer authorityClaimJwtEncodingContextConsumer() {
+		return new AuthorityClaimJwtEncodingContextConsumer();
 	}
 
 	@Bean
-	public DefaultOAuth2TokenClaimsContextConsumer defaultOAuth2TokenClaimsContextConsumer() {
-		return new DefaultOAuth2TokenClaimsContextConsumer();
+	public AuthorityClaimOAuth2TokenClaimsContextConsumer authorityClaimOAuth2TokenClaimsContextConsumer() {
+		return new AuthorityClaimOAuth2TokenClaimsContextConsumer();
 	}
 
 	/**

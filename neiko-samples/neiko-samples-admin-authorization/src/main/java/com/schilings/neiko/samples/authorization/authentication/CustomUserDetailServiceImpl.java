@@ -1,11 +1,13 @@
 package com.schilings.neiko.samples.authorization.authentication;
 
 
+import com.schilings.neiko.authorization.common.constant.UserAttributeNameConstants;
 import com.schilings.neiko.common.util.web.WebUtils;
 import com.schilings.neiko.security.oauth2.authorization.server.util.OAuth2AuthenticationProviderUtils;
 import com.schilings.neiko.security.oauth2.authorization.server.util.OAuth2EndpointUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,10 +23,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -50,11 +49,11 @@ public class CustomUserDetailServiceImpl implements UserDetailsService {
             
         }
 
-        return User.withUsername(username).password("123456")
+        UserDetails user = User.withUsername(username).password("123456")
                 .passwordEncoder(passwordEncoder::encode)
                 .accountExpired(false).accountLocked(false).disabled(false).credentialsExpired(false)
                 .authorities(
-                        "ROLE_USER", "ROLE_ADMIN", "ROLE_CUSTOMER", 
+                        "ROLE_USER", "ROLE_ADMIN", "ROLE_CUSTOMER",
                         "authorization:*:*",
                         "system:user:read", "system:user:edit", "system:user:del", "system:user:add",
                         "system:menu:read", "system:menu:edit", "system:menu:del", "system:menu:add",
@@ -64,7 +63,30 @@ public class CustomUserDetailServiceImpl implements UserDetailsService {
                         "system:dict:read", "system:dict:edit", "system:dict:del", "system:dict:add"
                 )
                 .build();
+
+        return com.schilings.neiko.authorization.common.userdetails.User.builder()
+                .username(username).password("{noop}123456")
+                .nickname("nickname")
+                .status(1)
+                .authorities(AuthorityUtils.createAuthorityList(
+                        "ROLE_USER", "ROLE_ADMIN", "ROLE_CUSTOMER",
+                        "authorization:*:*",
+                        "system:user:read", "system:user:edit", "system:user:del", "system:user:add",
+                        "system:menu:read", "system:menu:edit", "system:menu:del", "system:menu:add",
+                        "system:role:read", "system:role:edit", "system:role:del", "system:role:add",
+                        "system:organization:read", "system:organization:edit", "system:organization:del", "system:organization:add",
+                        "system:config:read", "system:config:edit", "system:config:del", "system:config:add",
+                        "system:dict:read", "system:dict:edit", "system:dict:del", "system:dict:add"))
+                .attributes(new HashMap<>(
+                        Collections.singletonMap(UserAttributeNameConstants.ROLE_CODES,
+                                new HashSet<>(Set.of("ROLE_ADMIN")))
+                ))
+                .build();
+
     }
+    
+
+
 
     private OAuth2ClientAuthenticationToken getAuthenticatedClient() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

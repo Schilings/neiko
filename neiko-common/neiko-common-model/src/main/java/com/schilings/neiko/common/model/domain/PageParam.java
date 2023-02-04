@@ -2,9 +2,7 @@ package com.schilings.neiko.common.model.domain;
 
 import com.schilings.neiko.common.model.constants.PageableConstants;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -64,6 +62,13 @@ public class PageParam {
 		@Schema(title = "是否正序排序", example = "false")
 		private boolean asc;
 
+	}
+
+	public void addSort(String field, boolean asc) {
+		Sort sort = new Sort();
+		sort.setField(field);
+		sort.setAsc(asc);
+		this.sort.add(sort);
 	}
 
 }

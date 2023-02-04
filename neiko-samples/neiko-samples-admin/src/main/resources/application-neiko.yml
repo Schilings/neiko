@@ -19,6 +19,7 @@ neiko:
   websocket:
     message-distributor: local #使用 redis 做为消息分发器
   oss:
+    enabled: false
     endpoint: http://oss-cn-shenzhen.aliyuncs.com # oss-cn-shenzhen.aliyuncs.com
     region: oss-cn-shenzhen
     access-key: LTAI5t75M5VySn4baE63G5Ss
@@ -70,7 +71,7 @@ neiko:
                 openid: 获取OIDC ID TOKEN
                 skip_password_decode: 跳过密码加密解密处理
                 skip_captcha: 跳过验证码
-                authority_info: 附带权限信息
+                authority_info_claim: 附带权限信息
         
   security:
     #password-secret-key: 'HX19ChxGmts3l/KkHnWmiw=='

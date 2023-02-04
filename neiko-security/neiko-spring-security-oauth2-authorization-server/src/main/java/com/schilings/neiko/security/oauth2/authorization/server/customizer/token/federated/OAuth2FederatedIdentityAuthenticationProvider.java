@@ -143,7 +143,7 @@ public class OAuth2FederatedIdentityAuthenticationProvider implements OAuth2Exte
 		// @formatter:off
         DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
                 .registeredClient(registeredClient)
-                .principal(auth2LoginAuthentication)
+                .principal(auth2LoginAuthentication)//会传递到OAuth2TokenCustomizer中通过context.getPrincipal()拿到
                 .authorizationServerContext(AuthorizationServerContextHolder.getContext())
                 .authorizedScopes(authorizedScopes)
                 .authorizationGrantType(OAuth2FederatedIdentityConstant.FEDERATED_IDENTITY)

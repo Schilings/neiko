@@ -5,7 +5,6 @@ import com.schilings.neiko.authorization.model.entity.OAuth2TokenSettings;
 import com.schilings.neiko.authorization.model.vo.OAuth2TokenSettingsVO;
 import com.schilings.neiko.extend.mybatis.plus.service.ExtendService;
 
-
 public interface OAuth2TokenSettingsService extends ExtendService<OAuth2TokenSettings> {
 
 	OAuth2TokenSettingsVO getByClientId(String clientId);

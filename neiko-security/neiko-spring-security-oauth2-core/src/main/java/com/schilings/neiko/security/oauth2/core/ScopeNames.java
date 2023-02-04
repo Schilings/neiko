@@ -18,6 +18,11 @@ public final class ScopeNames {
 	/**
 	 * TokenClaim附带权限信息
 	 */
-	public static final String AUTHORITY_INFO = "authority_info";
+	public static final String AUTHORITY_INFO_CLAIM = "authority_info_claim";
+
+	/**
+	 * TokenClaim附带用户信息
+	 */
+	public static final String USER_INFO_CLAIM = "user_info_claim";
 
 }

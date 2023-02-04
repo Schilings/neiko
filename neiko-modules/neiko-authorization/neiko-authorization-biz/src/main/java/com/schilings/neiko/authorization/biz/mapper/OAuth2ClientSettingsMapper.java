@@ -1,6 +1,5 @@
 package com.schilings.neiko.authorization.biz.mapper;
 
-
 import com.schilings.neiko.authorization.model.entity.OAuth2ClientSettings;
 import com.schilings.neiko.extend.mybatis.plus.mapper.ExtendMapper;
 

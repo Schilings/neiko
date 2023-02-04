@@ -1,13 +1,13 @@
 server:
   port: 9000
 
-#logging:
-#  level:
-#    root: INFO
-#    org.springframework.web: INFO 
-#    org.springframework.security: TRACE
-#    org.springframework.security.oauth2: TRACE
-#    org.springframework.data.redis: TRACE
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO 
+    org.springframework.security: TRACE
+    org.springframework.security.oauth2: TRACE
+    org.springframework.data.redis: TRACE
 
 # mybatis plus配置
 mybatis-plus:

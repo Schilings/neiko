@@ -111,7 +111,7 @@ public class SysDictController {
 	@DeleteMapping("/{id}")
 	@PreAuthorize(value = "hasAuthority('system:dict:del')")
 	@Operation(summary = "通过id删除字典表", description = "通过id删除字典表")
-	public R<Void> removeById(@PathVariable("id") Integer id) {
+	public R<Void> removeById(@PathVariable("id") Long id) {
 		sysDictManager.removeDictById(id);
 		return R.ok();
 	}

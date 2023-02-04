@@ -23,21 +23,4 @@ public class CustomOAuth2UserServiceImpl implements OAuth2UserService {
     public OAuth2User loadUser(OAuth2User oAuth2User, String userNameAttributeName) {
         return oAuth2User;
     }
-
-    private OAuth2ClientAuthenticationToken getAuthenticatedClient() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
-            OAuth2ClientAuthenticationToken clientPrincipal = null;
-            if (OAuth2ClientAuthenticationToken.class.isAssignableFrom(authentication.getClass())) {
-                clientPrincipal = (OAuth2ClientAuthenticationToken) authentication;
-            }
-            if (OAuth2ClientAuthenticationToken.class.isAssignableFrom(authentication.getPrincipal().getClass())) {
-                clientPrincipal = (OAuth2ClientAuthenticationToken) authentication.getPrincipal();
-            }
-            if (clientPrincipal != null && clientPrincipal.isAuthenticated()) {
-                return clientPrincipal;
-            }
-        }
-        return null;
-    }
 }

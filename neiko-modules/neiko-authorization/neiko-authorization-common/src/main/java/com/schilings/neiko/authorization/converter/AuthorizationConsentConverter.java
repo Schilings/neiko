@@ -22,7 +22,7 @@ public interface AuthorizationConsentConverter {
 	@Mappings(value = {
 			@Mapping(target = "authorities", expression = "java(commaDelimitedListToSet(po.getAuthorities()))"),
 			@Mapping(target = "createTime", expression = "java(po.getCreateTime())"),
-			@Mapping(target = "updateTime", expression = "java(po.getUpdateTime())"), })
+			@Mapping(target = "updateTime", expression = "java(po.getUpdateTime())") })
 	AuthorizationConsentPageVO poToPageVo(AuthorizationConsent po);
 
 	default Set<String> commaDelimitedListToSet(String str) {

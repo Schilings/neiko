@@ -14,5 +14,6 @@
         <module>neiko-log-model</module>
         <module>neiko-log-biz</module>
         <module>neiko-log-api</module>
+        <module>neiko-log-remote</module>
     </modules>
 </project>

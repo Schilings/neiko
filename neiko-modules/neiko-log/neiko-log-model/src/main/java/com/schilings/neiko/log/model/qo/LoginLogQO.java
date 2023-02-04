@@ -69,13 +69,13 @@ public class LoginLogQO {
 	 */
 	@DateTimeFormat(pattern = NORM_DATETIME_PATTERN)
 	@Parameter(description = "开始时间（登陆时间区间）")
-	private LocalDateTime startTime;
+	private String startTime;
 
 	/**
 	 * 登陆时间区间（结束时间）
 	 */
 	@DateTimeFormat(pattern = NORM_DATETIME_PATTERN)
 	@Parameter(description = "结束时间（登陆时间区间）")
-	private LocalDateTime endTime;
+	private String endTime;
 
 }

@@ -15,12 +15,9 @@ public interface OAuth2ClientSettingsConverter {
 
 	OAuth2ClientSettingsConverter INSTANCE = Mappers.getMapper(OAuth2ClientSettingsConverter.class);
 
-	@Mappings(value = {
-			@Mapping(target = "requireProofKey",
-					expression = "java(intToBool(po.getRequireProofKey()))"),
+	@Mappings(value = { @Mapping(target = "requireProofKey", expression = "java(intToBool(po.getRequireProofKey()))"),
 			@Mapping(target = "requireAuthorizationConsent",
-					expression = "java(intToBool(po.getRequireAuthorizationConsent()))")
-	})
+					expression = "java(intToBool(po.getRequireAuthorizationConsent()))") })
 	OAuth2ClientSettingsVO poToVo(OAuth2ClientSettings po);
 
 	OAuth2ClientSettings dtoToPo(OAuth2ClientSettingsDTO dto);

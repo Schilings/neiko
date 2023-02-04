@@ -1,5 +1,6 @@
 package com.schilings.neiko.authorization.model.qo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -8,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
 
 import static cn.hutool.core.date.DatePattern.NORM_DATETIME_PATTERN;
 
@@ -35,10 +38,12 @@ public class OAuth2RegisteredClientQO {
 
 	@Parameter(description = "开始时间")
 	@DateTimeFormat(pattern = NORM_DATETIME_PATTERN)
-	private String startTime;
+	@JsonFormat(pattern = NORM_DATETIME_PATTERN, timezone = "GMT+8")
+	private LocalDateTime startTime;
 
 	@Parameter(description = "结束时间")
 	@DateTimeFormat(pattern = NORM_DATETIME_PATTERN)
-	private String endTime;
+	@JsonFormat(pattern = NORM_DATETIME_PATTERN, timezone = "GMT+8")
+	private LocalDateTime endTime;
 
 }

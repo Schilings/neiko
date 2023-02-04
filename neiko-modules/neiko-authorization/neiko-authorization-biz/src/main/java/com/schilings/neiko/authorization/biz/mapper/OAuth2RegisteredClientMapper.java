@@ -12,6 +12,8 @@ import com.schilings.neiko.extend.mybatis.plus.mapper.ExtendMapper;
 import com.schilings.neiko.extend.mybatis.plus.wrapper.WrappersX;
 import com.schilings.neiko.extend.mybatis.plus.wrapper.query.LambdaQueryWrapperX;
 
+import java.time.LocalDateTime;
+
 public interface OAuth2RegisteredClientMapper extends ExtendMapper<OAuth2RegisteredClient> {
 
 	default PageResult<OAuth2RegisteredClientPageVO> queryPage(PageParam pageParam, OAuth2RegisteredClientQO qo) {

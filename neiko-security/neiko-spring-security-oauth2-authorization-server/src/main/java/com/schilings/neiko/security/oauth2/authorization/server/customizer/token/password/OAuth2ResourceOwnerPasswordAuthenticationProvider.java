@@ -118,7 +118,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider
 		// @formatter:off
         DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
                 .registeredClient(registeredClient)
-                .principal(usernamePasswordAuthentication)
+                .principal(usernamePasswordAuthentication)//会传递到OAuth2TokenCustomizer中通过context.getPrincipal()拿到
                 .authorizationServerContext(AuthorizationServerContextHolder.getContext())
                 .authorizedScopes(authorizedScopes)
                 .authorizationGrantType(AuthorizationGrantType.PASSWORD)

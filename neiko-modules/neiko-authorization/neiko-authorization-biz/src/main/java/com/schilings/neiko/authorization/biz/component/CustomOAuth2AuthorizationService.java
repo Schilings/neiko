@@ -117,6 +117,7 @@ public class CustomOAuth2AuthorizationService implements OAuth2AuthorizationServ
 			if (StringUtils.hasText(entity.getAccessTokenScopes())) {
 				scopes = StringUtils.commaDelimitedListToSet(entity.getAccessTokenScopes());
 			}
+			builder.authorizedScopes(scopes);
 			OAuth2AccessToken accessToken = new OAuth2AccessToken(tokenType, entity.getAccessTokenValue(),
 					Instant.parse(entity.getAccessTokenIssuedAt()), Instant.parse(entity.getAccessTokenExpiresAt()),
 					scopes);

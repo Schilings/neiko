@@ -22,8 +22,7 @@ public class OAuth2RegisteredClientUtils {
 		if (vo == null) {
 			return ClientSettings.builder().build();
 		}
-		ClientSettings.Builder builder = ClientSettings.builder()
-				.requireProofKey(vo.isRequireProofKey())
+		ClientSettings.Builder builder = ClientSettings.builder().requireProofKey(vo.isRequireProofKey())
 				.requireAuthorizationConsent(vo.isRequireAuthorizationConsent());
 		SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.from(vo.getSigningAlgorithm());
 		JwsAlgorithm jwsAlgorithm = signatureAlgorithm == null ? MacAlgorithm.from(vo.getSigningAlgorithm())
@@ -71,7 +70,7 @@ public class OAuth2RegisteredClientUtils {
 						.map(SignatureAlgorithm::from).orElse(SignatureAlgorithm.RS256))
 				.build();
 	}
-	
+
 	public static OAuth2TokenSettingsDTO fromTokenSettings(TokenSettings tokenSettings) {
 		if (tokenSettings == null) {
 			tokenSettings = TokenSettings.builder().build();

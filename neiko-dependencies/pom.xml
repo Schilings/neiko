@@ -855,6 +855,11 @@
                 <artifactId>neiko-system-biz</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-system-remote</artifactId>
+                <version>${revision}</version>
+            </dependency>
             
             <!--neiko log-->
             <dependency>
@@ -877,6 +882,11 @@
                 <artifactId>neiko-log-api</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-log-remote</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <!--neiko notify-->
             <dependency>
                 <groupId>com.schilings</groupId>
@@ -896,6 +906,11 @@
             <dependency>
                 <groupId>com.schilings</groupId>
                 <artifactId>neiko-notify-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-notify-remote</artifactId>
                 <version>${revision}</version>
             </dependency>
             
@@ -960,6 +975,11 @@
             <dependency>
                 <groupId>com.schilings</groupId>
                 <artifactId>neiko-authorization-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-authorization-remote</artifactId>
                 <version>${revision}</version>
             </dependency>
             

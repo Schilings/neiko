@@ -15,6 +15,8 @@ import com.schilings.neiko.authorization.biz.jose.Jwks;
 import com.schilings.neiko.authorization.biz.service.AuthorizationConsentService;
 import com.schilings.neiko.authorization.biz.service.AuthorizationService;
 import com.schilings.neiko.authorization.biz.service.OAuth2RegisteredClientService;
+import com.schilings.neiko.authorization.biz.tokencustomizer.UserClaimJwtEncodingContextConsumer;
+import com.schilings.neiko.authorization.biz.tokencustomizer.UserClaimOAuth2TokenClaimsContextConsumer;
 import com.schilings.neiko.authorization.common.jackson2.NeikoAuthorizationJackson2Module;
 import com.schilings.neiko.security.oauth2.authorization.server.OAuth2AuthorizationServerConfigurerCustomizer;
 import com.schilings.neiko.security.oauth2.authorization.server.autoconfigure.EnableAuthorizationServer;
@@ -173,7 +175,7 @@ public class AuthorizationServerConfiguration {
 	}
 
 	/**
-	 * Authorization Server Jwt
+	 * Authorization Server Jwt 配置
 	 */
 	@Configuration
 	static class AuthorizationServerJwtConfiguration {
@@ -183,6 +185,24 @@ public class AuthorizationServerConfiguration {
 			RSAKey rsaKey = Jwks.generateRsa();
 			JWKSet jwkSet = new JWKSet(rsaKey);
 			return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
+		}
+
+	}
+
+	/**
+	 * Authorization Server Token的生成自定义
+	 */
+	@Configuration
+	static class OAuth2TokenCustomizerConfiguration {
+
+		@Bean
+		public UserClaimJwtEncodingContextConsumer userClaimJwtEncodingContextConsumer() {
+			return new UserClaimJwtEncodingContextConsumer();
+		}
+
+		@Bean
+		public UserClaimOAuth2TokenClaimsContextConsumer userClaimOAuth2TokenClaimsContextConsumer() {
+			return new UserClaimOAuth2TokenClaimsContextConsumer();
 		}
 
 	}

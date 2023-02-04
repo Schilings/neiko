@@ -44,7 +44,7 @@ public class DefaultJwtGrantedAuthoritiesConverter implements Converter<Jwt, Col
 			grantedAuthorities.add(new SimpleGrantedAuthority(this.authorityPrefix + authority));
 
 		}
-		// 增加对ScopeNames.AUTHORITY_INFO的处理
+		// 增加对ScopeNames.authority_info_claim的处理
 		for (String authority : getAuthorityInfo(jwt)) {
 			grantedAuthorities.add(new SimpleGrantedAuthority(authority));
 		}
@@ -111,10 +111,10 @@ public class DefaultJwtGrantedAuthoritiesConverter implements Converter<Jwt, Col
 
 	private Collection<String> getAuthorityInfo(Jwt jwt) {
 		if (this.logger.isTraceEnabled()) {
-			this.logger.trace(LogMessage.format("Looking for %s in claim %s", ScopeNames.AUTHORITY_INFO,
-					ScopeNames.AUTHORITY_INFO));
+			this.logger.trace(LogMessage.format("Looking for %s in claim %s", ScopeNames.AUTHORITY_INFO_CLAIM,
+					ScopeNames.AUTHORITY_INFO_CLAIM));
 		}
-		Object authorities = jwt.getClaim(ScopeNames.AUTHORITY_INFO);
+		Object authorities = jwt.getClaim(ScopeNames.AUTHORITY_INFO_CLAIM);
 		if (authorities instanceof String) {
 			if (StringUtils.hasText((String) authorities)) {
 				return Arrays.asList(((String) authorities).split(" "));

@@ -16,6 +16,11 @@ public class OAuth2AuthorizationServerProperties {
 	public static final String PREFIX = "neiko.security.oauth2.authorizationserver";
 
 	/**
+	 * OpenId Connect Endpoint
+	 */
+	private boolean oidcEnabled = false;
+
+	/**
 	 * 登陆验证码开关
 	 */
 	private boolean loginCaptchaEnabled = true;

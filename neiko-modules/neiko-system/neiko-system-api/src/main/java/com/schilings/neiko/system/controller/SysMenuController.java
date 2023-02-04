@@ -30,7 +30,6 @@ import jakarta.validation.Valid;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@PreAuthorize(value = "hasAuthority('SCOPE_system')")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/system/menu")
@@ -96,7 +95,7 @@ public class SysMenuController {
 	 * 查询授权菜单列表
 	 * @return R 通用返回体
 	 */
-	@GetMapping("/grant-list")
+	@GetMapping("/grantList")
 	@PreAuthorize(value = "hasAuthority('system:menu:read')")
 	@Operation(summary = "查询授权菜单列表", description = "查询授权菜单列表")
 	public R<List<SysMenuGrantVO>> getSysMenuGrantList() {
@@ -146,7 +145,7 @@ public class SysMenuController {
 	@DeleteMapping("/{id}")
 	@PreAuthorize(value = "hasAuthority('system:menu:del')")
 	@Operation(summary = "通过id删除菜单权限", description = "通过id删除菜单权限")
-	public R<Void> removeById(@PathVariable("id") Integer id) {
+	public R<Void> removeById(@PathVariable("id") Long id) {
 		return sysMenuService.removeById(id) ? R.ok() : R.fail(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除菜单权限失败");
 	}
 

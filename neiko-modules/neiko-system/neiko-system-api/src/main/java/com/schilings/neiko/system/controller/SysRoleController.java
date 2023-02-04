@@ -62,7 +62,7 @@ public class SysRoleController {
 	 */
 	@GetMapping("/{id}")
 	@PreAuthorize(value = "hasAuthority('system:role:read')")
-	public R<SysRole> getById(@PathVariable("id") Integer id) {
+	public R<SysRole> getById(@PathVariable("id") Long id) {
 		return R.ok(sysRoleService.getById(id));
 	}
 
@@ -102,7 +102,7 @@ public class SysRoleController {
 	@DeleteOperationLogging(msg = "通过id删除系统角色")
 	@PreAuthorize(value = "hasAuthority('system:role:del')")
 	@Operation(summary = "通过id删除系统角色", description = "通过id删除系统角色")
-	public R<Boolean> removeById(@PathVariable("id") Integer id) {
+	public R<Boolean> removeById(@PathVariable("id") Long id) {
 		SysRole oldRole = sysRoleService.getById(id);
 		if (SysRoleConst.Type.SYSTEM.getValue().equals(oldRole.getType())) {
 			return R.fail(BaseResultCode.LOGIC_CHECK_ERROR, "系统角色不允许被删除!");

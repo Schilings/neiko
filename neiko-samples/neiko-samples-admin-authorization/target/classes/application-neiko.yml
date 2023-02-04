@@ -21,7 +21,7 @@ neiko:
                 openid: 获取OIDC ID TOKEN
                 skip_password_decode: 跳过密码加密解密处理
                 skip_captcha: 跳过验证码
-                authority_info: 附带权限信息
+                authority_info_claim: 附带权限信息
 #            authorization-code:
 #              authorization-url: http://localhost:9000/oauth2/authorize
 #              token-url: http://localhost:9000/oauth2/token
@@ -31,7 +31,7 @@ neiko:
 #                openid: 获取OIDC ID TOKEN
 #                skip_password_decode: 跳过密码加密解密处理
 #                skip_captcha: 跳过验证码
-#                authority_info: 附带权限信息
+#                authority_info_claim: 附带权限信息
 #            client-credentials:
 #              token-url: http://localhost:9000/oauth2/token
 #              scopes:
@@ -40,7 +40,7 @@ neiko:
 #                openid: 获取OIDC ID TOKEN
 #                skip_password_decode: 跳过密码加密解密处理
 #                skip_captcha: 跳过验证码
-#                authority_info: 附带权限信息
+#                authority_info_claim: 附带权限信息
 
 
   security:

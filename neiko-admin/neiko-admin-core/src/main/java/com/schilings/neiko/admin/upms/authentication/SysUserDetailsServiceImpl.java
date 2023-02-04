@@ -13,15 +13,21 @@ import com.schilings.neiko.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.security.authentication.AccountStatusException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
+import org.springframework.util.Assert;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 
@@ -42,30 +48,31 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
 	private final ObjectProvider<UserInfoCoordinator> userInfoCoordinatorProviders;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		SysUser sysUser = null;
+	public UserDetails loadUserByUsername(String username) throws AuthenticationException {
+		SysUser sysUser = sysUserService.getByUsername(username);
+		if (sysUser == null) {
+			log.error("登陆：用户名错误，用户名：{}", username);
+			throw new UsernameNotFoundException("username error!");
+		}
 		OAuth2ClientAuthenticationToken authenticatedClient = getAuthenticatedClient();
 		if (authenticatedClient != null) {
 			// 根据scope返回不同类型的用户
 			Set<String> scopes = getScopes();
 			// 如果同时有，是否拒绝该请求?
 			if (scopes.contains(SYSTEM_USER_INFO)) {
-				sysUser = sysUserService.getByUsernameAndType(username, SysUserConst.Type.SYSTEM.getValue());
+				Assert.state(sysUser.getType().equals(SysUserConst.Type.SYSTEM.getValue()), () -> {
+					throw new BadCredentialsException("usertype error!");
+				});
 			}
 			else if (scopes.contains(CUSTOMER_USER_INFO)) {
-				sysUser = sysUserService.getByUsernameAndType(username, SysUserConst.Type.CUSTOMER.getValue());
+				Assert.state(sysUser.getType().equals(SysUserConst.Type.CUSTOMER.getValue()), () -> {
+					throw new BadCredentialsException("usertype error!");
+				});
 			}
-			// 没有携带就查无用户
-
+			// 没有携带
+			throw new BadCredentialsException("without required scope!");
 		}
-		else {
-			// 不是OAuth2 Password 走全部用户逻辑
-			sysUser = sysUserService.getByUsername(username);
-		}
-		if (sysUser == null) {
-			log.error("登陆：用户名错误，用户名：{}", username);
-			throw new UsernameNotFoundException("username error!");
-		}
+		
 		UserInfoDTO userInfoDTO = sysUserService.findUserInfo(sysUser);
 		return getUserByUserInfo(userInfoDTO);
 	}
