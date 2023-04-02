@@ -81,7 +81,7 @@ neiko:
                 authority_info_claim: 附带权限信息
         
   security:
-    password-secret-key: '===Neiko Auth==='
+    password-secret-key: '===Neiko-Auth==='
     oauth2:
       authorizationserver:
         form-login-enabled: true

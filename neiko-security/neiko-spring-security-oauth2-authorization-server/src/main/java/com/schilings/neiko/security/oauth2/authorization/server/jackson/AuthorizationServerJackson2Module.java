@@ -14,6 +14,7 @@ public class AuthorizationServerJackson2Module extends SimpleModule {
 
 	@Override
 	public void setupModule(SetupContext context) {
+		context.setMixInAnnotations(Long.class, LongMixin.class);
 		context.setMixInAnnotations(OAuth2Authorization.class, OAuth2AuthorizationMixin.class);
 		context.setMixInAnnotations(OAuth2FederatedIdentityCode.class, OAuth2FederatedIdentityCodeMixin.class);
 	}

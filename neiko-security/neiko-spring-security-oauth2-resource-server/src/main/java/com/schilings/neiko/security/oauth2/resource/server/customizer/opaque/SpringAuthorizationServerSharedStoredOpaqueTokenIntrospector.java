@@ -44,7 +44,7 @@ public class SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector implem
 		Set<GrantedAuthority> authorities = new HashSet<>();
 
 		OAuth2Authorization.Token<OAuth2AccessToken> token = oAuth2Authorization.getToken(OAuth2AccessToken.class);
-		if (token == null) {
+		if (token == null || !token.isActive()) {
 			return null;
 		}
 		claims.putAll(token.getClaims());

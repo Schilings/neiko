@@ -1,5 +1,6 @@
 package com.schilings.neiko.authorization.biz.service.impl;
 
+import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.lang.Assert;
 import com.schilings.neiko.authorization.biz.mapper.OAuth2RegisteredClientMapper;
 import com.schilings.neiko.authorization.biz.service.OAuth2ClientSettingsService;
@@ -27,6 +28,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 import static com.schilings.neiko.authorization.biz.component.OAuth2RegisteredClientUtils.*;
 
@@ -152,15 +158,29 @@ public class OAuth2RegisteredClientServiceImpl
 		info.setClientId(entity.getClientId());
 		info.setClientSecret(entity.getClientSecret());
 		info.setClientName(entity.getClientName());
-
-		info.setClientIdIssuedAt(clientIdIssuedAt != null ? Instant.parse(clientIdIssuedAt) : null);
-		info.setClientSecretExpiresAt(clientSecretExpiresAt != null ? Instant.parse(clientSecretExpiresAt) : null);
-
+		
+		info.setClientIdIssuedAt(stringToInstant(clientIdIssuedAt));
+		info.setClientSecretExpiresAt(stringToInstant(clientSecretExpiresAt));
 		info.setClientAuthenticationMethods(
 				StringUtils.commaDelimitedListToSet(entity.getClientAuthenticationMethods()));
 		info.setAuthorizationGrantTypes(StringUtils.commaDelimitedListToSet(entity.getAuthorizationGrantTypes()));
 		info.setRedirectUris(StringUtils.commaDelimitedListToSet(entity.getRedirectUris()));
 		info.setScopes(StringUtils.commaDelimitedListToSet(entity.getScopes()));
 	}
-
+	
+	
+	private static Instant stringToInstant(String s){
+		Instant instant = null;
+		try {
+			instant = LocalDateTime
+					.parse(s, DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN)
+									.withLocale(Locale.CHINA )
+							//.withZone(ZoneId.systemDefault())
+					)
+					.toInstant(ZoneOffset.UTC);
+		} catch (Exception e) {
+			
+		}
+		return instant;
+	}
 }

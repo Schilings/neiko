@@ -113,15 +113,16 @@ INSERT INTO `nk_sys_menu` VALUES (100802, 100800, '菜单权限新增', NULL, 's
 INSERT INTO `nk_sys_menu` VALUES (100803, 100800, '菜单权限修改', NULL, 'system:menu:edit', NULL, 1, NULL, 2, 0, 0, 2, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
 INSERT INTO `nk_sys_menu` VALUES (100804, 100800, '菜单权限删除', NULL, 'system:menu:del', NULL, 1, NULL, 3, 0, 0, 2, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
 
+
 INSERT INTO `nk_sys_menu` VALUES (200000, 0, '认证管理', 'setting', NULL, 'authorization', 1, NULL, 1, 0, 0, 0, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
-INSERT INTO `nk_sys_menu` VALUES (200100, 200000, '客户端', NULL, NULL, 'authorization', 1, 'authorization/registeredClient/registeredClientPage', 1, 0, 0, 1, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
-INSERT INTO `nk_sys_menu` VALUES (200101, 200100, '客户端查询', NULL, 'authorization:registeredClient:read', NULL, 1, NULL, 1, 0, 0, 2, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
+INSERT INTO `nk_sys_menu` VALUES (200100, 200000, '客户端', NULL, NULL, 'client', 1, 'authorization/client/RegisteredClientPage', 1, 0, 0, 1, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
+INSERT INTO `nk_sys_menu` VALUES (200101, 200100, '客户端查询', NULL, 'authorization:registeredClient:read', NULL, 1, NULL, 0, 0, 0, 2, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
 INSERT INTO `nk_sys_menu` VALUES (200102, 200100, '客户端新增', NULL, 'authorization:registeredClient:add', NULL, 1, NULL, 1, 0, 0, 2, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
 INSERT INTO `nk_sys_menu` VALUES (200103, 200100, '客户端修改', NULL, 'authorization:registeredClient:edit', NULL, 1, NULL, 2, 0, 0, 2, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
 INSERT INTO `nk_sys_menu` VALUES (200104, 200100, '客户端删除', NULL, 'authorization:registeredClient:del', NULL, 1, NULL, 3, 0, 0, 2, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
-INSERT INTO `nk_sys_menu` VALUES (200200, 200000, '认证同意信息', NULL, NULL, 'authorization', 1, 'authorization/authorizationConsent/authorizationConsentPage', 1, 0, 0, 1, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
+INSERT INTO `nk_sys_menu` VALUES (200200, 200000, '认证同意信息', NULL, NULL, 'consent', 1, 'authorization/consent/AuthorizationConsentPage', 1, 0, 0, 1, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
 INSERT INTO `nk_sys_menu` VALUES (200201, 200200, '认证同意信息查询', NULL, 'authorization:authorizationConsent:read', NULL, 1, NULL, 1, 0, 0, 2, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
-INSERT INTO `nk_sys_menu` VALUES (200300, 200000, '认证信息', NULL, NULL, 'authorization', 1, 'authorization/authorization/authorizationPage', 1, 0, 0, 1, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
+INSERT INTO `nk_sys_menu` VALUES (200300, 200000, '认证信息', NULL, NULL, 'authorization', 1, 'authorization/authorization/AuthorizationPage', 1, 0, 0, 1, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
 INSERT INTO `nk_sys_menu` VALUES (200301, 200300, '认证信息查询', NULL, 'authorization:authorization:read', NULL, 1, NULL, 1, 0, 0, 2, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
 
 INSERT INTO `nk_sys_menu` VALUES (110000, 0, '日志管理', 'file-search', NULL, 'log', 1, NULL, 2, 0, 0, 0, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
@@ -141,6 +142,8 @@ INSERT INTO `nk_sys_menu` VALUES (120104, 120100, '公告信息删除', NULL, 'n
 INSERT INTO `nk_sys_menu` VALUES (120200, 120000, '用户公告', NULL, NULL, 'userannouncement', 1, 'notify/userannouncement/UserAnnouncementPage', 1, 0, 1, 1, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
 INSERT INTO `nk_sys_menu` VALUES (120201, 120200, '用户公告表查询', NULL, 'notify:userannouncement:read', NULL, 1, NULL, 0, 0, 0, 2, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
 
+INSERT INTO `nk_sys_menu` VALUES (660000, 0, 'Neiko 官网', 'crown', NULL, 'neiko', 2, '', 0, 1, 0, 1, NULL, 0, 1, 1, '2022-01-19 21:35:22', '2022-01-19 21:36:56');
+INSERT INTO `nk_sys_menu` VALUES (990000, 0, '开发平台', 'desktop', '', 'develop', 1, NULL, 99, 0, 0, 0, NULL, 0, NULL, NULL, NULL, '2021-12-03 11:57:31');
 INSERT INTO `nk_sys_menu` VALUES (990100, 990000, '接口文档', 'file', NULL, 'swagger', 3, 'http://neiko-admin:8080/swagger-ui/index.html', 1, 0, 0, 1, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
 INSERT INTO `nk_sys_menu` VALUES (990200, 990000, '文档增强', 'file-text', NULL, 'doc', 3, 'http://neiko-admin:8080/doc.html', 2, 0, 0, 1, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
 INSERT INTO `nk_sys_menu` VALUES (990300, 990000, '调度中心', 'rocket', NULL, 'xxl-job', 3, 'http://neiko-job:8888/xxl-job-admin', 3, 0, 0, 1, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
@@ -187,14 +190,20 @@ INSERT INTO `nk_sys_role_menu` VALUES (573, 'ROLE_ADMIN', 10032);
 INSERT INTO `nk_sys_role_menu` VALUES (574, 'ROLE_ADMIN', 10034);
 INSERT INTO `nk_sys_role_menu` VALUES (575, 'ROLE_ADMIN', 10035);
 
+
+INSERT INTO `nk_sys_role_menu` VALUES (974, 'ROLE_ADMIN', 200000);
+INSERT INTO `nk_sys_role_menu` VALUES (975, 'ROLE_ADMIN', 200100);
 INSERT INTO `nk_sys_role_menu` VALUES (976, 'ROLE_ADMIN', 200101);
 INSERT INTO `nk_sys_role_menu` VALUES (977, 'ROLE_ADMIN', 200102);
 INSERT INTO `nk_sys_role_menu` VALUES (978, 'ROLE_ADMIN', 200103);
 INSERT INTO `nk_sys_role_menu` VALUES (979, 'ROLE_ADMIN', 200104);
-INSERT INTO `nk_sys_role_menu` VALUES (980, 'ROLE_ADMIN', 200201);
-INSERT INTO `nk_sys_role_menu` VALUES (981, 'ROLE_ADMIN', 200301);
+INSERT INTO `nk_sys_role_menu` VALUES (980, 'ROLE_ADMIN', 200200);
+INSERT INTO `nk_sys_role_menu` VALUES (981, 'ROLE_ADMIN', 200201);
+INSERT INTO `nk_sys_role_menu` VALUES (982, 'ROLE_ADMIN', 200300);
+INSERT INTO `nk_sys_role_menu` VALUES (983, 'ROLE_ADMIN', 200301);
 
-INSERT INTO `nk_sys_role_menu` VALUES (987, 'ROLE_ADMIN', 100203);
+
+
 INSERT INTO `nk_sys_role_menu` VALUES (576, 'ROLE_ADMIN', 100101);
 INSERT INTO `nk_sys_role_menu` VALUES (577, 'ROLE_ADMIN', 100100);
 INSERT INTO `nk_sys_role_menu` VALUES (578, 'ROLE_ADMIN', 100000);

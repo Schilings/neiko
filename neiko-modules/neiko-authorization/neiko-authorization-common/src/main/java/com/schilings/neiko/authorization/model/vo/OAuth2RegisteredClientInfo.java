@@ -30,7 +30,6 @@ public class OAuth2RegisteredClientInfo implements Serializable {
 	private Instant clientIdIssuedAt;
 
 	@Schema(title = "客户端secret")
-	@JsonSimpleDesensitize
 	private String clientSecret;
 
 	@Schema(title = "clientSecret失效时间")
