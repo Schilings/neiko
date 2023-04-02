@@ -69,7 +69,7 @@ public class OAuth2ClientConfig {
                 Map<String, String> loginUrlToClientName = new HashMap<>();
                 clientProperties.getRegistration().forEach((s, v) -> {
                     String authorizationRequestUri = FederatedIdentityConfigurer.AUTHORIZATION_REQUEST_BASE_URI + "/" + s;
-                    authorizationRequestUri += "?response_type=code&client_id=messaging-client1&redirect_uri=http://localhost:9000/oauth2Login";
+                    authorizationRequestUri += "?response_type=code&client_id=messaging-client1&redirect_uri=http://127.0.0.1:9000/oauth2Login";
                     loginUrlToClientName.put(authorizationRequestUri, v.getClientName());
                 });
                 loginPageGeneratingFilter.setOauth2AuthenticationUrlToClientName(loginUrlToClientName);

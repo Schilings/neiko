@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     
     <properties>
-        <revision>1.0.0</revision>
+        <revision>1.0.1</revision>
 
         <!-- 插件版本 -->
         
@@ -31,7 +31,7 @@
         <dekorate.version>0.10.5</dekorate.version>
         
         <spring-cloud.version>2022.0.0</spring-cloud.version>
-        <spring-cloud-kubernetes.version>2.1.4</spring-cloud-kubernetes.version>
+        <spring-cloud-kubernetes.version>3.0.1</spring-cloud-kubernetes.version>
         <spring-cloud-alibaba.version>2022.0.0.0-RC1</spring-cloud-alibaba.version>
 
         <!-- 依赖版本 -->

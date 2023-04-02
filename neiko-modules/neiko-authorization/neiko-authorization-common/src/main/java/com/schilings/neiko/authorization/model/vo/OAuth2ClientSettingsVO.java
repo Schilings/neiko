@@ -11,10 +11,10 @@ public class OAuth2ClientSettingsVO {
 	private String clientId;
 
 	@Schema(title = "是否需要ProofKey")
-	private boolean requireProofKey;
+	private Integer requireProofKey;
 
 	@Schema(title = "是否需要用户授权同意")
-	private boolean requireAuthorizationConsent;
+	private Integer requireAuthorizationConsent;
 
 	@Schema(title = "jwkSetUrl")
 	private String jwkSetUrl;

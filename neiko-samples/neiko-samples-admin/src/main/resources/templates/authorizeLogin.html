@@ -32,16 +32,18 @@
 
     var code = getQueryString("code");
     var url = "http://localhost:9000/oauth2/token";
+    var url_remote = "http://120.25.221.239:9000/oauth2/token";
+    var redirect_uri_remote = "http://120.25.221.239:9000/authorizeLogin";
     var obj = {
-        grant_type: 'federated_identity',
-        scope: 'message.read message.write openid',
+        grant_type: 'authorization_code',
+        scope: 'message.read message.write',
         client_id:'test',
         client_secret:'test',
-        registrationId:'gitee-idp',
+        redirect_uri:'http://127.0.0.1:9000/authorizeLogin',
         code: code};
     console.log(JSON.stringify(obj));
     var httpRequest = new XMLHttpRequest();
-    httpRequest.open("POST",url,true);
+    httpRequest.open("POST",url_remote,true);
     
     
     //不是json形式，是表单application/x-www-form-urlencoded
@@ -51,15 +53,12 @@
         '&scope=' + obj.scope +
         '&client_id=' + obj.client_id +
         '&client_secret=' + obj.client_secret +
-        '&registrationId=' + obj.registrationId +
-        '&code=' + code
+        '&code=' + code +
+        //'&redirect_uri=' + obj.redirect_uri
+        '&redirect_uri=' + redirect_uri_remote
     );
     httpRequest.onreadystatechange = ()=>{
-        if(httpRequest.readyState == 4 && httpRequest.status == 200){
-            var data = JSON.parse(httpRequest.responseText);
-            console.log(data);
-            alert(httpRequest.responseText);
-        }
+        alert(httpRequest.responseText)
     }
     
     function getQueryString(name) {
@@ -76,55 +75,5 @@
     
 </script>
 <body>
-    <form action="http://localhost:9000/oauth2/token" method="post">
-        <table width="600px" border="1px" cellspcing="0">
-            <tbody>
-                <tr height="40px">
-                    <td align="right">grant_type：</td>
-                    <td>
-                        <input type="text" name="grant_type" value="federated_identity">
-                    </td>
-                </tr>
-                <tr height="40px">
-                    <td align="right">scop：</td>
-                    <td>
-                        <input type="text" name="scop" value="message.read message.write openid">
-                    </td>
-                </tr>
-                <tr height="40px">
-                    <td align="right">client_id：</td>
-                    <td>
-                        <input type="text" name="client_id" value="messaging-client1">
-                    </td>
-                </tr>
-                <tr height="40px">
-                    <td align="right">client_secret：</td>
-                    <td>
-                        <input type="text" name="client_secret" value="secret1">
-                    </td>
-                </tr>
-                <tr height="40px">
-                    <td align="right">registrationId：</td>
-                    <td>
-                        <input type="text" name="registrationId" value="gitee-idp">
-                    </td>
-                </tr>                
-                <tr height="40px">
-                    <td align="right">code：</td>
-                    <td>
-                        <input type="text" name="code" value="">
-                    </td>
-                </tr>
-                
-                <tr height="40px">
-                    <td colspan="2" align="center">
-                        <input type="submit" value="提交">
-                        <input type="reset" value="重置">
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </form>
-    
 </body>
 </html>

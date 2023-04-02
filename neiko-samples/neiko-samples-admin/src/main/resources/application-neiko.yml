@@ -30,7 +30,7 @@ neiko:
     local:
       # 这个可以不进行配置或者设置 空字符串, 这样文件就会和系统的临时文件放在一起
       # '/opt/nginx/images'
-      path: 'D:\temp'
+      path: #'D:/temp/' # 最后要加上 /
   log:
     access:
       ignore-url-patterns:
@@ -58,6 +58,13 @@ neiko:
         name: Schilings
         email: 1146830743@qq.com
         url: https://github.com/Schilings
+    cors-config:
+      allow-credentials: true
+      allowed-headers: '*'
+      allowed-methods: '*'
+      allowed-origins: '*'
+      max-age: 3600
+      url-pattern: /**
     components:
       security-schemes:
         oauth2:
@@ -74,7 +81,7 @@ neiko:
                 authority_info_claim: 附带权限信息
         
   security:
-    #password-secret-key: 'HX19ChxGmts3l/KkHnWmiw=='
+    password-secret-key: '===Neiko Auth==='
     oauth2:
       authorizationserver:
         form-login-enabled: true
@@ -97,5 +104,7 @@ neiko:
           - /favicon.ico
           - /captcha/**
           - /h2-console/**
+          - /oauth2Login
+          - /authorizeLogin
 
 

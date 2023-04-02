@@ -92,16 +92,13 @@ public interface SysUserRemote {
 	R<Void> updateUserStatus(@RequestBody List<Long> userIds, @RequestParam("status") Integer status);
 
 	/**
-	 * 注意：进行上传下载最好限制web服务器的文件大小
-	 * 上传头像，@RequestPart与@RequestParam不要同时使用，不然只会解析@RequestParam
+	 * 注意：进行上传下载最好限制web服务器的文件大小 上传头像，@RequestPart与@RequestParam不要同时使用，不然只会解析@RequestParam
 	 * @param file
 	 * @param userId
 	 * @return
 	 */
 	@PostExchange(url = "/avatar", contentType = MediaType.MULTIPART_FORM_DATA_VALUE)
 	R<String> updateAvatar(@RequestPart("file") WritableResource file, @RequestPart("userId") Long userId);
-
-
 
 	/**
 	 * 获取用户Select

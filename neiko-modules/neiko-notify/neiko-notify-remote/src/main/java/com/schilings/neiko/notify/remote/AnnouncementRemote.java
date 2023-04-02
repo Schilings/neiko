@@ -1,6 +1,5 @@
 package com.schilings.neiko.notify.remote;
 
-
 import com.schilings.neiko.common.core.http.RequestParameterObject;
 import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;
@@ -17,25 +16,21 @@ import org.springframework.web.service.annotation.*;
 
 import java.util.List;
 
-
 @HttpExchange("/notify/announcement")
 public interface AnnouncementRemote {
 
-
 	/**
 	 * 分页查询
-	 *
-	 * @param pageParam      分页对象
+	 * @param pageParam 分页对象
 	 * @param announcementQO 公告信息查询对象
 	 * @return R 通用返回体
 	 */
 	@GetExchange("/page")
 	R<PageResult<AnnouncementPageVO>> getAnnouncementPage(PageParam pageParam,
-														  @RequestParameterObject AnnouncementQO announcementQO);
+			@RequestParameterObject AnnouncementQO announcementQO);
 
 	/**
 	 * 新增公告信息
-	 *
 	 * @param announcementDTO 公告信息
 	 * @return R 通用返回体
 	 */
@@ -44,7 +39,6 @@ public interface AnnouncementRemote {
 
 	/**
 	 * 修改公告信息
-	 *
 	 * @param announcementDTO 公告信息
 	 * @return R 通用返回体
 	 */
@@ -53,7 +47,6 @@ public interface AnnouncementRemote {
 
 	/**
 	 * 通过id删除公告信息
-	 *
 	 * @param id id
 	 * @return R 通用返回体
 	 */
@@ -62,7 +55,6 @@ public interface AnnouncementRemote {
 
 	/**
 	 * 发布公告信息
-	 *
 	 * @return R 通用返回体
 	 */
 	@PatchExchange("/publish/{announcementId}")
@@ -70,12 +62,10 @@ public interface AnnouncementRemote {
 
 	/**
 	 * 关闭公告信息
-	 *
 	 * @return R 通用返回体
 	 */
 	@PatchExchange("/close/{announcementId}")
 	R<Void> disableAnnouncement(@PathVariable("announcementId") Long announcementId);
-
 
 	@PostExchange("/image")
 	R<List<String>> uploadImages(@RequestParam("files") List<MultipartFile> files);

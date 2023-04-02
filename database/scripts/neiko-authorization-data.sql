@@ -35,7 +35,7 @@ INSERT INTO `nk_oauth2_registered_client`
 VALUES (3333333333333333, 'test', '{noop}test',NULL,NULL,'TEST',
         'client_secret_post,client_secret_basic',
         'federated_identity,authorization_code,implicit,refresh_token,client_credentials,password',
-        'http://127.0.0.1:9000/oauth2Login,http://127.0.0.1:9000/webjars/oauth/oauth2.html,http://127.0.0.1:9000/swagger-ui/oauth2-redirect.html,http://127.0.0.1:8000/login/oauth2/code/sas-oidc-login,http://127.0.0.1:8000/login/oauth2/code/sas-authorization-code-login,http://127.0.0.1:8000/authorized',
+        'http://127.0.0.1:9000/oauth2Login,http://127.0.0.1:9000/authorizeLogin,http://127.0.0.1:9000/webjars/oauth/oauth2.html,http://127.0.0.1:9000/swagger-ui/oauth2-redirect.html,http://127.0.0.1:8000/login/oauth2/code/sas-oidc-login,http://127.0.0.1:8000/login/oauth2/code/sas-authorization-code-login,http://127.0.0.1:8000/authorized',
         'openid,email,phone,address,message.read,message.write,skip_password_decode,skip_captcha,authority_info_claim,user_info_claim,system_user_info,customer_user_info',
          0, NULL, NULL, '2022-09-17 19:41:16', NULL);
 
@@ -43,7 +43,7 @@ INSERT INTO `nk_oauth2_registered_client`
 VALUES (333333334444444, 'demo', '{noop}demo',NULL,NULL,'DEMO',
         'client_secret_post,client_secret_basic',
         'federated_identity,authorization_code,implicit,refresh_token,client_credentials,password',
-        'http://127.0.0.1:9000/oauth2Login,http://127.0.0.1:9000/webjars/oauth/oauth2.html,http://127.0.0.1:9000/swagger-ui/oauth2-redirect.html,http://127.0.0.1:8000/login/oauth2/code/sas-oidc-login,http://127.0.0.1:8000/login/oauth2/code/sas-authorization-code-login,http://127.0.0.1:8000/authorized',
+        'http://127.0.0.1:9000/oauth2Login,http://127.0.0.1:9000/authorizeLogin,http://127.0.0.1:9000/webjars/oauth/oauth2.html,http://127.0.0.1:9000/swagger-ui/oauth2-redirect.html,http://127.0.0.1:8000/login/oauth2/code/sas-oidc-login,http://127.0.0.1:8000/login/oauth2/code/sas-authorization-code-login,http://127.0.0.1:8000/authorized',
         'openid,email,phone,address,message.read,message.write,skip_password_decode,skip_captcha,authority_info_claim,user_info_claim,system_user_info,customer_user_info',
         0, NULL, NULL, '2022-09-17 19:41:16', NULL);
 

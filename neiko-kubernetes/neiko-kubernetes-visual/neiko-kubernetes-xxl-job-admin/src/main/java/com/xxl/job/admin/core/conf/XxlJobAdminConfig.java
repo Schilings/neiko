@@ -10,7 +10,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.Resource;
-import jakarta.sql.DataSource;
+import javax.sql.DataSource;
 import java.util.Arrays;
 
 /**

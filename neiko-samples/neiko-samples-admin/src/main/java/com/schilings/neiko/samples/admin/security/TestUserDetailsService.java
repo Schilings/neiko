@@ -1,6 +1,5 @@
 package com.schilings.neiko.samples.admin.security;
 
-
 import cn.hutool.core.collection.CollectionUtil;
 import com.schilings.neiko.admin.upms.authentication.UserInfoCoordinator;
 import com.schilings.neiko.authorization.common.constant.UserAttributeNameConstants;
@@ -22,58 +21,58 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
-
 @Component
 @RequiredArgsConstructor
 public class TestUserDetailsService implements UserDetailsService {
 
-    private final SysUserService sysUserService;
+	private final SysUserService sysUserService;
 
-    private final ObjectProvider<UserInfoCoordinator> userInfoCoordinatorProviders;
+	private final ObjectProvider<UserInfoCoordinator> userInfoCoordinatorProviders;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws AuthenticationException {
-        SysUser sysUser = sysUserService.getByUsername(username);
-        if (sysUser == null) {
-            throw new UsernameNotFoundException("username error!");
-        }
-        UserInfoDTO userInfoDTO = sysUserService.findUserInfo(sysUser);
-        return getUserByUserInfo(userInfoDTO);
-    }
+	@Override
+	public UserDetails loadUserByUsername(String username) throws AuthenticationException {
+		SysUser sysUser = sysUserService.getByUsername(username);
+		if (sysUser == null) {
+			throw new UsernameNotFoundException("username error!");
+		}
+		UserInfoDTO userInfoDTO = sysUserService.findUserInfo(sysUser);
+		return getUserByUserInfo(userInfoDTO);
+	}
 
-    /**
-     * 根据UserInfo 获取 User
-     * @param userInfoDTO 用户信息DTO
-     * @return UserDetails
-     */
-    public User getUserByUserInfo(UserInfoDTO userInfoDTO) {
+	/**
+	 * 根据UserInfo 获取 User
+	 * @param userInfoDTO 用户信息DTO
+	 * @return UserDetails
+	 */
+	public User getUserByUserInfo(UserInfoDTO userInfoDTO) {
 
-        SysUser sysUser = userInfoDTO.getSysUser();
-        Collection<String> roleCodes = userInfoDTO.getRoleCodes();
-        Collection<String> permissions = userInfoDTO.getPermissions();
+		SysUser sysUser = userInfoDTO.getSysUser();
+		Collection<String> roleCodes = userInfoDTO.getRoleCodes();
+		Collection<String> permissions = userInfoDTO.getPermissions();
 
-        Collection<String> dbAuthsSet = new HashSet<>();
-        if (CollectionUtil.isNotEmpty(roleCodes)) {
-            // 获取角色
-            dbAuthsSet.addAll(roleCodes);
-            // 获取资源
-            dbAuthsSet.addAll(permissions);
+		Collection<String> dbAuthsSet = new HashSet<>();
+		if (CollectionUtil.isNotEmpty(roleCodes)) {
+			// 获取角色
+			dbAuthsSet.addAll(roleCodes);
+			// 获取资源
+			dbAuthsSet.addAll(permissions);
 
-        }
-        Collection<? extends GrantedAuthority> authorities = AuthorityUtils
-                .createAuthorityList(dbAuthsSet.toArray(new String[0]));
+		}
+		Collection<? extends GrantedAuthority> authorities = AuthorityUtils
+				.createAuthorityList(dbAuthsSet.toArray(new String[0]));
 
-        // 默认将角色和权限放入属性中
-        HashMap<String, Object> attributes = new HashMap<>(8);
-        attributes.put(UserAttributeNameConstants.ROLE_CODES, roleCodes);
-        attributes.put(UserAttributeNameConstants.PERMISSIONS, permissions);
+		// 默认将角色和权限放入属性中
+		HashMap<String, Object> attributes = new HashMap<>(8);
+		attributes.put(UserAttributeNameConstants.ROLE_CODES, roleCodes);
+		attributes.put(UserAttributeNameConstants.PERMISSIONS, permissions);
 
-        // 用户额外属性
-        userInfoCoordinatorProviders.stream().toList()
-                .forEach(userInfoCoordinators -> userInfoCoordinators.coordinateAttribute(userInfoDTO, attributes));
+		// 用户额外属性
+		userInfoCoordinatorProviders.stream().toList()
+				.forEach(userInfoCoordinators -> userInfoCoordinators.coordinateAttribute(userInfoDTO, attributes));
 
-        return new User(sysUser.getUserId(), sysUser.getUsername(), sysUser.getPassword(), sysUser.getNickname(),
-                sysUser.getAvatar(), sysUser.getStatus(), sysUser.getOrganizationId(), sysUser.getType(), authorities,
-                attributes);
-    }
+		return new User(sysUser.getUserId(), sysUser.getUsername(), sysUser.getPassword(), sysUser.getNickname(),
+				sysUser.getAvatar(), sysUser.getStatus(), sysUser.getOrganizationId(), sysUser.getType(), authorities,
+				attributes);
+	}
+
 }

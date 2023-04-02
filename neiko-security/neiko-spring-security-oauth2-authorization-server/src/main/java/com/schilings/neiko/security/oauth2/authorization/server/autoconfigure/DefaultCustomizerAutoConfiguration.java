@@ -126,12 +126,12 @@ class DefaultCustomizerAutoConfiguration {
 
 	/**
 	 * Enable OpenId Connect
-	 *
 	 * @return
 	 */
 	@Bean
-	@ConditionalOnProperty(prefix = OAuth2AuthorizationServerProperties.PREFIX, name = "oidc-enabled", havingValue = "true")
-	@ConditionalOnMissingBean({DefaultOAuth2OidcConfigurerCustomizer.class})
+	@ConditionalOnProperty(prefix = OAuth2AuthorizationServerProperties.PREFIX, name = "oidc-enabled",
+			havingValue = "true")
+	@ConditionalOnMissingBean({ DefaultOAuth2OidcConfigurerCustomizer.class })
 	public DefaultOAuth2OidcConfigurerCustomizer oidcConfigurerCustomizer() {
 		return new DefaultOAuth2OidcConfigurerCustomizer();
 	}

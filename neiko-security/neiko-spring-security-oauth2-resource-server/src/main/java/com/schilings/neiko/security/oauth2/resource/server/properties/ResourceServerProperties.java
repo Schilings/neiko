@@ -73,7 +73,7 @@ public class ResourceServerProperties {
 		/**
 		 * JSON Web Algorithms used for verifying the digital signatures.
 		 */
-		private List<String> jwsAlgorithms = Arrays.asList("RS256");
+		private List<String> jwsAlgorithms = List.of("RS256");
 
 		/**
 		 * URI that can either be an OpenID Connect discovery endpoint or an OAuth 2.0

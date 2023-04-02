@@ -1,6 +1,5 @@
 package com.schilings.neiko.samples.authorization.authentication;
 
-
 import com.schilings.neiko.authorization.biz.federated.OAuth2UserService;
 import com.schilings.neiko.common.util.web.WebUtils;
 import com.schilings.neiko.security.oauth2.authorization.server.util.OAuth2EndpointUtils;
@@ -19,8 +18,10 @@ import java.util.Set;
 
 @Component
 public class CustomOAuth2UserServiceImpl implements OAuth2UserService {
-    @Override
-    public OAuth2User loadUser(OAuth2User oAuth2User, String userNameAttributeName) {
-        return oAuth2User;
-    }
+
+	@Override
+	public OAuth2User loadUser(OAuth2User oAuth2User, String userNameAttributeName) {
+		return oAuth2User;
+	}
+
 }

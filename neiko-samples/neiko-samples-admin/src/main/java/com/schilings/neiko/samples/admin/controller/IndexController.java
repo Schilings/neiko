@@ -1,4 +1,4 @@
-package com.schilings.neiko.samples.admin.web;
+package com.schilings.neiko.samples.admin.controller;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,6 +36,11 @@ public class IndexController {
 	@GetMapping("/oauth2Login")
 	public String oauth2Login() {
 		return "oauth2Login";
+	}
+
+	@GetMapping("/authorizeLogin")
+	public String authorizeLogin() {
+		return "authorizeLogin";
 	}
 
 }

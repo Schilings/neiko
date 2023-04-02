@@ -11,21 +11,18 @@ import org.springframework.web.service.annotation.GetExchange;
 import org.springframework.web.service.annotation.HttpExchange;
 import org.springframework.web.service.annotation.PatchExchange;
 
-
 @HttpExchange("/notify/user-announcement")
 public interface UserAnnouncementRemote {
 
-
 	/**
 	 * 分页查询
-	 *
-	 * @param pageParam          分页参数
+	 * @param pageParam 分页参数
 	 * @param userAnnouncementQO 用户公告表查询对象
 	 * @return R 通用返回体
 	 */
 	@GetExchange("/page")
 	R<PageResult<UserAnnouncementPageVO>> getUserAnnouncementPage(PageParam pageParam,
-																  @RequestParameterObject UserAnnouncementQO userAnnouncementQO);
+			@RequestParameterObject UserAnnouncementQO userAnnouncementQO);
 
 	@PatchExchange("/read/{announcementId}")
 	R<Void> readAnnouncement(@PathVariable("announcementId") Long announcementId);

@@ -1,13 +1,13 @@
 server:
   port: 9000
 
-#logging:
-#  level:
-#    root: INFO
-#    org.springframework.web: INFO 
-#    org.springframework.security: TRACE
-#    org.springframework.security.oauth2: TRACE
-#    org.springframework.data.redis: TRACE
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO 
+    org.springframework.security: TRACE
+    org.springframework.security.oauth2: TRACE
+    org.springframework.data.redis: TRACE
 
 # 数据库表结构维护
 #actable:
@@ -29,7 +29,6 @@ server:
 # mybatis plus配置
 mybatis-plus:
   mapper-locations:
-    - classpath*:/com/gitee/sunchenbin/mybatis/actable/mapping/*/*.xml #自动建表
     - classpath*:/mapper/**/*Mapper.xml
   global-config:
     banner: false
@@ -56,7 +55,7 @@ spring:
       - prod
   config:
     import: 
-      - optional:file:E:\Code\neiko-all-version\1.0.0\neiko\database\oauth2\oauth2-client-registration.yml
+      - optional:classpath:oauth2-client-registration.yml
   # JavaMailSender 邮件发送的配置
   mail:
     #以qq邮箱发送

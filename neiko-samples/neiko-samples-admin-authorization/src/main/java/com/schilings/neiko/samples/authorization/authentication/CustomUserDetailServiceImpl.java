@@ -1,6 +1,5 @@
 package com.schilings.neiko.samples.authorization.authentication;
 
-
 import com.schilings.neiko.authorization.common.constant.UserAttributeNameConstants;
 import com.schilings.neiko.common.util.web.WebUtils;
 import com.schilings.neiko.security.oauth2.authorization.server.util.OAuth2AuthenticationProviderUtils;
@@ -29,83 +28,68 @@ import java.util.*;
 @RequiredArgsConstructor
 public class CustomUserDetailServiceImpl implements UserDetailsService {
 
-    private final PasswordEncoder passwordEncoder;
-    
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	private final PasswordEncoder passwordEncoder;
 
-        OAuth2ClientAuthenticationToken authenticatedClient = getAuthenticatedClient();
-        if (authenticatedClient != null) {
-            //如果是OAuth2 密码登录 
-            MultiValueMap<String, String> parameters = OAuth2EndpointUtils.getParameters(WebUtils.getRequest());
-            // scope 
-            String scope = parameters.getFirst(OAuth2ParameterNames.SCOPE);
-            Set<String> requestedScopes = null;
-            if (StringUtils.hasText(scope)) {
-                requestedScopes = new HashSet<>(Arrays.asList(StringUtils.delimitedListToStringArray(scope, " ")));
-            }
-            
-            //可以根据scope返回不同类型的用户
-            
-        }
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserDetails user = User.withUsername(username).password("123456")
-                .passwordEncoder(passwordEncoder::encode)
-                .accountExpired(false).accountLocked(false).disabled(false).credentialsExpired(false)
-                .authorities(
-                        "ROLE_USER", "ROLE_ADMIN", "ROLE_CUSTOMER",
-                        "authorization:*:*",
-                        "system:user:read", "system:user:edit", "system:user:del", "system:user:add",
-                        "system:menu:read", "system:menu:edit", "system:menu:del", "system:menu:add",
-                        "system:role:read", "system:role:edit", "system:role:del", "system:role:add",
-                        "system:organization:read", "system:organization:edit", "system:organization:del", "system:organization:add",
-                        "system:config:read", "system:config:edit", "system:config:del", "system:config:add",
-                        "system:dict:read", "system:dict:edit", "system:dict:del", "system:dict:add"
-                )
-                .build();
+		OAuth2ClientAuthenticationToken authenticatedClient = getAuthenticatedClient();
+		if (authenticatedClient != null) {
+			// 如果是OAuth2 密码登录
+			MultiValueMap<String, String> parameters = OAuth2EndpointUtils.getParameters(WebUtils.getRequest());
+			// scope
+			String scope = parameters.getFirst(OAuth2ParameterNames.SCOPE);
+			Set<String> requestedScopes = null;
+			if (StringUtils.hasText(scope)) {
+				requestedScopes = new HashSet<>(Arrays.asList(StringUtils.delimitedListToStringArray(scope, " ")));
+			}
 
-        return com.schilings.neiko.authorization.common.userdetails.User.builder()
-                .username(username).password("{noop}123456")
-                .nickname("nickname")
-                .status(1)
-                .authorities(AuthorityUtils.createAuthorityList(
-                        "ROLE_USER", "ROLE_ADMIN", "ROLE_CUSTOMER",
-                        "authorization:*:*",
-                        "system:user:read", "system:user:edit", "system:user:del", "system:user:add",
-                        "system:menu:read", "system:menu:edit", "system:menu:del", "system:menu:add",
-                        "system:role:read", "system:role:edit", "system:role:del", "system:role:add",
-                        "system:organization:read", "system:organization:edit", "system:organization:del", "system:organization:add",
-                        "system:config:read", "system:config:edit", "system:config:del", "system:config:add",
-                        "system:dict:read", "system:dict:edit", "system:dict:del", "system:dict:add"))
-                .attributes(new HashMap<>(
-                        Collections.singletonMap(UserAttributeNameConstants.ROLE_CODES,
-                                new HashSet<>(Set.of("ROLE_ADMIN")))
-                ))
-                .build();
+			// 可以根据scope返回不同类型的用户
 
-    }
-    
+		}
 
+		UserDetails user = User.withUsername(username).password("123456").passwordEncoder(passwordEncoder::encode)
+				.accountExpired(false).accountLocked(false).disabled(false).credentialsExpired(false)
+				.authorities("ROLE_USER", "ROLE_ADMIN", "ROLE_CUSTOMER", "authorization:*:*", "system:user:read",
+						"system:user:edit", "system:user:del", "system:user:add", "system:menu:read",
+						"system:menu:edit", "system:menu:del", "system:menu:add", "system:role:read",
+						"system:role:edit", "system:role:del", "system:role:add", "system:organization:read",
+						"system:organization:edit", "system:organization:del", "system:organization:add",
+						"system:config:read", "system:config:edit", "system:config:del", "system:config:add",
+						"system:dict:read", "system:dict:edit", "system:dict:del", "system:dict:add")
+				.build();
 
+		return com.schilings.neiko.authorization.common.userdetails.User.builder().username(username)
+				.password("{noop}123456").nickname("nickname").status(1)
+				.authorities(AuthorityUtils.createAuthorityList("ROLE_USER", "ROLE_ADMIN", "ROLE_CUSTOMER",
+						"authorization:*:*", "system:user:read", "system:user:edit", "system:user:del",
+						"system:user:add", "system:menu:read", "system:menu:edit", "system:menu:del", "system:menu:add",
+						"system:role:read", "system:role:edit", "system:role:del", "system:role:add",
+						"system:organization:read", "system:organization:edit", "system:organization:del",
+						"system:organization:add", "system:config:read", "system:config:edit", "system:config:del",
+						"system:config:add", "system:dict:read", "system:dict:edit", "system:dict:del",
+						"system:dict:add"))
+				.attributes(new HashMap<>(Collections.singletonMap(UserAttributeNameConstants.ROLE_CODES,
+						new HashSet<>(Set.of("ROLE_ADMIN")))))
+				.build();
 
-    private OAuth2ClientAuthenticationToken getAuthenticatedClient() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
-            OAuth2ClientAuthenticationToken clientPrincipal = null;
-            if (OAuth2ClientAuthenticationToken.class.isAssignableFrom(authentication.getClass())) {
-                clientPrincipal = (OAuth2ClientAuthenticationToken) authentication;
-            }
-            if (OAuth2ClientAuthenticationToken.class.isAssignableFrom(authentication.getPrincipal().getClass())) {
-                clientPrincipal = (OAuth2ClientAuthenticationToken) authentication.getPrincipal();
-            }
-            if (clientPrincipal != null && clientPrincipal.isAuthenticated()) {
-                return clientPrincipal;
-            }
-        }
-        return null;
-    }
-    
-    
-    
-    
+	}
+
+	private OAuth2ClientAuthenticationToken getAuthenticatedClient() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication != null) {
+			OAuth2ClientAuthenticationToken clientPrincipal = null;
+			if (OAuth2ClientAuthenticationToken.class.isAssignableFrom(authentication.getClass())) {
+				clientPrincipal = (OAuth2ClientAuthenticationToken) authentication;
+			}
+			if (OAuth2ClientAuthenticationToken.class.isAssignableFrom(authentication.getPrincipal().getClass())) {
+				clientPrincipal = (OAuth2ClientAuthenticationToken) authentication.getPrincipal();
+			}
+			if (clientPrincipal != null && clientPrincipal.isAuthenticated()) {
+				return clientPrincipal;
+			}
+		}
+		return null;
+	}
+
 }

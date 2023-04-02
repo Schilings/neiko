@@ -18,12 +18,16 @@ import java.util.Optional;
 
 public class OAuth2RegisteredClientUtils {
 
+	public static boolean intToBool(Integer integer) {
+		return integer == BooleanEnum.TRUE.getValue();
+	}
+
 	public static ClientSettings toClientSettings(OAuth2ClientSettingsVO vo) {
 		if (vo == null) {
 			return ClientSettings.builder().build();
 		}
-		ClientSettings.Builder builder = ClientSettings.builder().requireProofKey(vo.isRequireProofKey())
-				.requireAuthorizationConsent(vo.isRequireAuthorizationConsent());
+		ClientSettings.Builder builder = ClientSettings.builder().requireProofKey(intToBool(vo.getRequireProofKey()))
+				.requireAuthorizationConsent(intToBool(vo.getRequireAuthorizationConsent()));
 		SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.from(vo.getSigningAlgorithm());
 		JwsAlgorithm jwsAlgorithm = signatureAlgorithm == null ? MacAlgorithm.from(vo.getSigningAlgorithm())
 				: signatureAlgorithm;
@@ -58,19 +62,20 @@ public class OAuth2RegisteredClientUtils {
 			return TokenSettings.builder().build();
 		}
 		return TokenSettings.builder()
-				.accessTokenTimeToLive(Optional.ofNullable(vo.getAccessTokenTimeToLive()).orElse(Duration.ofMinutes(5)))
-				.authorizationCodeTimeToLive(
-						Optional.ofNullable(vo.getAuthorizationCodeTimeToLive()).orElse(Duration.ofMinutes(5)))
-				.accessTokenFormat(Optional.ofNullable(vo.getTokenFormat()).map(OAuth2TokenFormat::new)
-						.orElse(OAuth2TokenFormat.SELF_CONTAINED))
-				.reuseRefreshTokens(vo.isReuseRefreshTokens())
-				.refreshTokenTimeToLive(
-						Optional.ofNullable(vo.getRefreshTokenTimeToLive()).orElse(Duration.ofMinutes(60)))
+				.accessTokenTimeToLive(Optional.ofNullable(vo.getAccessTokenTimeToLive())
+						.map(Duration::ofSeconds).orElse(Duration.ofMinutes(5)))
+				.authorizationCodeTimeToLive(Optional.ofNullable(vo.getAuthorizationCodeTimeToLive())
+								.map(Duration::ofSeconds).orElse(Duration.ofMinutes(5)))
+				.accessTokenFormat(Optional.ofNullable(vo.getTokenFormat())
+						.map(OAuth2TokenFormat::new).orElse(OAuth2TokenFormat.SELF_CONTAINED))
+				.reuseRefreshTokens(intToBool(vo.getReuseRefreshTokens()))
+				.refreshTokenTimeToLive(Optional.ofNullable(vo.getRefreshTokenTimeToLive())
+						.map(Duration::ofSeconds).orElse(Duration.ofMinutes(60)))
 				.idTokenSignatureAlgorithm(Optional.ofNullable(vo.getIdTokenSignatureAlgorithm())
 						.map(SignatureAlgorithm::from).orElse(SignatureAlgorithm.RS256))
 				.build();
 	}
-
+	
 	public static OAuth2TokenSettingsDTO fromTokenSettings(TokenSettings tokenSettings) {
 		if (tokenSettings == null) {
 			tokenSettings = TokenSettings.builder().build();

@@ -31,7 +31,7 @@ public class DesensitizationExpressionEvaluator extends AbstractExpressionEvalua
 	/**
 	 * 确定由指定表达式定义的条件的计算结果是否为true 。
 	 */
-	public boolean condition(String conditionExpression, Object value, AnnotatedElementKey methodKey,
+	public boolean condition(String conditionExpression, Object value, AnnotatedElementKey elementKey,
 			BeanFactory beanFactory) {
 		StandardEvaluationContext evaluationContext = new StandardEvaluationContext();
 		if (beanFactory != null) {
@@ -40,7 +40,7 @@ public class DesensitizationExpressionEvaluator extends AbstractExpressionEvalua
 		if (value != null) {
 			evaluationContext.setVariable(VALUE_VARIABLE, value);
 		}
-		return (Boolean.TRUE.equals(getExpression(this.conditionCache, methodKey, conditionExpression)
+		return (Boolean.TRUE.equals(getExpression(this.conditionCache, elementKey, conditionExpression)
 				.getValue(evaluationContext, Boolean.class)));
 	}
 

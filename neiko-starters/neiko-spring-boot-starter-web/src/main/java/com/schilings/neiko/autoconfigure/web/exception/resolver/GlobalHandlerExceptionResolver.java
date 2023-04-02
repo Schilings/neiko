@@ -18,20 +18,14 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ValidationException;
-
-import static com.schilings.neiko.common.model.result.BaseResultCode.LOGIC_CHECK_ERROR;
 
 @Slf4j
 @Order(value = Ordered.LOWEST_PRECEDENCE) // 默认最低优先级

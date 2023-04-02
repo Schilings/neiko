@@ -11,13 +11,12 @@ import java.lang.annotation.*;
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@JsonDesensitize(type = DesensitizationType.SIMPLE)
+@JacksonAnnotationsInside
 public @interface JsonSimpleDesensitize {
 
 	/**
 	 * 条件匹配下才进行脱敏
 	 */
-	@AliasFor(annotation = JsonDesensitize.class)
 	String condition() default "";
 
 	/**

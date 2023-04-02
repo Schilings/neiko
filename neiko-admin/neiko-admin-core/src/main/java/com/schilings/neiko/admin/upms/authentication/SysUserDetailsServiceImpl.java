@@ -72,7 +72,7 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
 			// 没有携带
 			throw new BadCredentialsException("without required scope!");
 		}
-		
+
 		UserInfoDTO userInfoDTO = sysUserService.findUserInfo(sysUser);
 		return getUserByUserInfo(userInfoDTO);
 	}

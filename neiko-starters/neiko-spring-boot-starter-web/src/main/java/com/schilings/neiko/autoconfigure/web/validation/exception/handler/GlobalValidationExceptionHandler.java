@@ -29,6 +29,8 @@ import static com.schilings.neiko.common.model.result.BaseResultCode.LOGIC_CHECK
  *
  * @author Schilings
  */
+
+@Deprecated
 @ControllerAdvice(annotations = { ValidationExceptionHandler.class })
 @Slf4j
 public class GlobalValidationExceptionHandler {

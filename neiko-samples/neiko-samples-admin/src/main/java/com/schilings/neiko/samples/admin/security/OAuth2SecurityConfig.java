@@ -14,7 +14,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
@@ -25,9 +27,9 @@ import java.time.Duration;
 import java.util.*;
 
 @Configuration
+@EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
 public class OAuth2SecurityConfig {
-	
 
 	@Bean
 	public OAuth2ResourceServerConfigurerCustomizer resourceServerConfigurerCustomizer() {
@@ -38,13 +40,13 @@ public class OAuth2SecurityConfig {
 	}
 
 	@Bean
-	public OAuth2AuthorizationServerConfigurerCustomizer authorizationServerConfigurerCustomizer() {
-		return (configuer,http) -> {
-			//解决测试跨域， 开启Spring Security 对 CORS 的支持,逻辑简单，点进去看看
+	public OAuth2AuthorizationServerConfigurerCustomizer authorizationServerConfigurerCustomizer(
+			AuthorizationServerSettings authorizationServerSettings) {
+		return (configuer, http) -> {
+			// 解决测试跨域， 开启Spring Security 对 CORS 的支持,逻辑简单，点进去看看
 			// 跨域问题：https://blog.csdn.net/Hongyu_Liu/article/details/118930061,
 			// 解决方法：https://blog.csdn.net/xu_hui123/article/details/128231972
-			http.securityMatchers()
-					.requestMatchers(new AntPathRequestMatcher("/oauth2/**", HttpMethod.OPTIONS.name()));
+			http.securityMatchers().requestMatchers(new AntPathRequestMatcher("/oauth2/**", HttpMethod.OPTIONS.name()));
 			http.cors().configurationSource(corsConfigurationSource());
 
 		};
@@ -67,7 +69,7 @@ public class OAuth2SecurityConfig {
 	 * 测试
 	 */
 	@Configuration(proxyBeanMethods = false)
-	static class TestConfiguration{
+	static class TestConfiguration {
 
 		/**
 		 * 给自动生成的页面OAuth2登录加上redirect_uri
@@ -92,9 +94,11 @@ public class OAuth2SecurityConfig {
 				if (loginPageGeneratingFilter != null) {
 					Map<String, String> loginUrlToClientName = new HashMap<>();
 					clientProperties.getRegistration().forEach((s, v) -> {
-						String authorizationRequestUri = FederatedIdentityConfigurer.AUTHORIZATION_REQUEST_BASE_URI + "/"
-								+ s;
-						authorizationRequestUri += "?response_type=code&client_id=test&redirect_uri=http://localhost:9000/oauth2Login";
+						String authorizationRequestUri = FederatedIdentityConfigurer.AUTHORIZATION_REQUEST_BASE_URI
+								+ "/" + s;
+						// authorizationRequestUri +=
+						// "?response_type=code&client_id=test&redirect_uri=http://127.0.0.1:9000/oauth2Login";
+						authorizationRequestUri += "?response_type=code&client_id=test&redirect_uri=http://120.25.221.239:9000/oauth2Login";
 						loginUrlToClientName.put(authorizationRequestUri, v.getClientName());
 					});
 					loginPageGeneratingFilter.setOauth2AuthenticationUrlToClientName(loginUrlToClientName);
@@ -102,6 +106,7 @@ public class OAuth2SecurityConfig {
 			}
 
 		}
+
 	}
 
 }

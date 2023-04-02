@@ -29,7 +29,7 @@ public class PageResult<T> {
 	 * 返回的数据
 	 */
 	@Schema(title = "分页数据")
-	private List<T> data = Collections.emptyList();
+	private List<T> records = Collections.emptyList();
 
 	/**
 	 * 数据总数

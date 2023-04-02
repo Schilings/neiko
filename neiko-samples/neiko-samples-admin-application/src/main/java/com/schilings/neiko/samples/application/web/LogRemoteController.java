@@ -27,10 +27,9 @@ public class LogRemoteController {
     @GetMapping("/login")
     public Object login() throws IOException {
         byte[] bytes = loginLogRemote.exportAccessLogList(null);
-        FileOutputStream fileOutputStream = new FileOutputStream("D:\\temp\\login.xls");
-        fileOutputStream.write(bytes);
-        fileOutputStream.flush();
         return bytes;
+
+       
     }
     
 }

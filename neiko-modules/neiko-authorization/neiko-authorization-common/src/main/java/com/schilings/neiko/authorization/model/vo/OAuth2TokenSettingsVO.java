@@ -15,23 +15,21 @@ public class OAuth2TokenSettingsVO {
 	private String clientId;
 
 	@Schema(title = "访问令牌有效时长")
-	@DurationFormat(DurationStyle.SIMPLE)
-	private Duration accessTokenTimeToLive;
+	private Long accessTokenTimeToLive;
 
 	@Schema(title = "令牌格式")
 	private String tokenFormat;
 
 	@Schema(title = "刷新令牌是否可以重复使用")
-	private boolean reuseRefreshTokens;
+	private Integer reuseRefreshTokens;
 
 	@Schema(title = "刷新令牌有效时长,单位秒")
-	@DurationFormat(DurationStyle.SIMPLE)
-	private Duration refreshTokenTimeToLive;
+	private Long refreshTokenTimeToLive;
 
 	@Schema(title = "ID Token签名算法")
 	private String idTokenSignatureAlgorithm;
 
 	@Schema(title = "授权码有效时长,单位秒")
-	private Duration authorizationCodeTimeToLive;
+	private Long authorizationCodeTimeToLive;
 
 }

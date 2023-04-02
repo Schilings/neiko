@@ -7,6 +7,8 @@
     <file url="file://$PROJECT_DIR$/neiko-admin/neiko-admin-boostrap/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-admin/neiko-admin-core/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-admin/neiko-admin-core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-admin/neiko-admin-datascope/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-admin/neiko-admin-datascope/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-admin/neiko-admin-websocket/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-admin/neiko-admin-websocket/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-admin/src/main" charset="UTF-8" />
@@ -34,6 +36,14 @@
     <file url="file://$PROJECT_DIR$/neiko-cloud/neiko-cloud-discovery/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-cloud/neiko-cloud-gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-cloud/neiko-cloud-gateway/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-cloud/neiko-cloud-kubernetes/neiko-cloud-kubernetes-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-cloud/neiko-cloud-kubernetes/neiko-cloud-kubernetes-client/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-cloud/neiko-cloud-kubernetes/neiko-cloud-kubernetes-commons/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-cloud/neiko-cloud-kubernetes/neiko-cloud-kubernetes-commons/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-cloud/neiko-cloud-kubernetes/neiko-cloud-kubernetes-fabric8/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-cloud/neiko-cloud-kubernetes/neiko-cloud-kubernetes-fabric8/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-cloud/neiko-cloud-kubernetes/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-cloud/neiko-cloud-kubernetes/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-cloud/neiko-cloud-loadbalance/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-cloud/neiko-cloud-loadbalance/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-cloud/neiko-cloud-openfeign/src/main/java" charset="UTF-8" />
@@ -46,8 +56,12 @@
     <file url="file://$PROJECT_DIR$/neiko-common-excel/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-common/neiko-common-cache/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-common/neiko-common-cache/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-common/neiko-common-context/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-common/neiko-common-context/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-common/neiko-common-core/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-common/neiko-common-core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-common/neiko-common-datascope/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-common/neiko-common-datascope/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-common/neiko-common-discovery/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-common/neiko-common-discovery/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-common/neiko-common-easyexcel/src/main/java" charset="UTF-8" />
@@ -87,10 +101,33 @@
     <file url="file://$PROJECT_DIR$/neiko-dependencies/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-extend/neiko-extend-mybatis-plus/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-extend/neiko-extend-mybatis-plus/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-extend/neiko-extend-openapi/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-extend/neiko-extend-openapi/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-extend/neiko-extend-sa-token/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-extend/neiko-extend-sa-token/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-extend/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-extend/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-kubernetes/neiko-kubernetes-ingress/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-kubernetes/neiko-kubernetes-ingress/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-kubernetes/neiko-kubernetes-modules/neiko-kubernetes-resource/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-kubernetes/neiko-kubernetes-modules/neiko-kubernetes-resource/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-kubernetes/neiko-kubernetes-modules/neiko-kubernetes-upms/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-kubernetes/neiko-kubernetes-modules/neiko-kubernetes-upms/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-kubernetes/neiko-kubernetes-modules/neiko-kubernetes-wechat/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-kubernetes/neiko-kubernetes-modules/neiko-kubernetes-wechat/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-kubernetes/neiko-kubernetes-modules/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-kubernetes/neiko-kubernetes-modules/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-kubernetes/neiko-kubernetes-visual/neiko-kubernetes-monitor/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-kubernetes/neiko-kubernetes-visual/neiko-kubernetes-monitor/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-kubernetes/neiko-kubernetes-visual/neiko-kubernetes-sentinel-dashboard/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-kubernetes/neiko-kubernetes-visual/neiko-kubernetes-sentinel-dashboard/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-kubernetes/neiko-kubernetes-visual/neiko-kubernetes-sentinel-dashboard/src/main/webapp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-kubernetes/neiko-kubernetes-visual/neiko-kubernetes-xxl-job-admin/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-kubernetes/neiko-kubernetes-visual/neiko-kubernetes-xxl-job-admin/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-kubernetes/neiko-kubernetes-visual/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-kubernetes/neiko-kubernetes-visual/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-kubernetes/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-kubernetes/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-log/neiko-log-api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-log/neiko-log-api/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-log/neiko-log-biz/src/main/java" charset="UTF-8" />
@@ -99,6 +136,64 @@
     <file url="file://$PROJECT_DIR$/neiko-log/neiko-log-model/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-log/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-log/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-auth/neiko-auth-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-auth/neiko-auth-api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-auth/neiko-auth-biz/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-auth/neiko-auth-biz/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-auth/neiko-auth-model/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-auth/neiko-auth-model/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-auth/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-auth/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-authorization/neiko-authorization-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-authorization/neiko-authorization-api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-authorization/neiko-authorization-biz/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-authorization/neiko-authorization-biz/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-authorization/neiko-authorization-common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-authorization/neiko-authorization-common/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-authorization/neiko-authorization-remote/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-authorization/neiko-authorization-remote/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-authorization/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-authorization/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-log/neiko-log-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-log/neiko-log-api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-log/neiko-log-biz/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-log/neiko-log-biz/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-log/neiko-log-model/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-log/neiko-log-model/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-log/neiko-log-remote/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-log/neiko-log-remote/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-log/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-log/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-notify/neiko-notify-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-notify/neiko-notify-api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-notify/neiko-notify-biz/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-notify/neiko-notify-biz/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-notify/neiko-notify-model/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-notify/neiko-notify-model/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-notify/neiko-notify-remote/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-notify/neiko-notify-remote/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-notify/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-notify/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-system/neiko-system-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-system/neiko-system-api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-system/neiko-system-biz/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-system/neiko-system-biz/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-system/neiko-system-model/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-system/neiko-system-model/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-system/neiko-system-remote/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-system/neiko-system-remote/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-system/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-system/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-wechat/neiko-wechat-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-wechat/neiko-wechat-api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-wechat/neiko-wechat-biz/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-wechat/neiko-wechat-biz/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-wechat/neiko-wechat-model/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-wechat/neiko-wechat-model/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-wechat/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/neiko-wechat/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-modules/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-notify/neiko-notify-api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-notify/neiko-notify-api/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-notify/neiko-notify-biz/src/main/java" charset="UTF-8" />
@@ -107,16 +202,44 @@
     <file url="file://$PROJECT_DIR$/neiko-notify/neiko-notify-model/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-notify/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-notify/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-rpc/neiko-logging/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-rpc/neiko-logging/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-rpc/neiko-remoting/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-rpc/neiko-remoting/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-rpc/neiko-srvutil/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-rpc/neiko-srvutil/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-rpc/neiko-store/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-rpc/neiko-store/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-rpc/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-rpc/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-admin-application/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-admin-application/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-admin-authorization/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-admin-authorization/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-admin-service-provider/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-admin-service-provider/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-admin/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-admin/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-cloud-demo-provider/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-cloud-demo-provider/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-cloud-gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-cloud-gateway/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-cloud-openfeign/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-cloud-openfeign/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-common-event/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-common-event/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-extend-mybatis-plus/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-extend-mybatis-plus/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-oauth2-authorization-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-oauth2-authorization-server/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-oauth2-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-oauth2-client/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-oauth2-resource-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-oauth2-resource-server/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-oauth2/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-oauth2/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-starter-datascope/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-starter-datascope/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-starter-file/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-starter-file/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-samples/neiko-samples-starter-mail/src/main/java" charset="UTF-8" />
@@ -133,6 +256,18 @@
     <file url="file://$PROJECT_DIR$/neiko-samples/neiko-test-redis/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-samples/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-samples/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-security/neiko-security-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-security/neiko-security-core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-security/neiko-spring-security-oauth2-authorization-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-security/neiko-spring-security-oauth2-authorization-server/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-security/neiko-spring-security-oauth2-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-security/neiko-spring-security-oauth2-client/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-security/neiko-spring-security-oauth2-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-security/neiko-spring-security-oauth2-core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-security/neiko-spring-security-oauth2-resource-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-security/neiko-spring-security-oauth2-resource-server/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-security/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-security/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-starters/neiko-spring-boot-starter-datascope/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-starters/neiko-spring-boot-starter-datascope/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-starters/neiko-spring-boot-starter-easyexcel/src/main/java" charset="UTF-8" />
@@ -141,6 +276,8 @@
     <file url="file://$PROJECT_DIR$/neiko-starters/neiko-spring-boot-starter-event/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-starters/neiko-spring-boot-starter-file/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-starters/neiko-spring-boot-starter-file/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-starters/neiko-spring-boot-starter-job/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/neiko-starters/neiko-spring-boot-starter-job/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-starters/neiko-spring-boot-starter-log/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-starters/neiko-spring-boot-starter-log/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/neiko-starters/neiko-spring-boot-starter-mail/src/main/java" charset="UTF-8" />

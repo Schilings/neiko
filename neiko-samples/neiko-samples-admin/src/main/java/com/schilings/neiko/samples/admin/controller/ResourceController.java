@@ -1,4 +1,4 @@
-package com.schilings.neiko.samples.admin.web;
+package com.schilings.neiko.samples.admin.controller;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;

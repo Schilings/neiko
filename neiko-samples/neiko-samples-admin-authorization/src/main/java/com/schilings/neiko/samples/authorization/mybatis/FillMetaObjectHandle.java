@@ -38,7 +38,7 @@ public class FillMetaObjectHandle implements MetaObjectHandler {
 			}
 			catch (Exception e) {
 				this.strictInsertFill(metaObject, "createBy", Long.class, null);
-				//log.error("[strictInsertFill]createBy insert error!,ex:" + e);
+				// log.error("[strictInsertFill]createBy insert error!,ex:" + e);
 			}
 		}
 	}
@@ -57,7 +57,7 @@ public class FillMetaObjectHandle implements MetaObjectHandler {
 			}
 			catch (Exception e) {
 				this.strictInsertFill(metaObject, "updateBy", Long.class, null);
-				//log.error("[strictInsertFill]updateBy insert error!,ex:" + e);
+				// log.error("[strictInsertFill]updateBy insert error!,ex:" + e);
 			}
 		}
 	}

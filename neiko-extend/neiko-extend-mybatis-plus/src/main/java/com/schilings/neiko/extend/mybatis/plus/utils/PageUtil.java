@@ -35,7 +35,7 @@ public abstract class PageUtil {
 	 * @return PageResult
 	 */
 	public static <V> PageResult<V> prodPageResult(IPage<V> iPage) {
-		return new PageResult<V>().setData(iPage.getRecords()).setPage(iPage.getCurrent()).setPages(iPage.getPages())
+		return new PageResult<V>().setRecords(iPage.getRecords()).setPage(iPage.getCurrent()).setPages(iPage.getPages())
 				.setTotal(iPage.getTotal()).setSize(iPage.getSize());
 	}
 

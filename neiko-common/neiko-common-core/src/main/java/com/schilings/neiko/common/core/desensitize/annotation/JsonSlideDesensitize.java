@@ -2,25 +2,21 @@ package com.schilings.neiko.common.core.desensitize.annotation;
 
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 
-import com.schilings.neiko.common.core.desensitize.enums.DesensitizationType;
 import com.schilings.neiko.common.core.desensitize.enums.SlideDesensitizationTypeEnum;
-import com.schilings.neiko.common.core.desensitize.handler.DesensitizationHandler;
 import com.schilings.neiko.common.core.desensitize.handler.slide.DefaultSlideDesensitizationHandler;
 import com.schilings.neiko.common.core.desensitize.handler.slide.SlideDesensitizationHandler;
-import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.*;
 
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@JsonDesensitize(type = DesensitizationType.SLIDE)
+@JacksonAnnotationsInside
 public @interface JsonSlideDesensitize {
 
 	/**
 	 * 条件匹配下才进行脱敏
 	 */
-	@AliasFor(annotation = JsonDesensitize.class)
 	String condition() default "";
 
 	/**
