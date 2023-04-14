@@ -127,7 +127,7 @@ public class SecurityUtils {
 
 	private User getUserSharedStored(AbstractOAuth2TokenAuthenticationToken<?> authenticationToken) {
 		Object principal = authenticationToken.getTokenAttributes().get(Principal.class.getName());
-		if (principal != null && principal instanceof Authentication authentication) {
+		if (principal instanceof Authentication authentication) {
 			if (authentication.getPrincipal() instanceof User user)
 				return user;
 

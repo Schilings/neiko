@@ -24,12 +24,20 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>neiko-remoting</artifactId>
         </dependency>
-        <!--https://blog.csdn.net/ryu7769/article/details/124715918-->
+        <!-- Java Native Access -->
+        <!-- https://github.com/java-native-access/jna -->
         <dependency>
             <groupId>net.java.dev.jna</groupId>
             <artifactId>jna</artifactId>
-            <version>4.2.2</version>
+            <version>5.11.0</version>
         </dependency>
+        <!-- jna-platform 引用了 jna, 所以引入该包即可 -->
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna-platform</artifactId>
+            <version>5.11.0</version>
+        </dependency>
+
     </dependencies>
 
 </project>

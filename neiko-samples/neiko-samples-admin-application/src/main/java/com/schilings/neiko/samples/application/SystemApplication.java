@@ -1,6 +1,5 @@
 package com.schilings.neiko.samples.application;
 
-
 import com.schilings.neiko.security.oauth2.resource.server.autoconfigure.EnableResourceServer;
 
 import org.mybatis.spring.annotation.MapperScan;
@@ -11,7 +10,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @EnableResourceServer
 @SpringBootApplication
 public class SystemApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(SystemApplication.class, args);
-    }
+
+	public static void main(String[] args) {
+		SpringApplication.run(SystemApplication.class, args);
+	}
+
 }

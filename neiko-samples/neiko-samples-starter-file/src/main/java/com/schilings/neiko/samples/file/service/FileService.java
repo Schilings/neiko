@@ -40,7 +40,7 @@ public class FileService {
 		}
 
 		return null;
-		//return ossTemplate.upload(stream, relativePath, size);
+		// return ossTemplate.upload(stream, relativePath, size);
 	}
 
 	protected void createBucket(String bucket) {
@@ -50,6 +50,5 @@ public class FileService {
 	protected void deleteBucket(String bucket) {
 		ossTemplate.deleteBucket(bucket);
 	}
-	
 
 }

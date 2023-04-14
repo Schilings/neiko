@@ -99,7 +99,7 @@ public class AllocateMappedFileService extends ServiceThread {
 
 				MappedFile mappedFile;
 				// 如果当前节点不是从节点，并且是异步刷盘策略，并且transientStorePoolEnable参数配置为true，那么使用堆外内存，默认不使用
-				// RocketMQ中引入的 transientStorePoolEnable 能缓解 pagecache
+				// 引入的 transientStorePoolEnable 能缓解 pagecache
 				// 的压力，其原理是基于DirectByteBuffer和MappedByteBuffer的读写分离
 				// 消息先写入DirectByteBuffer（堆外内存），随后从MappedByteBuffer（pageCache）读取。
 				if (transientStorePool.isTransientStorePoolEnable()) {
@@ -256,6 +256,47 @@ public class AllocateMappedFileService extends ServiceThread {
 		return null;
 	}
 
+	
+	public FlushDiskType getFlushDiskType() {
+		return flushDiskType;
+	}
+
+	public void setFlushDiskType(FlushDiskType flushDiskType) {
+		this.flushDiskType = flushDiskType;
+	}
+
+	public boolean isWarmMappedFileEnbaled() {
+		return warmMappedFileEnbaled;
+	}
+
+	public void setWarmMappedFileEnbaled(boolean warmMappedFileEnbaled) {
+		this.warmMappedFileEnbaled = warmMappedFileEnbaled;
+	}
+
+	public int getMappedFileSize() {
+		return mappedFileSize;
+	}
+
+	public void setMappedFileSize(int mappedFileSize) {
+		this.mappedFileSize = mappedFileSize;
+	}
+
+	public boolean isFastFailIfNoBufferInStorePool() {
+		return fastFailIfNoBufferInStorePool;
+	}
+
+	public void setFastFailIfNoBufferInStorePool(boolean fastFailIfNoBufferInStorePool) {
+		this.fastFailIfNoBufferInStorePool = fastFailIfNoBufferInStorePool;
+	}
+
+	public int getFlushLeastPagesWhenWarmMapedFile() {
+		return flushLeastPagesWhenWarmMapedFile;
+	}
+
+	public void setFlushLeastPagesWhenWarmMapedFile(int flushLeastPagesWhenWarmMapedFile) {
+		this.flushLeastPagesWhenWarmMapedFile = flushLeastPagesWhenWarmMapedFile;
+	}
+
 	static class AllocateRequest implements Comparable<AllocateRequest> {
 
 		// Full file path
@@ -272,6 +313,7 @@ public class AllocateMappedFileService extends ServiceThread {
 			this.fileSize = fileSize;
 		}
 
+		
 		public String getFilePath() {
 			return filePath;
 		}

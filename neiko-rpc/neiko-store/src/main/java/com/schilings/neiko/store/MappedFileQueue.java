@@ -221,6 +221,8 @@ public class MappedFileQueue {
 
 		// 若不存在,需要创建
 		if (mappedFileLast == null) {
+			//例如每个文件大小为1024kb，要记录索引为startOffset，那么就要找这个startOffset起始后面能写的文件，
+			// 例如2000在1024-2047之间，就找0000000000000001024这个文件
 			// startOffset不是以mappedFileSize为单位，减去余数，创建索引为mappedFileSize的整数倍数
 			createOffset = startOffset - (startOffset % this.mappedFileSize);
 		}
@@ -535,19 +537,28 @@ public class MappedFileQueue {
 
 	/**
 	 * 根据this.flushedWhere的位置，找到对应的文件，刷新到磁盘
+	 * 同步和异步刷盘服务，最终都是调用MappedFileQueue#flush方法执行刷盘，该方法内部最终又是通过mappedFile#flush方法刷盘的。
 	 * @param flushLeastPages
 	 * @return
 	 */
 	public boolean flush(final int flushLeastPages) {
 		boolean result = true;
+		//根据最新刷盘物理位置flushedWhere，去找到对应的MappedFile。如果flushedWhere为0，表示还没有开始写消息，则获取第一个MappedFile
 		MappedFile mappedFile = this.findMappedFileByOffset(this.flushedWhere, this.flushedWhere == 0);
 		if (mappedFile != null) {
+			//获取存储时间戳，storeTimestamp在appendMessagesInner方法中被更新
 			long tmpTimeStamp = mappedFile.getStoreTimestamp();
+			/*
+			 * 执行刷盘操作
+			 */
 			int offset = mappedFile.flush(flushLeastPages);
+			//获取最新刷盘物理偏移量
 			long where = mappedFile.getFileFromOffset() + offset;
+			//刷盘结果
 			result = where == this.flushedWhere;
 			this.flushedWhere = where;
 			if (0 == flushLeastPages) {
+				//如果最少刷盘页数为0，则更新存储时间戳
 				this.storeTimestamp = tmpTimeStamp;
 			}
 		}
@@ -556,17 +567,31 @@ public class MappedFileQueue {
 	}
 
 	/**
-	 * 提交
-	 * @param commitLeastPages
-	 * @return
+	 异步堆外缓存刷盘优化：
+	 1.在异步刷盘的时候，可以开启异步堆外缓存刷盘机制，异步堆外缓存刷盘服务并不会真正的执行flush刷盘，而是调用commit方法提交数据到fileChannel。
+	 2.开启了异步堆外缓存服务之后，写数据的时候写入堆外缓存writeBuffer中，而读取数据始终从MappedByteBuffer中读取，
+	 这也是一种读写分离机制。二者通过异步堆外缓存刷盘服务CommitRealTimeService实现数据同步，
+	 该服务异步（最多200ms执行一次）的将堆外缓存writeBuffer中的脏数据提交到commitLog文件的文件通道FileChannel中，
+	 而该文件被执行了内存映射mmap操作，因此可以从对应的MappedByteBuffer中直接获取提交到FileChannel的数据，但仍有延迟。
+	 3.高并发下频繁写入 page cache 可能会造成刷脏页时磁盘压力较高，导致写入时出现毛刺现象。
+	 读写分离能缓解频繁写page cache 的压力，但会增加消息不一致的风险，使得数据一致性降低到最低。
+	 * @param commitLeastPages 最少提交的页数
+	 * @return false表示提交了部分数据
 	 */
 	public boolean commit(final int commitLeastPages) {
 		boolean result = true;
+		//根据最新提交物理位置committedWhere，去找到对应的MappedFile。如果committedWhere为0，表示还没有开始提交消息，则获取第一个MappedFile
 		MappedFile mappedFile = this.findMappedFileByOffset(this.committedWhere, this.committedWhere == 0);
 		if (mappedFile != null) {
+			/*
+			 * 执行提交操作
+			 */
 			int offset = mappedFile.commit(commitLeastPages);
+			//获取最新提交物理偏移量
 			long where = mappedFile.getFileFromOffset() + offset;
+			//如果不相等，表示提交了部分数据
 			result = where == this.committedWhere;
+			//更新提交物理位置
 			this.committedWhere = where;
 		}
 

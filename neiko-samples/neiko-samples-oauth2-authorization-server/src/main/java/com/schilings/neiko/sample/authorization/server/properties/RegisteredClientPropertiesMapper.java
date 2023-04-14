@@ -50,13 +50,13 @@ public class RegisteredClientPropertiesMapper implements SmartInitializingSingle
 	private final RegisteredClientRepository registeredClientRepository;
 
 	public RegisteredClientPropertiesMapper(RegisteredClientProperties properties,
-											RegisteredClientRepository registeredClientRepository,
-											Jackson2ObjectMapperBuilder objectMapperBuilder) {
-		
+			RegisteredClientRepository registeredClientRepository, Jackson2ObjectMapperBuilder objectMapperBuilder) {
+
 		this.properties = properties;
 		this.registeredClientRepository = registeredClientRepository;
 		ArrayList<Module> modules = new ArrayList<>();
-		//Spring Authorization Server,这个里面有限制SecurityJackson2Modules.enableDefaultTyping(context.getOwner());
+		// Spring Authorization
+		// Server,这个里面有限制SecurityJackson2Modules.enableDefaultTyping(context.getOwner());
 		modules.add(new OAuth2AuthorizationServerJackson2Module());
 		modules.addAll(SecurityJackson2Modules.getModules(getClass().getClassLoader()));
 		objectMapperBuilder.modules(modules::addAll);
@@ -77,10 +77,10 @@ public class RegisteredClientPropertiesMapper implements SmartInitializingSingle
 			}
 		}
 	}
+
 	public void save() {
 		this.registeredClients.forEach(registeredClientRepository::save);
 	}
-	
 
 	public RegisteredClient mapToClient(Map<String, String> map) {
 		String clientIdIssuedAt = map.get("clientIdIssuedAt");
@@ -119,8 +119,6 @@ public class RegisteredClientPropertiesMapper implements SmartInitializingSingle
 		return builder.build();
 	}
 
-	
-
 	protected final ObjectMapper getObjectMapper() {
 		return this.objectMapper;
 	}
@@ -129,7 +127,8 @@ public class RegisteredClientPropertiesMapper implements SmartInitializingSingle
 		try {
 			return this.objectMapper.readValue(data, new TypeReference<Map<String, Object>>() {
 			});
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 			throw new IllegalArgumentException(ex.getMessage(), ex);
 		}
 	}
@@ -137,9 +136,11 @@ public class RegisteredClientPropertiesMapper implements SmartInitializingSingle
 	private static AuthorizationGrantType resolveAuthorizationGrantType(String authorizationGrantType) {
 		if (AuthorizationGrantType.AUTHORIZATION_CODE.getValue().equals(authorizationGrantType)) {
 			return AuthorizationGrantType.AUTHORIZATION_CODE;
-		} else if (AuthorizationGrantType.CLIENT_CREDENTIALS.getValue().equals(authorizationGrantType)) {
+		}
+		else if (AuthorizationGrantType.CLIENT_CREDENTIALS.getValue().equals(authorizationGrantType)) {
 			return AuthorizationGrantType.CLIENT_CREDENTIALS;
-		} else if (AuthorizationGrantType.REFRESH_TOKEN.getValue().equals(authorizationGrantType)) {
+		}
+		else if (AuthorizationGrantType.REFRESH_TOKEN.getValue().equals(authorizationGrantType)) {
 			return AuthorizationGrantType.REFRESH_TOKEN;
 		}
 		return new AuthorizationGrantType(authorizationGrantType); // Custom authorization
@@ -149,12 +150,14 @@ public class RegisteredClientPropertiesMapper implements SmartInitializingSingle
 	private static ClientAuthenticationMethod resolveClientAuthenticationMethod(String clientAuthenticationMethod) {
 		if (ClientAuthenticationMethod.CLIENT_SECRET_BASIC.getValue().equals(clientAuthenticationMethod)) {
 			return ClientAuthenticationMethod.CLIENT_SECRET_BASIC;
-		} else if (ClientAuthenticationMethod.CLIENT_SECRET_POST.getValue().equals(clientAuthenticationMethod)) {
+		}
+		else if (ClientAuthenticationMethod.CLIENT_SECRET_POST.getValue().equals(clientAuthenticationMethod)) {
 			return ClientAuthenticationMethod.CLIENT_SECRET_POST;
-		} else if (ClientAuthenticationMethod.NONE.getValue().equals(clientAuthenticationMethod)) {
+		}
+		else if (ClientAuthenticationMethod.NONE.getValue().equals(clientAuthenticationMethod)) {
 			return ClientAuthenticationMethod.NONE;
 		}
-		return new ClientAuthenticationMethod(clientAuthenticationMethod); 
+		return new ClientAuthenticationMethod(clientAuthenticationMethod);
 	}
 
 	public static TokenSettings toTokenSettings(Map<String, Object> tokenSettingsMap) {
@@ -164,15 +167,18 @@ public class RegisteredClientPropertiesMapper implements SmartInitializingSingle
 		return TokenSettings.builder()
 				.accessTokenTimeToLive((Duration) Optional.ofNullable(tokenSettingsMap.get(ACCESS_TOKEN_TIME_TO_LIVE))
 						.orElse(Duration.ofMinutes(5)))
-				.authorizationCodeTimeToLive((Duration) Optional.ofNullable(tokenSettingsMap.get(AUTHORIZATION_CODE_TIME_TO_LIVE))
-						.orElse(Duration.ofMinutes(5)))
+				.authorizationCodeTimeToLive(
+						(Duration) Optional.ofNullable(tokenSettingsMap.get(AUTHORIZATION_CODE_TIME_TO_LIVE))
+								.orElse(Duration.ofMinutes(5)))
 				.accessTokenFormat((OAuth2TokenFormat) Optional.ofNullable(tokenSettingsMap.get(ACCESS_TOKEN_FORMAT))
 						.orElse(OAuth2TokenFormat.SELF_CONTAINED))
-				.reuseRefreshTokens(Optional.ofNullable(tokenSettingsMap.get(REUSE_REFRESH_TOKENS)).map(b -> (boolean) b).orElse(true))
+				.reuseRefreshTokens(Optional.ofNullable(tokenSettingsMap.get(REUSE_REFRESH_TOKENS))
+						.map(b -> (boolean) b).orElse(true))
 				.refreshTokenTimeToLive((Duration) Optional.ofNullable(tokenSettingsMap.get(REFRESH_TOKEN_TIME_TO_LIVE))
 						.orElse(Duration.ofMinutes(60)))
-				.idTokenSignatureAlgorithm((SignatureAlgorithm) Optional.ofNullable(tokenSettingsMap.get(ID_TOKEN_SIGNATURE_ALGORITHM))
-						.orElse(SignatureAlgorithm.RS256))
+				.idTokenSignatureAlgorithm(
+						(SignatureAlgorithm) Optional.ofNullable(tokenSettingsMap.get(ID_TOKEN_SIGNATURE_ALGORITHM))
+								.orElse(SignatureAlgorithm.RS256))
 				.build();
 	}
 
@@ -181,11 +187,15 @@ public class RegisteredClientPropertiesMapper implements SmartInitializingSingle
 			return ClientSettings.builder().build();
 		}
 		ClientSettings.Builder builder = ClientSettings.builder()
-				.requireProofKey(Optional.ofNullable(clientSettingsMap.get(REQUIRE_PROOF_KEY)).map(b -> (boolean) b).orElse(false))
-				.requireAuthorizationConsent(Optional.ofNullable(clientSettingsMap.get(REQUIRE_AUTHORIZATION_CONSENT)).map(b -> (boolean) b).orElse(false));
-		SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.from((String) clientSettingsMap.get(TOKEN_ENDPOINT_AUTHENTICATION_SIGNING_ALGORITHM));
-		JwsAlgorithm jwsAlgorithm = signatureAlgorithm == null ? 
-				MacAlgorithm.from((String) clientSettingsMap.get(TOKEN_ENDPOINT_AUTHENTICATION_SIGNING_ALGORITHM)) : signatureAlgorithm;
+				.requireProofKey(Optional.ofNullable(clientSettingsMap.get(REQUIRE_PROOF_KEY)).map(b -> (boolean) b)
+						.orElse(false))
+				.requireAuthorizationConsent(Optional.ofNullable(clientSettingsMap.get(REQUIRE_AUTHORIZATION_CONSENT))
+						.map(b -> (boolean) b).orElse(false));
+		SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm
+				.from((String) clientSettingsMap.get(TOKEN_ENDPOINT_AUTHENTICATION_SIGNING_ALGORITHM));
+		JwsAlgorithm jwsAlgorithm = signatureAlgorithm == null
+				? MacAlgorithm.from((String) clientSettingsMap.get(TOKEN_ENDPOINT_AUTHENTICATION_SIGNING_ALGORITHM))
+				: signatureAlgorithm;
 		if (jwsAlgorithm != null) {
 			builder.tokenEndpointAuthenticationSigningAlgorithm(jwsAlgorithm);
 		}
@@ -194,6 +204,5 @@ public class RegisteredClientPropertiesMapper implements SmartInitializingSingle
 		}
 		return builder.build();
 	}
-
 
 }

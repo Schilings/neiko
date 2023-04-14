@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class NeikoSerializableTest {
 
 	@Test
-	public void testRocketMQProtocolEncodeAndDecode_WithoutRemarkWithoutExtFields() {
+	public void testNeikoProtocolEncodeAndDecode_WithoutRemarkWithoutExtFields() {
 		System.setProperty(RemotingCommand.REMOTING_VERSION_KEY, "2333");
 
 		// org.apache.rocketmq.common.protocol.RequestCode.REGISTER_BROKER
@@ -66,7 +66,7 @@ public class NeikoSerializableTest {
 	}
 
 	@Test
-	public void testRocketMQProtocolEncodeAndDecode_WithRemarkWithoutExtFields() {
+	public void testNeikoProtocolEncodeAndDecode_WithRemarkWithoutExtFields() {
 		System.setProperty(RemotingCommand.REMOTING_VERSION_KEY, "2333");
 
 		// org.apache.rocketmq.common.protocol.RequestCode.REGISTER_BROKER
@@ -110,7 +110,7 @@ public class NeikoSerializableTest {
 	}
 
 	@Test
-	public void testRocketMQProtocolEncodeAndDecode_WithoutRemarkWithExtFields() {
+	public void testNeikoProtocolEncodeAndDecode_WithoutRemarkWithExtFields() {
 		System.setProperty(RemotingCommand.REMOTING_VERSION_KEY, "2333");
 
 		// org.apache.rocketmq.common.protocol.RequestCode.REGISTER_BROKER

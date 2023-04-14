@@ -158,7 +158,7 @@ public class OAuth2RegisteredClientServiceImpl
 		info.setClientId(entity.getClientId());
 		info.setClientSecret(entity.getClientSecret());
 		info.setClientName(entity.getClientName());
-		
+
 		info.setClientIdIssuedAt(stringToInstant(clientIdIssuedAt));
 		info.setClientSecretExpiresAt(stringToInstant(clientSecretExpiresAt));
 		info.setClientAuthenticationMethods(
@@ -167,20 +167,19 @@ public class OAuth2RegisteredClientServiceImpl
 		info.setRedirectUris(StringUtils.commaDelimitedListToSet(entity.getRedirectUris()));
 		info.setScopes(StringUtils.commaDelimitedListToSet(entity.getScopes()));
 	}
-	
-	
-	private static Instant stringToInstant(String s){
+
+	private static Instant stringToInstant(String s) {
 		Instant instant = null;
 		try {
 			instant = LocalDateTime
-					.parse(s, DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN)
-									.withLocale(Locale.CHINA )
-							//.withZone(ZoneId.systemDefault())
-					)
-					.toInstant(ZoneOffset.UTC);
-		} catch (Exception e) {
-			
+					.parse(s, DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN).withLocale(Locale.CHINA)
+					// .withZone(ZoneId.systemDefault())
+					).toInstant(ZoneOffset.UTC);
+		}
+		catch (Exception e) {
+
 		}
 		return instant;
 	}
+
 }

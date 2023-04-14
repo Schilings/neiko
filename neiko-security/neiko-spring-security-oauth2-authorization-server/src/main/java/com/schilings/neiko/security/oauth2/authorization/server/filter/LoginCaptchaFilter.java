@@ -60,6 +60,7 @@ public class LoginCaptchaFilter extends OncePerRequestFilter {
 		OAuth2ClientAuthenticationToken clientPrincipal = getAuthenticatedClientElseThrowInvalidClient(authentication);
 		RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
 
+		// 隐式跳过验证码。即不需要scope中填入
 		// 测试客户端 跳过验证码（swagger 或 postman测试时使用）
 		if (registeredClient != null && registeredClient.getScopes().contains(ScopeNames.SKIP_CAPTCHA)) {
 			filterChain.doFilter(request, response);

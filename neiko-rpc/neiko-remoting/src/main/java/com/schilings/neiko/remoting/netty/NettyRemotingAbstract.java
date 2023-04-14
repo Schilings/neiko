@@ -128,14 +128,10 @@ public abstract class NettyRemotingAbstract {
 		final RemotingCommand cmd = msg;
 		if (cmd != null) {
 			switch (cmd.getType()) {
-			case REQUEST_COMMAND:
-				processRequestCommand(ctx, cmd);
-				break;
-			case RESPONSE_COMMAND:
-				processResponseCommand(ctx, cmd);
-				break;
-			default:
-				break;
+				case REQUEST_COMMAND -> processRequestCommand(ctx, cmd);
+				case RESPONSE_COMMAND -> processResponseCommand(ctx, cmd);
+				default -> {
+				}
 			}
 		}
 	}
@@ -169,62 +165,56 @@ public abstract class NettyRemotingAbstract {
 		final int opaque = cmd.getOpaque();
 
 		if (pair != null) {
-			Runnable run = new Runnable() {
-				@Override
-				public void run() {
-					try {
-						// 解析远程地址
-						String remoteAddr = RemotingHelper.parseChannelRemoteAddr(ctx.channel());
+			Runnable run = () ->{
+				try {
+					// 解析远程地址
+					String remoteAddr = RemotingHelper.parseChannelRemoteAddr(ctx.channel());
+					// RPC钩子
+					doBeforeRpcHooks(remoteAddr, cmd);
+					// 用于netty写入的远程命令处理后的响应回调
+					final RemotingResponseCallback callback = response-> {
 						// RPC钩子
-						doBeforeRpcHooks(remoteAddr, cmd);
-						// 用于netty写入的远程命令处理后的响应回调
-						final RemotingResponseCallback callback = new RemotingResponseCallback() {
-							@Override
-							public void callback(RemotingCommand response) {
-								// RPC钩子
-								doAfterRpcHooks(remoteAddr, cmd, response);
-								// 如果不是单向命令,即需要写入响应内容
-								if (!cmd.isOnewayRPC()) {
-									if (response != null) {
-										response.setOpaque(opaque);
-										response.markResponseType();
-										try {
-											ctx.writeAndFlush(response);
-										}
-										catch (Throwable e) {
-											log.error("process request over, but response failed", e);
-											log.error(cmd.toString());
-											log.error(response.toString());
-										}
-									}
-									else {
-									}
+						doAfterRpcHooks(remoteAddr, cmd, response);
+						// 如果不是单向命令,即需要写入响应内容
+						if (!cmd.isOnewayRPC()) {
+							if (response != null) {
+								response.setOpaque(opaque);
+								response.markResponseType();
+								try {
+									ctx.writeAndFlush(response);
+								}
+								catch (Throwable e) {
+									log.error("process request over, but response failed", e);
+									log.error(cmd.toString());
+									log.error(response.toString());
 								}
 							}
-						};
+							else {
+							}
+						}
+					};
 
-						if (pair.getObject1() instanceof AsyncNettyRequestProcessor) {
-							// 异步处理业务
-							AsyncNettyRequestProcessor processor = (AsyncNettyRequestProcessor) pair.getObject1();
-							processor.asyncProcessRequest(ctx, cmd, callback);
-						}
-						else {
-							// 同步阻塞处理业务，手动调用响应回调
-							NettyRequestProcessor processor = pair.getObject1();
-							RemotingCommand response = processor.processRequest(ctx, cmd);
-							callback.callback(response);
-						}
+					if (pair.getObject1() instanceof AsyncNettyRequestProcessor) {
+						// 异步处理业务
+						AsyncNettyRequestProcessor processor = (AsyncNettyRequestProcessor) pair.getObject1();
+						processor.asyncProcessRequest(ctx, cmd, callback);
 					}
-					catch (Throwable e) {
-						log.error("process request exception", e);
-						log.error(cmd.toString());
-						if (!cmd.isOnewayRPC()) {
-							// 返回报错内容
-							final RemotingCommand response = RemotingCommandHelper.createResponseCommand(
-									RemotingSysResponseCode.SYSTEM_ERROR, RemotingHelper.exceptionSimpleDesc(e));
-							response.setOpaque(opaque);
-							ctx.writeAndFlush(response);
-						}
+					else {
+						// 同步阻塞处理业务，手动调用响应回调
+						NettyRequestProcessor processor = pair.getObject1();
+						RemotingCommand response = processor.processRequest(ctx, cmd);
+						callback.callback(response);
+					}
+				}
+				catch (Throwable e) {
+					log.error("process request exception", e);
+					log.error(cmd.toString());
+					if (!cmd.isOnewayRPC()) {
+						// 返回报错内容
+						final RemotingCommand response = RemotingCommandHelper.createResponseCommand(
+								RemotingSysResponseCode.SYSTEM_ERROR, RemotingHelper.exceptionSimpleDesc(e));
+						response.setOpaque(opaque);
+						ctx.writeAndFlush(response);
 					}
 				}
 			};
@@ -311,18 +301,15 @@ public abstract class NettyRemotingAbstract {
 		ExecutorService executor = this.getCallbackExecutor();
 		if (executor != null) {
 			try {
-				executor.submit(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							responseFuture.executeInvokeCallback();
-						}
-						catch (Throwable e) {
-							log.warn("execute callback in executor exception, and callback throw", e);
-						}
-						finally {
-							responseFuture.release();
-						}
+				executor.submit(() -> {
+					try {
+						responseFuture.executeInvokeCallback();
+					}
+					catch (Throwable e) {
+						log.warn("execute callback in executor exception, and callback throw", e);
+					}
+					finally {
+						responseFuture.release();
 					}
 				});
 			}

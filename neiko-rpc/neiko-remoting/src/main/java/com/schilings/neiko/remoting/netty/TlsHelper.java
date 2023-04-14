@@ -50,13 +50,7 @@ public class TlsHelper {
 
 	private static final InternalLogger LOGGER = InternalLoggerFactory.getLogger(RemotingHelper.NEIKO_REMOTING);
 
-	private static DecryptionStrategy decryptionStrategy = new DecryptionStrategy() {
-		@Override
-		public InputStream decryptPrivateKey(final String privateKeyEncryptPath, final boolean forClient)
-				throws IOException {
-			return new FileInputStream(privateKeyEncryptPath);
-		}
-	};
+	private static DecryptionStrategy decryptionStrategy = (privateKeyEncryptPath, forClient) -> new FileInputStream(privateKeyEncryptPath);
 
 	public static void registerDecryptionStrategy(final DecryptionStrategy decryptionStrategy) {
 		TlsHelper.decryptionStrategy = decryptionStrategy;

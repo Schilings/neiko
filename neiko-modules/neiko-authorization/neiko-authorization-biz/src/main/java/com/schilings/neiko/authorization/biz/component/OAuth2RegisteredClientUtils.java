@@ -62,20 +62,20 @@ public class OAuth2RegisteredClientUtils {
 			return TokenSettings.builder().build();
 		}
 		return TokenSettings.builder()
-				.accessTokenTimeToLive(Optional.ofNullable(vo.getAccessTokenTimeToLive())
-						.map(Duration::ofSeconds).orElse(Duration.ofMinutes(5)))
+				.accessTokenTimeToLive(Optional.ofNullable(vo.getAccessTokenTimeToLive()).map(Duration::ofSeconds)
+						.orElse(Duration.ofMinutes(5)))
 				.authorizationCodeTimeToLive(Optional.ofNullable(vo.getAuthorizationCodeTimeToLive())
-								.map(Duration::ofSeconds).orElse(Duration.ofMinutes(5)))
-				.accessTokenFormat(Optional.ofNullable(vo.getTokenFormat())
-						.map(OAuth2TokenFormat::new).orElse(OAuth2TokenFormat.SELF_CONTAINED))
+						.map(Duration::ofSeconds).orElse(Duration.ofMinutes(5)))
+				.accessTokenFormat(Optional.ofNullable(vo.getTokenFormat()).map(OAuth2TokenFormat::new)
+						.orElse(OAuth2TokenFormat.SELF_CONTAINED))
 				.reuseRefreshTokens(intToBool(vo.getReuseRefreshTokens()))
-				.refreshTokenTimeToLive(Optional.ofNullable(vo.getRefreshTokenTimeToLive())
-						.map(Duration::ofSeconds).orElse(Duration.ofMinutes(60)))
+				.refreshTokenTimeToLive(Optional.ofNullable(vo.getRefreshTokenTimeToLive()).map(Duration::ofSeconds)
+						.orElse(Duration.ofMinutes(60)))
 				.idTokenSignatureAlgorithm(Optional.ofNullable(vo.getIdTokenSignatureAlgorithm())
 						.map(SignatureAlgorithm::from).orElse(SignatureAlgorithm.RS256))
 				.build();
 	}
-	
+
 	public static OAuth2TokenSettingsDTO fromTokenSettings(TokenSettings tokenSettings) {
 		if (tokenSettings == null) {
 			tokenSettings = TokenSettings.builder().build();

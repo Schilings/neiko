@@ -74,22 +74,26 @@ public class PasswordDecoderFilter extends OncePerRequestFilter {
 			filterChain.doFilter(request, response);
 			return;
 		}
+		// 解密前台加密后的密码
+		String passwordAes = request.getParameter(OAuth2ParameterNames.PASSWORD);
+		if (!StringUtils.hasText(passwordAes)) {
+			filterChain.doFilter(request, response);
+			return;
+		}
 
 		// 获取当前客户端
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		OAuth2ClientAuthenticationToken clientPrincipal = getAuthenticatedClientElseThrowInvalidClient(authentication);
 		RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
 
+		// 隐式跳过密码解密。即不需要scope中填入
 		// 测试客户端密码不加密，直接跳过（swagger 或 postman测试时使用）
 		if (registeredClient != null && registeredClient.getScopes().contains(ScopeNames.SKIP_PASSWORD_DECODE)) {
 			filterChain.doFilter(request, response);
 			return;
 		}
 
-		// 解密前台加密后的密码
 		Map<String, String[]> parameterMap = new HashMap<>(request.getParameterMap());
-		String passwordAes = request.getParameter(OAuth2ParameterNames.PASSWORD);
-
 		try {
 			String password = PasswordUtils.decodeAES(passwordAes, passwordSecretKey);
 			parameterMap.put(OAuth2ParameterNames.PASSWORD, new String[] { password });

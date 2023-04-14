@@ -174,10 +174,7 @@ public class NettyRemotingServer extends NettyRemotingAbstract implements Remoti
 				sslContext = TlsHelper.buildSslContext(false);
 				log.info("SSLContext created for server");
 			}
-			catch (CertificateException e) {
-				log.error("Failed to create SSLContext for server", e);
-			}
-			catch (IOException e) {
+			catch (CertificateException | IOException e) {
 				log.error("Failed to create SSLContext for server", e);
 			}
 		}
@@ -412,31 +409,26 @@ public class NettyRemotingServer extends NettyRemotingAbstract implements Remoti
 			// 第一个字节若为handshake魔数
 			if (b == HANDSHAKE_MAGIC_CODE) {
 				switch (tlsMode) {
-				case DISABLED:
-					ctx.close();
-					log.warn(
-							"Clients intend to establish an SSL connection while this server is running in SSL disabled mode");
-					break;
-				case PERMISSIVE:
-					// 若强制需要TSL验证
-				case ENFORCING:
-					if (null != sslContext) {
-						ctx.pipeline()
-								.addAfter(defaultEventExecutorGroup, HANDSHAKE_HANDLER_NAME, TLS_HANDLER_NAME,
-										sslContext.newHandler(ctx.channel().alloc()))
-								.addAfter(defaultEventExecutorGroup, TLS_HANDLER_NAME, FILE_REGION_ENCODER_NAME,
-										new FileRegionEncoder());
-						log.info("Handlers prepended to channel pipeline to establish SSL connection");
-					}
-					else {
+					case DISABLED -> {
 						ctx.close();
-						log.error("Trying to establish an SSL connection but sslContext is null");
+						log.warn(
+								"Clients intend to establish an SSL connection while this server is running in SSL disabled mode");
 					}
-					break;
-
-				default:
-					log.warn("Unknown TLS mode");
-					break;
+					// 若强制需要TSL验证
+					case PERMISSIVE, ENFORCING -> {
+						if (null != sslContext) {
+							ctx.pipeline()
+									.addAfter(defaultEventExecutorGroup, HANDSHAKE_HANDLER_NAME, TLS_HANDLER_NAME,
+											sslContext.newHandler(ctx.channel().alloc()))
+									.addAfter(defaultEventExecutorGroup, TLS_HANDLER_NAME, FILE_REGION_ENCODER_NAME,
+											new FileRegionEncoder());
+							log.info("Handlers prepended to channel pipeline to establish SSL connection");
+						} else {
+							ctx.close();
+							log.error("Trying to establish an SSL connection but sslContext is null");
+						}
+					}
+					default -> log.warn("Unknown TLS mode");
 				}
 			}
 			else if (tlsMode == TlsMode.ENFORCING) {

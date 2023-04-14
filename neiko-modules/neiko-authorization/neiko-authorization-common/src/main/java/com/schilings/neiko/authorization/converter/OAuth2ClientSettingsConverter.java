@@ -14,10 +14,9 @@ import org.mapstruct.factory.Mappers;
 public interface OAuth2ClientSettingsConverter {
 
 	OAuth2ClientSettingsConverter INSTANCE = Mappers.getMapper(OAuth2ClientSettingsConverter.class);
-	
+
 	OAuth2ClientSettingsVO poToVo(OAuth2ClientSettings po);
 
 	OAuth2ClientSettings dtoToPo(OAuth2ClientSettingsDTO dto);
-	
 
 }

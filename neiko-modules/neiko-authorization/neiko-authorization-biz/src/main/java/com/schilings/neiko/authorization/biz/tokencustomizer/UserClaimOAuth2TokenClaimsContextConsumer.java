@@ -32,9 +32,7 @@ public class UserClaimOAuth2TokenClaimsContextConsumer implements OAuth2TokenCla
 				return;
 			}
 			Map<String, Object> userClaim = extractUser(context.getPrincipal());
-			context.getClaims().claims(existingClaims -> {
-				existingClaims.put(ScopeNames.USER_INFO_CLAIM, userClaim);
-			});
+			context.getClaims().claims(existingClaims -> existingClaims.put(ScopeNames.USER_INFO_CLAIM, userClaim));
 
 		}
 	}
@@ -43,14 +41,14 @@ public class UserClaimOAuth2TokenClaimsContextConsumer implements OAuth2TokenCla
 		// Authentication可能是UsernamePasswordAuthenticationToken or
 		// OAuth2LoginAuthenticationToken
 		if (authentication.getPrincipal() instanceof User user) {
-			Map<String, Object> userClaim = new HashMap<>();
 			// info
-			Map<String, Object> info = new HashMap<>();
-			info.put(UserInfoFiledNameConstants.USER_ID, user.getUserId());
-			info.put(UserInfoFiledNameConstants.TYPE, user.getType());
-			info.put(UserInfoFiledNameConstants.ORGANIZATION_ID, user.getOrganizationId());
-			info.put(UserInfoFiledNameConstants.USERNAME, user.getUsername());
-			info.put(UserInfoFiledNameConstants.NICKNAME, user.getNickname());
+			Map<String, Object> info = Map.of(
+					UserInfoFiledNameConstants.USER_ID, user.getUserId(),
+					UserInfoFiledNameConstants.TYPE, user.getType(),
+					UserInfoFiledNameConstants.ORGANIZATION_ID, user.getOrganizationId(),
+					UserInfoFiledNameConstants.USERNAME, user.getUsername(),
+					UserInfoFiledNameConstants.NICKNAME, user.getNickname()
+			);
 			// attributes
 			Map<String, Object> attributes = new HashMap<>();
 			user.getAttributes().computeIfPresent(UserAttributeNameConstants.ROLE_CODES, (k, v) -> {
@@ -59,9 +57,8 @@ public class UserClaimOAuth2TokenClaimsContextConsumer implements OAuth2TokenCla
 			});
 
 			// 放入user_info_claim
-			userClaim.put(TokenAttributeNameConstants.INFO, info);
-			userClaim.put(TokenAttributeNameConstants.ATTRIBUTES, attributes);
-			return userClaim;
+			// 放入user_info_claim
+			return Map.of(TokenAttributeNameConstants.INFO, info, TokenAttributeNameConstants.ATTRIBUTES, attributes);
 		}
 		return Collections.emptyMap();
 	}

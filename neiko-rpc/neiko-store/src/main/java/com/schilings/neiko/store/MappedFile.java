@@ -17,8 +17,6 @@ import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -60,6 +58,12 @@ public class MappedFile extends ReferenceResource {
 	private final AtomicInteger flushedPosition = new AtomicInteger(0);
 
 	/**
+	 * 读写分离：如果启用了堆外内存，那么在创建新的MappedFile的时候，会分配一个writeBuffer，
+	 * 这段内存属于直接内存（堆外内存）。Broker将消息写入writeBuffer，即先写入DirectByteBuffer（堆外内存），
+	 * 然后异步转存服务不断地从堆外内存中Commit到Page Cache中（将writeBuffer的数据写入到fileChannel中），
+	 * 而消费者始终从mappedByteBuffer（即Page Cache）（mappedByteBuffer能获取到写入fileChannel的数据）中读取消息。
+	 * 读写分离能缓解 pagecache 的压力，但会增加消息不一致的风险。
+	 * 
 	 * 用于写入但未提交的缓冲区，即实际还为写入 会先放到这里，如果 writeBuffer 不为空，再放到 FileChannel 中。
 	 */
 	protected ByteBuffer writeBuffer = null;
@@ -90,7 +94,10 @@ public class MappedFile extends ReferenceResource {
 	private File file;
 
 	/**
-	 * 映射的文件内存块
+	 * 映射的文件内存块 
+	 * https://blog.csdn.net/weixin_43767015/article/details/127272820
+	 * https://blog.csdn.net/weixin_43767015/article/details/120331037
+	 * https://www.51cto.com/article/689602.html
 	 */
 	private MappedByteBuffer mappedByteBuffer;
 
@@ -147,18 +154,13 @@ public class MappedFile extends ReferenceResource {
 	 * @return
 	 */
 	private static Object invoke(final Object target, final String methodName, final Class<?>... args) {
-		return AccessController.doPrivileged(new PrivilegedAction<Object>() {
-			public Object run() {
-				try {
-					Method method = method(target, methodName, args);
-					method.setAccessible(true);
-					return method.invoke(target);
-				}
-				catch (Exception e) {
-					throw new IllegalStateException(e);
-				}
-			}
-		});
+		try {
+			Method method = method(target, methodName, args);
+			method.setAccessible(true);
+			return method.invoke(target);
+		} catch (Exception e) {
+			throw new IllegalStateException(e);
+		}
 	}
 
 	/**
@@ -218,6 +220,9 @@ public class MappedFile extends ReferenceResource {
 		// 如果开启了堆外内存，那么将采用此方式创建MappedFile，其相比于mmap的方式，多了一步操作，即会设置一个writeBuffer。
 		this.writeBuffer = transientStorePool.borrowBuffer();
 		this.transientStorePool = transientStorePool;
+		if (writeBuffer != null) {
+			log.debug("{} borrow buffer successfully", fileName);
+		}
 	}
 
 	/**
@@ -321,6 +326,11 @@ public class MappedFile extends ReferenceResource {
 	}
 
 	/**
+	 * 内存锁定：通过mlock系统调用，将预热后的内存空间锁定，防止因为内存不足导致pageCahce的数据被交换到swap空间中去，
+	 * 因为访问swap空间中的数据同样会引发缺页异常。
+	 * 另外还会调用系统madvise函数，给操作系统建议，说这文件在不久的将来要访问的，
+	 * 建议操作系统尝试一次性先将一段数据读入到映射内存区域，这样就减少了缺页异常的产生。
+	 * 
 	 * 锁定内存 当实现了文件内存预热之后，虽然短时间不会读取数据不会引发缺页异常，
 	 * 但是当内存不足的时候，一部分不常使用的内存还是会被交换到swap空间中，当程序再次读取交换出去的数据的时候会再次产生缺页异常。
 	 */
@@ -330,13 +340,13 @@ public class MappedFile extends ReferenceResource {
 		Pointer pointer = new Pointer(address);
 		{
 			// 调用系统mlock函数，锁定该文件的Page Cache，防止把预热过的文件被操作系统调到swap空间中。
-			int ret = CLibrary.INSTANCE.mlock(pointer, new NativeLong(this.fileSize));
+			int ret = CLibrary.INSTANCE.memoryLock(pointer, this.fileSize);
 			log.info("mlock {} {} {} ret = {} time consuming = {}", address, this.fileName, this.fileSize, ret,
 					System.currentTimeMillis() - beginTime);
 		}
 		{
 			// 另外还会调用系统madvise函数，再次尝试一次性先将一段数据读入到映射内存区域，这样就减少了缺页异常的产生。
-			int ret = CLibrary.INSTANCE.madvise(pointer, new NativeLong(this.fileSize), CLibrary.MADV_WILLNEED);
+			int ret = CLibrary.INSTANCE.memoryAdvise(pointer, this.fileSize);
 			log.info("madvise {} {} {} ret = {} time consuming = {}", address, this.fileName, this.fileSize, ret,
 					System.currentTimeMillis() - beginTime);
 		}
@@ -349,12 +359,17 @@ public class MappedFile extends ReferenceResource {
 		final long beginTime = System.currentTimeMillis();
 		final long address = ((DirectBuffer) (this.mappedByteBuffer)).address();
 		Pointer pointer = new Pointer(address);
-		int ret = CLibrary.INSTANCE.munlock(pointer, new NativeLong(this.fileSize));
+		int ret = CLibrary.INSTANCE.memoryUnlock(pointer, this.fileSize);
 		log.info("munlock {} {} {} ret = {} time consuming = {}", address, this.fileName, this.fileSize, ret,
 				System.currentTimeMillis() - beginTime);
 	}
 
 	/**
+	 * 文件预热或者内存预热：mmap基于惰性加载策略，单独的mmap操作仅仅是建立映射而不是真实的分配固定大小的内存，
+	 * 只有访问到不存在的数据时才会引发缺页异常才会真正的加载数据。
+	 * 对于新建的MappedFile每隔OS_PAGE_SIZE大小写入一个0，即每4k写入一个0，
+	 * 来让操作系统预先分配全额大小的物理内存，通过这种预先分配内存的方式，可以避免在读写消息时引发异常才分配内存而导致的性能损失。
+	 * 
 	 * 用文件预热，即让操作系统提前分配物理内存空间，防止在写入消息时发生缺页异常才进行分配。
 	 *
 	 * mmap操作减少了传统IO将磁盘文件数据在操作系统内核地址空间的缓冲区和用户应用程序地址空间的缓冲区之间来回进行拷贝的性能开销，这是它的好处。
@@ -412,6 +427,24 @@ public class MappedFile extends ReferenceResource {
 		this.mlock();
 	}
 
+	public AppendResult appendInner(final byte[] data,AppendCallback callback) {
+		int currentPos = this.wrotePosition.get();
+		AppendResult result;
+		if (currentPos < this.fileSize) {
+			ByteBuffer byteBuffer = writeBuffer != null ? writeBuffer.slice() : this.mappedByteBuffer.slice();
+			byteBuffer.position(currentPos);
+			result = callback.doAppend(this.getFileFromOffset(), byteBuffer, this.fileSize - currentPos,data);
+			if (result == null) {
+				return new AppendResult(AppendStatus.UNKNOWN_ERROR);
+			}
+			this.wrotePosition.addAndGet(result.getWroteBytes());
+			this.storeTimestamp = result.getStoreTimestamp();
+			return result;
+		}
+		log.error("MappedFile.appendMessage return null, wrotePosition: {} fileSize: {}", currentPos, this.fileSize);
+		return new AppendResult(AppendStatus.UNKNOWN_ERROR);
+	}
+
 	/**
 	 * 追加内容,作用于{@link MappedFile#mappedByteBuffer}
 	 * @param data
@@ -424,6 +457,7 @@ public class MappedFile extends ReferenceResource {
 			try {
 				// 往映射内存写书写
 				ByteBuffer buf = this.mappedByteBuffer.slice();
+				//因为从未写过 this.mappedByteBuffer，所以 this.mappedByteBuffer的position始终为0
 				buf.position(currentPos);
 				buf.put(data);
 			}
@@ -463,20 +497,30 @@ public class MappedFile extends ReferenceResource {
 
 	/**
 	 * 刷盘
-	 * @return 当前刷新的位置
+	 * @param flushLeastPages 最少刷盘的页数
+	 * @return 当前刷盘的位置
 	 */
 	public int flush(final int flushLeastPages) {
+		//判断是否可以刷盘
+		//如果文件已经满了，或者如果flushLeastPages大于0，且脏页数量大于等于flushLeastPages
+		//或者如果flushLeastPages等于0并且存在脏数据，这几种情况都会刷盘
 		if (this.isAbleToFlush(flushLeastPages)) {
-			// 占用 对应 释放
+			// 占用 对应 释放 //增加对该MappedFile的引用次数
 			if (this.hold()) {
+				//获取写入位置
 				int value = getReadPosition();
 				try {
+					/*
+					 * 只将数据追加到fileChannel或mappedByteBuffer中，不会同时追加到这两个里面。
+					 */
 					// 我们只将数据附加到 fileChannel 或 mappedByteBuffer，而不是两者。
+					//如果使用了堆外内存，那么通过fileChannel强制刷盘，这是异步堆外内存走的逻辑
 					if (writeBuffer != null || this.fileChannel.position() != 0) {
 						// 强制将此通道文件的任何更新写入包含它的存储设备。
 						this.fileChannel.force(false);
 					}
 					else {
+						//如果没有使用堆外内存，那么通过mappedByteBuffer强制刷盘，这是同步或者异步刷盘走的逻辑
 						// 强制将此通道文件的任何更新写入包含它的存储设备。
 						this.mappedByteBuffer.force();
 					}
@@ -484,6 +528,7 @@ public class MappedFile extends ReferenceResource {
 				catch (Throwable e) {
 					log.error("Error occurred when force data to disk.", e);
 				}
+				//设置刷盘位置为写入位置
 				// 刷新计数
 				this.flushedPosition.set(value);
 				// 释放 对应 占用
@@ -494,23 +539,27 @@ public class MappedFile extends ReferenceResource {
 				this.flushedPosition.set(getReadPosition());
 			}
 		}
+		//获取最新刷盘位置
 		// 当前刷新的位置
 		return this.getFlushedPosition();
 	}
 
 	/**
 	 * 将缓冲区的数据
-	 * @param commitLeastPages
-	 * @return
+	 * @param commitLeastPages 最少提交页数
+	 * @return 提交的offset
 	 */
 	public int commit(final int commitLeastPages) {
+		//如果堆外缓存为null，那么不需要提交数据到filechannel，所以只需将wrotePosition视为committedPosition返回即可。
 		if (writeBuffer == null) {
 			// 无需将数据提交到文件通道，因此只需将 writePosition 视为committedPosition。
 			return this.wrotePosition.get();
 		}
+		//是否支持提交，其判断逻辑和isAbleToFlush方法一致
 		if (this.isAbleToCommit(commitLeastPages)) {
-			// 占用
+			// 占用 //增加对该MappedFile的引用次数
 			if (this.hold()) {
+				//将堆外内存中的全部脏数据提交到filechannel
 				commit0();
 				// 释放
 				this.release();
@@ -520,13 +569,14 @@ public class MappedFile extends ReferenceResource {
 			}
 		}
 
-		// 所有脏数据都已提交到 FileChannel。
+		//所有的脏数据被提交到了FileChannel，那么归还堆外缓存
 		if (writeBuffer != null && this.transientStorePool != null && this.fileSize == this.committedPosition.get()) {
-			// 归还 writeBuffer
+			// 归还 writeBuffer //将堆外缓存重置，并存入内存池availableBuffers的头部
 			this.transientStorePool.returnBuffer(writeBuffer);
+			log.debug("{} return buffer successfully", fileName);
 			this.writeBuffer = null;
 		}
-
+		//返回提交位置
 		return this.committedPosition.get();
 	}
 
@@ -554,14 +604,17 @@ public class MappedFile extends ReferenceResource {
 		int flush = this.flushedPosition.get();
 		// 有效数据的最大位置
 		int write = getReadPosition();
-		// 内存已写满
+		// 内存已写满 //如果文件已经满了，那么返回true
 		if (this.isFull()) {
 			return true;
 		}
+		//如果至少刷盘的页数大于0，则需要比较写入位置与刷盘位置的差值
+		//当差值大于等于指定的页数才能刷盘，防止频繁的刷盘
 		// 未刷新到磁盘的数据已到达设置的阈值
 		if (flushLeastPages > 0) {
 			return ((write / OS_PAGE_SIZE) - (flush / OS_PAGE_SIZE)) >= flushLeastPages;
 		}
+		//否则，表示flushLeastPages为0，那么只要写入位置大于刷盘位置，即存在脏数据，那么就会刷盘
 		// 存在为刷新的数据
 		return write > flush;
 	}

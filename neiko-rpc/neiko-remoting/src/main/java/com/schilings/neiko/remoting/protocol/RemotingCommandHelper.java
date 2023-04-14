@@ -48,10 +48,7 @@ public class RemotingCommandHelper {
 				CommandHeaderCustomizer objectHeader = classHeader.newInstance();
 				cmd.customHeader = objectHeader;
 			}
-			catch (InstantiationException e) {
-				return null;
-			}
-			catch (IllegalAccessException e) {
+			catch (InstantiationException | IllegalAccessException e) {
 				return null;
 			}
 		}
@@ -60,6 +57,7 @@ public class RemotingCommandHelper {
 	}
 
 	public static RemotingCommand decode(final ByteBuffer byteBuffer) throws RemotingCommandException {
+		//去掉记录总长度(header_length + header + data)的前四个字节后的bytebuffer
 		int length = byteBuffer.limit();
 		int oriHeaderLen = byteBuffer.getInt();
 		int headerLength = getHeaderLength(oriHeaderLen);
@@ -91,14 +89,17 @@ public class RemotingCommandHelper {
 
 	private static RemotingCommand headerDecode(byte[] headerData, SerializeType type) throws RemotingCommandException {
 		switch (type) {
-		case JSON:
-			RemotingCommand resultJson = RemotingSerializable.decode(headerData, RemotingCommand.class);
-			resultJson.setSerializeTypeCurrentRPC(type);
-			return resultJson;
-		default:
-			break;
+			case JSON:
+				RemotingCommand resultJson = RemotingSerializable.decode(headerData, RemotingCommand.class);
+				resultJson.setSerializeTypeCurrentRPC(type);
+				return resultJson;
+			case NEIKO:
+				RemotingCommand remotingCommand = NeikoDefaultSerializable.neikoProtocolDecode(headerData);
+				remotingCommand.setSerializeTypeCurrentRPC(type);
+				return remotingCommand;
+			default:
+				break;
 		}
-
 		return null;
 	}
 

@@ -1,6 +1,5 @@
 package com.schilings.neiko.sample.oauth2.web;
 
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +25,6 @@ import jakarta.servlet.http.HttpServletRequest;
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class GlobalHandlerExceptionResolver {
-
 
 	public static final String PROD_ERR_MSG = "系统异常，请联系管理员";
 
@@ -55,4 +53,5 @@ public class GlobalHandlerExceptionResolver {
 		log.error("请求地址: {}, AccessDeniedException异常信息 ex={}", request.getRequestURI(), e.getMessage(), e);
 		return e;
 	}
+
 }

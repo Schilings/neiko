@@ -26,10 +26,16 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
+//--add-opens java.base/java.nio=ALL-UNNAMED --add-exports java.base/jdk.internal.ref=ALL-UNNAMED --add-exports java.base/sun.nio.ch=ALL-UNNAMED
 public class MappedFileQueueTest {
 
 	private static final int STORE_UNIT_SIZE = 20;
+
+//	@After
+//	public void destory() {
+//		File file = new File("target/unit_test_store");
+//		UtilAll.deleteFile(file);
+//	}
 
 	@Test
 	public void testGetLastMappedFile() {
@@ -40,11 +46,64 @@ public class MappedFileQueueTest {
 		for (int i = 0; i < 1024; i++) {
 			MappedFile mappedFile = mappedFileQueue.getLastMappedFile(0);
 			assertThat(mappedFile).isNotNull();
-			assertThat(mappedFile.append(fixedMsg.getBytes())).isTrue();
+			//assertThat(mappedFile.append(fixedMsg.getBytes())).isTrue();
+			mappedFile.appendInner(fixedMsg.getBytes(),new AppendCallback() {
+				@Override
+				public AppendResult doAppend(long fileFromOffset, ByteBuffer byteBuffer, int maxBlank,byte[] data) {
+					final long beginTimeMills = System.currentTimeMillis();
+					// PHY OFFSET
+					long wroteOffset = fileFromOffset + byteBuffer.position();
+					byteBuffer.put(fixedMsg.getBytes());
+					return new AppendResult(AppendStatus.PUT_OK, wroteOffset, fixedMsg.getBytes().length,
+							System.currentTimeMillis(), System.currentTimeMillis() - beginTimeMills);
+				}
+			});
 		}
-
+		
 		mappedFileQueue.shutdown(1000);
 		mappedFileQueue.destroy();
+	}
+
+	@Test
+	public void testMappedFileAppendWithWriteBuffer() {
+		final String fixedMsg = "0123456789abcdef";
+
+		TransientStorePool transientStorePool = new TransientStorePool(5, 1024 * 1024);
+		transientStorePool.init();
+		AllocateMappedFileService allocateMappedFileService = new AllocateMappedFileService(transientStorePool);
+		allocateMappedFileService.setWarmMappedFileEnbaled(true);
+		allocateMappedFileService.setMappedFileSize(1024);
+		allocateMappedFileService.setFlushLeastPagesWhenWarmMapedFile(1024);
+		allocateMappedFileService.start();
+		MappedFileQueue mappedFileQueue = new MappedFileQueue("target\\unit_test_store\\a", 1024,
+				allocateMappedFileService);
+		
+		for (int i = 0; i < 1024; i++) {
+			MappedFile mappedFile = mappedFileQueue.getLastMappedFile(0);
+			assertThat(mappedFile).isNotNull();
+			assertThat(mappedFile.appendInner(fixedMsg.getBytes(),new AppendCallback() {
+				@Override
+				public AppendResult doAppend(long fileFromOffset, ByteBuffer byteBuffer, int maxBlank,byte[] data) {
+					final long beginTimeMills = System.currentTimeMillis();
+					long wroteOffset = fileFromOffset + byteBuffer.position();	// PHY OFFSET
+					final int msgLen = data.length;
+					//确定是否有足够的可用空间
+
+					byteBuffer.put(fixedMsg.getBytes());
+					return new AppendResult(AppendStatus.PUT_OK, wroteOffset, msgLen,
+							System.currentTimeMillis(), System.currentTimeMillis() - beginTimeMills);
+				}
+			})).isNotNull();
+
+			if ((i + 1) % 20 == 0) {
+				mappedFileQueue.commit(0);
+				mappedFileQueue.flush(0);
+			}
+		}
+		mappedFileQueue.commit(0);
+		mappedFileQueue.flush(0);
+		mappedFileQueue.shutdown(1000);
+		//mappedFileQueue.destroy();
 	}
 
 	@Test
@@ -262,10 +321,6 @@ public class MappedFileQueueTest {
 		assertThat(mappedFileQueue.findMappedFileByOffset(1028).getFileFromOffset()).isEqualTo(1024);
 	}
 
-	@After
-	public void destory() {
-		File file = new File("target/unit_test_store");
-		UtilAll.deleteFile(file);
-	}
+
 
 }

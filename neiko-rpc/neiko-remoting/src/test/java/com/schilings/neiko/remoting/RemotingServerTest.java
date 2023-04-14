@@ -54,7 +54,7 @@ public class RemotingServerTest {
 
 	public static RemotingClient createRemotingClient() {
 		NettyClientConfig config = new NettyClientConfig();
-		config.setUseTLS(false);
+		config.setUseTLS(true);
 		RemotingClient client = new NettyRemotingClient(config);
 		client.start();
 		return client;
@@ -83,6 +83,7 @@ public class RemotingServerTest {
 		assertTrue(response != null);
 		assertThat(response.getLanguage()).isEqualTo(LanguageCode.JAVA);
 		assertThat(response.getExtFields()).hasSize(2);
+		System.out.println(response);
 
 	}
 
@@ -93,14 +94,12 @@ public class RemotingServerTest {
 		final CountDownLatch latch = new CountDownLatch(1);
 		RemotingCommand request = RemotingCommandHelper.createRequestCommand(REQUEST_COMMAND.ordinal(), null);
 		request.setRemark("messi");
-		remotingClient.invokeAsync("localhost:8888", request, 1000 * 3, new InvokeCallback() {
-			@Override
-			public void operationComplete(ResponseFuture responseFuture) {
-				latch.countDown();
-				assertTrue(responseFuture != null);
-				assertThat(responseFuture.getResponseCommand().getLanguage()).isEqualTo(LanguageCode.JAVA);
-				assertThat(responseFuture.getResponseCommand().getExtFields()).hasSize(2);
-			}
+		remotingClient.invokeAsync("localhost:8888", request, 1000 * 3, responseFuture -> {
+			latch.countDown();
+			assertTrue(responseFuture != null);
+			System.out.println(responseFuture.getResponseCommand());
+			assertThat(responseFuture.getResponseCommand().getLanguage()).isEqualTo(LanguageCode.JAVA);
+			assertThat(responseFuture.getResponseCommand().getExtFields()).hasSize(2);
 		});
 		// 阻塞等待回调释放
 		latch.await();

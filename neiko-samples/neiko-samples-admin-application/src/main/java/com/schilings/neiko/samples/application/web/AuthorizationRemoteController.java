@@ -1,6 +1,5 @@
 package com.schilings.neiko.samples.application.web;
 
-
 import com.schilings.neiko.authorization.common.userdetails.User;
 import com.schilings.neiko.authorization.common.util.SecurityUtils;
 import com.schilings.neiko.authorization.model.dto.OAuth2RegisteredClientDTO;
@@ -32,62 +31,62 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class AuthorizationRemoteController {
 
-    private final OAuth2RegisteredClientRemote registeredClientRemote;
+	private final OAuth2RegisteredClientRemote registeredClientRemote;
 
-    private final AuthorizationRemote authorizationRemote;
+	private final AuthorizationRemote authorizationRemote;
 
-    private final AuthorizationConsentRemote authorizationConsentRemote;
+	private final AuthorizationConsentRemote authorizationConsentRemote;
 
-    private final TokenHolder tokenHolder;
+	private final TokenHolder tokenHolder;
 
-    @GetMapping("/test1")
-    public Object test1() {
+	@GetMapping("/test1")
+	public Object test1() {
 
-        User user = SecurityUtils.getUser();
-        PageParam pageParam = new PageParam();
-        pageParam.setPage(1);
-        pageParam.setSize(10);
-        AuthorizationConsentQO qo = new AuthorizationConsentQO();
-        qo.setStartTime(LocalDateTime.of(2000, 1, 1, 1, 0, 0));
-        qo.setEndTime(LocalDateTime.now());
-        R<PageResult<AuthorizationConsentPageVO>> authorizationConsentPage = authorizationConsentRemote
-                .getAuthorizationConsentPage(pageParam, qo);
-        return authorizationConsentPage;
-    }
-    
-    @GetMapping("/test")
-    public Object test() {
-        
-        PageParam pageParam = new PageParam();
-        pageParam.addSort("id", true);
-        pageParam.addSort("clientId", true);
-        OAuth2RegisteredClientQO qo = new OAuth2RegisteredClientQO();
-        qo.setClientName("TEST");
-        qo.setStartTime(LocalDateTime.of(2000, 1, 1, 1, 1, 1));
-        qo.setEndTime(LocalDateTime.now());
-        R<PageResult<OAuth2RegisteredClientPageVO>> pageResultR1 = registeredClientRemote
-                .getRegisteredClientPage(pageParam,qo);
-        
-        R<OAuth2RegisteredClientInfo> client = registeredClientRemote.getClientInfo(333333334444444L);
+		User user = SecurityUtils.getUser();
+		PageParam pageParam = new PageParam();
+		pageParam.setPage(1);
+		pageParam.setSize(10);
+		AuthorizationConsentQO qo = new AuthorizationConsentQO();
+		qo.setStartTime(LocalDateTime.of(2000, 1, 1, 1, 0, 0));
+		qo.setEndTime(LocalDateTime.now());
+		R<PageResult<AuthorizationConsentPageVO>> authorizationConsentPage = authorizationConsentRemote
+				.getAuthorizationConsentPage(pageParam, qo);
+		return authorizationConsentPage;
+	}
 
+	@GetMapping("/test")
+	public Object test() {
 
-        Long id = System.nanoTime();
-        OAuth2RegisteredClientDTO dto = new OAuth2RegisteredClientDTO();
-        dto.setId(id);
-        dto.setClientId("aaaaaaaaaaaa");
-        dto.setClientSecret("aaaaaaaaaaaa");
-        dto.setClientName("aaaaaaaaaaaa");
-        dto.setClientAuthenticationMethods(Collections.singleton(ClientAuthenticationMethod.CLIENT_SECRET_BASIC.getValue()));
-        dto.setAuthorizationGrantTypes(Collections.singleton(AuthorizationGrantType.AUTHORIZATION_CODE.getValue()));
+		PageParam pageParam = new PageParam();
+		pageParam.addSort("id", true);
+		pageParam.addSort("clientId", true);
+		OAuth2RegisteredClientQO qo = new OAuth2RegisteredClientQO();
+		qo.setClientName("TEST");
+		qo.setStartTime(LocalDateTime.of(2000, 1, 1, 1, 1, 1));
+		qo.setEndTime(LocalDateTime.now());
+		R<PageResult<OAuth2RegisteredClientPageVO>> pageResultR1 = registeredClientRemote
+				.getRegisteredClientPage(pageParam, qo);
 
-        R<Void> addResult = registeredClientRemote.addClient(dto);
+		R<OAuth2RegisteredClientInfo> client = registeredClientRemote.getClientInfo(333333334444444L);
 
-        dto.setScopes(Collections.singleton("user_info"));
-        R<Void> updateResult = registeredClientRemote.updateClient(dto);
+		Long id = System.nanoTime();
+		OAuth2RegisteredClientDTO dto = new OAuth2RegisteredClientDTO();
+		dto.setId(id);
+		dto.setClientId("aaaaaaaaaaaa");
+		dto.setClientSecret("aaaaaaaaaaaa");
+		dto.setClientName("aaaaaaaaaaaa");
+		dto.setClientAuthenticationMethods(
+				Collections.singleton(ClientAuthenticationMethod.CLIENT_SECRET_BASIC.getValue()));
+		dto.setAuthorizationGrantTypes(Collections.singleton(AuthorizationGrantType.AUTHORIZATION_CODE.getValue()));
 
-        R<OAuth2RegisteredClientInfo> clientInfo = registeredClientRemote.getClientInfo(id);
+		R<Void> addResult = registeredClientRemote.addClient(dto);
 
-        return clientInfo;
-    }
-  
+		dto.setScopes(Collections.singleton("user_info"));
+		R<Void> updateResult = registeredClientRemote.updateClient(dto);
+
+		R<OAuth2RegisteredClientInfo> clientInfo = registeredClientRemote.getClientInfo(id);
+
+		return clientInfo;
+	}
+
 }

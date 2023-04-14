@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 @Component
 @NeikoEventListener
 public class DemoEventListener extends EventBusSupport {
-	
 
 	@NeikoEventHandler(Event.class)
 	public String demo1(DTO event) {

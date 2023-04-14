@@ -114,16 +114,16 @@ INSERT INTO `nk_sys_menu` VALUES (100803, 100800, '菜单权限修改', NULL, 's
 INSERT INTO `nk_sys_menu` VALUES (100804, 100800, '菜单权限删除', NULL, 'system:menu:del', NULL, 1, NULL, 3, 0, 0, 2, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
 
 
-INSERT INTO `nk_sys_menu` VALUES (200000, 0, '认证管理', 'setting', NULL, 'authorization', 1, NULL, 1, 0, 0, 0, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
+INSERT INTO `nk_sys_menu` VALUES (200000, 0, '授权管理', 'setting', NULL, 'authorization', 1, NULL, 1, 0, 0, 0, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
 INSERT INTO `nk_sys_menu` VALUES (200100, 200000, '客户端', NULL, NULL, 'client', 1, 'authorization/client/RegisteredClientPage', 1, 0, 0, 1, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
 INSERT INTO `nk_sys_menu` VALUES (200101, 200100, '客户端查询', NULL, 'authorization:registeredClient:read', NULL, 1, NULL, 0, 0, 0, 2, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
 INSERT INTO `nk_sys_menu` VALUES (200102, 200100, '客户端新增', NULL, 'authorization:registeredClient:add', NULL, 1, NULL, 1, 0, 0, 2, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
 INSERT INTO `nk_sys_menu` VALUES (200103, 200100, '客户端修改', NULL, 'authorization:registeredClient:edit', NULL, 1, NULL, 2, 0, 0, 2, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
 INSERT INTO `nk_sys_menu` VALUES (200104, 200100, '客户端删除', NULL, 'authorization:registeredClient:del', NULL, 1, NULL, 3, 0, 0, 2, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
-INSERT INTO `nk_sys_menu` VALUES (200200, 200000, '认证同意信息', NULL, NULL, 'consent', 1, 'authorization/consent/AuthorizationConsentPage', 1, 0, 0, 1, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
-INSERT INTO `nk_sys_menu` VALUES (200201, 200200, '认证同意信息查询', NULL, 'authorization:authorizationConsent:read', NULL, 1, NULL, 1, 0, 0, 2, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
-INSERT INTO `nk_sys_menu` VALUES (200300, 200000, '认证信息', NULL, NULL, 'authorization', 1, 'authorization/authorization/AuthorizationPage', 1, 0, 0, 1, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
-INSERT INTO `nk_sys_menu` VALUES (200301, 200300, '认证信息查询', NULL, 'authorization:authorization:read', NULL, 1, NULL, 1, 0, 0, 2, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
+INSERT INTO `nk_sys_menu` VALUES (200200, 200000, '授权同意记录', NULL, NULL, 'consent', 1, 'authorization/consent/AuthorizationConsentPage', 1, 0, 0, 1, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
+INSERT INTO `nk_sys_menu` VALUES (200201, 200200, '授权同意记录查询', NULL, 'authorization:authorizationConsent:read', NULL, 1, NULL, 1, 0, 0, 2, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
+INSERT INTO `nk_sys_menu` VALUES (200300, 200000, '授权信息', NULL, NULL, 'authorization', 1, 'authorization/authorization/AuthorizationPage', 1, 0, 0, 1, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
+INSERT INTO `nk_sys_menu` VALUES (200301, 200300, '授权信息记录', NULL, 'authorization:authorization:read', NULL, 1, NULL, 1, 0, 0, 2, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
 
 INSERT INTO `nk_sys_menu` VALUES (110000, 0, '日志管理', 'file-search', NULL, 'log', 1, NULL, 2, 0, 0, 0, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);
 INSERT INTO `nk_sys_menu` VALUES (110100, 110000, '操作日志', NULL, NULL, 'operation-log', 1, 'log/operation-log/OperationLogPage', 2, 0, 0, 1, NULL, 0, NULL, NULL, '2022-09-17 19:41:17', NULL);

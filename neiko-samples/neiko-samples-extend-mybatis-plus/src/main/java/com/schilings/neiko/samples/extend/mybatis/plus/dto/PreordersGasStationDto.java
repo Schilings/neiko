@@ -57,6 +57,5 @@ public class PreordersGasStationDto {
 	private String brandCode;
 
 	private String gasStationName;
-	
 
 }

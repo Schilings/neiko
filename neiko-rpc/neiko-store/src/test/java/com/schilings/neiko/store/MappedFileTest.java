@@ -31,14 +31,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class MappedFileTest {
 
+	private static final File file = new File("");
 	private final String storeMessage = "Once, there was a chance for me!";
 
-	private final String fileName = "E:\\Code\\neiko\\neiko-rpc\\neiko-store\\target\\unit_test_store\\MappedFileTest\\000";
+	private final String fileName = file.getAbsolutePath() + "\\target\\unit_test_store\\MappedFileTest\\000";
 
 	@Test
 	public void testSelectMappedBuffer() throws IOException {
 		MappedFile mappedFile = new MappedFile(fileName, 1024 * 64);
 		boolean result = mappedFile.append(storeMessage.getBytes());
+		boolean result1 = mappedFile.append(storeMessage.getBytes());
 		assertThat(result).isTrue();
 
 		SelectMappedBufferResult selectMappedBufferResult = mappedFile.selectMappedBuffer(0);

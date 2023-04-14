@@ -73,13 +73,17 @@ public abstract class ReferenceResource {
 	 */
 	public void shutdown(final long intervalForcibly) {
 		if (this.available) {
+			//标记已经调用过shutdown
 			this.available = false;
+			//标记第一次shutdown时间
 			this.firstShutdownTimestamp = System.currentTimeMillis();
 			this.release();
 		}
+		//如果还是存在阴引用
 		else if (this.getRefCount() > 0) {
-			//
+			//如果后续shutdown时间与第一次的时间间隔足够大
 			if ((System.currentTimeMillis() - this.firstShutdownTimestamp) >= intervalForcibly) {
+				//强制释放
 				this.refCount.set(-1000 - this.getRefCount());
 				this.release();
 			}

@@ -1,6 +1,5 @@
 package com.schilings.neiko.samples.application.web;
 
-
 import cn.hutool.core.util.ByteUtil;
 import com.schilings.neiko.common.model.result.R;
 import com.schilings.neiko.system.remote.*;
@@ -25,35 +24,38 @@ import java.nio.file.Paths;
 @RequiredArgsConstructor
 public class SystemRemoteController {
 
-    private final SysUserRemote sysUserRemote;
-    private final SysConfigRemote sysConfigRemote;
-    private final SysDictRemote sysDictRemote;
-    private final SysOrganizationRemote sysOrganizationRemote;
-    private final SysMenuRemote sysMenuRemote;
-    private final SysRoleRemote sysRoleRemote;
+	private final SysUserRemote sysUserRemote;
 
-    @GetMapping("/user")
-    public Object user() throws IOException {
+	private final SysConfigRemote sysConfigRemote;
 
-//        BodyInserters.fromMultipartData("file",new FileSystemResource("E:\\PS files\\pic\\普通图\\3-s.jpg"))
+	private final SysDictRemote sysDictRemote;
 
-        File file = new File("E:\\PS files\\pic\\普通图\\3-s.jpg");
-        
-        FileSystemResource fileSystemResource = new FileSystemResource(file);
-        //FileUrlResource fileUrlResource = new FileUrlResource("E:\\PS files\\pic\\普通图\\3-s.jpg");
-        PathResource pathResource = new PathResource(Paths.get("E:\\PS files\\pic\\普通图\\3-s.jpg"));
+	private final SysOrganizationRemote sysOrganizationRemote;
 
-        R<String> result = null;
+	private final SysMenuRemote sysMenuRemote;
 
-        //result = sysUserRemote.updateAvatar(fileUrlResource, 1L);
-        result = sysUserRemote.updateAvatar(fileSystemResource, 1L);
-        result = sysUserRemote.updateAvatar(pathResource, 1L);
-        
-        
-        
+	private final SysRoleRemote sysRoleRemote;
 
-        
+	@GetMapping("/user")
+	public Object user() throws IOException {
 
-        return sysUserRemote.getUserPage(null, null);
-    }
+		// BodyInserters.fromMultipartData("file",new FileSystemResource("E:\\PS
+		// files\\pic\\普通图\\3-s.jpg"))
+
+		File file = new File("E:\\PS files\\pic\\普通图\\3-s.jpg");
+
+		FileSystemResource fileSystemResource = new FileSystemResource(file);
+		// FileUrlResource fileUrlResource = new FileUrlResource("E:\\PS
+		// files\\pic\\普通图\\3-s.jpg");
+		PathResource pathResource = new PathResource(Paths.get("E:\\PS files\\pic\\普通图\\3-s.jpg"));
+
+		R<String> result = null;
+
+		// result = sysUserRemote.updateAvatar(fileUrlResource, 1L);
+		result = sysUserRemote.updateAvatar(fileSystemResource, 1L);
+		result = sysUserRemote.updateAvatar(pathResource, 1L);
+
+		return sysUserRemote.getUserPage(null, null);
+	}
+
 }

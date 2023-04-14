@@ -1,6 +1,5 @@
 package com.schilings.neiko.samples.application.web;
 
-
 import com.schilings.neiko.log.remote.AccessLogRemote;
 import com.schilings.neiko.log.remote.LoginLogRemote;
 import com.schilings.neiko.log.remote.OperationLogRemote;
@@ -19,17 +18,17 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class LogRemoteController {
 
-    private final AccessLogRemote accessLogRemote;
-    private final OperationLogRemote operationLogRemote;
-    private final LoginLogRemote loginLogRemote;
+	private final AccessLogRemote accessLogRemote;
 
+	private final OperationLogRemote operationLogRemote;
 
-    @GetMapping("/login")
-    public Object login() throws IOException {
-        byte[] bytes = loginLogRemote.exportAccessLogList(null);
-        return bytes;
+	private final LoginLogRemote loginLogRemote;
 
-       
-    }
-    
+	@GetMapping("/login")
+	public Object login() throws IOException {
+		byte[] bytes = loginLogRemote.exportAccessLogList(null);
+		return bytes;
+
+	}
+
 }

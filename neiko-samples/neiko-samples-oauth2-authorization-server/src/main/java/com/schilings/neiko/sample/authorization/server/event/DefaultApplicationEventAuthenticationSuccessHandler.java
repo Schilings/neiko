@@ -11,16 +11,17 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class DefaultApplicationEventAuthenticationSuccessHandler extends ApplicationEventAuthenticationSuccessHandler {
-    
-    public DefaultApplicationEventAuthenticationSuccessHandler(AuthenticationSuccessHandler delegate) {
-        super(delegate);
-    }
-    @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        getDelegate().onAuthenticationSuccess(request, response, authentication);
-        getApplicationEventPublisher().publishEvent(new DemoEvent(authentication));
-        
-    }
-    
-    
+
+	public DefaultApplicationEventAuthenticationSuccessHandler(AuthenticationSuccessHandler delegate) {
+		super(delegate);
+	}
+
+	@Override
+	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+			Authentication authentication) throws IOException, ServletException {
+		getDelegate().onAuthenticationSuccess(request, response, authentication);
+		getApplicationEventPublisher().publishEvent(new DemoEvent(authentication));
+
+	}
+
 }

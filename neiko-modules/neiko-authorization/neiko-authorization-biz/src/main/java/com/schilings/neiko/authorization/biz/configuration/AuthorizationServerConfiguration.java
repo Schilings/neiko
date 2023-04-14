@@ -17,6 +17,7 @@ import com.schilings.neiko.authorization.biz.service.AuthorizationService;
 import com.schilings.neiko.authorization.biz.service.OAuth2RegisteredClientService;
 import com.schilings.neiko.authorization.biz.tokencustomizer.UserClaimJwtEncodingContextConsumer;
 import com.schilings.neiko.authorization.biz.tokencustomizer.UserClaimOAuth2TokenClaimsContextConsumer;
+import com.schilings.neiko.authorization.biz.tokencustomizer.UserInfoOAuth2TokenPesponseEnhancer;
 import com.schilings.neiko.authorization.common.jackson2.NeikoAuthorizationJackson2Module;
 import com.schilings.neiko.security.oauth2.authorization.server.OAuth2AuthorizationServerConfigurerCustomizer;
 import com.schilings.neiko.security.oauth2.authorization.server.autoconfigure.EnableAuthorizationServer;
@@ -65,6 +66,7 @@ public class AuthorizationServerConfiguration {
 					OAuth2ConfigurerUtils.getAuthorizationService(http),
 					OAuth2ConfigurerUtils.getTokenGenerator(http)));
 		});
+		extensionGrantTypeCustomizer.oauth2TokenResponseEnhancer(new UserInfoOAuth2TokenPesponseEnhancer());
 		extensionGrantTypeCustomizer.accessTokenResponseHandler(OAuth2AccessTokenAuthenticationSuccessHandler::new);
 		return extensionGrantTypeCustomizer;
 	}

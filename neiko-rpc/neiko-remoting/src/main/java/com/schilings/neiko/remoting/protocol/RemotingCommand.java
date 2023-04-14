@@ -70,7 +70,6 @@ public class RemotingCommand {
 	/*
 	 * 实例属性
 	 */
-
 	// 状态码
 	private int code;
 

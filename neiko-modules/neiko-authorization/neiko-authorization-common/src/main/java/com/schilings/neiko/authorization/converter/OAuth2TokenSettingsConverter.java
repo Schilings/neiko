@@ -15,11 +15,9 @@ import java.time.Duration;
 public interface OAuth2TokenSettingsConverter {
 
 	OAuth2TokenSettingsConverter INSTANCE = Mappers.getMapper(OAuth2TokenSettingsConverter.class);
-	
+
 	OAuth2TokenSettingsVO poToVo(OAuth2TokenSettings tokenSettings);
 
 	OAuth2TokenSettings dtoToPo(OAuth2TokenSettingsDTO dto);
-	
-	
 
 }

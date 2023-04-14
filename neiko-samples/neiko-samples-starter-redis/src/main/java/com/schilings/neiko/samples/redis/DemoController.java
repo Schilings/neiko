@@ -97,6 +97,5 @@ public class DemoController {
 		System.out.println(channel);
 		System.out.println("demo demo demo");
 	}
-	
 
 }
