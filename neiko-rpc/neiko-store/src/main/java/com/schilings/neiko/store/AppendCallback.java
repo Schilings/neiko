@@ -1,5 +1,7 @@
 package com.schilings.neiko.store;
 
+import com.schilings.neiko.store.manage.StoreData;
+
 import java.nio.ByteBuffer;
 
 /**
@@ -10,6 +12,6 @@ public interface AppendCallback {
     /**
      * 消息序列化后，写入MapedByteBuffer
      */
-    AppendResult doAppend(final long fileFromOffset, final ByteBuffer byteBuffer, final int maxBlank,final byte[] data);
+    AppendResult doAppend(final long fileFromOffset, final ByteBuffer byteBuffer, final int maxBlank,final StoreData data);
 
 }

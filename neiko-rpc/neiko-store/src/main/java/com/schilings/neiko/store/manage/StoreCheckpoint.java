@@ -1,7 +1,8 @@
-package com.schilings.neiko.store;
+package com.schilings.neiko.store.manage;
 
 import com.schilings.neiko.logging.InternalLogger;
 import com.schilings.neiko.logging.InternalLoggerFactory;
+import com.schilings.neiko.store.MappedFile;
 import com.schilings.neiko.svrutil.UtilAll;
 
 import java.io.File;

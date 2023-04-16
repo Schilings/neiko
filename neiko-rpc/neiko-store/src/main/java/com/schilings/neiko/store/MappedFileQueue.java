@@ -546,7 +546,7 @@ public class MappedFileQueue {
 		//根据最新刷盘物理位置flushedWhere，去找到对应的MappedFile。如果flushedWhere为0，表示还没有开始写消息，则获取第一个MappedFile
 		MappedFile mappedFile = this.findMappedFileByOffset(this.flushedWhere, this.flushedWhere == 0);
 		if (mappedFile != null) {
-			//获取存储时间戳，storeTimestamp在appendMessagesInner方法中被更新
+			//获取存储时间戳，storeTimestamp在appendInner方法中被更新
 			long tmpTimeStamp = mappedFile.getStoreTimestamp();
 			/*
 			 * 执行刷盘操作
@@ -556,6 +556,7 @@ public class MappedFileQueue {
 			long where = mappedFile.getFileFromOffset() + offset;
 			//刷盘结果
 			result = where == this.flushedWhere;
+			//更新刷盘物理位置
 			this.flushedWhere = where;
 			if (0 == flushLeastPages) {
 				//如果最少刷盘页数为0，则更新存储时间戳

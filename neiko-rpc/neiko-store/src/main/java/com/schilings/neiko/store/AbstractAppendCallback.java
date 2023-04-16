@@ -1,6 +1,8 @@
 package com.schilings.neiko.store;
 
 
+import com.schilings.neiko.store.manage.StoreData;
+
 import java.nio.ByteBuffer;
 
 public abstract class AbstractAppendCallback implements AppendCallback {
@@ -37,10 +39,10 @@ public abstract class AbstractAppendCallback implements AppendCallback {
      * @return
      */
     @Override
-    public AppendResult doAppend(long fileFromOffset, ByteBuffer byteBuffer, int maxBlank,byte[] data) {
+    public AppendResult doAppend(long fileFromOffset, ByteBuffer byteBuffer, int maxBlank, StoreData data) {
         // PHY OFFSET
         long wroteOffset = fileFromOffset + byteBuffer.position();
-        final int msgLen = data.length;
+        final int msgLen = data.getBody().length;
         final long beginTimeMills = System.currentTimeMillis();
         //确定是否有足够的可用空间
         if ((msgLen + END_FILE_MIN_BLANK_LENGTH) > maxBlank) {
@@ -58,7 +60,7 @@ public abstract class AbstractAppendCallback implements AppendCallback {
                     System.currentTimeMillis() - beginTimeMills);
         }
 
-        byteBuffer.put(data);
+        byteBuffer.put(data.getBody());
         return new AppendResult(AppendStatus.PUT_OK, wroteOffset, msgLen,
                 System.currentTimeMillis(), System.currentTimeMillis() - beginTimeMills);
     }

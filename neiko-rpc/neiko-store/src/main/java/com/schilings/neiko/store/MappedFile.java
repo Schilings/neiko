@@ -3,6 +3,7 @@ package com.schilings.neiko.store;
 import com.schilings.neiko.logging.InternalLogger;
 import com.schilings.neiko.logging.InternalLoggerFactory;
 import com.schilings.neiko.store.config.FlushDiskType;
+import com.schilings.neiko.store.manage.StoreData;
 import com.schilings.neiko.store.util.CLibrary;
 import com.schilings.neiko.svrutil.UtilAll;
 import com.sun.jna.NativeLong;
@@ -427,13 +428,21 @@ public class MappedFile extends ReferenceResource {
 		this.mlock();
 	}
 
-	public AppendResult appendInner(final byte[] data,AppendCallback callback) {
+	public AppendResult append(final StoreData data, AppendCallback callback) {
+		return appendInner(data, callback);
+	}
+
+	public AppendResult appendInner(final StoreData data,AppendCallback callback) {
+		assert data != null;
+		assert callback != null;
+		
 		int currentPos = this.wrotePosition.get();
-		AppendResult result;
+		
 		if (currentPos < this.fileSize) {
 			ByteBuffer byteBuffer = writeBuffer != null ? writeBuffer.slice() : this.mappedByteBuffer.slice();
 			byteBuffer.position(currentPos);
-			result = callback.doAppend(this.getFileFromOffset(), byteBuffer, this.fileSize - currentPos,data);
+			AppendResult result = callback.doAppend(
+					this.getFileFromOffset(), byteBuffer, this.fileSize - currentPos, data);
 			if (result == null) {
 				return new AppendResult(AppendStatus.UNKNOWN_ERROR);
 			}
@@ -502,8 +511,9 @@ public class MappedFile extends ReferenceResource {
 	 */
 	public int flush(final int flushLeastPages) {
 		//判断是否可以刷盘
-		//如果文件已经满了，或者如果flushLeastPages大于0，且脏页数量大于等于flushLeastPages
-		//或者如果flushLeastPages等于0并且存在脏数据，这几种情况都会刷盘
+		//a如果文件已经满了，
+		//b或者如果flushLeastPages大于0且脏页数量大于等于flushLeastPages
+		//c或者如果flushLeastPages等于0并且存在脏数据，这几种情况都会刷盘
 		if (this.isAbleToFlush(flushLeastPages)) {
 			// 占用 对应 释放 //增加对该MappedFile的引用次数
 			if (this.hold()) {

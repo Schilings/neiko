@@ -20,6 +20,7 @@
  */
 package com.schilings.neiko.store;
 
+import com.schilings.neiko.store.manage.StoreCheckpoint;
 import com.schilings.neiko.svrutil.UtilAll;
 
 import org.junit.After;
