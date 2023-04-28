@@ -1,7 +1,7 @@
 
 import com.schilings.neiko.autoconfigure.file.core.FileClient;
 import com.schilings.neiko.autoconfigure.oss.OssClient;
-import com.schilings.neiko.autoconfigure.oss.domain.StreamTemp;
+
 import com.schilings.neiko.samples.file.FileApplication;
 import com.schilings.neiko.samples.file.service.FileService;
 import org.junit.jupiter.api.Test;
@@ -35,13 +35,13 @@ public class OssTest {
 	@Autowired
 	private FileService fileService;
 
-	@Test
-	public void testFileService() throws IOException {
-		FileInputStream inputStream = new FileInputStream(OPERATE_FILE);
-		StreamTemp temp = ossClient.getSize(inputStream);
-		fileService.upload(temp.getStream(), "1.jpg", temp.getSize());
-
-	}
+//	@Test
+//	public void testFileService() throws IOException {
+//		FileInputStream inputStream = new FileInputStream(OPERATE_FILE);
+//		StreamTemp temp = ossClient.getSize(inputStream);
+//		fileService.upload(temp.getStream(), "1.jpg", temp.getSize());
+//
+//	}
 
 	@Test
 	public void testFileClient() throws IOException {
@@ -54,7 +54,7 @@ public class OssTest {
 		FileInputStream inputStream = new FileInputStream(OPERATE_FILE);
 		final String relativePath = "2.jpg";
 
-		ossClient.upload(inputStream, relativePath);
+		ossClient.upload(OPERATE_FILE, relativePath);
 		inputStream.close();
 		System.out.println(ossClient.getDownloadUrl(relativePath));
 

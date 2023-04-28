@@ -17,6 +17,7 @@
 
 package com.schilings.neiko.store;
 
+import com.schilings.neiko.store.manage.StoreData;
 import com.schilings.neiko.svrutil.UtilAll;
 import org.junit.After;
 import org.junit.Test;
@@ -31,11 +32,11 @@ public class MappedFileQueueTest {
 
 	private static final int STORE_UNIT_SIZE = 20;
 
-//	@After
-//	public void destory() {
-//		File file = new File("target/unit_test_store");
-//		UtilAll.deleteFile(file);
-//	}
+	@After
+	public void destory() {
+		File file = new File("target/unit_test_store");
+		UtilAll.deleteFile(file);
+	}
 
 	@Test
 	public void testGetLastMappedFile() {
@@ -47,14 +48,14 @@ public class MappedFileQueueTest {
 			MappedFile mappedFile = mappedFileQueue.getLastMappedFile(0);
 			assertThat(mappedFile).isNotNull();
 			//assertThat(mappedFile.append(fixedMsg.getBytes())).isTrue();
-			mappedFile.appendInner(fixedMsg.getBytes(),new AppendCallback() {
+			mappedFile.append(new StoreData(fixedMsg.getBytes()),new AppendCallback() {
 				@Override
-				public AppendResult doAppend(long fileFromOffset, ByteBuffer byteBuffer, int maxBlank,byte[] data) {
+				public AppendResult doAppend(long fileFromOffset, ByteBuffer byteBuffer, int maxBlank, StoreData data) {
 					final long beginTimeMills = System.currentTimeMillis();
 					// PHY OFFSET
 					long wroteOffset = fileFromOffset + byteBuffer.position();
-					byteBuffer.put(fixedMsg.getBytes());
-					return new AppendResult(AppendStatus.PUT_OK, wroteOffset, fixedMsg.getBytes().length,
+					byteBuffer.put(data.getBody());
+					return new AppendResult(AppendStatus.PUT_OK, wroteOffset, data.getBody().length,
 							System.currentTimeMillis(), System.currentTimeMillis() - beginTimeMills);
 				}
 			});
@@ -81,19 +82,17 @@ public class MappedFileQueueTest {
 		for (int i = 0; i < 1024; i++) {
 			MappedFile mappedFile = mappedFileQueue.getLastMappedFile(0);
 			assertThat(mappedFile).isNotNull();
-			assertThat(mappedFile.appendInner(fixedMsg.getBytes(),new AppendCallback() {
+			mappedFile.append(new StoreData(fixedMsg.getBytes()),new AppendCallback() {
 				@Override
-				public AppendResult doAppend(long fileFromOffset, ByteBuffer byteBuffer, int maxBlank,byte[] data) {
+				public AppendResult doAppend(long fileFromOffset, ByteBuffer byteBuffer, int maxBlank, StoreData data) {
 					final long beginTimeMills = System.currentTimeMillis();
-					long wroteOffset = fileFromOffset + byteBuffer.position();	// PHY OFFSET
-					final int msgLen = data.length;
-					//确定是否有足够的可用空间
-
-					byteBuffer.put(fixedMsg.getBytes());
-					return new AppendResult(AppendStatus.PUT_OK, wroteOffset, msgLen,
+					// PHY OFFSET
+					long wroteOffset = fileFromOffset + byteBuffer.position();
+					byteBuffer.put(data.getBody());
+					return new AppendResult(AppendStatus.PUT_OK, wroteOffset, data.getBody().length,
 							System.currentTimeMillis(), System.currentTimeMillis() - beginTimeMills);
 				}
-			})).isNotNull();
+			});
 
 			if ((i + 1) % 20 == 0) {
 				mappedFileQueue.commit(0);

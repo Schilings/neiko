@@ -18,6 +18,7 @@ import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -240,12 +241,13 @@ public class MappedFile extends ReferenceResource {
 		// 构建file对象
 		this.file = new File(fileName);
 		// 构建文件起始索引，就是取自文件名
-		this.fileFromOffset = Long.parseLong(this.file.getName());
+		this.fileFromOffset = Long.parseLong(getFileNameWithoutExtension(this.file.getName()));
 		boolean ok = false;
 		// 确保文件目录存在
 		ensureDirOK(this.file.getParent());
 
 		try {
+			
 			// 构建文件通道fileChannel
 			this.fileChannel = new RandomAccessFile(this.file, "rw").getChannel();
 			// 文件完全的映射到虚拟内存，也就是内存映射，即mmap，提升读写性能
@@ -269,6 +271,12 @@ public class MappedFile extends ReferenceResource {
 				this.fileChannel.close();
 			}
 		}
+	}
+
+	public static String getFileNameWithoutExtension(String filename) {
+		String name = filename.substring(0, filename.lastIndexOf("."))
+				.toLowerCase(Locale.ROOT);
+		return name;
 	}
 
 	@Override

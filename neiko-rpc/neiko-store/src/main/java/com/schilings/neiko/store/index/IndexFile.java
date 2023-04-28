@@ -106,7 +106,7 @@ public class IndexFile {
 	}
 
 	public boolean putKey(final String key, final long phyOffset, final long storeTimestamp) {
-		// 还没满
+			// 还没满
 		if (this.indexHeader.getIndexCount() < this.indexNum) {
 			int keyHash = indexKeyHashMethod(key);// key的hash值
 			int slotPos = keyHash % this.hashSlotNum;// 对应的第几个hash槽
@@ -116,7 +116,8 @@ public class IndexFile {
 
 			try {
 
-				// fileLock = this.fileChannel.lock(absSlotPos, hashSlotSize,false);
+				
+				fileLock = this.fileChannel.lock(absSlotPos, hashSlotSize,false);
 
 				// hash槽内的值,hash槽内的放置的是对应的索引的位置
 				int slotValue = this.mappedByteBuffer.getInt(absSlotPos);
@@ -233,16 +234,14 @@ public class IndexFile {
 			FileLock fileLock = null;
 			try {
 				if (lock) {
-					// fileLock = this.fileChannel.lock(absSlotPos,
-					// hashSlotSize, true);
+					fileLock = this.fileChannel.lock(absSlotPos, hashSlotSize, true);
 				}
 				//
 				int slotValue = this.mappedByteBuffer.getInt(absSlotPos);
-				// if (fileLock != null) {
-				// fileLock.release();
-				// fileLock = null;
-				// }
-				//
+				if (fileLock != null) {
+					fileLock.release();
+					fileLock = null;
+				}
 				if (slotValue <= invalidIndex || slotValue > this.indexHeader.getIndexCount()
 						|| this.indexHeader.getIndexCount() <= 1) {
 					// 什么都不做

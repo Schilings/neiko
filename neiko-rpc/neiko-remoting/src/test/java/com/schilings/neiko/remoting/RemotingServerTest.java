@@ -25,6 +25,9 @@ import static org.junit.Assert.assertTrue;
 
 public class RemotingServerTest {
 
+	static {
+		System.setProperty(TlsSystemConfig.TLS_CONFIG_FILE, "src/test/resources/tls.properties");
+	}
 	private static RemotingServer remotingServer;
 
 	private static RemotingClient remotingClient;

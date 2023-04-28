@@ -6,7 +6,6 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-
 public class PutStoreResult {
 
     private StoreStatus storeStatus;

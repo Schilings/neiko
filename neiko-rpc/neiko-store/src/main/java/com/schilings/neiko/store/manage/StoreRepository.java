@@ -7,8 +7,8 @@ import com.schilings.neiko.store.*;
 import com.schilings.neiko.store.config.FlushDiskType;
 import com.schilings.neiko.store.manage.GroupFlushService.GroupCommitRequest;
 
+import java.nio.ByteBuffer;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
 
 public class StoreRepository {
 
@@ -35,8 +35,8 @@ public class StoreRepository {
     private final StoreLock putLock;
 
     private final FlushDiskWatcher flushDiskWatcher;
-    
-    private AppendCallback appendCallback;
+
+    private AppendCallback appendCallback = new DefaultAppendCallback();
     
 
     private final DefaultStoreManager defaultStoreManager;
@@ -157,14 +157,13 @@ public class StoreRepository {
             this.beginTimeInLock = beginLockTimestamp;
 
             if (null == mappedFile || mappedFile.isFull()) {
-                mappedFile = this.mappedFileQueue.getLastMappedFile(0); // Mark: NewFile may be cause noise
+                mappedFile = this.mappedFileQueue.getLastMappedFile(0); // NewFile 可能会引起噪音
             }
             if (null == mappedFile) {
                 log.error("create mapped file1 error");
                 return CompletableFuture.completedFuture(new PutStoreResult(StoreStatus.CREATE_MAPEDFILE_FAILED, null));
             }
-            result = mappedFile.append(data, null);
-
+            result = mappedFile.append(data, appendCallback);
             switch (result.getStatus()) {
                 case PUT_OK -> {
                     //do nothing
@@ -178,7 +177,7 @@ public class StoreRepository {
                         log.error("create mapped file2 error");
                         return CompletableFuture.completedFuture(new PutStoreResult(StoreStatus.CREATE_MAPEDFILE_FAILED, result));
                     }
-                    result = mappedFile.append(data, null);
+                    result = mappedFile.append(data, appendCallback);
                 }
                 case MESSAGE_SIZE_EXCEEDED->{}
                 case PROPERTIES_SIZE_EXCEEDED->{

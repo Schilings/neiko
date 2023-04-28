@@ -37,7 +37,7 @@ public class IndexFileTest {
 
 	@Test
 	public void testPutKey() throws Exception {
-		String fileName = "E:\\Code\\neiko\\neiko-rpc\\neiko-store\\target\\unit_test_IndexFile\\100";
+		String fileName = "target\\unit_test_IndexFile\\100.dat";
 		IndexFile indexFile = new IndexFile(fileName, HASH_SLOT_NUM, INDEX_NUM, 0, 0);
 		for (long i = 0; i < (INDEX_NUM - 1); i++) {
 			boolean putResult = indexFile.putKey(Long.toString(i), i, System.currentTimeMillis());
@@ -47,14 +47,14 @@ public class IndexFileTest {
 		// put over index file capacity.
 		boolean putResult = indexFile.putKey(Long.toString(400), 400, System.currentTimeMillis());
 		assertThat(putResult).isFalse();
-		indexFile.destroy(0);
-		File file = new File(fileName);
-		UtilAll.deleteFile(file);
+		//indexFile.destroy(0);
+		//File file = new File(fileName);
+		//UtilAll.deleteFile(file);
 	}
 
 	@Test
 	public void testSelectPhyOffset() throws Exception {
-		String fileName = "E:\\Code\\neiko\\neiko-rpc\\neiko-store\\target\\unit_test_IndexFile\\200";
+		String fileName = "target\\unit_test_IndexFile\\200.dat";
 		IndexFile indexFile = new IndexFile(fileName, HASH_SLOT_NUM, INDEX_NUM, 0, 0);
 
 		for (long i = 0; i < (INDEX_NUM - 1); i++) {

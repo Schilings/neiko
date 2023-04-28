@@ -98,9 +98,9 @@ public class GroupFlushService extends FlushCommitService{
             long storeTimestamp = storeRepository.mappedFileQueue.getStoreTimestamp();
             //修改StoreCheckpoint中的physicMsgTimestamp：最新文件的刷盘时间戳，单位毫秒
             //这里用于重启数据恢复
-            if (storeTimestamp > 0) {
-                storeRepository.storeCheckpoint.setPhysicMsgTimestamp(storeTimestamp);
-            }
+//            if (storeTimestamp > 0) {
+//                storeRepository.storeCheckpoint.setPhysicMsgTimestamp(storeTimestamp);
+//            }
             //requestsRead重新创建一个空的队列，当下一次交换队列的时候，requestsWrite又会成为一个空队列
             this.requestsRead = new LinkedList<>();
         } else {

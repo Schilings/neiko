@@ -5,7 +5,7 @@ import com.schilings.neiko.store.manage.StoreData;
 
 import java.nio.ByteBuffer;
 
-public abstract class AbstractAppendCallback implements AppendCallback {
+public class DefaultAppendCallback implements AppendCallback {
 
     /**
      * 文件末尾最小固定长度为空
@@ -21,14 +21,9 @@ public abstract class AbstractAppendCallback implements AppendCallback {
      * 存储消息内容
      */
     private final ByteBuffer msgStoreItemMemory;
-    /**
-     * 最大长度
-     */
-    private final int maxMessageSize;
 
-    public AbstractAppendCallback(final int size) {
+    public DefaultAppendCallback() {
         this.msgStoreItemMemory = ByteBuffer.allocate(END_FILE_MIN_BLANK_LENGTH);
-        this.maxMessageSize = size;
     }
 
 

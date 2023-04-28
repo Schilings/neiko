@@ -2,6 +2,7 @@ package com.schilings.neiko.store.manage;
 
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -9,11 +10,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Data
+@NoArgsConstructor
 public class StoreData implements Serializable {
 
     private static final long serialVersionUID = 8445773977080406428L;
 
     private byte[] body;
+
+    public StoreData(byte[] body) {
+        this.body = body;
+    }
 
     private Map<String, String> properties;
 
