@@ -3,6 +3,8 @@ package com.schilings.neiko.store.manage;
 public enum StoreStatus {
     PUT_OK,
     FLUSH_DISK_TIMEOUT,
+    FLUSH_SLAVE_TIMEOUT,
+    SLAVE_NOT_AVAILABLE,
     SERVICE_NOT_AVAILABLE,
     CREATE_MAPEDFILE_FAILED,
     MESSAGE_ILLEGAL,

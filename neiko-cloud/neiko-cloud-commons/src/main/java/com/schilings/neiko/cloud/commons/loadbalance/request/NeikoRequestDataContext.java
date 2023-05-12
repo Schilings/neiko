@@ -12,10 +12,6 @@ import org.springframework.http.HttpMethod;
  * @author Schilings
  */
 public class NeikoRequestDataContext extends RequestDataContext {
-
-	@Override
-	public HttpMethod method() {
-		return ((RequestData) super.getClientRequest()).getHttpMethod();
-	}
-
+	
+	
 }

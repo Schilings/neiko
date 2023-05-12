@@ -2,6 +2,7 @@ package com.schilings.neiko.store.config;
 
 
 import com.schilings.neiko.store.config.FlushDiskType;
+import com.schilings.neiko.store.ha.ClusterRole;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,6 +35,8 @@ public class StoreConfig {
     
     private FlushDiskType flushDiskType = FlushDiskType.ASYNC_FLUSH;
 
+    private ClusterRole clusterRole = ClusterRole.ASYNC_MASTER;
+
     private int syncFlushTimeout = 1000 * 5;
 
     private long flushDelayOffsetInterval = 1000 * 10;
@@ -46,7 +49,15 @@ public class StoreConfig {
     private int transientStorePoolSize = 5;
     private boolean fastFailIfNoBufferInStorePool = false;
 
+    private int haListenPort = 10912;
 
+    private int haSlaveFallbehindMax = 1024 * 1024 * 256;
+    private int haSendHeartbeatInterval = 1000 * 5;
+    private int haHousekeepingInterval = 1000 * 20;
+
+    private int haTransferBatchSize = 1024 * 32;
+
+    private int slaveTimeout = 3000;
 
     /**
      * Enable transient commitLog store pool only if transientStorePoolEnable is true and the FlushDiskType is

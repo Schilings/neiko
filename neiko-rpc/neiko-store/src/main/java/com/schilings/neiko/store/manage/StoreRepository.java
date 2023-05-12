@@ -5,6 +5,8 @@ import com.schilings.neiko.logging.InternalLogger;
 import com.schilings.neiko.logging.InternalLoggerFactory;
 import com.schilings.neiko.store.*;
 import com.schilings.neiko.store.config.FlushDiskType;
+import com.schilings.neiko.store.ha.ClusterRole;
+import com.schilings.neiko.store.ha.HAService;
 import com.schilings.neiko.store.manage.GroupFlushService.GroupCommitRequest;
 
 import java.nio.ByteBuffer;
@@ -129,7 +131,7 @@ public class StoreRepository {
     }
 
     public SelectMappedBufferResult getData(final long offset, final boolean returnFirstOnNotFound) {
-        //获取CommitLog文件大小，默认1G
+        //获取g文件大小，默认1G
         int mappedFileSize = this.defaultStoreManager.getStoreConfig().getMappedFileSize();
         //根据指定的offset从mappedFileQueue中对应的CommitLog文件的MappedFile
         MappedFile mappedFile = this.mappedFileQueue.findMappedFileByOffset(offset, returnFirstOnNotFound);
@@ -205,11 +207,14 @@ public class StoreRepository {
         }
 
         PutStoreResult putStoreResult = new PutStoreResult(StoreStatus.PUT_OK, result);
-
         CompletableFuture<StoreStatus> flushOKFuture = submitFlushRequest(result, data);
-        return flushOKFuture.thenApply(flushStatus -> {
+        CompletableFuture<StoreStatus> replicaResultFuture = submitReplicaRequest(result, data);
+        return flushOKFuture.thenCombine(replicaResultFuture, (flushStatus, replicaStatus) -> {
             if (flushStatus != StoreStatus.PUT_OK) {
                 putStoreResult.setStoreStatus(flushStatus);
+            }
+            if (replicaStatus != StoreStatus.PUT_OK) {
+                putStoreResult.setStoreStatus(replicaStatus);
             }
             return putStoreResult;
         });
@@ -265,6 +270,26 @@ public class StoreRepository {
             }
             return CompletableFuture.completedFuture(StoreStatus.PUT_OK);
         }
+    }
+
+
+    public CompletableFuture<StoreStatus> submitReplicaRequest(AppendResult result, StoreData messageExt) {
+        if (ClusterRole.SYNC_MASTER == this.defaultStoreManager.getStoreConfig().getClusterRole()) {
+            HAService service = this.defaultStoreManager.getHaService();
+            if (messageExt.isWaitStoreMsgOK()) {
+                if (service.isSlaveOK(result.getWroteBytes() + result.getWroteOffset())) {
+                    GroupCommitRequest request = new GroupCommitRequest(result.getWroteOffset() + result.getWroteBytes(),
+                            this.defaultStoreManager.getStoreConfig().getSlaveTimeout());
+                    service.putRequest(request);
+                    service.getWaitNotifyObject().wakeupAll();
+                    return request.future();
+                }
+                else {
+                    return CompletableFuture.completedFuture(StoreStatus.SLAVE_NOT_AVAILABLE);
+                }
+            }
+        }
+        return CompletableFuture.completedFuture(StoreStatus.PUT_OK);
     }
     
     

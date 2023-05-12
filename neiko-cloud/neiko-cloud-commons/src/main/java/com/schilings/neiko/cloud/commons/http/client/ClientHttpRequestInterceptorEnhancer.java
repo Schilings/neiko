@@ -37,7 +37,7 @@ public abstract class ClientHttpRequestInterceptorEnhancer implements ClientHttp
 		this.originalUri = request.getURI();
 		this.method = request.getMethod();
 		this.headers = request.getHeaders();
-		this.methodValue = request.getMethodValue();
+		this.methodValue = request.getMethod().name();
 
 		//
 		headers.add("Cookie", "SESSIONID=b8dd5bd9-9fb7-48cb-a86b-e079cb554fb8");
@@ -55,7 +55,7 @@ public abstract class ClientHttpRequestInterceptorEnhancer implements ClientHttp
 	public abstract ClientHttpResponse interceptInternal(HttpRequest request, byte[] body,
 			ClientHttpRequestExecution execution) throws IOException;
 
-	// ResponseDatay引入import
+	// ResponseData引入import
 	// org.springframework.web.reactive.function.client.ClientResponse;
 	// 我这里没引入这个包
 	// private <T> Object getClientResponse(T response) {
