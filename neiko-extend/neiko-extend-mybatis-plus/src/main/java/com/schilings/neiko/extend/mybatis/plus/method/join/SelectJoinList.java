@@ -18,6 +18,10 @@ import org.apache.ibatis.mapping.SqlSource;
  */
 public class SelectJoinList extends JoinAbstractMethod {
 
+	public SelectJoinList() {
+		super(SqlMethod.SELECT_JOIN_LIST.getMethod());
+	}
+
 	@Override
 	public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
 		/**

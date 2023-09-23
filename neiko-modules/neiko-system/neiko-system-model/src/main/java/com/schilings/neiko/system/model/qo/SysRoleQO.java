@@ -3,7 +3,12 @@ package com.schilings.neiko.system.model.qo;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import org.springdoc.api.annotations.ParameterObject;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
+
+import static cn.hutool.core.date.DatePattern.NORM_DATETIME_PATTERN;
 
 /**
  *
@@ -27,9 +32,11 @@ public class SysRoleQO {
 	private String code;
 
 	@Parameter(description = "开始时间")
-	private String startTime;
+	@DateTimeFormat(pattern = NORM_DATETIME_PATTERN)
+	private LocalDateTime startTime;
 
 	@Parameter(description = "结束时间")
-	private String endTime;
+	@DateTimeFormat(pattern = NORM_DATETIME_PATTERN)
+	private LocalDateTime endTime;
 
 }

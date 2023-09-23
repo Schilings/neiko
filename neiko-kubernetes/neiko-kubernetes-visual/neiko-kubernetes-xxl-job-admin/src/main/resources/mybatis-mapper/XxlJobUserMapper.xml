@@ -5,7 +5,7 @@
 
 	<resultMap id="XxlJobUser" type="com.xxl.job.admin.core.model.XxlJobUser" >
 		<result column="id" property="id" />
-		<result column="username" property="username" />
+		<result column="userAttribute" property="userAttribute" />
 	    <result column="password" property="password" />
 	    <result column="role" property="role" />
 	    <result column="permission" property="permission" />
@@ -13,7 +13,7 @@
 
 	<sql id="Base_Column_List">
 		t.id,
-		t.username,
+		t.userAttribute,
 		t.password,
 		t.role,
 		t.permission
@@ -23,14 +23,14 @@
 		SELECT <include refid="Base_Column_List" />
 		FROM xxl_job_user AS t
 		<trim prefix="WHERE" prefixOverrides="AND | OR" >
-			<if test="username != null and username != ''">
-				AND t.username like CONCAT(CONCAT('%', #{username}), '%')
+			<if test="userAttribute != null and userAttribute != ''">
+				AND t.userAttribute like CONCAT(CONCAT('%', #{userAttribute}), '%')
 			</if>
 			<if test="role gt -1">
 				AND t.role = #{role}
 			</if>
 		</trim>
-		ORDER BY username ASC
+		ORDER BY userAttribute ASC
 		LIMIT #{offset}, #{pagesize}
 	</select>
 
@@ -38,8 +38,8 @@
 		SELECT count(1)
 		FROM xxl_job_user AS t
 		<trim prefix="WHERE" prefixOverrides="AND | OR" >
-			<if test="username != null and username != ''">
-				AND t.username like CONCAT(CONCAT('%', #{username}), '%')
+			<if test="userAttribute != null and userAttribute != ''">
+				AND t.userAttribute like CONCAT(CONCAT('%', #{userAttribute}), '%')
 			</if>
 			<if test="role gt -1">
 				AND t.role = #{role}
@@ -50,17 +50,17 @@
 	<select id="loadByUserName" parameterType="java.util.HashMap" resultMap="XxlJobUser">
 		SELECT <include refid="Base_Column_List" />
 		FROM xxl_job_user AS t
-		WHERE t.username = #{username}
+		WHERE t.userAttribute = #{userAttribute}
 	</select>
 
 	<insert id="save" parameterType="com.xxl.job.admin.core.model.XxlJobUser" useGeneratedKeys="true" keyProperty="id" >
 		INSERT INTO xxl_job_user (
-			username,
+			userAttribute,
 			password,
 			role,
 			permission
 		) VALUES (
-			#{username},
+			#{userAttribute},
 			#{password},
 			#{role},
 			#{permission}

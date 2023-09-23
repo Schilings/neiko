@@ -1,10 +1,14 @@
 package com.schilings.neiko.log.model.vo;
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+
+import static cn.hutool.core.date.DatePattern.NORM_DATETIME_PATTERN;
 
 /**
  *
@@ -100,6 +104,7 @@ public class OperationLogExcelVO {
 	 */
 	@Schema(title = "创建者")
 	@ExcelProperty({ "创建者" })
+	@JsonFormat(pattern = NORM_DATETIME_PATTERN, timezone = "GMT+8")
 	private String operator;
 
 	/**
@@ -107,6 +112,7 @@ public class OperationLogExcelVO {
 	 */
 	@Schema(title = "创建时间")
 	@ExcelProperty({ "创建时间" })
+	@JsonFormat(pattern = NORM_DATETIME_PATTERN, timezone = "GMT+8")
 	private LocalDateTime createTime;
 
 }

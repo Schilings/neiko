@@ -13,10 +13,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 import org.springframework.web.util.UrlPathHelper;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -104,7 +104,7 @@ public class AccessLogFilter extends OncePerRequestFilter {
 			Long executionTime = TimeUnit.NANOSECONDS.toSeconds(endTime - startTime);
 			// 记录在doFilter里被程序处理过后的异常，可参考
 			// http://www.runoob.com/servlet/servlet-exception-handling.html
-			Throwable throwable = (Throwable) requestWrapper.getAttribute("javax.servlet.error.exception");
+			Throwable throwable = (Throwable) requestWrapper.getAttribute("jakarta.servlet.error.exception");
 			if (throwable != null) {
 				myThrowable = throwable;
 			}

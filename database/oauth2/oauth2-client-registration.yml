@@ -1,0 +1,51 @@
+spring:
+  security:
+    oauth2:
+      client:
+        #OAuth2ClientProperties
+        registration:
+          google-idp:
+            provider: google
+            client-id: 1002216944447-jppoombh74s21ckm9mfh1d7cm6c72beq.apps.googleusercontent.com
+            client-secret: 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
+            scope: openid, https://www.googleapis.com/auth/userinfo.profile, https://www.googleapis.com/auth/userinfo.email
+            client-name: Sign in with Google
+          github-idp:
+            provider: github
+            client-id: 62f82fe87cdb752da311
+            client-secret: f58fbaff8b392cd8d75a55e8e3cfbb0f85cb5b91
+            scope: user:email,read:user
+            client-name: Sign in with GitHub
+          gitee-idp:
+            provider: gitee
+            client-id: 5313a0dd8c6b109cb7bbb17b7e56d27407a4fd28ff8050f3a906ff30e2d0c50b
+            client-secret: f758aca319e6e6021dbef258d78fa69519ef484f60adb06cac60773a8288706e
+            scope: user_info
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://localhost:9000/login/oauth2/code/{registrationId}"
+            client-name: Sign in with Gitee
+          facebook-idp:
+            provider: facebook
+            client-id: 5825954837481931
+            client-secret: be89168cd86fa2dd3abf5385000968ca
+            scope: public_profile
+            authorization-grant-type: authorization_code
+            client-name: Sign in with FaceBook
+          wechat_web_mp:
+            provider: wechat_web_mp
+            client-id: wxce770cc02d4092e6 #??????appId
+            client-secret: 5854c8541236153febb15a72150c7f85 #??????Secret
+            scope: snsapi_base #????snsapi_base ????snsapi_userinfo
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://gf11538.e1.luyouxia.net:26483/login/oauth2/code/{registrationId}"
+            client-name: Sign in with Wechat
+          work_wechat_web_qr:
+            #????????IP 
+            #not allow to access from your ip, hint: [1672926941307412790940736], from ip: 113.101.22.6, more info at https://open.work.weixin.qq.com/devtool/query?e=60020
+            provider: work_wechat_web_qr
+            client-id: wwbac7e8b44646c2c3 #corpId
+            client-secret: XIKtEB1F0UP6LI5v7StExt-XwwSN40JjgrXwtAKgu84 #secret
+            scope: 1000002 #agentId
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://gf11538.e1.luyouxia.net:26483/login/oauth2/code/{registrationId}"
+            client-name: Sign in with WorkWechat

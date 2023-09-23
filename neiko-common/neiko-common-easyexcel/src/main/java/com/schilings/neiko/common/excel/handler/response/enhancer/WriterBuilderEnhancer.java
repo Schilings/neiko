@@ -5,7 +5,7 @@ import com.alibaba.excel.write.builder.ExcelWriterSheetBuilder;
 import com.schilings.neiko.common.excel.annotation.ResponseExcel;
 import com.schilings.neiko.common.excel.head.HeadGenerator;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 public interface WriterBuilderEnhancer {
 

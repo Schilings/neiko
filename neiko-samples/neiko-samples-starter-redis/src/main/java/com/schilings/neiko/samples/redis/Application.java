@@ -6,12 +6,12 @@ import com.schilings.neiko.common.cache.EnableNeikoCaching;
 import com.schilings.neiko.common.cache.annotation.NeikoCacheEvict;
 import com.schilings.neiko.common.cache.annotation.NeikoCachePut;
 import com.schilings.neiko.common.cache.annotation.NeikoCacheable;
+import com.schilings.neiko.common.redis.RedisHelper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.redis.core.RedisTemplate;
 
-@EnableNeikoCaching
 @SpringBootApplication
 public class Application {
 
@@ -26,10 +26,8 @@ public class Application {
 		// System.out.println(bean.test5(null));
 		// System.out.println(bean.test5("123"));
 
-		RedisTemplate redisTemplate = (RedisTemplate) context.getBean("redisTemplate");
-		// 如果用的是stringRedistemplate,那只能序列化String
-		redisTemplate.convertAndSend("test", new DTO(100, "123", "456"));
-		redisTemplate.convertAndSend("demo", "1232321321");
+		// RedisHelper.convertAndSend("test", new DTO(100, "123", "456"));
+		RedisHelper.convertAndSend("demo", "1232321321");
 
 	}
 

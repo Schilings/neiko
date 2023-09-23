@@ -48,7 +48,7 @@ public class LoginLog {
 	 */
 	@Column(comment = "客户端ID")
 	@Schema(title = "客户端ID")
-	private Long clientId;
+	private String clientId;
 
 	/**
 	 * 用户名

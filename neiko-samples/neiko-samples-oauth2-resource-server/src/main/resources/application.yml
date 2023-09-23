@@ -1,0 +1,119 @@
+server:
+  port: 8000
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: TRACE
+    org.springframework.security.oauth2: TRACE
+    
+
+#spring:
+#  security:
+#    oauth2:
+#      resourceserver:
+#        opaquetoken:
+#          introspection-uri: http://localhost:9000/oauth2/introspect
+#          # 远程令牌自省 客户端验证开启Basic验证
+#          client-id: messaging-client
+#          client-secret: secret
+#        jwt:
+#          issuer-uri: http://localhost:9000
+
+
+
+
+
+neiko:
+  security:
+    oauth2:
+      resourceserver:
+        opaquetoken: # 远程令牌自省 客户端验证开启Basic验证
+          introspection-uri: http://localhost:9000/oauth2/introspect
+          client-id: demo
+          client-secret: demo
+        jwt:
+          jwk-set-uri: http://localhost:9000/oauth2/jwks
+          issuer-uri: http://localhost:9000
+          jws-algorithms: 
+            - RS256
+          public-key-location: 'C://1.txt'
+          #audiences: 
+          #  - 1
+          #  - 2
+        
+        ignore-urls:
+          - /error/**
+          - /public/**
+          - /ws/**
+          - /actuator/**
+          - /doc.html
+          - /v2/api-docs/**
+          - /v3/api-docs/**
+          - /swagger-resources/**
+          - /swagger-ui/**
+          - /swagger-ui.html
+          - /webjars/**
+          - /bycdao-ui/**
+          - /favicon.ico
+          - /captcha/**
+          - /h2-console/**
+
+  openapi:
+    info:
+      title: Neiko-Resource Docs
+      description: Neiko 资源服务Api文档
+      version: ${project.version}
+      contact:
+        name: Schilings
+        email: 1146830743@qq.com
+        url: https://github.com/Schilings
+    cors-config:
+      enabled: true
+      allow-credentials: true
+      allowed-origin-patterns: '*'
+      allowed-methods: '*'
+      allowed-origins: '*'
+      allowed-headers: '*'
+      url-pattern: /**
+      max-age: 3600 
+    components:
+      security-schemes:
+        oauth2:
+          type: OAUTH2
+          flows:
+            password:
+              token-url: http://localhost:9000/oauth2/token
+              scopes:
+                message.read: scope1
+                message.write: scope2
+                openid: 获取OIDC ID TOKEN
+                skip_password_decode: 跳过密码加密解密处理
+                skip_captcha: 跳过验证码
+                authority_info_claim: 附带权限信息
+#            authorization-code:
+#              authorization-url: http://localhost:9000/oauth2/authorize
+#              token-url: http://localhost:9000/oauth2/token
+#              scopes:
+#                message.read: scope1
+#                message.write: scope2
+#                openid: 获取OIDC ID TOKEN
+#                skip_password_decode: 跳过密码加密解密处理
+#                skip_captcha: 跳过验证码
+#                authority_info_claim: 附带权限信息
+#            client-credentials:
+#              token-url: http://localhost:9000/oauth2/token
+#              scopes:
+#                message.read: scope1
+#                message.write: scope2
+#                openid: 获取OIDC ID TOKEN
+#                skip_password_decode: 跳过密码加密解密处理
+#                skip_captcha: 跳过验证码
+#                authority_info_claim: 附带权限信息
+
+## OPEN API接口文档 兼容knife4j
+springdoc:
+  swagger-ui:
+    enabled: true
+    urls:
+      - { name: 'sample', url: '/v3/api-docs' }

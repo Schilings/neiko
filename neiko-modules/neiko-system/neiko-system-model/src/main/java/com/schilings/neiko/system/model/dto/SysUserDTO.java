@@ -9,8 +9,8 @@ import com.schilings.neiko.common.core.validation.group.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -31,7 +31,7 @@ public class SysUserDTO {
 	/**
 	 * 前端传入密码
 	 */
-	@NotEmpty(message = "userId不能为空", groups = CreateGroup.class)
+	@NotEmpty(message = "密码不能为空", groups = CreateGroup.class)
 	@JsonRegexDesensitize(type = RegexDesensitizationTypeEnum.ENCRYPTED_PASSWORD)
 	@Schema(title = "前端传入密码")
 	private String pass;
@@ -45,14 +45,14 @@ public class SysUserDTO {
 	/**
 	 * 登录账号
 	 */
-	@NotEmpty(message = "登录账号为空")
+	@NotEmpty(message = "登录账号为空", groups = CreateGroup.class)
 	@Schema(title = "登录账号")
 	private String username;
 
 	/**
 	 * 昵称
 	 */
-	@NotEmpty(message = "昵称为空")
+	@NotEmpty(message = "昵称为空", groups = CreateGroup.class)
 	@Schema(title = "昵称")
 	private String nickname;
 
@@ -65,7 +65,7 @@ public class SysUserDTO {
 	/**
 	 * 性别(0-默认未知,1-男,2-女)
 	 */
-	@ValueInInts(message = "sex性别为(0-默认未知,1-男,2-女)", value = { 0, 1, 2 })
+	@ValueInInts(message = "sex性别为(0-默认未知,1-男,2-女)", value = { 0, 1, 2 }, allowNull = true)
 	@Schema(title = "性别(0-默认未知,1-男,2-女)")
 	private Integer sex;
 
@@ -84,7 +84,7 @@ public class SysUserDTO {
 	/**
 	 * 状态(1-正常,2-冻结)
 	 */
-	@ValueInInts(message = "status状态为(1-正常,2-冻结)", value = { 1, 2 })
+	@ValueInInts(message = "status状态为(1-正常,2-冻结)", value = { 1, 2 }, allowNull = true)
 	@Schema(title = "状态(1-正常,2-冻结)")
 	private Integer status;
 
@@ -99,5 +99,12 @@ public class SysUserDTO {
 	 */
 	@Schema(title = "角色标识列表")
 	private List<String> roleCodes;
+
+	/**
+	 * 用户类型
+	 */
+	@ValueInInts(message = "用户类型(1:系统用户， 2：客户用户)", value = { 1, 2 }, allowNull = true)
+	@Schema(title = "用户类型")
+	private Integer type;
 
 }

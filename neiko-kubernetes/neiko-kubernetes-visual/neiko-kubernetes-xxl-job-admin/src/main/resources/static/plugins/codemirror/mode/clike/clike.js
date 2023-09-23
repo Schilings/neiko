@@ -421,7 +421,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
   def(["text/x-c++src", "text/x-c++hdr"], {
     name: "clike",
     keywords: words(cKeywords + " dynamic_cast namespace reinterpret_cast try explicit new " +
-                    "static_cast typeid catch operator template typename class friend private " +
+                    "static_cast typeid catch operator stringRedisTemplate typename class friend private " +
                     "this using const_cast public throw virtual delete mutable protected " +
                     "alignas alignof constexpr decltype nullptr noexcept thread_local final " +
                     "static_assert override"),

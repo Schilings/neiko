@@ -1,0 +1,110 @@
+neiko:
+  system:
+    administrator:
+      user-id: 0
+      username: schilings
+    password-rule: ''
+  web:
+    pageable:
+      page-parameter-name: page
+      size-parameter-name: size
+      sort-parameter-name: sort
+      max-page-size: 100
+  redis:
+    key-prefix: 'neiko-'
+    null-value: 'N_V'
+    delimiter: ':'
+    thread-count: 10
+    expire-time: 3600
+  websocket:
+    message-distributor: local #使用 redis 做为消息分发器
+  oss:
+    enabled: false
+    endpoint: http://oss-cn-shenzhen.aliyuncs.com # oss-cn-shenzhen.aliyuncs.com
+    region: oss-cn-shenzhen
+    access-key: LTAI5t75M5VySn4baE63G5Ss
+    access-secret: fDGkh8U9nWaI5euYdCNEU6XUkPHKZP
+    bucket: schilings-ballcat # schilings-ballcat
+    path-style-access: false
+  file:
+    local:
+      # 这个可以不进行配置或者设置 空字符串, 这样文件就会和系统的临时文件放在一起
+      # '/opt/nginx/images'
+      path: #'D:/temp/' # 最后要加上 /
+  log:
+    access:
+      ignore-url-patterns:
+        - /error/**
+        - /public/**
+        - /ws/**
+        - /actuator/**
+        - /doc.html
+        - /v2/api-docs/**
+        - /v3/api-docs/**
+        - /swagger-resources/**
+        - /swagger-ui/**
+        - /swagger-ui.html
+        - /webjars/**
+        - /bycdao-ui/**
+        - /favicon.ico
+        - /captcha/**
+        - /h2-console/**
+  openapi:
+    info:
+      title: Neiko-Admin Docs
+      description: Neiko 后台管理服务Api文档
+      version: ${project.version}
+      contact:
+        name: Schilings
+        email: 1146830743@qq.com
+        url: https://github.com/Schilings
+    cors-config:
+      allow-credentials: true
+      allowed-headers: '*'
+      allowed-methods: '*'
+      allowed-origins: '*'
+      max-age: 3600
+      url-pattern: /**
+    components:
+      security-schemes:
+        oauth2:
+          type: OAUTH2
+          flows:
+            password:
+              token-url: /oauth2/token
+              scopes:
+                message.read: scope1
+                message.write: scope2
+                openid: 获取OIDC ID TOKEN
+                skip_password_decode: 跳过密码加密解密处理
+                skip_captcha: 跳过验证码
+                authority_info_claim: 附带权限信息
+        
+  security:
+    password-secret-key: '===Neiko-Auth==='
+    oauth2:
+      authorizationserver:
+        form-login-enabled: true
+        login-page-enabled: true
+        login-captcha-enabled: false
+      resourceserver:
+        ignore-urls: 
+          - /error/**
+          - /public/**
+          - /ws/**
+          - /actuator/**
+          - /doc.html
+          - /v2/api-docs/**
+          - /v3/api-docs/**
+          - /swagger-resources/**
+          - /swagger-ui/**
+          - /swagger-ui.html
+          - /webjars/**
+          - /bycdao-ui/**
+          - /favicon.ico
+          - /captcha/**
+          - /h2-console/**
+          - /oauth2Login
+          - /authorizeLogin
+
+

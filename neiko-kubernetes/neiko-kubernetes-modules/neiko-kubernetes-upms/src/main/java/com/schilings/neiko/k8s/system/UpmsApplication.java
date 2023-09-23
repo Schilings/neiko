@@ -18,7 +18,7 @@ public class UpmsApplication {
 		SpringApplication.run(UpmsApplication.class);
 	}
 
-	@Value("${dummy.message}")
+	@Value("${dummy.message:no message}")
 	private String value;
 
 	@Scheduled(fixedDelay = 5, timeUnit = TimeUnit.SECONDS)

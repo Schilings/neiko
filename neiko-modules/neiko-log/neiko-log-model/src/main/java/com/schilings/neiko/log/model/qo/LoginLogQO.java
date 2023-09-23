@@ -4,7 +4,7 @@ import com.schilings.neiko.log.enums.LoginEventTypeEnum;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import org.springdoc.api.annotations.ParameterObject;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
@@ -36,7 +36,7 @@ public class LoginLogQO {
 	 * 客户端ID
 	 */
 	@Parameter(description = "客户端ID")
-	private Long clientId;
+	private String clientId;
 
 	/**
 	 * 用户名
@@ -69,13 +69,13 @@ public class LoginLogQO {
 	 */
 	@DateTimeFormat(pattern = NORM_DATETIME_PATTERN)
 	@Parameter(description = "开始时间（登陆时间区间）")
-	private LocalDateTime startTime;
+	private String startTime;
 
 	/**
 	 * 登陆时间区间（结束时间）
 	 */
 	@DateTimeFormat(pattern = NORM_DATETIME_PATTERN)
 	@Parameter(description = "结束时间（登陆时间区间）")
-	private LocalDateTime endTime;
+	private String endTime;
 
 }

@@ -1,4 +1,0 @@
-org.springframework.context.ApplicationListener=\
-  com.schilings.neiko.extend.mybatis.plus.core.InterceptorConfig
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.schilings.neiko.extend.mybatis.plus.ExtendMybatisPlusAutoConfiguration

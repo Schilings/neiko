@@ -10,7 +10,7 @@ import com.schilings.neiko.common.excel.vo.ExcelException;
 import com.schilings.neiko.common.excel.properties.ExcelConfigProperties;
 import org.springframework.beans.factory.ObjectProvider;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**

@@ -1,0 +1,28 @@
+spring:
+  #如果使用h2测试，h2查询无法接受超过256长度的查询值，所以AuthorizationService#findByToken不一定返回有效结果、
+  #类似如下结果,jwt Token太长了
+  #The name that starts with "eyJraWQiOiJhNmI2YmU5MS0zZDA0LTRi" is too long. The maximum length is "256"; 
+  datasource:
+    url: jdbc:h2:mem:testdb;;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  # 下面的sql初始化只对内嵌数据库有效，看↓方法
+  # DataSourceScriptDatabaseInitializer#isEmbeddedDatabase
+  sql:
+    init:
+      schema-locations:
+        - file:E:\Code\neiko-all-version\1.0.0\neiko\database\scripts\all\neiko-schema.sql
+      data-locations:
+        - file:E:\Code\neiko-all-version\1.0.0\neiko\database\scripts\all\neiko-data.sql
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: true
+  data:
+    redis:
+      host: 47.113.200.136
+      port: 6379
+      database: 15

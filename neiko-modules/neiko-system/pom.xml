@@ -14,6 +14,7 @@
         <module>neiko-system-model</module>
         <module>neiko-system-api</module>
         <module>neiko-system-biz</module>
+        <module>neiko-system-remote</module>
     </modules>
 
 </project>

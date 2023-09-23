@@ -1,0 +1,15 @@
+server:
+  port: 8000
+
+
+spring:
+  profiles:
+    active: client
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: TRACE
+    org.springframework.security.oauth2: TRACE
+#    org.springframework.boot.autoconfigure: DEBUG

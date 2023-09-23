@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 
 import static com.schilings.neiko.common.model.result.BaseResultCode.LOGIC_CHECK_ERROR;
 
@@ -29,6 +29,8 @@ import static com.schilings.neiko.common.model.result.BaseResultCode.LOGIC_CHECK
  *
  * @author Schilings
  */
+
+@Deprecated
 @ControllerAdvice(annotations = { ValidationExceptionHandler.class })
 @Slf4j
 public class GlobalValidationExceptionHandler {

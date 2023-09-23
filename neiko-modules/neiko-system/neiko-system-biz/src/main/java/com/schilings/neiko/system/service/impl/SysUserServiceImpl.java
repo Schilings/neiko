@@ -7,7 +7,6 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.schilings.neiko.common.core.exception.ServiceException;
-import com.schilings.neiko.common.event.publisher.EventBus;
 import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;
 import com.schilings.neiko.common.model.domain.SelectData;
@@ -15,6 +14,7 @@ import com.schilings.neiko.common.model.result.BaseResultCode;
 import com.schilings.neiko.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import com.schilings.neiko.file.service.FileService;
 import com.schilings.neiko.system.checker.AdminstratorChecker;
+import com.schilings.neiko.system.component.PasswordHelper;
 import com.schilings.neiko.system.constant.SysUserConst;
 import com.schilings.neiko.system.converter.SysUserConverter;
 import com.schilings.neiko.system.event.UserCreatedEvent;
@@ -28,7 +28,6 @@ import com.schilings.neiko.system.model.entity.SysRole;
 import com.schilings.neiko.system.model.entity.SysUser;
 import com.schilings.neiko.system.model.qo.SysUserQO;
 import com.schilings.neiko.system.model.vo.SysUserPageVO;
-import com.schilings.neiko.system.security.PasswordHelper;
 import com.schilings.neiko.system.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,15 +48,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
-	private final EventBus eventBus;
-
 	private final ApplicationEventPublisher publisher;
 
 	private final FileService fileService;
 
 	private final AdminstratorChecker adminstratorChecker;
-
-	private final PasswordHelper passwordHelper;
 
 	private final SysMenuService sysMenuService;
 
@@ -66,6 +61,8 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	private final SysUserRoleService sysUserRoleService;
 
 	private final SysRoleMenuService sysRoleMenuService;
+
+	private final PasswordHelper passwordHelper;
 
 	/**
 	 * 根据QueryObject查询系统用户列表
@@ -86,6 +83,27 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	@Override
 	public SysUser getByUsername(String username) {
 		return baseMapper.selectByUsername(username);
+	}
+
+	/**
+	 * 根据用户名和用户类型查询用户
+	 * @param username 用户名
+	 * @param userType 用户类型
+	 * @return 系统用户
+	 */
+	@Override
+	public SysUser getByUsernameAndType(String username, Integer userType) {
+		return baseMapper.selectByUsernameAndType(username, userType);
+	}
+
+	/**
+	 * 查询用户
+	 * @param username 用户名
+	 * @return 系统用户
+	 */
+	@Override
+	public SysUser getOAuth2UserIfUnkonw(String username, String email, String phone) {
+		return baseMapper.selectByUsernameOrEmailOrPhone(username, email, phone);
 	}
 
 	/**
@@ -115,17 +133,24 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 		userInfoDTO.setRoleCodes(roleCodes);
 
 		// 设置权限列表（permission）
-		List<SysMenu> menus = sysMenuService.list();
-		List<String> permissions = menus.stream().map(SysMenu::getPermission).filter(StrUtil::isNotEmpty)
-				.collect(Collectors.toList());
-		// for (String roleCode : roleCodes) {
-		// List<SysMenu> sysMenuList = sysRoleMenuService.listMenus(roleCode);
-		// menus.addAll(sysMenuList);
-		// List<String> permissionList =
-		// sysMenuList.stream().map(SysMenu::getPermission).filter(StrUtil::isNotEmpty)
-		// .collect(Collectors.toList());
-		// permissions.addAll(permissionList);
-		// }
+		Set<SysMenu> menus = null;
+		Set<String> permissions = null;
+		if (adminstratorChecker.isAdminstrator(sysUser)) {
+			menus = new HashSet<>(sysMenuService.list());
+			permissions = menus.stream().map(SysMenu::getPermission).filter(StrUtil::isNotEmpty)
+					.collect(Collectors.toSet());
+		}
+		else {
+			menus = new HashSet<>();
+			permissions = new HashSet<>();
+			for (String roleCode : roleCodes) {
+				List<SysMenu> sysMenuList = sysRoleMenuService.listMenus(roleCode);
+				menus.addAll(sysMenuList);
+				Set<String> permissionList = sysMenuList.stream().map(SysMenu::getPermission)
+						.filter(StrUtil::isNotEmpty).collect(Collectors.toSet());
+				permissions.addAll(permissionList);
+			}
+		}
 		userInfoDTO.setMenus(menus);
 		userInfoDTO.setPermissions(permissions);
 
@@ -138,12 +163,13 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	 * @return boolean
 	 */
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public boolean addSysUser(SysUserDTO sysUserDto) {
 		SysUser sysUser = SysUserConverter.INSTANCE.dtoToPo(sysUserDto);
 		sysUser.setType(SysUserConst.Type.SYSTEM.getValue());
 		// 对密码进行加密
 		String rawPassword = sysUserDto.getPass();
-		String encodedPassword = passwordHelper.encode(rawPassword, null);
+		String encodedPassword = passwordHelper.encode(rawPassword);
 		sysUser.setPassword(encodedPassword);
 
 		// 保存用户
@@ -239,7 +265,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	public boolean updatePassword(Long userId, String rawPassword) {
 		Assert.isTrue(adminstratorChecker.hasModifyPermission(getById(userId)), "当前用户不允许修改!");
 		// 密码加密加密
-		String encodedPassword = passwordHelper.encode(rawPassword, null);
+		String encodedPassword = passwordHelper.encode(rawPassword);
 		return baseMapper.updatePassword(userId, encodedPassword);
 	}
 
@@ -249,6 +275,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	 * @return 更新成功：true
 	 */
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public boolean updateUserStatusBatch(Collection<Long> userIds, Integer status) {
 
 		List<SysUser> userList = baseMapper.listByUserIds(userIds);

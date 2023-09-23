@@ -1,8 +1,9 @@
 package com.schilings.neiko.common.util.spring;
 
 import org.springframework.context.expression.MethodBasedEvaluationContext;
-import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
+
 import org.springframework.core.ParameterNameDiscoverer;
+import org.springframework.core.StandardReflectionParameterNameDiscoverer;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
@@ -10,11 +11,6 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 import java.lang.reflect.Method;
 import java.util.List;
 
-/**
- * @author Hccake
- * @version 1.0
- * @date 2019/9/3 10:29
- */
 @SuppressWarnings("SpellCheckingInspection")
 public final class SpelUtils {
 
@@ -29,7 +25,7 @@ public final class SpelUtils {
 	/**
 	 * 方法参数获取
 	 */
-	public static final ParameterNameDiscoverer PARAMETER_NAME_DISCOVERER = new LocalVariableTableParameterNameDiscoverer();
+	public static final ParameterNameDiscoverer PARAMETER_NAME_DISCOVERER = new StandardReflectionParameterNameDiscoverer();
 
 	/**
 	 * 支持 #p0 参数索引的表达式解析

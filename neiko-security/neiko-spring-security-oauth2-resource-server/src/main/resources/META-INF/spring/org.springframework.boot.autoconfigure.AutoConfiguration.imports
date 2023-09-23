@@ -1,0 +1,2 @@
+com.schilings.neiko.security.oauth2.resource.server.autoconfigure.ResourceServerAutoConfiguration
+com.schilings.neiko.security.oauth2.resource.server.autoconfigure.MvcSecurityAutoConfiguration

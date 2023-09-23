@@ -25,8 +25,6 @@
         <result property="createdDatetime" column="created_datetime"/>
         <result property="updatedDatetime" column="updated_datetime"/>
         
-        
-        
         <result property="outOrderType" column="out_order_type"/>
         <result property="outOrderCode" column="out_crder_code"/>
         <result property="podRefId_PRO" column="podRefId_PRO"/>

@@ -1,6 +1,7 @@
 package com.schilings.neiko.common.cache.components;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
@@ -17,7 +18,7 @@ public interface CacheManager {
 	 * 获取所有缓存的键
 	 * @return
 	 */
-	Collection<String> getCacheKeys();
+	// Collection<String> getCacheKeys() throws IOException;
 
 	void put(String repository, String key, Object value) throws IOException;
 
@@ -27,18 +28,10 @@ public interface CacheManager {
 
 	void syncPut(String repository, String key, Object value, long ttl, TimeUnit unit) throws IOException;
 
-	boolean putIfAbsent(String repository, String key, Object value) throws IOException;
+	Object get(String repository, String key, Type javaTyp) throws IOException;
 
-	boolean putIfAbsent(String repository, String key, Object value, long ttl, TimeUnit unit) throws IOException;
-
-	Object get(String repository, String key) throws IOException;
-
-	Object syncGet(String repository, String key) throws IOException;
+	Object syncGet(String repository, String key, Type javaTyp) throws IOException;
 
 	void evict(String repository, String key);
-
-	boolean evictIfPresent(String repository, String key) throws IOException;
-
-	void clear(String repository);
 
 }

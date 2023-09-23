@@ -14,24 +14,29 @@
         <option value="$PROJECT_DIR$/Neiko-dependencies/pom.xml" />
         <option value="$PROJECT_DIR$/Neiko-common/Neiko-common-model/pom.xml" />
         <option value="$PROJECT_DIR$/neiko-samples/neiko-samples-common-event/pom.xml" />
-        <option value="$PROJECT_DIR$/neiko-starters/neiko-spring-boot-starter-shiro/pom.xml" />
-        <option value="$PROJECT_DIR$/neiko-samples/neiko-samples-starter-shiro/pom.xml" />
         <option value="$PROJECT_DIR$/neiko-auth/pom.xml" />
         <option value="$PROJECT_DIR$/neiko-admin/neiko-admin-websocket/pom.xml" />
+        <option value="$PROJECT_DIR$/neiko-kubernetes/pom.xml" />
+        <option value="$PROJECT_DIR$/neiko-rpc/pom.xml" />
+        <option value="$PROJECT_DIR$/neiko-samples/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/Neiko-common-util/pom.xml" />
         <option value="$PROJECT_DIR$/neiko-common-excel/pom.xml" />
+        <option value="$PROJECT_DIR$/neiko-common/neiko-common-shiro/pom.xml" />
         <option value="$PROJECT_DIR$/neiko-common/neiko-common-web/pom.xml" />
+        <option value="$PROJECT_DIR$/neiko-extend/neiko-extend-sa-token/pom.xml" />
+        <option value="$PROJECT_DIR$/neiko-modules/neiko-auth/pom.xml" />
+        <option value="$PROJECT_DIR$/neiko-samples/neiko-samples-admin-service-provider/pom.xml" />
         <option value="$PROJECT_DIR$/neiko-samples/neiko-test-redis/pom.xml" />
         <option value="$PROJECT_DIR$/neiko-system-api/pom.xml" />
         <option value="$PROJECT_DIR$/neiko-system-biz/pom.xml" />
       </set>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="graalvm-17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="ProjectType">

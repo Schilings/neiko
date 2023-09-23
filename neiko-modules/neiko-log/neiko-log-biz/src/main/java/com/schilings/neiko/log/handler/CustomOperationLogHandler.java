@@ -1,6 +1,7 @@
 package com.schilings.neiko.log.handler;
 
 import cn.hutool.core.util.URLUtil;
+import com.schilings.neiko.authorization.common.util.SecurityUtils;
 import com.schilings.neiko.common.log.constants.LogConstant;
 import com.schilings.neiko.common.log.operation.annotation.OperationLogging;
 import com.schilings.neiko.common.log.operation.enums.LogStatusEnum;
@@ -8,16 +9,16 @@ import com.schilings.neiko.common.log.operation.handler.AbstractOperationLogHand
 import com.schilings.neiko.common.util.ip.IpUtils;
 import com.schilings.neiko.common.util.json.JsonUtils;
 import com.schilings.neiko.common.util.web.WebUtils;
-import com.schilings.neiko.extend.sa.token.holder.RBACAuthorityHolder;
-import com.schilings.neiko.extend.sa.token.oauth2.pojo.UserDetails;
+
 import com.schilings.neiko.log.model.entity.OperationLog;
 import com.schilings.neiko.log.service.OperationLogService;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.slf4j.MDC;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -63,8 +64,8 @@ public class CustomOperationLogHandler extends AbstractOperationLogHandler<Opera
 		}
 
 		// 操作用户
-		Optional.ofNullable(RBACAuthorityHolder.getUserDetails())
-				.ifPresent(x -> operationLog.setOperator(((UserDetails) x).getUsername()));
+		Optional.ofNullable(SecurityUtils.getUser()).ifPresent(x -> operationLog.setOperator(x.getUsername()));
+
 		return operationLog;
 	}
 

@@ -21,7 +21,7 @@ public class UserSessionKeyGenerator implements SessionKeyGenerator {
 	 */
 	@Override
 	public Object sessionKey(WebSocketSession webSocketSession) {
-		return Long.valueOf((String) webSocketSession.getAttributes().get(AdminWebSocketConstants.USER_KEY_ATTR_NAME));
+		return webSocketSession.getAttributes().get(AdminWebSocketConstants.USER_KEY_ATTR_NAME);
 	}
 
 }

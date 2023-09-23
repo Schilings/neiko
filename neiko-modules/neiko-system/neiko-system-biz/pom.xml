@@ -21,14 +21,6 @@
         </dependency>
         <dependency>
             <groupId>com.schilings</groupId>
-            <artifactId>neiko-extend-sa-token</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.schilings</groupId>
-            <artifactId>neiko-common-event</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.schilings</groupId>
             <artifactId>neiko-common-redis</artifactId>
         </dependency>
         <dependency>
@@ -37,9 +29,9 @@
         </dependency>
         <dependency>
             <groupId>com.schilings</groupId>
-            <artifactId>neiko-common-security</artifactId>
+            <artifactId>neiko-authorization-common</artifactId>
+            <version>${revision}</version>
         </dependency>
-        
         
         <!--neiko system-->
         <dependency>

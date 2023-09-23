@@ -34,6 +34,7 @@ public class ApplicationTest {
 
 	@Test
 	public void getOrderSimple() {
+
 		List<Preorders> list = preorderMapper.selectJoinList(Preorders.class, AUTO_RESULT_MAP,
 				new NeikoQueryWrapper<Preorders>().setAlias("pre").selectAll(Preorders.class)
 						.leftJoin("gas_station gs ON pre.gas_station_id = gs.id").eq("pre.deleted", "1"));

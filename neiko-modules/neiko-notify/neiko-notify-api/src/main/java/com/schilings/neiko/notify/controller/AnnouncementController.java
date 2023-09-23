@@ -1,5 +1,6 @@
 package com.schilings.neiko.notify.controller;
 
+import com.schilings.neiko.authorization.common.util.SecurityUtils;
 import com.schilings.neiko.common.log.operation.annotation.CreateOperationLogging;
 import com.schilings.neiko.common.log.operation.annotation.DeleteOperationLogging;
 import com.schilings.neiko.common.log.operation.annotation.UpdateOperationLogging;
@@ -7,9 +8,6 @@ import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;
 import com.schilings.neiko.common.model.result.BaseResultCode;
 import com.schilings.neiko.common.model.result.R;
-import com.schilings.neiko.extend.sa.token.holder.RBACAuthorityHolder;
-import com.schilings.neiko.extend.sa.token.oauth2.annotation.OAuth2CheckPermission;
-import com.schilings.neiko.extend.sa.token.oauth2.annotation.OAuth2CheckScope;
 import com.schilings.neiko.notify.model.dto.AnnouncementDTO;
 import com.schilings.neiko.notify.model.entity.Announcement;
 import com.schilings.neiko.notify.model.qo.AnnouncementQO;
@@ -18,14 +16,16 @@ import com.schilings.neiko.notify.service.AnnouncementService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.List;
 
-@OAuth2CheckScope("system")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/notify/announcement")
@@ -41,7 +41,7 @@ public class AnnouncementController {
 	 * @return R 通用返回体
 	 */
 	@GetMapping("/page")
-	@OAuth2CheckPermission("notify:announcement:read")
+	@PreAuthorize(value = "hasAuthority('notify:announcement:read')")
 	@Operation(summary = "分页查询", description = "分页查询")
 	public R<PageResult<AnnouncementPageVO>> getAnnouncementPage(@Validated PageParam pageParam,
 			AnnouncementQO announcementQO) {
@@ -55,7 +55,7 @@ public class AnnouncementController {
 	 */
 	@CreateOperationLogging(msg = "新增公告信息")
 	@PostMapping
-	@OAuth2CheckPermission("notify:announcement:add")
+	@PreAuthorize(value = "hasAuthority('notify:announcement:add')")
 	@Operation(summary = "新增公告信息", description = "新增公告信息")
 	public R<Void> save(@Valid @RequestBody AnnouncementDTO announcementDTO) {
 		return announcementService.addAnnouncement(announcementDTO) ? R.ok()
@@ -69,7 +69,7 @@ public class AnnouncementController {
 	 */
 	@UpdateOperationLogging(msg = "修改公告信息")
 	@PutMapping
-	@OAuth2CheckPermission("notify:announcement:edit")
+	@PreAuthorize(value = "hasAuthority('notify:announcement:edit')")
 	@Operation(summary = "修改公告信息", description = "修改公告信息")
 	public R<Void> updateById(@Valid @RequestBody AnnouncementDTO announcementDTO) {
 		return announcementService.updateAnnouncement(announcementDTO) ? R.ok()
@@ -83,7 +83,7 @@ public class AnnouncementController {
 	 */
 	@DeleteOperationLogging(msg = "通过id删除公告信息")
 	@DeleteMapping("/{id}")
-	@OAuth2CheckPermission("notify:announcement:del")
+	@PreAuthorize(value = "hasAuthority('notify:announcement:del')")
 	@Operation(summary = "通过id删除公告信息", description = "通过id删除公告信息")
 	public R<Void> removeById(@PathVariable("id") Long id) {
 		return announcementService.removeById(id) ? R.ok()
@@ -96,7 +96,7 @@ public class AnnouncementController {
 	 */
 	@UpdateOperationLogging(msg = "发布公告信息")
 	@PatchMapping("/publish/{announcementId}")
-	@OAuth2CheckPermission("notify:announcement:edit")
+	@PreAuthorize(value = "hasAuthority('notify:announcement:edit')")
 	@Operation(summary = "发布公告信息", description = "发布公告信息")
 	public R<Void> enableAnnouncement(@PathVariable("announcementId") Long announcementId) {
 		return announcementService.publish(announcementId) ? R.ok()
@@ -109,7 +109,7 @@ public class AnnouncementController {
 	 */
 	@UpdateOperationLogging(msg = "关闭公告信息")
 	@PatchMapping("/close/{announcementId}")
-	@OAuth2CheckPermission("notify:announcement:edit")
+	@PreAuthorize(value = "hasAuthority('notify:announcement:edit')")
 	@Operation(summary = "关闭公告信息", description = "关闭公告信息")
 	public R<Void> disableAnnouncement(@PathVariable("announcementId") Long announcementId) {
 		return announcementService.close(announcementId) ? R.ok()
@@ -117,7 +117,7 @@ public class AnnouncementController {
 	}
 
 	@UpdateOperationLogging(msg = "公告内容图片上传", recordParams = false)
-	@OAuth2CheckPermission("notify:announcement:edit")
+	@PreAuthorize(value = "hasAuthority('notify:announcement:edit')")
 	@PostMapping("/image")
 	@Operation(summary = "公告内容图片上传", description = "公告内容图片上传")
 	public R<List<String>> uploadImages(@RequestParam("files") List<MultipartFile> files) {
@@ -126,10 +126,10 @@ public class AnnouncementController {
 	}
 
 	@GetMapping("/user")
-	@OAuth2CheckPermission("notify:userannouncement:read")
+	@PreAuthorize(value = "hasAuthority('notify:userannouncement:read')")
 	@Operation(summary = "用户公告信息", description = "用户公告信息")
 	public R<List<Announcement>> getUserAnnouncements() {
-		Long userId = Long.valueOf(RBACAuthorityHolder.getUserDetails().getUserId());
+		Long userId = SecurityUtils.getUser().getUserId();
 		return R.ok(announcementService.listActiveAnnouncements(userId));
 	}
 

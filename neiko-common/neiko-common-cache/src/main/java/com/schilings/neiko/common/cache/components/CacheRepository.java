@@ -1,6 +1,7 @@
 package com.schilings.neiko.common.cache.components;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -10,9 +11,9 @@ public interface CacheRepository {
 
 	String getName();
 
-	Object get(String key) throws IOException;
+	Object get(String key, Type type) throws IOException;
 
-	Object syncGet(String key) throws IOException;
+	Object syncGet(String key, Type type) throws IOException;
 
 	void put(String key, Object value) throws IOException;
 

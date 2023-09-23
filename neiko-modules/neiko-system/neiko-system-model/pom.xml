@@ -23,10 +23,6 @@
         </dependency>
         <dependency>
             <groupId>com.schilings</groupId>
-            <artifactId>neiko-common-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.schilings</groupId>
             <artifactId>neiko-common-easyexcel</artifactId>
         </dependency>
         
@@ -42,12 +38,13 @@
         <dependency>
             <groupId>com.gitee.sunchenbin.mybatis.actable</groupId>
             <artifactId>mybatis-enhance-actable</artifactId>
+            <scope>provided</scope>
         </dependency>
         
         <!--validation-->
         <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
         </dependency>
     </dependencies>
 

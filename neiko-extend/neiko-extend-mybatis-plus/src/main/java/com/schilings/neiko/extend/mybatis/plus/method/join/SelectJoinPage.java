@@ -8,6 +8,10 @@ import org.apache.ibatis.mapping.SqlSource;
 
 public class SelectJoinPage extends JoinAbstractMethod {
 
+	public SelectJoinPage() {
+		super(SqlMethod.SELECT_JOIN_PAGE.getMethod());
+	}
+
 	@Override
 	public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
 		/**

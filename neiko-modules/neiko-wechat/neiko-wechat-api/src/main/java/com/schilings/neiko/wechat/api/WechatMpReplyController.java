@@ -5,8 +5,6 @@ import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;
 import com.schilings.neiko.common.model.result.BaseResultCode;
 import com.schilings.neiko.common.model.result.R;
-import com.schilings.neiko.extend.sa.token.oauth2.annotation.OAuth2CheckPermission;
-import com.schilings.neiko.extend.sa.token.oauth2.annotation.OAuth2CheckScope;
 import com.schilings.neiko.wechat.service.WechatMpReplyService;
 import com.schilings.neiko.wechat.constant.WechatMpConst;
 import com.schilings.neiko.wechat.model.dto.WechatMpReplyDTO;
@@ -16,12 +14,12 @@ import com.schilings.neiko.wechat.model.vo.WechatMpReplyPageVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.groups.Default;
+import jakarta.validation.groups.Default;
 
-@OAuth2CheckScope("system")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/wechat/reply")
@@ -31,7 +29,7 @@ public class WechatMpReplyController {
 	private final WechatMpReplyService wechatMpReplyService;
 
 	@GetMapping("/page")
-	@OAuth2CheckPermission("wechat:mpreply:read")
+	@PreAuthorize("hasAuthority('wechat:mpreply:read')")
 	@Operation(summary = "分页查询微信公众号自定义回复")
 	public R<PageResult<WechatMpReplyPageVO>> getMpReplyPage(@Validated PageParam pageParam, WechatMpReplyQO qo) {
 		return R.ok(wechatMpReplyService.queryPage(pageParam, qo));
@@ -43,7 +41,7 @@ public class WechatMpReplyController {
 	 * @return R
 	 */
 	@GetMapping("/{id}")
-	@OAuth2CheckPermission("wechat:mpreply:read")
+	@PreAuthorize("hasAuthority('wechat:mpreply:read')")
 	@Operation(summary = "通过id查询微信公众号自定义回复")
 	public R<WechatMpReply> get(@PathVariable("id") Long id) {
 		return R.ok(wechatMpReplyService.getById(id));
@@ -54,7 +52,7 @@ public class WechatMpReplyController {
 	 * @return R
 	 */
 	@PostMapping
-	@OAuth2CheckPermission("wechat:mpreply:add")
+	@PreAuthorize("hasAuthority('wechat:mpreply:add')")
 	@Operation(summary = "新增微信公众号自定义回复")
 	public R addMpReply(
 			@Validated({ Default.class, CreateGroup.class }) @RequestBody WechatMpReplyDTO wechatMpReplyDTO) {

@@ -1,9 +1,13 @@
 package com.schilings.neiko.log.model.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+
+import static cn.hutool.core.date.DatePattern.NORM_DATETIME_PATTERN;
 
 /**
  *
@@ -35,7 +39,7 @@ public class AccessLogPageVO {
 	 * 用户ID
 	 */
 	@Schema(title = "用户ID")
-	private Integer userId;
+	private Long userId;
 
 	/**
 	 * 用户名
@@ -113,6 +117,7 @@ public class AccessLogPageVO {
 	 * 创建时间
 	 */
 	@Schema(title = "创建时间")
+	@JsonFormat(pattern = NORM_DATETIME_PATTERN, timezone = "GMT+8")
 	private LocalDateTime createTime;
 
 }

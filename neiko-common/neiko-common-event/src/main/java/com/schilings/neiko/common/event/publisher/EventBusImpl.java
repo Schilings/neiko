@@ -10,10 +10,13 @@ import io.netty.util.concurrent.DefaultThreadFactory;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.MethodParameter;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <pre>{@code
@@ -64,15 +67,26 @@ public class EventBusImpl extends AbstractEventBus {
 	@Override
 	public Object requestBlocking(Object o) {
 		List<EventHandler> handlers = getHandlers(o);
-		if (handlers != null && handlers.size() >= 2) {
-			throw new EventRequestException("The handler for event request can not be more than 2.");
-		}
-		EventHandler eventHandler = handlers.get(0);
-		EvenHandlerMethodAdater adater = null;
-		if (eventHandler instanceof EvenHandlerMethodAdater) {
-			adater = (EvenHandlerMethodAdater) eventHandler;
-			adater.handle(o);
-			return adater.getResult();
+		if (handlers != null) {
+			List<EventHandler> eventHandlers = handlers.stream().filter(handler -> {
+				if (handler instanceof EvenHandlerMethodAdater) {
+					EvenHandlerMethodAdater methodAdater = (EvenHandlerMethodAdater) handler;
+					boolean isVoid = methodAdater.getHandlerMethod().getMethod().getReturnType().getSimpleName()
+							.equals(StringUtils.lowerCase(Void.class.getSimpleName()));
+					return !isVoid;
+				}
+				return false;
+			}).collect(Collectors.toList());
+			if (eventHandlers.size() >= 2) {
+				throw new EventRequestException("The handler for event request can not be more than 2.");
+			}
+			EvenHandlerMethodAdater adater = null;
+			if (eventHandlers.get(0) instanceof EvenHandlerMethodAdater) {
+				adater = (EvenHandlerMethodAdater) eventHandlers.get(0);
+				adater.handle(o);
+				return adater.getResult();
+			}
+
 		}
 		throw new EventRequestException("The handler for event request can not return result.");
 	}

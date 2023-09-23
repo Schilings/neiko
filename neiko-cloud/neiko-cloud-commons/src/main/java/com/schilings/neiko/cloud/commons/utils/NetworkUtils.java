@@ -20,7 +20,7 @@ public class NetworkUtils {
 	private static InetUtils inet;
 
 	public NetworkUtils(InetUtils inetUtils) {
-		this.inet = SpringUtils.getBean(InetUtils.class);
+		inet = SpringUtils.getBean(InetUtils.class);
 		Assert.notNull(inetUtils, "NetworkUtils can not be null");
 	}
 

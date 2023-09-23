@@ -53,29 +53,22 @@ public class RedisCacheRepository extends AbstractCacheRepository {
 	}
 
 	@Override
-	public Object get(String key) throws IOException {
-		// 获取缓存的数据类型
-		Type type = returnTypes.get(key);
-		// 如果类型存在，说明放入过缓存中
-		if (type != null) {
-			// 如果放入的为空值标识符
-			String value = valueOperations.get(key);
-			// 如果拿出的为null，说明可能缓存已经过期,直接返回空
-			if (value == null) {
-				return null;
-			}
-			if (value.equals(RedisCachePropertiesHolder.nullValue())) {
-				return CacheExpressionEvaluator.NO_RESULT;
-			}
-			return cacheSerializer.deserialize(value, type);
+	public Object get(String key, Type type) throws IOException {
+		// 如果放入的为空值标识符
+		String value = valueOperations.get(key);
+		// 如果拿出的为null，说明可能缓存已经过期,直接返回空
+		if (value == null) {
+			return null;
 		}
-		return null;
+		if (value.equals(RedisCachePropertiesHolder.nullValue())) {
+			return CacheExpressionEvaluator.NO_RESULT;
+		}
+		return cacheSerializer.deserialize(value, type);
 	}
 
 	@Override
-	public Object syncGet(String key) throws IOException {
-		// 这里不做同步，使用原本neiko-common-cache就有的第一重读锁
-		return get(key);
+	public Object syncGet(String key, Type type) throws IOException {
+		return get(key, type);
 	}
 
 	@Override
@@ -83,12 +76,10 @@ public class RedisCacheRepository extends AbstractCacheRepository {
 		// 如果值是空值标识，则在缓存中放入空值标识符
 		if (value == CacheExpressionEvaluator.NO_RESULT) {
 			valueOperations.set(key, RedisCachePropertiesHolder.nullValue());
-			returnTypes.put(key, ResolvableType.forInstance(RedisCachePropertiesHolder.nullValue()).getType());
 			return;
 		}
 		// 如果不是空值标识，直接放入
 		valueOperations.set(key, cacheSerializer.serialize(value));
-		returnTypes.put(key, ResolvableType.forInstance(value).getType());
 	}
 
 	@Override
@@ -96,13 +87,10 @@ public class RedisCacheRepository extends AbstractCacheRepository {
 		// 如果值是空值标识，则在缓存中放入空值标识符
 		if (value == CacheExpressionEvaluator.NO_RESULT) {
 			setWithTtl(key, RedisCachePropertiesHolder.nullValue(), ttl, unit);
-			returnTypes.put(key, ResolvableType.forInstance(RedisCachePropertiesHolder.nullValue()).getType());
 			return;
 		}
 		// 将结果序列化后存入缓存
 		setWithTtl(key, cacheSerializer.serialize(value), ttl, unit);
-		// 存入返回的数据类型
-		returnTypes.put(key, ResolvableType.forInstance(value).getType());
 	}
 
 	@Override
@@ -140,7 +128,6 @@ public class RedisCacheRepository extends AbstractCacheRepository {
 	@Override
 	public void evict(String key) {
 		redisTemplate.delete(key);
-		returnTypes.remove(key);
 	}
 
 }

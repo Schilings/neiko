@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.schilings.neiko.common.core.desensitize.DesensitizationExpressionEvaluator;
 import com.schilings.neiko.common.core.desensitize.DesensitizationHandlerHolder;
-import com.schilings.neiko.common.core.desensitize.annotation.JsonDesensitize;
 import com.schilings.neiko.common.core.desensitize.handler.DesensitizationHandler;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.BeanFactory;
@@ -51,7 +50,7 @@ public class JsonDesensitizationSerializer extends JsonSerializer<Object> implem
 		Assert.notNull(handlerClass, "Handler Class of JsonDesensitizeAnnotation must not be null");
 
 		this.handler = DesensitizationHandlerHolder.getHandler(handlerClass);
-		Assert.notNull(handlerClass, "DesensitizationHandler of JsonDesensitizeAnnotation must not be null");
+		Assert.notNull(this.handler, "DesensitizationHandler of JsonDesensitizeAnnotation must not be null");
 
 		this.description = description;
 		this.beanFactory = beanFactory;
@@ -60,25 +59,18 @@ public class JsonDesensitizationSerializer extends JsonSerializer<Object> implem
 
 	@SneakyThrows
 	@Override
-	public void serialize(Object value, JsonGenerator jsonGenerator, SerializerProvider serializers)
-			throws IOException {
-		if (value instanceof String) {
-			String str = (String) value;
+	public void serialize(Object value, JsonGenerator jsonGenerator, SerializerProvider serializers) {
+		if (value instanceof String str) {
 			// 字段名
 			String fieldName = jsonGenerator.getOutputContext().getCurrentName();
 			AnnotatedElementKey elementKey = new AnnotatedElementKey(
 					description.getBeanClass().getDeclaredField(fieldName), description.getBeanClass());
 			if (conditionPass(str, elementKey)) {
-				if (handler == null) {
-					jsonGenerator.writeString(str);
-					return;
-				}
 				jsonGenerator.writeString(handler.handle(jsonDesensitizeAnnotation, str));
 				return;
 			}
 			// 未开启脱敏
 			jsonGenerator.writeString(str);
-			return;
 		}
 	}
 

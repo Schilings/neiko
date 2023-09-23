@@ -78,23 +78,23 @@ public class DemoController {
 	}
 
 	@RedisListener(value = "test", condition = "#p0.id==100")
-	public void testListener1(DTO message, String pattern) {
+	public void testListener1(DTO message, String channel) {
 		System.out.println(message);
-		System.out.println(pattern);
+		System.out.println(channel);
 		System.out.println("test1 test1 test1");
 	}
 
 	@RedisListener(value = "test")
-	public void testListener2(String message, String pattern) {
+	public void testListener2(String message, String channel) {
 		System.out.println(message);
-		System.out.println(pattern);
+		System.out.println(channel);
 		System.out.println("test2 test2 test2");
 	}
 
 	@RedisListener(value = "demo")
-	public void testListener3(String message, String pattern) {
+	public void testListener3(String message, String channel) {
 		System.out.println(message);
-		System.out.println(pattern);
+		System.out.println(channel);
 		System.out.println("demo demo demo");
 	}
 

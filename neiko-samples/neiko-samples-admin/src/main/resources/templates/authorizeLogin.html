@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <title>OAuth2Login</title>
+</head>
+<script>
+    //1、设置或获取整个url： window.location.href
+    // http://www.jianshu.com/c/bd38bd199ec6?utm_medium=index-collections&utm_source=desktop#name
+    var href = window.location.href;
+    //2、设置或获取 url 的 protocol 协议部分：window.location.protocol
+    // http
+    var protocol = window.location.protocol;
+    //3、设置或获取 url 的主机名：window.location.host
+    // www.jianshu.com
+    var post = window.location.post;
+    //4、设置或获取 url 的端口：window.location.port
+    //空字符(如果采用默认的80端口(update:即使添加了:80)，那么返回值并不是默认的80而是空字符)
+    var port = window.location.port;
+    //5、设置或获取 url 的路径：window.location.pathname
+    //  /c/bd38bd199ec6
+    var pathname = window.location.pathname;
+    //6、设置或获取 url 的参数：window.location.search
+    //  ?utm_medium=index-collections&utm_source=desktop
+    var search = window.location.search;
+    //7、设置或获取 页面的锚点：window.location.hash
+    //  #name
+    var hash = window.location.hash;
+
+    var code = getQueryString("code");
+    var url = "http://localhost:9000/oauth2/token";
+    var url_remote = "http://120.25.221.239:9000/oauth2/token";
+    var redirect_uri_remote = "http://120.25.221.239:9000/authorizeLogin";
+    var obj = {
+        grant_type: 'authorization_code',
+        scope: 'message.read message.write',
+        client_id:'test',
+        client_secret:'test',
+        redirect_uri:'http://127.0.0.1:9000/authorizeLogin',
+        code: code};
+    console.log(JSON.stringify(obj));
+    var httpRequest = new XMLHttpRequest();
+    httpRequest.open("POST",url_remote,true);
+    
+    
+    //不是json形式，是表单application/x-www-form-urlencoded
+    httpRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    httpRequest.send(
+        'grant_type=' + obj.grant_type +
+        '&scope=' + obj.scope +
+        '&client_id=' + obj.client_id +
+        '&client_secret=' + obj.client_secret +
+        '&code=' + code +
+        //'&redirect_uri=' + obj.redirect_uri
+        '&redirect_uri=' + redirect_uri_remote
+    );
+    httpRequest.onreadystatechange = ()=>{
+        alert(httpRequest.responseText)
+    }
+    
+    function getQueryString(name) {
+        var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+        var r = window.location.search.substr(1).match(reg);
+        var context = '';
+        if (r != null) {
+            context = r[2];
+        }
+        reg = null;
+        r = null;
+        return context == null || context == "" || context == "undefined" ? "" : context;
+    }
+    
+</script>
+<body>
+</body>
+</html>

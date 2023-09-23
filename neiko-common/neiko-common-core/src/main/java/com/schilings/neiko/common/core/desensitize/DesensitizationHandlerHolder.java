@@ -30,7 +30,6 @@ public final class DesensitizationHandlerHolder {
 
 	static {
 		// SPI 加载所有的脱敏类型处理
-		// 暂时不知道为什么不生效
 		ServiceLoader<SimpleDesensitizationHandler> loadedDrivers = ServiceLoader
 				.load(SimpleDesensitizationHandler.class);
 		for (SimpleDesensitizationHandler desensitizationHandler : loadedDrivers) {

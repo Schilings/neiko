@@ -1,9 +1,7 @@
 package com.schilings.neiko.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import com.schilings.neiko.common.event.publisher.EventBus;
 import com.schilings.neiko.common.util.StringUtils;
-import com.schilings.neiko.extend.sa.token.oauth2.event.authority.PermissionAuthorityChangedEvent;
 import com.schilings.neiko.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import com.schilings.neiko.system.mapper.SysRoleMenuMapper;
 import com.schilings.neiko.system.model.entity.SysMenu;
@@ -26,8 +24,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SysRoleMenuServiceImpl extends ExtendServiceImpl<SysRoleMenuMapper, SysRoleMenu>
 		implements SysRoleMenuService {
-
-	private final EventBus eventBus;
 
 	private final ApplicationEventPublisher eventPublisher;
 
@@ -82,7 +78,6 @@ public class SysRoleMenuServiceImpl extends ExtendServiceImpl<SysRoleMenuMapper,
 		baseMapper.deleteAllByRoleCode(roleCode);
 		if (menuIds == null || menuIds.length == 0) {
 			// 发布角色权限更改事件
-			eventPublisher.publishEvent(new PermissionAuthorityChangedEvent(Arrays.asList(roleCode)));
 			return Boolean.TRUE;
 		}
 
@@ -93,7 +88,6 @@ public class SysRoleMenuServiceImpl extends ExtendServiceImpl<SysRoleMenuMapper,
 		boolean insertSuccess = SqlHelper.retBool(i);
 		if (insertSuccess) {
 			// 发布角色权限更改事件
-			eventPublisher.publishEvent(new PermissionAuthorityChangedEvent(Arrays.asList(roleCode)));
 			return insertSuccess;
 		}
 		return insertSuccess;
@@ -106,11 +100,10 @@ public class SysRoleMenuServiceImpl extends ExtendServiceImpl<SysRoleMenuMapper,
 	@Override
 	public boolean deleteAllByMenuId(Serializable menuId) {
 		// 删除前查一下，留着发布事件
-		List<String> roleCodes = this.listRoleCodes(menuId);
+		// List<String> roleCodes = this.listRoleCodes(menuId);
 		boolean deleteSuccess = baseMapper.deleteAllByMenuId(menuId);
 		if (deleteSuccess) {
 			// 发布角色权限更改事件
-			eventPublisher.publishEvent(new PermissionAuthorityChangedEvent(roleCodes));
 			return deleteSuccess;
 		}
 		return deleteSuccess;
@@ -125,7 +118,6 @@ public class SysRoleMenuServiceImpl extends ExtendServiceImpl<SysRoleMenuMapper,
 		boolean deleteSuccess = baseMapper.deleteAllByRoleCode(roleCode);
 		if (deleteSuccess) {
 			// 发布角色权限更改事件
-			eventPublisher.publishEvent(new PermissionAuthorityChangedEvent(Arrays.asList(roleCode)));
 			return deleteSuccess;
 		}
 		return deleteSuccess;
@@ -140,10 +132,9 @@ public class SysRoleMenuServiceImpl extends ExtendServiceImpl<SysRoleMenuMapper,
 	@Override
 	public boolean updateMenuId(Long originalId, Long menuId) {
 		boolean updateSuccess = baseMapper.updateMenuId(originalId, menuId);
-		List<String> roleCodes = this.listRoleCodes(menuId);
+		// List<String> roleCodes = this.listRoleCodes(menuId);
 		if (updateSuccess) {
 			// 发布角色权限更改事件
-			eventPublisher.publishEvent(new PermissionAuthorityChangedEvent(roleCodes));
 			return updateSuccess;
 		}
 		return updateSuccess;

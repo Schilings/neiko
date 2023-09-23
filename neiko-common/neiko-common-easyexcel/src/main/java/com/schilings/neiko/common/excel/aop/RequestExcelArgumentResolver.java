@@ -25,7 +25,7 @@ import org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConv
 import org.springframework.web.servlet.mvc.method.annotation.RequestPartMethodArgumentResolver;
 import org.springframework.web.util.WebUtils;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.Collections;

@@ -8,7 +8,7 @@ import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -2,6 +2,7 @@ package com.schilings.neiko.common.cache.components;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.lang.reflect.Type;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
@@ -26,12 +27,12 @@ public class LocalCacheRepository extends AbstractCacheRepository {
 	}
 
 	@Override
-	public Object get(String key) {
+	public Object get(String key, Type type) {
 		return cacheMap.getOrDefault(key, null);
 	}
 
 	@Override
-	public Object syncGet(String key) {
+	public Object syncGet(String key, Type type) {
 		return cacheMap.getOrDefault(key, null);
 	}
 

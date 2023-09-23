@@ -1,9 +1,13 @@
 package com.schilings.neiko.notify.model.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+
+import static cn.hutool.core.date.DatePattern.NORM_DATETIME_PATTERN;
 
 /**
  * 用户公告表 分页查询结果VO
@@ -42,12 +46,14 @@ public class UserAnnouncementPageVO {
 	 * 阅读时间
 	 */
 	@Schema(title = "阅读时间")
+	@JsonFormat(pattern = NORM_DATETIME_PATTERN, timezone = "GMT+8")
 	private LocalDateTime readTime;
 
 	/**
 	 * 拉取时间
 	 */
 	@Schema(title = "拉取时间")
+	@JsonFormat(pattern = NORM_DATETIME_PATTERN, timezone = "GMT+8")
 	private LocalDateTime createTime;
 
 }

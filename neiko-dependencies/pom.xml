@@ -10,8 +10,18 @@
     <packaging>pom</packaging>
     
     <properties>
-        <revision>0.0.1-SNAPSHOT</revision>
+        <revision>1.0.1</revision>
+
+        <!-- 插件版本 -->
         
+        <maven-compiler-plugin.verison>3.10.1</maven-compiler-plugin.verison>
+        <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+        <maven-resources-plugin.version>3.3.0</maven-resources-plugin.version>
+        <maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
+        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+        <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
+        <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
+        <spring-javaformat-checkstyle.version>0.0.35</spring-javaformat-checkstyle.version>
         <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
         <maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
@@ -20,43 +30,52 @@
         <jkube.version>1.9.0</jkube.version>
         <dekorate.version>0.10.5</dekorate.version>
         
-        <spring-cloud.version>2021.0.3</spring-cloud.version>
-        <spring-cloud-kubernetes.version>2.1.4</spring-cloud-kubernetes.version>
-        <spring-cloud-alibaba.version>2021.0.1.0</spring-cloud-alibaba.version>
+        <spring-cloud.version>2022.0.0</spring-cloud.version>
+        <spring-cloud-kubernetes.version>3.0.1</spring-cloud-kubernetes.version>
+        <spring-cloud-alibaba.version>2022.0.0.0-RC2</spring-cloud-alibaba.version>
+
+        <!-- 依赖版本 -->
+        <spring-boot.version>3.0.2</spring-boot.version>
+        <spring-security-oauth2.version>2.5.2.RELEASE</spring-security-oauth2.version>
+        <spring.authorization.server.version>1.0.0</spring.authorization.server.version>
         
         
-        <spring-boot.version>2.7.1</spring-boot.version>
-        <spring-boot-admin.version>2.7.5</spring-boot-admin.version>
-        <spring-security-oauth2.version>2.3.8.RELEASE</spring-security-oauth2.version>
         <springfox.version>3.0.0</springfox.version>
         <swagger.version>1.5.21</swagger.version>
-        <io.swagger.v3.version>2.2.0</io.swagger.v3.version>
-        <springdoc-openapi.verison>1.6.9</springdoc-openapi.verison>
+        <io.swagger.v3.version>2.2.7</io.swagger.v3.version>
+        <springdoc-openapi.verison>1.6.14</springdoc-openapi.verison>
+        <springdoc-openapi-starter.verison>2.0.2</springdoc-openapi-starter.verison>
+        
         <kafka.version>2.6.3</kafka.version>
-        <hutool.version>5.8.3</hutool.version>
+        <lombok.version>1.18.24</lombok.version>
+        <mapstruct.version>1.5.3.Final</mapstruct.version>
+        <hutool.version>5.8.10</hutool.version>
         <fastjson.version>1.2.83</fastjson.version>
-        <mybatis-plus.version>3.5.2</mybatis-plus.version>
+        <mybatis-plus.version>3.5.3</mybatis-plus.version>
         <mybatis.version>3.5.10</mybatis.version>
         <mybatis.enhance.actable.version>1.5.0.RELEASE</mybatis.enhance.actable.version>
         <jsqlparser.version>4.3</jsqlparser.version>
         <dynamic-datasource.version>3.5.1</dynamic-datasource.version>
         <xxl-job.version>2.3.1</xxl-job.version>
-        <easyexcel.version>3.1.1</easyexcel.version>
+        <easyexcel.version>3.1.2</easyexcel.version>
         <poi.version>4.1.2</poi.version>
         <jasypt.version>3.0.4</jasypt.version>
-        <jsoup.version>1.14.3</jsoup.version>
+        <jsoup.version>1.15.3</jsoup.version>
         <virtual-currency.version>0.4.2</virtual-currency.version>
         <alipay-sdk.version>4.11.28.ALL</alipay-sdk.version>
-        <software.amazon.awssdk.version>2.17.154</software.amazon.awssdk.version>
+        <software.amazon.awssdk.version>2.18.20</software.amazon.awssdk.version>
         <apache.lang3.version>3.12.0</apache.lang3.version>
-        <javax.servlet.version>4.0.1</javax.servlet.version>
+        <jakarta.servlet.version>6.0.0</jakarta.servlet.version>
+        <jakarta.validation.version>3.0.2</jakarta.validation.version>
         <java.jwt.version>4.0.0</java.jwt.version>
         <netty.version>4.1.78.Final</netty.version>
+        <mockito.version>3.10.0</mockito.version>
+        <awaitility.version>4.1.0</awaitility.version>
+        <rocketmq.version>2.2.0</rocketmq.version>
+        <software.amazon.awssdk-s3-transfer-manager.version>2.18.20-PREVIEW
+        </software.amazon.awssdk-s3-transfer-manager.version>
         
-        <shiro.redis.version>3.3.1</shiro.redis.version>
-        <shiro.spring.boot.starter.version>1.9.1</shiro.spring.boot.starter.version>
-        
-        <sa-token.version>1.30.0</sa-token.version>
+        <sa-token.version>1.34.0</sa-token.version>
         <weixin-java.version>4.4.0</weixin-java.version>
 
         <xxl-job.version>2.3.1</xxl-job.version>
@@ -116,6 +135,11 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-oauth2-authorization-server</artifactId>
+                <version>${spring.authorization.server.version}</version>
+            </dependency>
             <!-- 亚马逊云 Java sdk -->
             <dependency>
                 <groupId>software.amazon.awssdk</groupId>
@@ -129,7 +153,28 @@
                 <artifactId>spring-security-oauth2</artifactId>
                 <version>${spring-security-oauth2.version}</version>
             </dependency>
-
+            <!--jakarta-->
+            <dependency>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>${jakarta.validation.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
+                <version>${jakarta.servlet.version}</version>
+            </dependency>
+            <!-- bean 转换工具类 -->
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
             <!-- hutool工具类 -->
             <dependency>
                 <groupId>cn.hutool</groupId>
@@ -149,7 +194,7 @@
             <dependency>
                 <groupId>de.codecentric</groupId>
                 <artifactId>spring-boot-admin-starter-server</artifactId>
-                <version>${spring-boot-admin.version}</version>
+                <version>${spring-boot.version}</version>
             </dependency>
          
             <!--swagger v3-->
@@ -230,6 +275,31 @@
                 <artifactId>springdoc-openapi-javadoc</artifactId>
                 <version>${springdoc-openapi.verison}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-common</artifactId>
+                <version>${springdoc-openapi-starter.verison}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+                <version>${springdoc-openapi-starter.verison}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webflux-api</artifactId>
+                <version>${springdoc-openapi-starter.verison}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${springdoc-openapi-starter.verison}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+                <version>${springdoc-openapi-starter.verison}</version>
+            </dependency>
             <!-- SpringFox -->
             <dependency>
                 <groupId>io.springfox</groupId>
@@ -247,6 +317,17 @@
                 <version>${springfox.version}</version>
             </dependency>
 
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.awaitility</groupId>
+                <artifactId>awaitility</artifactId>
+                <version>${awaitility.version}</version>
+            </dependency>
             <!--xxl-job-->
             <dependency>
                 <groupId>com.xuxueli</groupId>
@@ -304,6 +385,7 @@
                 <artifactId>poi-ooxml</artifactId>
                 <version>${poi.version}</version>
             </dependency>
+            
 
             <!-- fastjson -->
             <dependency>
@@ -317,6 +399,12 @@
                 <groupId>com.github.ulisesbocchio</groupId>
                 <artifactId>jasypt-spring-boot-starter</artifactId>
                 <version>${jasypt.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-cli</groupId>
+                <artifactId>commons-cli</artifactId>
+                <version>1.4</version>
             </dependency>
             <!--kafka MQ-->
             <dependency>
@@ -369,68 +457,13 @@
                 <artifactId>nimbus-jose-jwt</artifactId>
                 <version>9.15.2</version>
             </dependency>
-            <!--jwt-->
             <dependency>
-                <groupId>com.auth0</groupId>
-                <artifactId>java-jwt</artifactId>
-                <version>${java.jwt.version}</version>
-            </dependency>
-            <!--shiro-->
-            <dependency>
-                <groupId>org.crazycake</groupId>
-                <artifactId>shiro-redis</artifactId>
-                <version>${shiro.redis.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.shiro</groupId>
-                <artifactId>shiro-spring-boot-starter</artifactId>
-                <version>${shiro.spring.boot.starter.version}</version>
-            </dependency>
-            <!--sa-token-->
-            <dependency>
-                <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-core</artifactId>
-                <version>${sa-token.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-servlet</artifactId>
-                <version>${sa-token.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-dao-redis</artifactId>
-                <version>${sa-token.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-dao-redis-jackson</artifactId>
-                <version>${sa-token.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-jwt</artifactId>
-                <version>${sa-token.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-oauth2</artifactId>
-                <version>${sa-token.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-spring-boot-starter</artifactId>
-                <version>${sa-token.version}</version>
-            </dependency>
-            <!-- Sa-Token整合SpringAOP实现注解鉴权 -->
-            <dependency>
-                <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-spring-aop</artifactId>
-                <version>${sa-token.version}</version>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>s3-transfer-manager</artifactId>
+                <version>${software.amazon.awssdk-s3-transfer-manager.version}</version>
             </dependency>
 
-
-
+            
             <!--netty-->
             <dependency>
                 <groupId>io.netty</groupId>
@@ -472,6 +505,9 @@
                 <artifactId>xxl-job-core</artifactId>
                 <version>${xxl-job.version}</version>
             </dependency>
+            
+            
+            <!--=============================================-->
             
             <!--neiko common-->
             <dependency>
@@ -541,11 +577,6 @@
             </dependency>
             <dependency>
                 <groupId>com.schilings</groupId>
-                <artifactId>neiko-common-shiro</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.schilings</groupId>
                 <artifactId>neiko-common-security</artifactId>
                 <version>${revision}</version>
             </dependency>
@@ -603,11 +634,6 @@
             <dependency>
                 <groupId>com.schilings</groupId>
                 <artifactId>neiko-spring-boot-starter-event</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.schilings</groupId>
-                <artifactId>neiko-spring-boot-starter-shiro</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
@@ -747,11 +773,6 @@
                 <groupId>com.schilings</groupId>
                 <artifactId>neiko-extend-mybatis-plus</artifactId>
                 <version>${revision}</version>
-            </dependency>           
-            <dependency>
-                <groupId>com.schilings</groupId>
-                <artifactId>neiko-extend-sa-token</artifactId>
-                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.schilings</groupId>
@@ -784,6 +805,11 @@
                 <artifactId>neiko-system-biz</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-system-remote</artifactId>
+                <version>${revision}</version>
+            </dependency>
             
             <!--neiko log-->
             <dependency>
@@ -804,6 +830,11 @@
             <dependency>
                 <groupId>com.schilings</groupId>
                 <artifactId>neiko-log-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-log-remote</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!--neiko notify-->
@@ -827,28 +858,12 @@
                 <artifactId>neiko-notify-api</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-notify-remote</artifactId>
+                <version>${revision}</version>
+            </dependency>
             
-            <!--neiko auth-->
-            <dependency>
-                <groupId>com.schilings</groupId>
-                <artifactId>neiko-auth</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.schilings</groupId>
-                <artifactId>neiko-auth-model</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.schilings</groupId>
-                <artifactId>neiko-auth-biz</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.schilings</groupId>
-                <artifactId>neiko-auth-api</artifactId>
-                <version>${revision}</version>
-            </dependency>
             <!--neiko wechat-->
             <dependency>
                 <groupId>com.schilings</groupId>
@@ -896,96 +911,233 @@
                 <artifactId>neiko-admin-datascope</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <!--neiko authorization-->
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-authorization-common</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-authorization-biz</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-authorization-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-authorization-remote</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            
+            <!--neiko rpc-->
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-rpc</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-remoting</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-logging</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-srvutil</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            
+            <!--neiko security-->
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-security</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-security-core</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-spring-security-oauth2-core</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-spring-security-oauth2-authorization-server</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-spring-security-oauth2-client</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.schilings</groupId>
+                <artifactId>neiko-spring-security-oauth2-resource-server</artifactId>
+                <version>${revision}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
-    
-    
+
+
+
     <build>
         <plugins>
             <plugin>
                 <groupId>io.spring.javaformat</groupId>
                 <artifactId>spring-javaformat-maven-plugin</artifactId>
-                <version>${spring-javaformat-checkstyle.version}</version>
                 <executions>
                     <execution>
-                        <phase>validate</phase>
-                        <inherited>true</inherited>
                         <goals>
                             <goal>validate</goal>
                         </goals>
+                        <inherited>true</inherited>
+                        <phase>validate</phase>
                     </execution>
                 </executions>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
-                <version>${flatten-maven-plugin.version}</version>
                 <configuration>
-                    <updatePomFile>true</updatePomFile>
                     <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                    <updatePomFile>true</updatePomFile>
                 </configuration>
                 <executions>
                     <execution>
-                        <id>flatten</id>
-                        <phase>process-resources</phase>
                         <goals>
                             <goal>flatten</goal>
                         </goals>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
                     </execution>
                     <execution>
-                        <id>flatten.clean</id>
-                        <phase>clean</phase>
                         <goals>
                             <goal>clean</goal>
                         </goals>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
+        
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>io.spring.javaformat</groupId>
+                    <artifactId>spring-javaformat-maven-plugin</artifactId>
+                    <version>${spring-javaformat-checkstyle.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.verison}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>${maven-gpg-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${maven-javadoc-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>${maven-release-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${maven-resources-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven-source-plugin.version}</version>
+                </plugin>
+                <!-- 测试插件 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <version>${nexus-staging-maven-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>${flatten-maven-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
 
     <!--环境变量-->
     <profiles>
         <profile>
-            <id>ossrh</id>
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <serverId>ossrh</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <!--<autoReleaseAfterClose>true</autoReleaseAfterClose>-->
-                        </configuration>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven-gpg-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                            </execution>
+                        </executions>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-release-plugin</artifactId>
+                        <version>${maven-release-plugin.version}</version>
                         <configuration>
                             <autoVersionSubmodules>true</autoVersionSubmodules>
-                            <useReleaseProfile>false</useReleaseProfile>
-                            <releaseProfiles>release</releaseProfiles>
                             <goals>deploy</goals>
+                            <releaseProfiles>release</releaseProfiles>
+                            <useReleaseProfile>false</useReleaseProfile>
                         </configuration>
                     </plugin>
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>${nexus-staging-maven-plugin.version}</version>
+                        <configuration>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <serverId>ossrh</serverId>
+                        </configuration>
+                        <extensions>true</extensions>
                     </plugin>
                 </plugins>
             </build>
+            <id>ossrh</id>
         </profile>
     </profiles>
 </project>

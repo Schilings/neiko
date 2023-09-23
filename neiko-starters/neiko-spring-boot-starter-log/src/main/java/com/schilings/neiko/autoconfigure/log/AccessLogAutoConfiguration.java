@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -16,6 +17,8 @@ import org.springframework.context.annotation.Bean;
 @ConditionalOnWebApplication
 @RequiredArgsConstructor
 @EnableConfigurationProperties(AccessLogProperties.class)
+@ConditionalOnProperty(prefix = AccessLogProperties.PREFIX, name = "enabled", matchIfMissing = true,
+		havingValue = "true")
 public class AccessLogAutoConfiguration {
 
 	private final AccessLogHandler<?> accessLogService;

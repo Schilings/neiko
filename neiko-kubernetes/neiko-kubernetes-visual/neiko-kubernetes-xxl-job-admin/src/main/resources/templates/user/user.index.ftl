@@ -38,7 +38,7 @@
                 <div class="col-xs-3">
                     <div class="input-group">
                         <span class="input-group-addon">${I18n.user_username}</span>
-                        <input type="text" class="form-control" id="username" autocomplete="on" >
+                        <input type="text" class="form-control" id="userAttribute" autocomplete="on" >
                     </div>
                 </div>
 	            <div class="col-xs-1">
@@ -57,7 +57,7 @@
 				                <thead>
 					            	<tr>
                                         <th name="id" >ID</th>
-                                        <th name="username" >${I18n.user_username}</th>
+                                        <th name="userAttribute" >${I18n.user_username}</th>
 					                  	<th name="password" >${I18n.user_password}</th>
                                         <th name="role" >${I18n.user_role}</th>
 					                  	<th name="permission" >${I18n.user_permission}</th>
@@ -89,7 +89,7 @@
 				<form class="form-horizontal form" role="form" >
                     <div class="form-group">
                         <label for="lastname" class="col-sm-2 control-label">${I18n.user_username}<font color="red">*</font></label>
-                        <div class="col-sm-8"><input type="text" class="form-control" name="username" placeholder="${I18n.system_please_input}${I18n.user_username}" maxlength="20" ></div>
+                        <div class="col-sm-8"><input type="text" class="form-control" name="userAttribute" placeholder="${I18n.system_please_input}${I18n.user_username}" maxlength="20" ></div>
                     </div>
                     <div class="form-group">
                         <label for="lastname" class="col-sm-2 control-label">${I18n.user_password}<font color="red">*</font></label>
@@ -139,7 +139,7 @@
 				<form class="form-horizontal form" role="form" >
                     <div class="form-group">
                         <label for="lastname" class="col-sm-2 control-label">${I18n.user_username}<font color="red">*</font></label>
-                        <div class="col-sm-8"><input type="text" class="form-control" name="username" placeholder="${I18n.system_please_input}${I18n.user_username}" maxlength="20" readonly ></div>
+                        <div class="col-sm-8"><input type="text" class="form-control" name="userAttribute" placeholder="${I18n.system_please_input}${I18n.user_username}" maxlength="20" readonly ></div>
                     </div>
                     <div class="form-group">
                         <label for="lastname" class="col-sm-2 control-label">${I18n.user_password}<font color="red">*</font></label>

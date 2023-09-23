@@ -17,6 +17,10 @@ import java.util.Map;
  */
 public class SelectJoinMapsPage extends JoinAbstractMethod {
 
+	public SelectJoinMapsPage() {
+		super(SqlMethod.SELECT_JOIN_MAPS_PAGE.getMethod());
+	}
+
 	@Override
 	public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
 		SqlMethod sqlMethod = SqlMethod.SELECT_JOIN_MAPS_PAGE;

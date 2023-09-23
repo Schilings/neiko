@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>neiko-samples</artifactId>
         <groupId>com.schilings</groupId>
+        <artifactId>neiko-samples</artifactId>
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -12,11 +12,16 @@
     
     <dependencies>
         
-        <!--mysql-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        
         
         <!--admin-->
         <dependency>
@@ -31,9 +36,10 @@
             <groupId>com.schilings</groupId>
             <artifactId>neiko-admin-datascope</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>com.schilings</groupId>
-            <artifactId>neiko-admin-boostrap</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
         <!-- openapi 扩展处理 -->
@@ -44,58 +50,26 @@
         <!-- springdoc swagger-ui -->
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
         </dependency>
         <!-- swagger 增强版 ui -->
+        <!--里面包含了springdoc-openapi-starter-webmvc-ui-->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-springdoc-ui</artifactId>
-            <version>3.0.3</version>
+            <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+            <version>4.0.0</version>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <groupId>org.graalvm.buildtools</groupId>
+                <artifactId>native-maven-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>org.eclipse.jkube</groupId>
-                <artifactId>kubernetes-maven-plugin</artifactId>
-                <version>${jkube.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>resource</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <dockerHost>https://192.168.140.128:2376</dockerHost>
-                    <certPath>C:\Users\X1\Desktop\Notes\DockerCA</certPath>
-
-                    <generator>
-                        <includes>
-                            <include>spring-boot</include>
-                        </includes>
-                        <config>
-                            <spring-boot>
-                                <color>always</color>
-                            </spring-boot>
-                        </config>
-                    </generator>
-                    <enricher>
-                        <excludes>
-                            <exclude>jkube-expose</exclude>
-                        </excludes>
-                        <config>
-                            <jkube-service>
-                                <type>NodePort</type>
-                            </jkube-service>
-                        </config>
-                    </enricher>
-                </configuration>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

@@ -2,8 +2,8 @@ package com.schilings.neiko.common.core.validation.validator;
 
 import com.schilings.neiko.common.core.validation.annotation.Less;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 /**
  * <pre>

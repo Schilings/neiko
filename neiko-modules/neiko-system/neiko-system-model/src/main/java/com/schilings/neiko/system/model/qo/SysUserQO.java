@@ -4,9 +4,13 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import org.springdoc.api.annotations.ParameterObject;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDateTime;
 import java.util.List;
+
+import static cn.hutool.core.date.DatePattern.NORM_DATETIME_PATTERN;
 
 /**
  *
@@ -60,16 +64,18 @@ public class SysUserQO {
 	/**
 	 * 组织机构ID
 	 */
-	@Parameter(description = "organizationId", array = @ArraySchema(schema = @Schema(title = "asdasd")))
+	@Parameter(description = "organizationId")
 	private List<Long> organizationId;
 
 	@Parameter(description = "用户类型:1:系统用户， 2：客户用户")
 	private Integer type;
 
 	@Parameter(description = "开始时间")
-	private String startTime;
+	@DateTimeFormat(pattern = NORM_DATETIME_PATTERN)
+	private LocalDateTime startTime;
 
 	@Parameter(description = "结束时间")
-	private String endTime;
+	@DateTimeFormat(pattern = NORM_DATETIME_PATTERN)
+	private LocalDateTime endTime;
 
 }

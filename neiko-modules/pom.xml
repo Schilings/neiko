@@ -12,10 +12,10 @@
     <packaging>pom</packaging>
     <modules>
         <module>neiko-system</module>
-        <module>neiko-auth</module>
         <module>neiko-log</module>
         <module>neiko-notify</module>
         <module>neiko-wechat</module>
+        <module>neiko-authorization</module>
     </modules>
 
 </project>

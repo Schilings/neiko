@@ -33,6 +33,10 @@ public class EvenHandlerMethodAdater implements EventHandler {
 
 	}
 
+	public HandlerMethod getHandlerMethod() {
+		return handlerMethod;
+	}
+
 	protected void handleInternal(Object event, HandlerMethod handlerMethod) {
 		invokeHandlerMethod(event, handlerMethod);
 	}

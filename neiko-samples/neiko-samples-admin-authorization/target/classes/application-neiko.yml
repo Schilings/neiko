@@ -1,0 +1,72 @@
+neiko:
+  openapi:
+    info:
+      title: Neiko-Authorization Docs
+      description: Neiko 授权认证服务Api文档
+      version: ${project.version}
+      contact:
+        name: Schilings
+        email: 1146830743@qq.com
+        url: https://github.com/Schilings
+    components:
+      security-schemes:
+        oauth2:
+          type: OAUTH2
+          flows:
+            password:
+              token-url: http://localhost:9000/oauth2/token
+              scopes:
+                message.read: scope1
+                message.write: scope2
+                openid: 获取OIDC ID TOKEN
+                skip_password_decode: 跳过密码加密解密处理
+                skip_captcha: 跳过验证码
+                authority_info_claim: 附带权限信息
+#            authorization-code:
+#              authorization-url: http://localhost:9000/oauth2/authorize
+#              token-url: http://localhost:9000/oauth2/token
+#              scopes:
+#                message.read: scope1
+#                message.write: scope2
+#                openid: 获取OIDC ID TOKEN
+#                skip_password_decode: 跳过密码加密解密处理
+#                skip_captcha: 跳过验证码
+#                authority_info_claim: 附带权限信息
+#            client-credentials:
+#              token-url: http://localhost:9000/oauth2/token
+#              scopes:
+#                message.read: scope1
+#                message.write: scope2
+#                openid: 获取OIDC ID TOKEN
+#                skip_password_decode: 跳过密码加密解密处理
+#                skip_captcha: 跳过验证码
+#                authority_info_claim: 附带权限信息
+
+
+  security:
+    oauth2:
+      authorizationserver:
+        form-login-enabled: true
+        login-page-enabled: true
+        login-captcha-enabled: false
+      resourceserver:
+        ignore-urls: 
+          - /error/**
+          - /public/**
+          - /ws/**
+          - /actuator/**
+          - /doc.html
+          - /v2/api-docs/**
+          - /v3/api-docs/**
+          - /swagger-resources/**
+          - /swagger-ui/**
+          - /swagger-ui.html
+          - /webjars/**
+          - /webjars/js/**
+          - /bycdao-ui/**
+          - /favicon.ico
+          - /captcha/**
+          - /h2-console/**
+
+
+

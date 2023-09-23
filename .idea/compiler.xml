@@ -2,6 +2,7 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -20,16 +21,6 @@
         </processorPath>
         <module name="neiko-cloud-bootstrap" />
       </profile>
-      <profile name="Annotation profile for neiko-samples-admin" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/com/github/therapi/therapi-runtime-javadoc-scribe/0.12.0/therapi-runtime-javadoc-scribe-0.12.0.jar" />
-          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/com/github/therapi/therapi-runtime-javadoc/0.12.0/therapi-runtime-javadoc-0.12.0.jar" />
-        </processorPath>
-        <module name="neiko-samples-admin" />
-      </profile>
       <profile name="Annotation profile for neiko" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -41,82 +32,332 @@
           <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
           <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/springframework/boot/spring-boot-configuration-processor/2.7.1/spring-boot-configuration-processor-2.7.1.jar" />
         </processorPath>
-        <module name="neiko-samples-starter-mail" />
-        <module name="neiko-common-util" />
-        <module name="neiko-common-discovery" />
-        <module name="neiko-spring-boot-starter-datascope" />
-        <module name="neiko-spring-boot-starter-web" />
         <module name="neiko-common-gateway" />
-        <module name="neiko-spring-boot-starter-shiro" />
+        <module name="neiko-weixin" />
+        <module name="neiko-auth-client" />
+        <module name="neiko-auth-server" />
+        <module name="neiko-common-loadbalance" />
+        <module name="neiko-common-discovery" />
+      </profile>
+      <profile name="Annotation profile for neiko-samples" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct-processor/1.5.3.Final/mapstruct-processor-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct/1.5.3.Final/mapstruct-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/springframework/boot/spring-boot-configuration-processor/3.0.2/spring-boot-configuration-processor-3.0.2.jar" />
+        </processorPath>
+        <module name="neiko-common-util" />
+        <module name="neiko-samples-starter-mail" />
+        <module name="neiko-logging" />
+        <module name="neiko-samples-oauth2" />
+        <module name="neiko-authorization-remote" />
+        <module name="neiko-common-context" />
+        <module name="neiko-system-remote" />
+        <module name="neiko-cloud-kubernetes-commons" />
         <module name="neiko-common-websocket" />
-        <module name="neiko-spring-boot-starter-easyexcel" />
-        <module name="neiko-common-shiro" />
         <module name="neiko-cloud-openfeign" />
         <module name="neiko-common-redis" />
-        <module name="neiko-spring-boot-starter-file" />
+        <module name="neiko-common-datascope" />
+        <module name="neiko-authorization-biz" />
         <module name="neiko-cloud-loadbalance" />
+        <module name="neiko-authorization-api" />
+        <module name="neiko-log-remote" />
+        <module name="neiko-kubernetes-xxl-job-admin" />
+        <module name="neiko-samples-admin-authorization" />
+        <module name="neiko-notify-remote" />
+        <module name="neiko-kubernetes-ingress" />
         <module name="neiko-common-log" />
-        <module name="neiko-auth-model" />
+        <module name="neiko-admin-datascope" />
         <module name="neiko-common-core" />
-        <module name="neiko-weixin" />
+        <module name="neiko-kubernetes-resource" />
+        <module name="neiko-cloud-kubernetes-fabric8" />
+        <module name="neiko-wechat-model" />
         <module name="neiko-admin-boostrap" />
         <module name="neiko-log-model" />
-        <module name="neiko-spring-boot-starter-websocket" />
         <module name="neiko-system-model" />
-        <module name="neiko-spring-boot-starter-log" />
+        <module name="neiko-extend-openapi" />
         <module name="neiko-common-cache" />
         <module name="neiko-common-retry" />
+        <module name="neiko-samples-cloud-openfeign" />
         <module name="neiko-cloud-config" />
         <module name="neiko-common-netty" />
-        <module name="neiko-auth-client" />
+        <module name="neiko-authorization-common" />
         <module name="neiko-system-api" />
-        <module name="neiko-extend-sa-token" />
-        <module name="neiko-auth-server" />
-        <module name="neiko-samples-starter-shiro" />
+        <module name="neiko-remoting" />
         <module name="neiko-samples-starter-web" />
+        <module name="neiko-kubernetes-wechat" />
         <module name="neiko-samples-cloud-gateway" />
         <module name="neiko-extend-mybatis-plus" />
+        <module name="neiko-wechat-biz" />
+        <module name="neiko-samples-admin" />
         <module name="neiko-samples-cloud-demo-provider" />
         <module name="neiko-notify-model" />
-        <module name="neiko-log-api" />
         <module name="neiko-common-validate" />
+        <module name="neiko-log-api" />
         <module name="neiko-samples-extend-mybatis-plus" />
         <module name="neiko-admin-websocket" />
+        <module name="neiko-wechat-api" />
+        <module name="neiko-samples-starter-datascope" />
+        <module name="neiko-samples-oauth2-authorization-server" />
         <module name="neiko-samples-starter-file" />
         <module name="neiko-log-biz" />
-        <module name="neiko-spring-boot-starter-mail" />
+        <module name="neiko-store" />
         <module name="neiko-samples-starter-websocket" />
         <module name="neiko-system-biz" />
-        <module name="neiko-spring-boot-starter-event" />
-        <module name="neiko-common-loadbalance" />
+        <module name="neiko-kubernetes-monitor" />
         <module name="neiko-common-mq" />
         <module name="neiko-cloud-discovery" />
         <module name="neiko-cloud-commons" />
+        <module name="neiko-kubernetes-upms" />
+        <module name="neiko-srvutil" />
+        <module name="neiko-kubernetes-sentinel-dashboard" />
         <module name="neiko-samples-starter-redis" />
-        <module name="neiko-spring-boot-starter-redis" />
-        <module name="neiko-auth-api" />
+        <module name="neiko-samples-oauth2-resource-server" />
         <module name="neiko-notify-biz" />
-        <module name="neiko-common-security" />
+        <module name="neiko-samples-oauth2-client" />
+        <module name="neiko-samples-admin-application" />
         <module name="neiko-common-easyexcel" />
+        <module name="neiko-common-security" />
+        <module name="neiko-cloud-kubernetes-client" />
         <module name="neiko-common-event" />
-        <module name="neiko-samples-common-event" />
-        <module name="neiko-auth-biz" />
         <module name="neiko-admin-core" />
+        <module name="neiko-samples-common-event" />
         <module name="neiko-cloud-gateway" />
         <module name="neiko-common-model" />
-        <module name="neiko-spring-boot-starter-oss" />
         <module name="neiko-notify-api" />
+      </profile>
+      <profile name="Annotation profile for neiko-security-core" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct-processor/1.5.3.Final/mapstruct-processor-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct/1.5.3.Final/mapstruct-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/springframework/boot/spring-boot-configuration-processor/3.0.2/spring-boot-configuration-processor-3.0.2.jar" />
+        </processorPath>
+        <module name="neiko-security-core" />
+      </profile>
+      <profile name="Annotation profile for neiko-spring-security-oauth2-authorization-server" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct-processor/1.5.3.Final/mapstruct-processor-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct/1.5.3.Final/mapstruct-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/springframework/boot/spring-boot-configuration-processor/3.0.2/spring-boot-configuration-processor-3.0.2.jar" />
+        </processorPath>
+        <module name="neiko-spring-security-oauth2-authorization-server" />
+      </profile>
+      <profile name="Annotation profile for neiko-spring-security-oauth2-client" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct-processor/1.5.3.Final/mapstruct-processor-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct/1.5.3.Final/mapstruct-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/springframework/boot/spring-boot-configuration-processor/3.0.2/spring-boot-configuration-processor-3.0.2.jar" />
+        </processorPath>
+        <module name="neiko-spring-security-oauth2-client" />
+      </profile>
+      <profile name="Annotation profile for neiko-spring-security-oauth2-core" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct-processor/1.5.3.Final/mapstruct-processor-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct/1.5.3.Final/mapstruct-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/springframework/boot/spring-boot-configuration-processor/3.0.2/spring-boot-configuration-processor-3.0.2.jar" />
+        </processorPath>
+        <module name="neiko-spring-security-oauth2-core" />
+      </profile>
+      <profile name="Annotation profile for neiko-spring-security-oauth2-resource-server" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct-processor/1.5.3.Final/mapstruct-processor-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct/1.5.3.Final/mapstruct-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/springframework/boot/spring-boot-configuration-processor/3.0.2/spring-boot-configuration-processor-3.0.2.jar" />
+        </processorPath>
+        <module name="neiko-spring-security-oauth2-resource-server" />
+      </profile>
+      <profile name="Annotation profile for neiko-spring-boot-starter-datascope" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct-processor/1.5.3.Final/mapstruct-processor-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct/1.5.3.Final/mapstruct-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/springframework/boot/spring-boot-configuration-processor/3.0.2/spring-boot-configuration-processor-3.0.2.jar" />
+        </processorPath>
+        <module name="neiko-spring-boot-starter-datascope" />
+      </profile>
+      <profile name="Annotation profile for neiko-spring-boot-starter-easyexcel" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct-processor/1.5.3.Final/mapstruct-processor-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct/1.5.3.Final/mapstruct-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/springframework/boot/spring-boot-configuration-processor/3.0.2/spring-boot-configuration-processor-3.0.2.jar" />
+        </processorPath>
+        <module name="neiko-spring-boot-starter-easyexcel" />
+      </profile>
+      <profile name="Annotation profile for neiko-spring-boot-starter-event" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct-processor/1.5.3.Final/mapstruct-processor-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct/1.5.3.Final/mapstruct-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/springframework/boot/spring-boot-configuration-processor/3.0.2/spring-boot-configuration-processor-3.0.2.jar" />
+        </processorPath>
+        <module name="neiko-spring-boot-starter-event" />
+      </profile>
+      <profile name="Annotation profile for neiko-spring-boot-starter-file" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct-processor/1.5.3.Final/mapstruct-processor-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct/1.5.3.Final/mapstruct-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/springframework/boot/spring-boot-configuration-processor/3.0.2/spring-boot-configuration-processor-3.0.2.jar" />
+        </processorPath>
+        <module name="neiko-spring-boot-starter-file" />
+      </profile>
+      <profile name="Annotation profile for neiko-spring-boot-starter-job" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct-processor/1.5.3.Final/mapstruct-processor-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct/1.5.3.Final/mapstruct-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/springframework/boot/spring-boot-configuration-processor/3.0.2/spring-boot-configuration-processor-3.0.2.jar" />
+        </processorPath>
+        <module name="neiko-spring-boot-starter-job" />
+      </profile>
+      <profile name="Annotation profile for neiko-spring-boot-starter-log" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct-processor/1.5.3.Final/mapstruct-processor-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct/1.5.3.Final/mapstruct-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/springframework/boot/spring-boot-configuration-processor/3.0.2/spring-boot-configuration-processor-3.0.2.jar" />
+        </processorPath>
+        <module name="neiko-spring-boot-starter-log" />
+      </profile>
+      <profile name="Annotation profile for neiko-spring-boot-starter-mail" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct-processor/1.5.3.Final/mapstruct-processor-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct/1.5.3.Final/mapstruct-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/springframework/boot/spring-boot-configuration-processor/3.0.2/spring-boot-configuration-processor-3.0.2.jar" />
+        </processorPath>
+        <module name="neiko-spring-boot-starter-mail" />
+      </profile>
+      <profile name="Annotation profile for neiko-spring-boot-starter-oss" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct-processor/1.5.3.Final/mapstruct-processor-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct/1.5.3.Final/mapstruct-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/springframework/boot/spring-boot-configuration-processor/3.0.2/spring-boot-configuration-processor-3.0.2.jar" />
+        </processorPath>
+        <module name="neiko-spring-boot-starter-oss" />
+      </profile>
+      <profile name="Annotation profile for neiko-spring-boot-starter-redis" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct-processor/1.5.3.Final/mapstruct-processor-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct/1.5.3.Final/mapstruct-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/springframework/boot/spring-boot-configuration-processor/3.0.2/spring-boot-configuration-processor-3.0.2.jar" />
+        </processorPath>
+        <module name="neiko-spring-boot-starter-redis" />
+      </profile>
+      <profile name="Annotation profile for neiko-spring-boot-starter-web" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct-processor/1.5.3.Final/mapstruct-processor-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct/1.5.3.Final/mapstruct-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/springframework/boot/spring-boot-configuration-processor/3.0.2/spring-boot-configuration-processor-3.0.2.jar" />
+        </processorPath>
+        <module name="neiko-spring-boot-starter-web" />
+      </profile>
+      <profile name="Annotation profile for neiko-spring-boot-starter-websocket" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct-processor/1.5.3.Final/mapstruct-processor-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/mapstruct/mapstruct/1.5.3.Final/mapstruct-1.5.3.Final.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="D:/Environment/apache-maven-3.8.4/maven-repo/org/springframework/boot/spring-boot-configuration-processor/3.0.2/spring-boot-configuration-processor-3.0.2.jar" />
+        </processorPath>
+        <module name="neiko-spring-boot-starter-websocket" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="neiko-admin-auth" target="1.8" />
+      <module name="neiko-auth" target="1.8" />
+      <module name="neiko-auth-api" target="1.8" />
+      <module name="neiko-auth-biz" target="1.8" />
+      <module name="neiko-auth-model" target="1.8" />
       <module name="neiko-common-excel" target="1.8" />
+      <module name="neiko-common-shiro" target="1.8" />
       <module name="neiko-common-web" target="1.8" />
+      <module name="neiko-extend-sa-token" target="1.8" />
+      <module name="neiko-samples-admin-service-provider" target="1.8" />
+      <module name="neiko-samples-starter-shiro" target="1.8" />
+      <module name="neiko-spring-boot-starter-shiro" target="1.8" />
       <module name="neiko-test-redis" target="8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="neiko-samples-admin" options="" />
       <module name="neiko-samples-starter-shiro" options="" />
       <module name="neiko-spring-boot-starter-shiro" options="" />
     </option>

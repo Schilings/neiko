@@ -40,6 +40,7 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 		NeikoLambdaQueryWrapper<Object> queryWrapper = WrappersX.lambdaQueryJoin().selectAll(SysUser.class)
 				.selectAs(SysOrganization::getName, SysUserPageVO::getOrganizationName)
 				.leftJoin(SysOrganization.class, SysOrganization::getId, SysUser::getOrganizationId)
+
 				.eq(SysUser::getDeleted, GlobalConstants.NOT_DELETED_FLAG)
 				.likeIfPresent(SysUser::getUsername, qo.getUsername()).likeIfPresent(SysUser::getEmail, qo.getEmail())
 				.likeIfPresent(SysUser::getPhone, qo.getPhone()).likeIfPresent(SysUser::getNickname, qo.getNickname())
@@ -69,8 +70,28 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 	 * @return 系统用户
 	 */
 	default SysUser selectByUsername(String username) {
-		return this.selectOne(WrappersX.<SysUser>lambdaQueryX()
-				.eq(SysUser::getDeleted, GlobalConstants.NOT_DELETED_FLAG).eq(SysUser::getUsername, username));
+		return this.selectOne(WrappersX.<SysUser>lambdaQueryX().eq(SysUser::getUsername, username));
+	}
+
+	/**
+	 * 根据用户名和用户类型查询用户
+	 * @param username 用户名
+	 * @param userType 用户类型
+	 * @return 系统用户
+	 */
+	default SysUser selectByUsernameAndType(String username, Integer userType) {
+		return this.selectOne(
+				WrappersX.<SysUser>lambdaQueryX().eq(SysUser::getUsername, username).eq(SysUser::getType, userType));
+	}
+
+	/**
+	 * 根据 用户名 邮箱 电话 查询用户
+	 * @param username 用户名
+	 * @return 系统用户
+	 */
+	default SysUser selectByUsernameOrEmailOrPhone(String username, String email, String phone) {
+		return this.selectOne(WrappersX.<SysUser>lambdaQueryX().eq(SysUser::getUsername, username).or()
+				.eq(SysUser::getEmail, email).or().eq(SysUser::getPhone, phone));
 	}
 
 	/**

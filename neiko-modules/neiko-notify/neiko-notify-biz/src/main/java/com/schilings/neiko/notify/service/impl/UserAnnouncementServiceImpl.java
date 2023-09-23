@@ -1,6 +1,5 @@
 package com.schilings.neiko.notify.service.impl;
 
-import com.schilings.neiko.common.event.publisher.EventBus;
 import com.schilings.neiko.common.model.domain.PageParam;
 import com.schilings.neiko.common.model.domain.PageResult;
 import com.schilings.neiko.extend.mybatis.plus.service.impl.ExtendServiceImpl;
@@ -21,8 +20,6 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class UserAnnouncementServiceImpl extends ExtendServiceImpl<UserAnnouncementMapper, UserAnnouncement>
 		implements UserAnnouncementService {
-
-	private final EventBus eventBus;
 
 	/**
 	 * 根据QueryObject查询分页数据

@@ -3,12 +3,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>neiko</artifactId>
         <groupId>com.schilings</groupId>
+        <artifactId>neiko</artifactId>
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>neiko-starters</artifactId>
     <packaging>pom</packaging>
     <modules>
@@ -19,7 +18,6 @@
         <module>neiko-spring-boot-starter-easyexcel</module>
         <module>neiko-spring-boot-starter-datascope</module>
         <module>neiko-spring-boot-starter-event</module>
-        <module>neiko-spring-boot-starter-shiro</module>
         <module>neiko-spring-boot-starter-websocket</module>
         <module>neiko-spring-boot-starter-file</module>
         <module>neiko-spring-boot-starter-oss</module>

@@ -6,8 +6,6 @@ import com.schilings.neiko.common.log.operation.annotation.DeleteOperationLoggin
 import com.schilings.neiko.common.log.operation.annotation.UpdateOperationLogging;
 import com.schilings.neiko.common.model.result.BaseResultCode;
 import com.schilings.neiko.common.model.result.R;
-import com.schilings.neiko.extend.sa.token.oauth2.annotation.OAuth2CheckPermission;
-import com.schilings.neiko.extend.sa.token.oauth2.annotation.OAuth2CheckScope;
 import com.schilings.neiko.system.converter.SysOrganizationConverter;
 import com.schilings.neiko.system.model.dto.SysOrganizationDTO;
 import com.schilings.neiko.system.model.entity.SysOrganization;
@@ -18,13 +16,13 @@ import com.schilings.neiko.system.service.SysOrganizationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@OAuth2CheckScope("system")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/system/organization")
@@ -38,7 +36,7 @@ public class SysOrganizationController {
 	 * @return R 通用返回体
 	 */
 	@GetMapping("/list")
-	@OAuth2CheckPermission("system:organization:read")
+	@PreAuthorize(value = "hasAuthority('system:organization:read')")
 	@Operation(summary = "组织架构列表查询")
 	public R<List<SysOrganizationVO>> listOrganization() {
 		List<SysOrganization> list = sysOrganizationService.list();
@@ -56,7 +54,7 @@ public class SysOrganizationController {
 	 * @return R 通用返回体
 	 */
 	@GetMapping("/tree")
-	@OAuth2CheckPermission("system:organization:read")
+	@PreAuthorize(value = "hasAuthority('system:organization:read')")
 	@Operation(summary = "组织架构树查询")
 	public R<List<SysOrganizationTree>> getOrganizationTree(SysOrganizationQO qo) {
 		return R.ok(sysOrganizationService.listTree(qo));
@@ -69,7 +67,7 @@ public class SysOrganizationController {
 	 */
 	@CreateOperationLogging(msg = "新增组织架构")
 	@PostMapping
-	@OAuth2CheckPermission("system:organization:add")
+	@PreAuthorize(value = "hasAuthority('system:organization:add')")
 	@Operation(summary = "新增组织架构")
 	public R<Void> save(@RequestBody SysOrganizationDTO sysOrganizationDTO) {
 		return sysOrganizationService.create(sysOrganizationDTO) ? R.ok()
@@ -83,7 +81,7 @@ public class SysOrganizationController {
 	 */
 	@UpdateOperationLogging(msg = "修改组织架构")
 	@PutMapping
-	@OAuth2CheckPermission("system:organization:edit")
+	@PreAuthorize(value = "hasAuthority('system:organization:edit')")
 	@Operation(summary = "修改组织架构")
 	public R<Void> updateById(@RequestBody SysOrganizationDTO sysOrganizationDTO) {
 		return sysOrganizationService.update(sysOrganizationDTO) ? R.ok()
@@ -97,7 +95,7 @@ public class SysOrganizationController {
 	 */
 	@DeleteOperationLogging(msg = "通过id删除组织架构")
 	@DeleteMapping("/{id}")
-	@OAuth2CheckPermission("system:organization:del")
+	@PreAuthorize(value = "hasAuthority('system:organization:del')")
 	@Operation(summary = "通过id删除组织架构")
 	public R<Void> removeById(@PathVariable("id") Long id) {
 		return sysOrganizationService.removeById(id) ? R.ok()
@@ -110,7 +108,7 @@ public class SysOrganizationController {
 	 */
 	@UpdateOperationLogging(msg = "校正组织机构层级和深度")
 	@PatchMapping("/revised")
-	@OAuth2CheckPermission("system:organization:revised")
+	@PreAuthorize(value = "hasAuthority('system:organization:revised')")
 	@Operation(summary = "校正组织机构层级和深度")
 	public R<Void> revisedHierarchyAndPath() {
 		return sysOrganizationService.revisedHierarchyAndPath() ? R.ok()

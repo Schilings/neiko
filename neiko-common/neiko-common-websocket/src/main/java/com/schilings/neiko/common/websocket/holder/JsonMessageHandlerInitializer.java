@@ -4,7 +4,7 @@ import com.schilings.neiko.common.websocket.handler.JsonMessageHandler;
 import com.schilings.neiko.common.websocket.message.JsonWebSocketMessage;
 import lombok.RequiredArgsConstructor;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import java.util.List;
 
 /**

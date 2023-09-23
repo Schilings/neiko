@@ -12,8 +12,7 @@ import com.schilings.neiko.common.model.domain.SelectData;
 import com.schilings.neiko.common.model.result.BaseResultCode;
 import com.schilings.neiko.common.model.result.R;
 import com.schilings.neiko.common.model.result.SystemResultCode;
-import com.schilings.neiko.extend.sa.token.oauth2.annotation.OAuth2CheckPermission;
-import com.schilings.neiko.extend.sa.token.oauth2.annotation.OAuth2CheckScope;
+import com.schilings.neiko.system.component.PasswordHelper;
 import com.schilings.neiko.system.constant.SysUserConst;
 import com.schilings.neiko.system.converter.SysUserConverter;
 import com.schilings.neiko.system.model.dto.SysUserDTO;
@@ -24,26 +23,25 @@ import com.schilings.neiko.system.model.entity.SysUser;
 import com.schilings.neiko.system.model.qo.SysUserQO;
 import com.schilings.neiko.system.model.vo.SysUserInfo;
 import com.schilings.neiko.system.model.vo.SysUserPageVO;
-import com.schilings.neiko.system.security.PasswordHelper;
 import com.schilings.neiko.system.service.SysUserRoleService;
 import com.schilings.neiko.system.service.SysUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.ValidationException;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.groups.Default;
+import jakarta.validation.ValidationException;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.groups.Default;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@OAuth2CheckScope("system")
 @Slf4j
 @Validated
 @RestController
@@ -64,7 +62,7 @@ public class SysUserController {
 	 * @return 用户集合
 	 */
 	@GetMapping("/page")
-	@OAuth2CheckPermission("system:user:read")
+	@PreAuthorize(value = "hasAuthority('system:user:read')")
 	@Operation(summary = "分页查询系统用户")
 	public R<PageResult<SysUserPageVO>> getUserPage(@Validated PageParam pageParam, SysUserQO sysUserQO) {
 		return R.ok(sysUserService.queryPage(pageParam, sysUserQO));
@@ -76,9 +74,9 @@ public class SysUserController {
 	 * @return SysUserInfo
 	 */
 	@GetMapping("/{userId}")
-	@OAuth2CheckPermission("system:user:read")
+	@PreAuthorize(value = "hasAuthority('system:user:read')")
 	@Operation(summary = "获取指定用户的基本信息")
-	public R<SysUserInfo> getSysUserInfo(@PathVariable("userId") Integer userId) {
+	public R<SysUserInfo> getSysUserInfo(@PathVariable("userId") Long userId) {
 		SysUser sysUser = sysUserService.getById(userId);
 		if (sysUser == null) {
 			return R.ok();
@@ -92,7 +90,7 @@ public class SysUserController {
 	 * @param userId userId
 	 */
 	@GetMapping("/scope/{userId}")
-	@OAuth2CheckPermission("system:user:grant")
+	@PreAuthorize(value = "hasAuthority('system:user:grant')")
 	@Operation(summary = "获取用户所拥有的角色ID")
 	public R<SysUserScope> getUserRoleIds(@PathVariable("userId") Long userId) {
 
@@ -114,7 +112,7 @@ public class SysUserController {
 	 */
 	@PostMapping
 	@CreateOperationLogging(msg = "新增系统用户")
-	@OAuth2CheckPermission("system:user:add")
+	@PreAuthorize(value = "hasAuthority('system:user:add')")
 	@Operation(summary = "新增系统用户", description = "新增系统用户")
 	public R<Void> addSysUser(@Validated({ Default.class, CreateGroup.class }) @RequestBody SysUserDTO sysUserDTO) {
 		SysUser user = sysUserService.getByUsername(sysUserDTO.getUsername());
@@ -139,7 +137,7 @@ public class SysUserController {
 	 */
 	@PutMapping
 	@UpdateOperationLogging(msg = "修改系统用户")
-	@OAuth2CheckPermission("system:user:edit")
+	@PreAuthorize(value = "hasAuthority('system:user:edit')")
 	@Operation(summary = "修改系统用户", description = "修改系统用户")
 	public R<Void> updateUserInfo(@Validated({ Default.class, UpdateGroup.class }) @RequestBody SysUserDTO sysUserDto) {
 		return sysUserService.updateSysUser(sysUserDto) ? R.ok()
@@ -151,7 +149,7 @@ public class SysUserController {
 	 */
 	@DeleteMapping("/{userId}")
 	@DeleteOperationLogging(msg = "通过id删除系统用户")
-	@OAuth2CheckPermission("system:user:del")
+	@PreAuthorize(value = "hasAuthority('system:user:del')")
 	@Operation(summary = "通过id删除系统用户", description = "通过id删除系统用户")
 	public R<Void> deleteByUserId(@PathVariable("userId") Long userId) {
 		return sysUserService.deleteByUserId(userId) ? R.ok()
@@ -165,7 +163,7 @@ public class SysUserController {
 	 */
 	@PutMapping("/scope/{userId}")
 	@UpdateOperationLogging(msg = "系统用户授权")
-	@OAuth2CheckPermission("system:user:grant")
+	@PreAuthorize(value = "hasAuthority('system:user:grant')")
 	@Operation(summary = "系统用户授权", description = "系统用户授权")
 	public R<Void> updateUserScope(@PathVariable("userId") Long userId, @RequestBody SysUserScope sysUserScope) {
 		return sysUserService.updateUserScope(userId, sysUserScope) ? R.ok()
@@ -177,7 +175,7 @@ public class SysUserController {
 	 */
 	@PutMapping("/pass/{userId}")
 	@UpdateOperationLogging(msg = "修改系统用户密码")
-	@OAuth2CheckPermission("system:user:pass")
+	@PreAuthorize(value = "hasAuthority('system:user:pass')")
 	@Operation(summary = "修改系统用户密码", description = "修改系统用户密码")
 	public R<Void> updateUserPass(@PathVariable("userId") Long userId, @RequestBody SysUserPassDTO sysUserPassDTO) {
 		String pass = sysUserPassDTO.getPass();
@@ -195,6 +193,7 @@ public class SysUserController {
 		else {
 			return R.fail(SystemResultCode.BAD_REQUEST, "密码格式不符合规则!");
 		}
+
 	}
 
 	/**
@@ -202,7 +201,7 @@ public class SysUserController {
 	 */
 	@PutMapping("/status")
 	@UpdateOperationLogging(msg = "批量修改用户状态")
-	@OAuth2CheckPermission("system:user:edit")
+	@PreAuthorize(value = "hasAuthority('system:user:edit')")
 	@Operation(summary = "批量修改用户状态", description = "批量修改用户状态")
 	public R<Void> updateUserStatus(@NotEmpty(message = "用户ID不能为空") @RequestBody List<Long> userIds,
 			@NotNull(message = "用户状态不能为空") @RequestParam("status") Integer status) {
@@ -215,9 +214,9 @@ public class SysUserController {
 				: R.fail(BaseResultCode.UPDATE_DATABASE_ERROR, "批量修改用户状态！");
 	}
 
-	@UpdateOperationLogging(msg = "修改系统用户头像")
-	@OAuth2CheckPermission("system:user:edit")
 	@PostMapping("/avatar")
+	@UpdateOperationLogging(msg = "修改系统用户头像")
+	@PreAuthorize(value = "hasAuthority('system:user:edit')")
 	@Operation(summary = "修改系统用户头像", description = "修改系统用户头像")
 	public R<String> updateAvatar(@RequestParam("file") MultipartFile file, @RequestParam("userId") Long userId) {
 		String objectName;
@@ -236,7 +235,7 @@ public class SysUserController {
 	 * @return 用户SelectData
 	 */
 	@GetMapping("/select")
-	@OAuth2CheckPermission("system:user:read")
+	@PreAuthorize(value = "hasAuthority('system:user:read')")
 	@Operation(summary = "获取用户下拉列表数据")
 	public R<List<SelectData>> listSelectData(
 			@RequestParam(value = "userTypes", required = false) List<Integer> userTypes) {

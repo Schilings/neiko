@@ -18,6 +18,10 @@ import java.util.Map;
  */
 public class SelectJoinMapsList extends JoinAbstractMethod {
 
+	public SelectJoinMapsList() {
+		super(SqlMethod.SELECT_JOIN_MAPS.getMethod());
+	}
+
 	@Override
 	public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
 
